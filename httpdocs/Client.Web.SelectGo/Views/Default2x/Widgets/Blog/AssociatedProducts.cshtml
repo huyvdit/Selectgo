@@ -1,0 +1,39 @@
+﻿@using ASP.Web.Core
+@using Resources
+@model List<ASP.Web.Model.Models.BlogPostProductMapping>
+<section class="list-product" style="margin-left: -14px;">
+    @if(Model.Any()) {
+        foreach(var item in Model.OrderByDescending(e=>e.DisplayOrder).Take(3)) {
+            <div>
+                <a href="@SlugHelper.Product(item.ProductId)">
+                    <div class="food-sidebar">
+                        <img src="@ImageHelper.GetResize(item.Product.Picture.Url, 208,160, 100, Utils.Watermark("App::StoreName", item.Product.Picture.Title))" alt="@item.Product.Name">
+                        <div class="panel-price" style="display: none;">
+                             @if (item.Product.Price == 0)
+                                            {
+                                                <span>@Resource.ResourceManager.GetString("UndefinedPrice_Text")</span> 
+                                            }
+                                            else {
+                                                if (item.Product.SpecialPrice != 0 && item.Product.SpecialPriceStartDateTime <= DateTime.Now && item.Product.SpecialPriceEndDateTime >= DateTime.Now)
+                                                {
+                                                  <span>≈  @FormatHelper.FormatCurrency(item.Product.SpecialPrice)</span> <span class="price-save"> (- @FormatHelper.FormatCurrency(item.Product.Price - item.Product.SpecialPrice) )</span>
+                                                }   
+                                                else {                
+                                                  <span>≈  @FormatHelper.FormatCurrency(item.Product.Price) / @item.Product.Unit.ToLower()</span> 
+                                                }
+                                                
+                                            }
+                             <a href="@SlugHelper.Product(item.ProductId)" class="button-zoom" data-rel="prettyPhoto" title="@item.Product.Name" rel="prettyPhoto">»</a>
+                        </div>
+                    </div>
+                    <h4 class="title-food-sidebar">@item.Product.Name</h4>
+                </a>
+            </div>
+        }
+    }
+    else {
+        <div class="no-data">
+            @Html.Action("Caller", "StaticBlock", new { area = "", identifier = "no-data-display" })
+        </div>
+    }
+</section>

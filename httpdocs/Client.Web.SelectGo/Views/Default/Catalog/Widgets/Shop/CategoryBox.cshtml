@@ -1,0 +1,115 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<Category>
+    @{
+        var category = new Category();
+        var categoryProductCategoryMappingsTab = new List<ProductCategoryMapping>();
+    }
+    @foreach (var item in Model.Where(e=>e!=null))
+    {
+        category = item;
+        categoryProductCategoryMappingsTab = category.ProductCategoryMappings.Where(e => e.Product.IsActive).ToList();
+    }
+    @if (categoryProductCategoryMappingsTab.Any())
+    {
+        foreach (var innerItem in categoryProductCategoryMappingsTab)
+        {
+            var slugProduct = SlugHelper.Product(innerItem.ProductId);
+            <div class="col-md-3">
+                <div class="card item-card h-100 border-0">
+                    @if (innerItem.Product.IsNew)
+    {
+                        <span class="urgent">New</span>
+    }
+
+                <div class="item-card__image">
+                    @if (innerItem.Product.ProductPictureMappings.Any())
+                    {
+                        foreach (var imageItem in innerItem.Product.ProductPictureMappings.Take(1))
+                        {
+                            <a href="@slugProduct" class="swap-link">
+                                <div class="focuspoint" data-focus-x="-0.01" data-focus-y="0.10" data-image-w="600" data-image-h="400">
+                                    <img src="@ImageHelper.GetResize(innerItem.Product.Picture.Url, 600, 400)" class="img-fluid" alt="@imageItem.Picture.Title">
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <a href="@slugProduct" class="swap-link">
+                            <div class="focuspoint" data-focus-x="-0.01" data-focus-y="0.10" data-image-w="600" data-image-h="400">
+                                <img src="/as-images/shared/placeholder.png" height="400" width="600" class="img-fluid" alt="No-Avatar">
+                            </div>
+                        </a>
+                    }
+
+
+                    <div class="hover-icons">
+                        <ul class="list-unstyled">
+                            <li><a href="@slugProduct"><i class="las la-desktop"></i></a></li>
+                            <li><a class="sign-in" href="#"><i class="lar la-bookmark"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                    <!-- end: Item card image -->
+                    <div class="card-body px-0 pt-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="item-title">
+                                <a href="@slugProduct">
+                                    <h3 class="h5 mb-0 text-truncate">@innerItem.Product.Name</h3>
+                                </a>
+                                <span class="as-rate">
+                                    @for (var i = 1; i <= 5; i++)
+    {
+                                        <i class="@(innerItem.Product.RatingValue >= i ? "rated" : "")">★</i>
+    }
+                                </span>
+                            </div>
+
+                        </div>
+                        <!-- end: Card info -->
+                        <div class="d-flex justify-content-start align-items-center item-meta">
+                            <div class="short-description mb-0">
+                                <p class="mb-0 extension-text">
+                                    @{
+                                        var listTaggeds = innerItem.Product.ProductProductTagMappings;
+                                    }
+                                    @if (listTaggeds.Any())
+    {
+                                        <div class="job-bottom-tags flex-middle">
+                                            <div class="job-tags">
+                                                <div class="job-tags with-title">
+                                                    <strong>Tagged as:</strong>
+                                                    @foreach (var itemTag in listTaggeds.Take(2))
+                                                    {
+
+                                                        <a class="tag-job" href="@SlugHelper.ProductTag(itemTag.ProductTagId)">@itemTag.ProductTag.Name</a>
+    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+    }
+    else
+    {
+                                        <div class="job-bottom-tags flex-middle">
+                                            <div class="job-tags">
+                                                <div class="job-tags with-title">
+                                                    <strong>Tagged as:</strong>
+                                                    <a class="tag-job" style="color: red;" href="#"><b>U</b>pdating...</a>
+                                                </div>
+                                            </div>
+                                        </div>
+    }
+
+                                </p>
+                            </div>
+                        </div>
+                        <!-- end: Card meta -->
+                    </div>
+                    <!-- edn:Card body -->
+                </div>
+                <!-- end: Card -->
+            </div>
+            }
+    }

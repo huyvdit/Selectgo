@@ -1,0 +1,22 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@{
+    var p = ViewData["Product"] as Product;
+}
+<div class="product-actions">
+    <a class="add-to-cart@((p.DisableBuyButton != 1 || p.Price == 0) ? "-disabled":"")" href="#" title="@((p.DisableBuyButton != 1 || p.Price == 0) ? "Can not add on time":"Add to cart")">
+        <i class="cs-icon icon-cs-cart"></i>
+    </a>
+</div>
+
+<div class="product-actions">
+    <a href="#">
+        <i class="cs-icon icon-search"></i>
+    </a>
+</div>
+<div class="product-actions">
+    <a class="add-to-wishlist@(p.DisableWishlistButton == true ? "-disabled":"")" href="#" title="Add to wishlist">
+        <i class="cs-icon icon-heart"></i>
+    </a>
+</div>
+

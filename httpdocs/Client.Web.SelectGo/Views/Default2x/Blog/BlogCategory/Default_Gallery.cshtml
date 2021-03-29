@@ -1,0 +1,216 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<BlogPostCategoryMapping>
+    @{
+        var blogCategory = ViewBag.blogCategory as BlogCategory ?? new BlogCategory();
+        ViewBag.Title = blogCategory.MetaTitle ?? blogCategory.Name;
+        ViewBag.MetaKeywords = blogCategory.MetaKeywords;
+        ViewBag.MetaDescription = blogCategory.MetaDescription ?? blogCategory.Description;
+
+        var grouped = blogCategory.Grouped == "construction" ? "construction" : "gallery"; // set default
+        var subCategories = DataWhereHelper.BlogCategoryByGroupeds(grouped + ",");
+        var listBlogs = Model.Where(e => e.BlogPost.Status == BlogPostStatus.Published).ToList();
+        var featuredBlog = new BlogPostCategoryMapping() { BlogPost = new BlogPost() };
+        if (listBlogs.Any())
+        {
+            featuredBlog = listBlogs.FirstOrDefault(e => e.IsFeaturedPost) ?? listBlogs.First();
+        }
+        IEnumerable<BlogPostCategoryMapping> listNBlogs;
+        {
+            listNBlogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Take(6);
+        }
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/blog/blog-category/css")
+    }
+    @section banners{
+        @{
+            var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+            var paramArrs = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-img", picture.Url )
+            };
+        }
+        @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+    }
+                               <div class="page-wrapper">
+                                   @if (grouped == "gallery")
+                                   {
+                                       <div class="gallery">
+                                           <div class="gallery__intro">
+                                               <div class="row m-0">
+                                                   <div class="col-md-6 offset-md-3">
+                                                       <div class="card__introduction">
+                                                           <div class="title--default color-dark title--line-center title--line-dark aos-init aos-animate">
+                                                               OUR IDEA
+                                                               <div class="progress-bar-section js-progres-bar"><span></span></div>
+                                                           </div>
+                                                           <div class="card--sub-text text-center text-black aos-init aos-animate">
+                                                              @Html.Raw(blogCategory.Description)
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="gallery__block-image">
+                                               <div class="row m-0">
+                                                   @foreach (var itemGallery in featuredBlog.BlogPost.BlogPostPictureMappings.ToList())
+                                                   {
+                                                      
+                                                       <div class="col-md-4 p-0">
+                                                           <div class="gallery__image" style="background-image: url('@itemGallery.Picture.Url')">
+                                                           </div>
+                                                       </div>
+                                                   }
+                                               </div>
+                                           </div>
+                                           <div class="gallery__albums">
+                                               @{ 
+                                                   var i = 0;
+                                               }
+                                               @foreach (var item in listNBlogs)
+                                               {
+                                                   i++;
+                                                   <div class="row m-0 gallery__item">
+                                                       <div class="col-md-5 offset-md-1 gallery__name-album d-flex flex-column justify-content-center align-items-center">
+                                                           <div class="title--default color-dark p-0">@item.BlogPost.Title</div>
+                                                           <a class="card__button title--explore title--dark js-explore" data-slide="js-slide-toggle-@i">
+                                                               Explore
+                                                               <img src="assets/images/components/button-explore-dark.png" alt="Explore now">
+                                                           </a>
+                                                       </div>
+                                                       <div class="col-md-5 gallery__figure pr-md-0">
+                                                           <img src="@item.BlogPost.Avatar" alt="@item.BlogPost.Title" class="w-100">
+                                                       </div>
+                                                       <div class="col-md-11 offset-md-1 p-0" id="js-slide-toggle-@i">
+                                                           <div class="gallery__button-close col-md-10 offset-md-1 js-close">
+                                                               <img src="../../../assets/images/page/gallery/close.png" alt="">
+                                                           </div>
+                                                           <div class="gallerry__slide-img">
+                                                               <div class="swiper-container slide-gallery js-gallery-@i">
+                                                                   <div class="swiper-wrapper">
+
+                                                                       @foreach (var itemGallery in item.BlogPost.BlogPostPictureMappings.ToList())
+                                                                       {
+                                                                           <div class="swiper-slide">
+                                                                               <a href="@itemGallery.Picture.Url" data-fancybox="stt@(item.Id)">
+                                                                                   <img src="@itemGallery.Picture.Url" alt="@itemGallery.Picture.Title">
+                                                                               </a>
+                                                                           </div>
+                                                                       }
+
+                                                                   </div>
+                                                                   <div class="swiper-button-prev">
+                                                                       <span>
+                                                                           <img src="../../../assets/images/components/left.png" alt="">
+                                                                       </span>
+                                                                   </div>
+                                                                   <div class="swiper-button-next">
+                                                                       <span>
+                                                                           <img src="../../../assets/images/components/right.png" alt="">
+                                                                       </span>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               }
+
+
+                                           </div>
+                                       </div>
+
+                                       
+                                   }
+                                   else
+                                   {
+                                       <div class="timeline">
+                                           @foreach (var item in listBlogs)
+                                           {
+                                               <div class="row m-0">
+                                                   <div class="col-md-1 offset-md-1 @(item == listBlogs.Last() ? "":"timeline__line")">
+                                                       <div class="timeline_item-1 card--sub-text font-weight-bold mt-0"> @item.BlogPost.PublishedTime.Value.ToString("dd")th <br /> @item.BlogPost.PublishedTime.Value.ToString("MMMM") <br /> @item.BlogPost.PublishedTime.Value.ToString("yyyy")</div>
+                                                   </div>
+                                                   <div class="col-md-9 offset-md-1">
+                                                       <div class="row m-0">
+                                                           <div class="col-md-10 p-0">
+                                                               <div class="card--desc-text color-dark mt-0  mb-3">
+                                                                   @item.BlogPost.Title
+                                                               </div>
+                                                               <p class="card--sub-text color-dark text-justify">
+                                                                   @item.BlogPost.Excerpt
+                                                               </p>
+                                                           </div>
+                                                           <div class="col-md-12 p-0">
+
+                                                               @if (item.BlogPost.BlogPostPictureMappings.Count() > 1)
+                                                               {
+                                                                   <div class="swiper-container js-construction-1 slide-construction">
+                                                                       <div class="swiper-wrapper">
+                                                                           @foreach (var itemGallery in item.BlogPost.BlogPostPictureMappings.ToList())
+                                                                           {
+                                                                               <div class="swiper-slide">
+                                                                                   <a href="@itemGallery.Picture.Url" data-fancybox="stt@(item.Id)">
+                                                                                       <img src="@itemGallery.Picture.Url" alt="@itemGallery.Picture.Title">
+                                                                                   </a>
+                                                                               </div>
+                                                                           }
+                                                                       </div>
+                                                                       <div class="swiper-button-prev">
+                                                                           <span>
+                                                                               <img src="../../../assets/images/components/left.png" alt="next">
+                                                                           </span>
+                                                                       </div>
+                                                                       <div class="swiper-button-next">
+                                                                           <span>
+                                                                               <img src="../../../assets/images/components/right.png" alt="prev">
+                                                                           </span>
+                                                                       </div>
+
+                                                                   </div>
+                                                               }
+                                                               else
+                                                               {
+                                                                   <div class="swiper-container slide-construction pt-3">
+                                                                       <div class="swiper-wrapper">
+                                                                           @foreach (var itemGallery in item.BlogPost.BlogPostPictureMappings.ToList())
+                                                                           {
+                                                                               <div class="swiper-slide">
+                                                                                   <a href="@itemGallery.Picture.Url" data-fancybox="stt@(item.Id)">
+                                                                                       <img src="@itemGallery.Picture.Url" alt="@itemGallery.Picture.Title">
+                                                                                   </a>
+                                                                               </div>
+                                                                           }
+
+                                                                       </div>
+                                                                   </div>
+                                                               }
+
+
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           }
+                                       </div>
+                                   }
+
+                               </div>
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/blog/blog-category/js")
+        <script>
+        $(".time-ago").timeago();
+        var currentLink = $($(".main-menu a[href='@SlugHelper.BlogCategory(grouped: grouped)']"));
+        if (currentLink != null) {
+            currentLink.parent().addClass("active");
+            currentLink.parent().parent().addClass("active");
+            currentLink.parent().parent().parent().addClass("active");
+        }
+
+        jQuery(document).ready(function() {
+            Blog.init('@grouped');
+        });
+        </script>
+    }

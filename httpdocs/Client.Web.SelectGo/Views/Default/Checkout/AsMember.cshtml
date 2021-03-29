@@ -1,0 +1,72 @@
+﻿@model Web.Model.Models.Order
+@{
+    ViewBag.Title = "Check out as member";
+}
+@using (Html.BeginForm("AsMember", "CheckOut", FormMethod.Post))
+{
+       @Html.ValidationSummary(true) 
+
+        <h2>Address And Payment</h2>
+        <fieldset>
+            <legend>Shipping Information</legend>
+
+
+            @*<div class="control-group">
+                @Html.LabelFor(model => model.Customer.Email, new {@class = "control-label required"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Customer.Email, new {placeholder = ""})
+                    @Html.ValidationMessageFor(model => model.Customer.Email)
+                </div>
+            </div>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.Customer.MainAddress.FirstName, new {@class = "control-label required"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Customer.MainAddress.FirstName, new {placeholder = ""})
+                    @Html.ValidationMessageFor(model => model.Customer.MainAddress.FirstName)
+                </div>
+            </div>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.Customer.MainAddress.LastName, new {@class = "control-label required"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Customer.MainAddress.FirstName, new {placeholder = ""})
+                    @Html.ValidationMessageFor(model => model.Customer.MainAddress.LastName)
+                </div>
+            </div>*@
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.ShippingMethodId, new {@class = "control-label required"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.ShippingMethodId, new {placeholder = ""})
+                    @Html.ValidationMessageFor(model => model.ShippingMethodId)
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Payment Information</legend>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.PaymentMethodId, new {@class = "control-label required"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.PaymentMethodId, new {placeholder = ""})
+                    @Html.ValidationMessageFor(model => model.PaymentMethodId)
+                </div>
+            </div>
+
+        </fieldset>
+
+    <fieldset>
+        <legend># Information</legend>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.OrderNotes, new {@class = "control-label"})
+            <div class="controls">
+                <textarea cols="20" name="Notes" placeholder="" rows="2"></textarea>
+            </div>
+        </div>
+
+    </fieldset>
+
+        <input type="submit" value="Submit Order" />
+}

@@ -1,0 +1,22 @@
+﻿@*@using global::Web.Helpers
+    @model List<Web.Model.Models.ProductTag>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <a href="@Utils.GetUrlProductTag(item.Id)">@item.Name</a>
+            }
+        }*@
+
+@using global::Web.Helpers
+@model List<Web.Model.Models.ProductTag>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            {
+
+                <a href="@SlugHelper.ProductTag(item.Id)">@item.Name <span>[@item.ProductProductTagMappingsCount]</span></a>
+            }
+        }
+    }

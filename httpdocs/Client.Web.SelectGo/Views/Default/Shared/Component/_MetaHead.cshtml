@@ -1,0 +1,64 @@
+﻿@using global::Web.Helpers
+@{
+    var domainTrust = DisplayHelper.StoreLink;
+}
+@if (Request.IsAuthenticated || HttpContext.Current.Request.Url.Host.Contains("id."))
+{
+    Response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1.
+    Response.Cache.AppendCacheExtension("no-store, must-revalidate");
+    Response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
+    Response.AppendHeader("Expires", "0"); // Proxies.
+}
+@{
+    Uri url = HttpContext.Current.Request.Url;
+    GlobalVariables.OrderActive = true;//url.ToString().Contains("id.") || Request.IsAuthenticated;
+}
+<link rel='shortlink' href='@domainTrust' />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="HandheldFriendly" content="true" />
+
+<meta name="keywords" content="@ViewBag.MetaKeywords" />
+<meta name="description" content="@((ViewBag.MetaDescription == null || ViewBag.MetaDescription.Trim() == "") ?  ViewData["og:description"] : ViewBag.MetaDescription)" />
+<meta name="author" content="@DataConfigsHelper.Get("Author")">
+<meta name="theme-color" content="@DataConfigsHelper.Get("ThemeColor")" data-react-helmet="true">
+@{
+    foreach (AlternateModel ura in SessionManager.Alternate)
+    {
+        @Html.Raw("<link rel='alternate' type='text/html' hreflang='" + ura.Hreflang + "' href='" + ura.Href + "' title='" + ura.Title + "' />")
+    }
+}
+@if (!string.IsNullOrEmpty(ViewBag.og_type))
+{
+    <link rel="canonical" href="@ViewData["og:url"]" />
+    var thumbnailUrl = ViewData["og:image"] != null ? ((ViewData["og:image"].ToString().Contains("assets") ? ViewData["og:image"] : ImageHelper.GetResize(ViewData["og:image"].ToString(), 500))) : DataConfigsHelper.Get("Logo").Replace("Logo", "logo-share");
+
+    <!-- Facebook -->
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="@ViewBag.og_type" />
+    <meta property="og:url" content="@ViewData["og:url"]" />
+    <meta property="og:title" itemprop="headline" content="@ViewData["og:title"]" />
+    <meta property="og:description" content="@ViewData["og:description"]" />
+    <meta property="og:image" itemprop="thumbnailUrl" content="@thumbnailUrl" />
+    <meta property="og:site_name" content="@DisplayHelper.StoreName" />
+    <meta property="og:image:secure_url" content="@ViewData["og:url"]">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta property="article:publisher" content="@ViewData["article:publisher"]" />
+    <meta property="article:published_time" itemprop="datePublished" content="@ViewData["article:published_time"]" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:description" content="@ViewData["og:description"]" />
+    <meta name="twitter:title" content="@ViewData["og:title"]" />
+    <meta name="twitter:image" content="@thumbnailUrl" />
+
+    <meta property="DC.date.issued" content="@ViewData["article:published_time"]" />
+    <meta property="fb:app_id" content="@DataConfigsHelper.Get("FbAppId")" />
+    <meta name="generator" content="ASiteplus Core 1.8.1" />
+}
+@{ Html.RenderPartial("~/Views/Default/Shared/Schema/_Organization.cshtml"); }

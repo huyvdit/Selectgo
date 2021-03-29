@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Uncategorized",
+    "id": 15
+  },
+  {
+    "title": "Plugins & Snippets",
+    "expanded": true,
+    "id": 30,
+    "folder": true,
+    "children": [
+      {
+        "title": "Plugins",
+        "type": "book",
+        "id": 31
+      },
+      {
+        "title": "Resources",
+        "type": "book",
+        "id": 32
+      },
+      {
+        "title": "Snippets",
+        "type": "book",
+        "author": "Antoine de Saint-Exupery",
+        "id": 35,
+        "folder": true,
+        "children": [
+          {
+            "title": "CSharp",
+            "type": "book",
+            "id": 36
+          },
+          {
+            "title": "Javascripts",
+            "type": "book",
+            "id": 37
+          }
+
+        ]
+      }
+
+    ]
+  },
+  {
+    "title": "More...",
+    "id": -1,
+    "folder": true,
+    "lazy": true
+  }
+]

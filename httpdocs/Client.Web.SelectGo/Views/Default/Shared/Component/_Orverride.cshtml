@@ -1,0 +1,105 @@
+﻿@using global::Web.Helpers
+@{
+    var primaryColor = DataConfigsHelper.Get("PrimaryColor");
+    var secondaryColor = DataConfigsHelper.Get("SecondaryColor");
+
+    var customJs = DataConfigsHelper.Get("CustomJs");
+    var customCss = DataConfigsHelper.Get("CustomCss");
+    var customCssMobile = DataConfigsHelper.Get("CustomCssMobile");
+}
+@if (primaryColor != "")
+{
+    <style media="screen">
+        .preloader p{
+          color:@primaryColor!important;
+        }
+        .topbar {
+            background-color: @primaryColor!important;
+            box-shadow: inset 0 -1px 0 0 @primaryColor!important;
+        }
+        .departments-menu>.dropdown-menu>li>a {
+            color: @primaryColor!important;
+        }
+        [class~=feature-products] [class~=product-tab] [class~=nav-pills] [class~=nav-item] [class~=name-tab][class~=active] {
+    background-color: @primaryColor!important;
+}
+        
+        .price ins {
+    color: @primaryColor!important;
+}
+        .price span {
+    color: @primaryColor!important;
+}
+        .consoles_product.consol_two .consoles_header .product_tab_button ul li a.active {
+    color: @primaryColor!important;
+    border-color: @primaryColor!important;
+}
+        [class~=page-red] [class~=footer] [class~=item-content] [class~=sub-title] h4:after, [class~=page-red] [class~=footer] [class~=item-content] [class~=sub-title] h4:before {
+    background-color: @primaryColor!important;
+}
+        [class~=page-red] [class~=footer] [class~=item-content] [class~=sub-title] h4:after, [class~=page-red] [class~=footer] [class~=item-content] [class~=sub-title] h4:before {
+    background-color: @primaryColor!important;
+}
+        [class~=group-caption] [class~=categories-title]:hover, [class~=page-red] [class~=footer] [class~=footer-bottom] [class~=content] li i {
+    color: @primaryColor!important;
+}
+        [class~=home-5] [class~=product-info] [class~=price] span, [class~=home-4] a:hover, [class~=home-4] a:hover, [class~=page-red] [class~=product-counter] span, [class~=home-5] a:hover, [class~=page-red] i:hover, [class~=home-4] [class~=product-info] [class~=price] span {
+    color: @primaryColor!important;
+}
+    </style>
+}
+@if (secondaryColor != "")
+{
+    <style media="screen">
+        .departments-menu button{
+          background: @secondaryColor!important;opacity: 0.5;
+        }
+        .departments-menu>.dropdown-menu>li.highlight>a {
+            color: @secondaryColor!important;
+        }
+        .color {
+            color: @secondaryColor!important;
+        }
+        [class~=title-main] {
+            color: @secondaryColor!important;
+        }
+                [class~=testimonials] {
+            background: @secondaryColor!important;
+        }
+        .consoles_product.consol_two .consoles_product_title h3::before {
+    background: @secondaryColor!important;
+}
+        [class~=home-4] [class~=user-page] [class~=button-main], [class~=product-categories-full] [class~=sub-title] h4:before, [class~=page-red] #top-header [class~=main-header] [class~=header-block] [class~=ajax-cart-quantity], [class~=product-categories-full] [class~=sub-title] h4:after {
+    background-color: @secondaryColor!important;
+}
+        [class~=home-2] main [class~=about-smoothie] [class~=about] [class~=item-content] [class~=sub-title] h4:before, [class~=home-2] main [class~=about-smoothie] [class~=about] [class~=item-content] [class~=sub-title] h4:after {
+    background-color: @secondaryColor!important;
+}
+        [class~=home-2] main [class~=about-smoothie] [class~=about] [class~=item-content] [class~=sub-title] h4:before, [class~=home-2] main [class~=about-smoothie] [class~=about] [class~=item-content] [class~=sub-title] h4:after {
+    background-color: @secondaryColor!important;
+}
+        #top-header .main-header .index-bars .popup-title .menu-desktop, #top-header [class~=main-header] [class~=index-bars] [class~=popup-title] [class~=menu-desktop]:after {
+    background: @secondaryColor!important;
+}
+    </style>
+}
+@if (customCss != "")
+{
+    <style media="all">
+         @Html.Raw(customCss)
+    </style>
+}
+@if (customCssMobile != "")
+{
+    <style media="all">
+        @@media (max-width: 991px) {
+            @Html.Raw(customCssMobile)
+        }
+    </style>
+}
+@if (customJs != "")
+{
+    <script type="text/javascript">
+    @Html.Raw(customJs);
+    </script>
+}

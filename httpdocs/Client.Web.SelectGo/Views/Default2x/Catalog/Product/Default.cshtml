@@ -1,0 +1,72 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@model Product
+@{
+    var category = DataWhereHelper.ExtractPrimaryCategory(Model.ProductCategoryMappings);
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/catalog/product/css")
+}
+<div class="project-detail">
+        <div class="project-detail__title">
+            <div class="project-detail__title-left">
+                <div class="title-general">
+                    <p>@LanguageHelper.Translate("Giới thiệu_Text")</p>
+                    <p>@category.Name</p>
+                    <span></span>
+                </div>
+            </div>
+            <div class="project-detail__title-right">
+                <div class="project-detail__title-right--text">
+                    <h3>@Model.Name</h3>
+                    <ul class="project-detail__title-right--menu">
+                        @foreach (var itemTag in Model.ProductProductTagMappings.Take(5))
+                        {
+                            
+                            <li class="menu-item"><a href="@SlugHelper.ProductTag(itemTag.ProductTagId)">@itemTag.ProductTag.Name</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="the-content">
+                    @Html.Raw(Model.FullDescription)
+                    <div class="project-item-images" id="project-item-images-1">
+                        @foreach (var itemImg in Model.ProductPictureMappings.OrderBy(e => e.DisplayOrder).ToList())
+                        {
+                            <a class="images" href="@itemImg.Picture.Url">
+                                <img src="@ImageHelper.GetResize(itemImg.Picture.Url)" alt="@itemImg.Picture.Title">
+                            </a>
+                        }
+                    </div>
+
+                </div>
+                <div class="project-detail__title-right--consult">
+                    <div class="consult-title">@LanguageHelper.Translate("Tư vẫn hỗ trợ khách hàng_Text")</div>
+                    <div class="consult-hotline"><a href="tel:0917214678 "><span>Hotline: </span>0917214678</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="project-detail__typify">
+            <h2>@LanguageHelper.Translate("Dự án tiêu biểu_Text")</h2>
+
+            <div class="block-intro">
+                @{ Html.RenderAction("ProductFocus", "Catalog", new { pathView = "Widgets/Home/ProductFocus", area = "" }); }
+
+            </div>
+
+            <a href="@SlugHelper.Category(grouped: "our-project")" class="read--more" style="display: inline-block;width: 100%;text-align: right;">@LanguageHelper.Translate("Xem thêm_Text")</a>
+</div>
+    </div>
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/catalog/product/js")
+    <script>
+        $(document).ready(function() {
+            
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-project")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+    </script>
+
+}

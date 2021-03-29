@@ -1,0 +1,84 @@
+﻿.gallery-wrap {
+    padding: 0px;
+    background: #f8f9fa;
+    padding-top: 25px !important;
+    padding-bottom: 50px;
+}
+    .gallery-wrap .product-list .product-item {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+
+.project-box .project-box__item-block--item span {
+   
+    transform: scale(1.05);
+
+}
+[class~=gallery-wrap] [class~=gallery-item] [class~=gallery-item-inner] [class~=gallery-content] [class~=gallery-action] a {
+    background: transparent !important;
+    border: 1px solid #ffffff14;
+    border-radius: 0px;
+    position: absolute;
+    left: 50%;
+    margin-bottom: 50%;
+}
+.gallery-wrap .gallery-item .gallery-item-inner .gallery-content {
+    padding-left: 25px;
+    padding-right: 15px;
+}
+.main-contact-us .header-contact .icon i, [class~=post-navigation] [class~=post-prev] span a:hover, [class~=post-navigation] [class~=post-next] span a:hover, [class~=gallery-wrap] [class~=gallery-item] [class~=gallery-item-inner] [class~=gallery-content] [class~=gallery-meta] [class~=gallery-cat] a {
+    color: #606975;
+}
+[class~=gallery-wrap] [class~=gallery-item] [class~=gallery-item-inner] [class~=gallery-content] [class~=gallery-meta] [class~=gallery-cat] b {
+    font-weight: 300;
+    color: #f5f6fb3d;
+    font-size: 10px;
+}
+.gallery-wrap .current-page {
+    border-bottom: 1px solid #e9ecef;
+    margin-top: 50px;
+}
+button.view-more-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+    button.view-more-button:hover {
+        opacity: 0.5;
+    }
+    .article-feed {
+        float: left;
+        width: 100%;
+    }
+
+.scroller-status {
+    float: left;
+    text-align: center;
+    width: 100%;display: none;
+}
+.infinite-scroll-last {
+    color: #fff;
+    background: #8888888a;
+    line-height: 32px;
+    border-bottom: 1px solid #ec0000;
+} 
+.infinite-scroll-error {
+    color: yellow;
+    background: #ec0000;
+    padding: 6px;
+}
+
+.menu-item a:hover, .menu-item.active a {
+    color: #ED1C24;
+}
+
+.project-box .project-box__item-block--item {
+    border: 2px solid #eee;
+}
+
+@media (max-width: 767px) {
+    .post-block-style {
+        border-bottom: 1px dotted #eee;
+        padding-bottom: 12px;
+    }
+}

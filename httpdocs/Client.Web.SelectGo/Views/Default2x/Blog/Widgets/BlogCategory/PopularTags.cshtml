@@ -1,0 +1,30 @@
+﻿@using global::Web.Helpers
+@model List<ASP.Web.Model.Models.BlogPostTagMapping>
+
+<section id="tagcloud-wrapper">
+    @if(Model.Any()) {
+        foreach(var item in Model) {
+            <a href="@SlugHelper.BlogTag(item.BlogTagId)" class="tags" title="@item.BlogTag.Name" rel="@item.BlogTag.BlogPostTagMappings.Count">
+                @item.BlogTag.Name
+            </a>
+        }
+    }
+    else {
+        <div class="no-data">
+            @Html.Action("Caller", "StaticBlock", new { area = "", identifier = "no-data-display" })
+        </div>
+    }
+</section>
+@using (Html.BeginScripts())
+{
+    <script src="~/content/default/plugins/jquery-tagcloud/js/jquery.tagcloud.js"></script>
+    <script>
+        $.fn.tagcloud.defaults = {
+            size: { start: 12, end: 20, unit: 'px' },
+            color: { start: '#E25831', end: '#2795b6' }
+        };
+        $(document).ready(function () {
+            $('#tagcloud-wrapper a').tagcloud();
+        });
+    </script>
+}

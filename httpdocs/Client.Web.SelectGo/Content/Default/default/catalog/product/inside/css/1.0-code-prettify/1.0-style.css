@@ -1,0 +1,73 @@
+﻿.prettyprint-wrapper {
+    width: 100%;
+    display: inline-block;
+}
+pre {
+    margin: 0;
+    white-space: pre;
+    margin: 1em 0px;
+}
+    pre::after {
+        position: absolute;
+        bottom: 50%;
+        right: 0px;
+        font-size: .9rem;
+        font-weight: bold;
+        padding: 2px 12px;
+        border-radius: 2px 0px 0px 2px;
+    }
+    pre.lang-markup::after {
+        content: 'Languge: markup';
+        color: #ff8300;
+    }
+
+    pre.lang-html::after {
+        content: 'Languge: html';
+        color: #4CAF50;
+        background: #ff00005c;
+    }
+    pre.lang-css::after {
+        content: 'Languge: css';
+        color: #8BC34A;
+        background: #ff00005c;
+    }
+    pre.lang-javascript::after {
+        content: 'Languge: javascript';
+        color: #673AB7;
+        background: #ff00005c;
+    }
+ol.linenums {
+  
+    padding: 0px 30px;
+}
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+    list-style-type: decimal;
+}
+
+
+
+pre[class*="prettyprint"] {
+    -moz-tab-size: 4;
+    -moz-hyphens: none;
+    hyphens: none;
+}
+
+
+pre[class*="prettyprint"] {
+    -moz-tab-size: 4;
+    -moz-hyphens: none;
+    hyphens: none;
+    position: relative;
+}
+
+
+
+.pre {
+    max-width: 30px;
+    overflow: hidden;
+    position: absolute;
+}
+
+ol.linenums {
+    
+}

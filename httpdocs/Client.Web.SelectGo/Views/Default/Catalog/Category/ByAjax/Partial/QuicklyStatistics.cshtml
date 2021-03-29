@@ -1,0 +1,10 @@
+﻿@using global::Web.Helpers
+@{ 
+    
+    var pageNumer = Convert.ToInt32(Request["page"] ?? "1");
+    var showNumber = ViewBag.refinedStyledCategory == 0 ? 0 : 1;
+    var showing = showNumber * (pageNumer -1) * ViewBag.pageSize;
+}
+<a>
+    @LanguageHelper.Translate("Showing_Text") <ins id="found-item"> @(showing == 0 ? 1: showing) - @FormatHelper.StandardNumber(ViewBag.pageSize * pageNumer)</ins> @LanguageHelper.Translate("of_Text") <b id="total-item"> @FormatHelper.StandardNumber(ViewBag.refinedStyledCategory) </b>   @LanguageHelper.Translate("results_Text")
+</a>

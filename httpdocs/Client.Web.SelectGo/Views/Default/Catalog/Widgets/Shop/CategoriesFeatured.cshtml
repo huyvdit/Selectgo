@@ -1,0 +1,65 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model List<Category>
+    @if (Model != null)
+                {
+                    var pos1 = Model.Count() > 0 ? Model[0] : new Category() { Name = "And." };
+                    var pos2 = Model.Count() > 1 ? Model[1] : new Category() { Name = "And." };
+                    var pos3 = Model.Count() > 2 ? Model[2] : new Category() { Name = "And." };
+                    var pos4 = Model.Count() > 4 ? Model[3] : new Category() { Name = "And." };
+
+
+        <div class="col-sm-6 col-md-4">
+            <div class="row gutters-3">
+                <div class="col-6 col-sm-12 mt-sm-0">
+                    
+                    <a href="@SlugHelper.Category(pos1.Id)">
+                        <div class="card zoom-hover">
+                            <div data-cover="@pos1.Avatar" data-xs-height="100px" data-sm-height="128px" data-md-height="115px" data-lg-height="154px" data-xl-height="192px"></div>
+                            <div class="card-img-overlay card-img-overlay-transparent">
+                                <h3 class="card-title text-center">@pos1.Name</h3>
+                            </div>
+                        </div>
+                    </a>
+                    
+
+                </div>
+                <div class="col-6 col-sm-12" style="margin-top:15px">
+                    <a href="@SlugHelper.Category(pos2.Id)">
+                        <div class="card zoom-hover">
+                            <div data-cover="@pos2.Avatar" data-xs-height="100px" data-sm-height="128px" data-md-height="115px" data-lg-height="154px" data-xl-height="192px"></div>
+                            <div class="card-img-overlay card-img-overlay-transparent">
+                                <h3 class="card-title text-center">@pos2.Name</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row gutters-3">
+                <div class="col-6 col-md-12 mt-md-0">
+                    <a href="@SlugHelper.Category(pos3.Id)">
+                        <div class="card zoom-hover">
+                            <div data-cover="@pos3.Avatar" data-xs-height="100px" data-sm-height="128px" data-md-height="115px" data-lg-height="154px" data-xl-height="192px"></div>
+                            <div class="card-img-overlay card-img-overlay-transparent">
+                                <h2 class="card-title text-center">@pos3.Name</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-12" style="margin-top:15px">
+                    <a href="@SlugHelper.Category(pos4.Id)">
+                        <div class="card zoom-hover">
+                            <div data-cover="@pos4.Avatar" data-xs-height="100px" data-sm-height="128px" data-md-height="115px" data-lg-height="154px" data-xl-height="192px"></div>
+                            <div class="card-img-overlay card-img-overlay-transparent">
+                                <h2 class="card-title text-center">@pos4.Name</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    }
+

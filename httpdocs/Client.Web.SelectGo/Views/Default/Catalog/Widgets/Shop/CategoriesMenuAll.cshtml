@@ -1,0 +1,47 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+    @{
+        var category = new Category();
+        var categoryChildrenTab = new List<Category>();
+    }
+    @foreach (var item in Model)
+    {
+        category = item;
+        categoryChildrenTab = category.CategoryChildren.Where(e => e.IsActive).OrderByDescending(e=>e.DisplayOrder).ToList();
+        break;
+    }
+               <ul class="list-tree">
+
+                   @foreach (var item in categoryChildrenTab)
+                   {
+                       if (!item.CategoryChildren.Any(e => e.IsActive))
+                       {
+                           <li>
+                               <a title="@item.Name" href="@SlugHelper.Category(item.Id)">@item.Name <small class="counter">@item.ProductCategoryMappingsCount</small></a>
+                           </li>
+                       }
+                       else
+                       {
+                           <li>
+                               <a href="#" title="@item.Name" class="has-arrow">@item.Name </a>
+                               <ul class="mm-show">
+
+                                   @foreach (var innerItem in item.CategoryChildren.Where(e => e.IsActive))
+                                   {
+                                       <li class="nav-title">
+                                           <a href="@SlugHelper.Category(innerItem.Id)">@innerItem.Name <small class="counter">@innerItem.ProductCategoryMappingsCount</small></a>
+                                       </li>
+                                   }
+                                   <li>
+                                       <a title="All @item.Name" href="@SlugHelper.Category(item.Id)" style="color: darkgray;">@LanguageHelper.Translate("All_Text") @("  " + item.Name) <small class="counter">@item.ProductCategoryMappingsCount</small></a>
+                                   </li>
+                               </ul>
+                           </li>
+                       }
+
+                   }
+                   <li>
+                       <a title="All Product" href="@SlugHelper.Category(category.Id)"><b>@LanguageHelper.Translate("All_Text") @category.Name</b> <small class="counter">@category.ProductCategoryMappingsCount</small></a>
+                   </li>
+               </ul>

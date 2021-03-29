@@ -1,0 +1,857 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using Web.Repositories.Entity.Infrastructure
+@model Web.Model.Models.Customer
+@{
+    ViewBag.SubMenuOnly = false;
+    ViewBag.SelfHeader = true;
+    ViewBag.Title = Model.MainAddress.FullName + "'s Profile";
+    var scope = Request.QueryString["scope"] ?? "all";
+    var segment = Request.QueryString["segment"] ?? "profile";
+    if (scope == "quotes")
+    {
+        Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    }
+}
+@{
+    var categoryDefined = new NbContext().Categories.AsNoTracking().FirstOrDefault(e => e.Grouped == "quotes") ?? new Category();
+    var listQuotes = categoryDefined.CategoryChildren.Where(e => e.IsActive).OrderByDescending(e => e.DisplayOrder).Take(3).ToList();
+}
+@if (scope == "all")
+{
+    @section styles{
+
+        @Styles.Render("~/bundles/content/default/account/base/css", "~/bundles/content/default/account/profile/css")
+
+        <style>
+            .table th, .table td {
+                padding: 3px 15px;
+                vertical-align: bottom;
+                border-top: 1px solid #f1eeea;
+            }
+
+                .table td.key {
+                    text-align: right;
+                    font-weight: 500;
+                    color: #026f56;
+                }
+
+                .table td.value {
+                }
+
+            .form-control {
+                border: 1px solid #f1eeea;
+            }
+        </style>
+        @if (segment == "inquiry-quickCreate")
+        {
+            @Styles.Render("~/bundles/content/default/cart/css")
+        }
+    }
+
+    {
+        @section submenu{
+            <div class="main-menu l10n">
+                <ul class="main-menu__list">
+                    <li class="main-menu__item"><a href="@DisplayHelper.StoreLink" class="main-menu__link" target="_blank">@LanguageHelper.Translate("Home_Text")</a></li>
+                    <li class="main-menu__item main-menu__item--submenu--megamenu main-menu__item--has-submenu">
+                        <a href="#" class="main-menu__link">
+                            Member concern
+                            <svg width="7px" height="5px">
+                                <path d="M0.280,0.282 C0.645,-0.084 1.238,-0.077 1.596,0.297 L3.504,2.310 L5.413,0.297 C5.770,-0.077 6.363,-0.084 6.728,0.282 C7.080,0.634 7.088,1.203 6.746,1.565 L3.504,5.007 L0.262,1.565 C-0.080,1.203 -0.072,0.634 0.280,0.282 Z" />
+                            </svg>
+                        </a>
+                    <li class="main-menu__item"><a href="#" class="main-menu__link" target="_blank"><span class="l10n-inline">@LanguageHelper.Translate(segment.ToLower() + "_Text")</span></a></li>
+                </ul>
+            </div>
+            <!-- Main Content -->
+        }
+        <div class="l10n">
+            @{
+                Html.RenderPartial("~/Views/Default/Account/_Partial/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Profile.cshtml");
+            }
+
+        </div>
+        
+
+    }
+
+    @section scripts
+    {
+
+        @Scripts.Render("~/bundles/content/default/account/base/js", "~/bundles/content/default/account/profile/js")
+        <script>
+             $('input.tapatar').tapatar({
+                   image_url_prefix: '/content/default/default/account/profile/css/tapatar-master/img/',
+                   default_image: '@Model.Avatar'
+
+               });
+
+               function avatarObserverChanged(selector, callback) {
+                   var input = $(selector);
+                   var oldvalue = input.val();
+                   setInterval(function () {
+                       if (input.val() != oldvalue) {
+                           oldvalue = input.val(); callback(oldvalue);
+                       }
+                   }, 3000);
+               }
+               avatarObserverChanged('.tapatar.tptr-file-input', function (data) {
+                   $.post("/account/update-profile", { name: "avatar", value: data })
+                       .done(function (ref) {
+                           $(".tptr-inner").css("background", "#5fbd74");
+                       });
+               });
+
+
+        </script>
+        @if (segment == "dashboard")
+        {
+            <script>
+                var countupInit = function countupInit() {
+                    if (window.countUp) {
+                        var countups = document.querySelectorAll('[data-countup]');
+                        countups.forEach(function (node) {
+                            var _utils$getData = utils.getData(node, 'countup'),
+                                endValue = _utils$getData.endValue,
+                                options = _objectWithoutProperties(_utils$getData, ["endValue"]);
+
+                            var countUp = new window.countUp.CountUp(node, endValue, _objectSpread({
+                                duration: 5
+                            }, options));
+
+                            if (!countUp.error) {
+                                countUp.start();
+                            } else {
+                                console.error(countUp.error);
+                            }
+                        });
+                    }
+                };
+                countupInit();
+
+                var options = {
+                    series: [{
+                        name: 'Số tiền đã mua',
+                        type: 'column',
+                        data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
+                    }, {
+                        name: 'Số lượng đặt',
+                        type: 'line',
+                        data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16]
+                    }],
+                    chart: {
+                        height: 350,
+                        type: 'line',
+                    },
+                    stroke: {
+                        width: [0, 4]
+                    },
+                    title: {
+                        text: 'Số tiền đã mua & Số lượng đặt'
+                    },
+                    colors: ['rgb(254, 176, 25)', '#1a79ff'],
+                    dataLabels: {
+                        enabled: true,
+                        enabledOnSeries: [1]
+                    },
+                    labels: ['01 Jan 2001', '02 Jan 2001', '03 Jan 2001', '04 Jan 2001', '05 Jan 2001', '06 Jan 2001', '07 Jan 2001', '08 Jan 2001', '09 Jan 2001', '10 Jan 2001', '11 Jan 2001', '12 Jan 2001'],
+                    xaxis: {
+                        type: 'datetime'
+                    },
+                    yaxis: [{
+                        title: {
+                            text: 'Số tiền đã mua',
+                        },
+
+                    }, {
+                        opposite: true,
+                        title: {
+                            text: 'Số lượng đặt'
+                        }
+                    }]
+                };
+
+                var chart = new ApexCharts(document.querySelector("#chart-1"), options);
+                chart.render();
+
+
+
+                var options = {
+                    series: [{
+                        name: 'Vỏ Tồn',
+                        data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+                    }, {
+                        name: 'Đã trả',
+                        data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                    }],
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '55%',
+                            endingShape: 'rounded'
+                        },
+                    },
+                    colors: ['rgb(255, 69, 96)', '#1a79ff'],
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    xaxis: {
+                        categories: ['Bình XL 45', 'Bình 40L', 'Bình 40L - Vỏ mới', 'Bình 8L - Vỏ mới', 'Dây áp cao'],
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'DV (chiếc)'
+                        }
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return " " + val + " chiếc"
+                            }
+                        }
+                    }
+                };
+
+                var chart = new ApexCharts(document.querySelector("#chart-2"), options);
+                chart.render();
+
+                //
+                var options = {
+                    series: [14, 23, 21, 17, 15],
+                    chart: {
+                        type: 'polarArea',
+                    },
+                    labels: ['Bình XL 45', 'Bình 40L', 'Bình 40L - Vỏ mới', 'Bình 8L - Vỏ mới', 'Dây áp cao'],
+                    stroke: {
+                        colors: ['#fff']
+                    },
+                    fill: {
+                        opacity: 0.8
+                    },
+                    responsive: [{
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                               
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }]
+                };
+
+                var chart = new ApexCharts(document.querySelector("#chart-3"), options);
+                chart.render();
+
+            </script>
+        }
+        else if (segment == "notification")
+        {
+
+            <script>
+
+                var toggolePagintionButtonDisable = function toggolePagintionButtonDisable(button, disabled) {
+                    if (disabled) {
+                        button.classList.remove('btn-primary');
+                        button.classList.add('btn-light');
+                        button.disabled = disabled;
+                    } else {
+                        button.classList.remove('btn-light');
+                        button.classList.add('btn-primary');
+                        button.disabled = disabled;
+                    }
+                };
+
+                var listInit = function listInit() {
+                    if (window.List) {
+                        var lists = document.querySelectorAll('[data-list]');
+
+                        if (lists.length) {
+                            lists.forEach(function (el) {
+                                var options = utils.getData(el, 'list');
+                                var paginationButtonNext = el.querySelector('[data-list-pagination="next"]');
+                                var paginationButtonPrev = el.querySelector('[data-list-pagination="prev"]');
+                                var viewAll = el.querySelector('[data-list-view="*"]');
+                                var listInfo = el.querySelector('[data-list-info]');
+                                var list = new window.List(el, options);
+                                var totalItem = list.items.length;
+                                var itemsPerPage = list.page;
+                                var pageQuantity = Math.ceil(totalItem / itemsPerPage);
+                                var numberOfcurrentItems = list.visibleItems.length;
+                                var pageCount = 1;
+
+                                var updateListControls = function updateListControls() {
+                                    listInfo.innerHTML = "".concat(((list.i == 1 ? 1 : list.i - 1)), " to ").concat(numberOfcurrentItems - 3, " of ").concat((totalItem - 3));
+                                    toggolePagintionButtonDisable(paginationButtonPrev, pageCount === 1);
+                                    toggolePagintionButtonDisable(paginationButtonNext, pageCount === pageQuantity);
+
+                                    if (pageCount > 1 && pageCount < pageQuantity) {
+                                        toggolePagintionButtonDisable(paginationButtonNext, false);
+                                        toggolePagintionButtonDisable(paginationButtonPrev, false);
+                                    }
+                                }; // List info
+
+
+                                updateListControls();
+
+                                if (paginationButtonNext) {
+                                    paginationButtonNext.addEventListener('click', function (e) {
+                                        e.preventDefault();
+                                        pageCount += 1;
+                                        var nextInitialIndex = list.i + itemsPerPage;
+                                        nextInitialIndex <= list.size() && list.show(nextInitialIndex, itemsPerPage);
+                                        numberOfcurrentItems += list.visibleItems.length;
+                                        updateListControls();
+                                    });
+                                }
+
+                                if (paginationButtonPrev) {
+                                    paginationButtonPrev.addEventListener('click', function (e) {
+                                        e.preventDefault();
+                                        pageCount -= 1;
+                                        numberOfcurrentItems -= list.visibleItems.length;
+                                        var prevItem = list.i - itemsPerPage;
+                                        prevItem > 0 && list.show(prevItem, itemsPerPage);
+                                        updateListControls();
+                                    });
+                                }
+
+                                if (viewAll) {
+                                    viewAll.addEventListener('click', function () {
+                                        list.show(1, totalItem);
+                                        pageQuantity = 1;
+                                        pageCount = 1;
+                                        numberOfcurrentItems = totalItem;
+                                        updateListControls();
+                                    });
+                                }
+                            });
+                        }
+                    }
+                };
+                listInit();
+            </script>
+        }
+        else if (segment == "profile")
+        {
+            <script>
+           $(document).ready(function () {
+
+
+               //editables
+               $.fn.editable.defaults.mode = 'popup';
+
+               $('#UserName').editable({
+                   emptytext:"...",
+                   url: '/account/update-profile',
+                   name: 'username',
+                   title: Resources._('Enter username')
+               });
+
+               $('#Gender').editable({
+                        url: '/account/update-profile',
+                   name: 'gender',
+                   pk: '@Model.AddressId',
+                   prepend: "--",showbuttons: false,
+                   source: [
+                       { value: '1', text: Resources._('Male') },
+                       { value: '-1', text: Resources._('Female') }, { value: '0', text: Resources._('Secret') }, { value: '2', text: Resources._('# Other') }
+                   ],
+                   display: function (value, sourceData) {
+                                var colors = { "0": "gray", '1': "brown", '2': "blue", '': "green" },
+                           elem = $.grep(sourceData, function (o) { return o.value == value; });
+
+                            if (elem.length) {
+                           $(this).text(elem[0].text).css("color", colors[value]);
+                            } else {
+                           $(this).empty();
+                            }
+                        }
+                    });
+
+               $('#FullName').editable({
+                    emptytext:"...",
+                   url: '/account/update-profile',
+                   pk: '@Model.AddressId',
+                   name: 'fullname',
+                   title: Resources._('Enter FullName'),
+                   validate: function (value) {
+                            if ($.trim(value) == '') return Resources._('This field is required');
+                            return false;
+                        }
+                    });
+
+               $('#DateOfBirth').editable(
+                   {
+                    url: '/account/update-profile',
+                       pk: '@Model.AddressId',
+                       combodate: {
+                        minYear: 1945,
+                           maxYear: 2019,
+                           minuteStep: 1
+                       },
+                       name: 'dateofbirth',
+                       title: 'Select Day/Month/Year'
+
+                });
+               $('#Email').editable({
+                    emptytext:"...",
+                   url: '/account/update-profile',
+                    pk: '-1',
+                   name: 'email',
+                   title: Resources._('Enter your email'),
+                   validate: function (value) {
+                            if (HvHelpers.IsEmail(value) == false) return Resources._('This field is not email');
+                            if ($.trim(value) == '') return Resources._('This field is required');
+                       else return Resources._('Require changes is denied');
+
+                        }
+                    });
+
+               $('#Phone').editable({
+                    emptytext:"...",
+                   url: '/account/update-profile',
+                   pk: '@Model.AddressId',
+                   name: 'phone',
+                   title: Resources._('Enter your phone'),
+                   validate: function (value) {
+                            if ($.trim(value) == '') return Resources._('This field is required');
+
+                        }
+                    });
+               //modify buttons style
+               $.fn.editableform.buttons =
+                   '<button type="submit" class="btn btn-success editable-submit btn-mini"><i class="icon-ok icon-white"></i>' + Resources._("Save Instance") + '</button>' +
+                   '<button type="button" class="btn editable-cancel btn-mini"><i class="icon-remove"></i>' + Resources._("Cancel") + '</button>';
+
+               $('#user .editable').on('hidden', function (e, reason) {
+                        if (reason === 'save' || reason === 'nochange') {
+                            var $next = $(this).closest('tr').next().find('.editable');
+                            if ($('#autoopen').is(':checked')) {
+                                setTimeout(function () {
+                               $next.editable('show');
+                                }, 300);
+                            } else {
+                           $next.focus();
+                            }
+                        }
+                    });
+
+
+
+                });
+            </script>
+        }
+        else if (segment == "inquiry-quickCreate")
+        {
+
+            <script>
+                $(document).ready(function () {
+
+                 $.fn.editableform.buttons =
+                   '<button type="submit" class="btn btn-success editable-submit btn-mini"><i class="icon-ok icon-white"></i>' + Resources._("OK") + '</button>' +
+                   '<button type="button" class="btn editable-cancel btn-mini"><i class="icon-remove"></i>' + Resources._("Cancel") + '</button>';
+
+                $('.note a').editable({
+                emptytext:"...",
+                  success: function(response, newValue) {
+                        $("#" + $(this).attr("data-id")).val(newValue);
+                        $("#sent-cart").addClass("has-changed");
+                    }
+                });
+                $(function () {
+                    $("textarea[name=Notes]").bind("change", function () {
+                        $("#sent-cart").addClass("has-changed");
+                    }).flexible();
+
+                });
+                /* increase or decrease item */
+                var qtyPlus = $('.qty-up');
+                var qtyMinus = $('.qty-down');
+                qtyPlus.on('click', function () {
+                        $(this).siblings('.qty').val(parseInt($(this).siblings('.qty').val()) + 1).trigger("change");
+                });
+
+                qtyMinus.on('click', function () {
+                    if (parseInt($(this).siblings('.qty').val()) > 0) {
+                            $(this).siblings('.qty').val(parseInt($(this).siblings('.qty').val()) - 1).trigger("change");
+                    }
+                });
+
+                    $(".qty").bind("change", function () {
+                         $("#sent-cart").addClass("has-changed");
+                });
+
+                    $(".remove").click(function (e) {
+                    // Get the id from the link
+                    var recordToRemoved = $(this).attr("data-id");
+                    if (recordToRemoved != '') {
+                            $('#row-' + recordToRemoved).fadeOut('slow');
+                            $('#row-' + recordToRemoved).find("input.qty").val("0");
+                            $("#sent-cart").addClass("has-changed");
+                        e.preventDefault();
+                    }
+                });
+
+                    $("#sent-cart").click(function (e) {
+                    if (!$(this).hasClass("has-changed")) {
+                        return;
+                    }
+                    console.log(e);
+                    alertify.confirm()
+                   .setting({
+                        'defaultFocus': 'ok',
+                            transition: 'zoom',
+                            'reverseButtons': true,
+                            'message': Resources._('Are you sure to send this order?'),
+                            'onok': function () {
+                            run_waitMe($('#order-form'), 3);
+                            var DATAPOST = $("#order-form").serialize();
+                            DATAPOST["__RequestVerificationToken"] = $("input[name=__RequestVerificationToken").val();
+
+                                $.ajax({
+                            url: "/api/order/quickpost",
+                                    type: 'POST',
+
+                                    data: DATAPOST,
+                                    // Disable caching of AJAX responses
+                                    cache: false,
+                                    // Fetch the stored token from localStorage and set in the header
+                                    error: function (err) {
+
+                                    stop_waitMe($('#order-form'));
+                                    alertify.set('notifier', 'position', 'top-center');
+                                    alertify.error('Error: ' + JSON.stringify(err));
+                                },
+                                    success: function (data) {
+
+                                    if (data == 0) {
+                                        alertify.set('notifier', 'position', 'top-center');
+                                        alertify.error(Resources._('Order not successfully, please check and try again!'));
+                                    }
+                                    else {
+                                        alertify.set('notifier', 'position', 'top-center');
+                                        var duration = 3;
+                                        var msgText = Resources._('Order successfully with new ID tracking:[{0}] (Auto-reload in {1} seconds)');
+                                        var msg = alertify.success(msgText.replace("{0}", data).replace("{1}", duration), duration, function () { clearInterval(interval); });
+                                        var interval = setInterval(function () {
+                                            msg.setContent(msgText.replace("{0}", data).replace("{1}", duration));
+                                        }, 1000);
+
+                                        setTimeout(function () {
+                                            //goStep(5);
+                                            stop_waitMe($('#order-form'));
+                                            window.location.href = '@Url.Action("Profile", "Account", new {segment = "order"})';
+                                        }, duration * 1000)
+                                        }
+
+                                }
+                            });
+                        }
+                    }).set('labels', { ok: Resources._('Agree'), cancel: Resources._('No, later') }).setHeader('<b>' + Resources._("Order confirmed") + '</b>').show();
+                    // Ajax call, custom form processing or anything you wan't to do here...
+
+                });
+
+            });
+
+
+
+
+            </script>
+        }
+        else if (segment == "order" || segment == "orderdetails")
+        {
+            <script>
+                $(document).ready(function () {
+
+                    $('.order-repeat').jConfirm({
+                        question: Resources._('Do you re-order this refund?'),
+                        confirm_text: Resources._('Agree'),
+                        deny_text: Resources._('No, later'),
+
+                    }).on('confirm', function (e) {
+                        var btn = $(this);
+                        swal({
+                            title: Resources._("Your Notes:"),
+                            text: Resources._("After entering a note (can be left blank) and choose agree your order will be reset"),
+                            type: "input",
+                            confirmButtonText: Resources._('Agree'),
+                            cancelButtonText: Resources._('Cancel'),
+                            showCancelButton: true,
+                            closeOnConfirm: true,
+                            inputPlaceholder: ""
+                        }, function (inputValue) {
+                            if (inputValue === false) return false;
+                            $.post("/account/order-repeat", { orderId: btn.attr("id").split("-")[1], noteText: inputValue })
+                                .done(function (data) {
+
+                                    if (data == 'True') {
+
+                                        swal({
+                                            title: "Done",
+                                            text: Resources._("Congratulations, you have successfully re-ordered, the system will reload!"),
+                                            type: "success",
+                                            confirmButtonText: Resources._("Wait to reload")
+                                        });
+                                        setTimeout(function () {
+                                            window.location.href = "?segment=order";
+                                        }, 3200)
+                                    }
+                                    else {
+                                        swal({
+                                            title: Resources._("Oh, something went wrong"),
+                                            text: Resources._("Cannot order now, please try again!"),
+                                            type: "error",
+                                            confirmButtonText: Resources._("Try Again")
+                                        });
+                                        // That's all we know.
+                                    }
+                                });
+
+                        });
+
+                        //do something on confirm
+                    });
+
+                    $('.order-cancel').jConfirm({
+                        question: Resources._('Do you want to cancel this refund?'),
+                        confirm_text: Resources._('Agree'),
+                        deny_text: Resources._('No, later'),
+
+                    }).on('confirm', function (e) {
+                        var self = this;
+                        $.post("/account/order-cancel", { orderId: self.id.split("-")[1] })
+                            .done(function (data) {
+                                if (data == 'True') {
+                                    swal({
+                                        title: Resources._("Done"),
+                                        text: Resources._("You have successfully canceled your order, thank you!"),
+                                        type: "success",
+                                        confirmButtonText: Resources._("Agree")
+                                    });
+
+                                    $(self).remove();
+                                    $(self).parent().remove();
+                                    $(self).parent().parent().remove();
+                                }
+                                else swal({
+                                    title: Resources._("Oh, something went wrong"),
+                                    text: Resources._("Cannot cancel your order now, please try again!"),
+                                    type: "error",
+                                    confirmButtonText: Resources._("Try Again")
+                                });
+                            });
+                    });
+
+
+
+                });
+
+            </script>
+        }
+        else if (segment == "orderdetails" || segment == "quotedetails")
+        {
+            <script>
+                $(document).ready(function () {
+
+                    $(".order-print").click(function (e) {
+                        e.preventDefault();
+                        $.print(".invoice-form"); ({
+
+                        });
+                        return false;
+                    });
+
+                });
+
+            </script>
+        }
+        else if (segment == "quote" || segment == "contract")
+        {
+            <script>
+                $(document).ready(function () {
+                    var boxes, arr;
+
+                    // This function loads the array and then checks the uid of each checkbox
+                    // against it.
+
+                    function checkBoxes() {
+                        arr = loadBoxArray();
+                        $.each($('input[type=checkbox].column'), function (i, el) {
+                            if (arr.indexOf($(el).attr("id")) > -1) {
+                                $(this).prop('checked', true);
+                            } else {
+                                $(this).prop('checked', false);
+                            }
+                        });
+                    }
+
+                    // If the localStorage item is available, load it into an array
+                    // otherwise set a default array and save it to localStorage
+
+                    function loadBoxArray() {
+                        if (localStorage.getItem('boxes')) {
+                            arr = JSON.parse(localStorage.getItem('boxes'));
+                        } else {
+                            arr = [];
+                            saveBoxArray(arr);
+                        }
+                        return arr;
+                    }
+
+                    // Save the array to localStorage
+
+                    function saveBoxArray(arr) {
+                        localStorage.setItem('boxes', JSON.stringify(arr));
+                    }
+
+                    // On page load check the boxes found in localStorage
+
+                    checkBoxes();
+
+                    // Clicking a checkbox will update the checkbox array which is then saved to localStorage
+
+                    $('input[type=checkbox].column').click(function () {
+                        var arr = $.map($('input[type=checkbox].column:checked'), function (el) {
+                            return $(el).attr('id');
+                        });
+                        saveBoxArray(arr);
+                    });
+
+
+
+                });
+            </script>
+            if (segment == "quote")
+            {
+                <script>
+                    $("label[for=wrap-text]").trigger("click");
+                </script>
+            }
+
+        }
+        else if (segment == "address")
+        {
+            <script>
+                                                     // Trigger element to fadeIn or fadeOut
+              $("[data-fade]").each(function() {
+  	            $(this).click(function() {
+                var $sel = $(this).data("fade"),
+  				            $in = $sel.split(",")[0],
+  				            $out = $sel.split(",")[1];
+
+                if($in) {
+		  	            $($in).fadeIn();
+                }
+                if($out) {
+		  	            $($out).fadeOut();
+                }
+                return false;
+            });
+        });
+                window.loadAddress = function () {
+                     $.ajax({
+             url: '@Url.Action("UpdateAddress", "Account")',
+                    type: 'GET',
+                    cache: false,
+                }).done(function(result){
+                    $('.addresses-list').html(result + $(".addresses-Add").html());
+                    $(".addresses-entries .edit").click(function (e) {
+                e.preventDefault();
+                        $('.addresses-entries .addresses-Edit').hide();
+                         $.ajax({
+                type: 'GET',
+                            url: $(this).attr("data-url"),
+                             success: function (response) {
+
+                                 $('.addresses-entries .addresses-Edit').html(response);
+                                 window.ssdCascadingDropDownRegEvent([".AdditionalAddress-CountryId"]); $('.addresses-entries .addresses-Edit').show();
+                                 window.l10nUpdate(".addresses-entries label");
+
+                                //$("#secondTab").html(response);
+                                //$('ul.nav.nav-tabs a:eq(1)').html('Edit');
+                                //$('ul.nav.nav-tabs a:eq(1)').tab('show');
+                    }
+                });
+                return false;
+         });
+
+            $('.addresses-entries .delete').jConfirm({
+            question: Resources._('Do you want remove this address?'),
+
+                        confirm_text: Resources._('Agree'),
+                        deny_text:  Resources._('No, later'),
+
+                    }).on('confirm', function(e){
+
+
+                               $.post($(this).attr("data-url"), { })
+                                  .done(function (data) {
+                    if (data.success == true) {
+                        swal({
+                        title: "Completed",
+                                                  text: Resources._("Remove successfull!"),
+                                                  type: "success",
+                                                  confirmButtonText: Resources._("Yes")
+                                                  });
+                        var self = this;
+                                          $("." + $(self).attr("data-parentid")).remove();
+                    }
+                    else swal({
+                    title: "Error occuss",
+                                                    text: Resources._("Can't remove at time, please try again latter!"),
+                                                    type: "error",
+                                                    confirmButtonText: Resources._("Try again")
+                                   });
+                });
+
+
+            });
+
+        });
+                };
+                window.loadAddress();
+
+            </script>
+        }
+        else if (segment == "rewardpoints")
+        {
+            <script>
+                $.ajax({
+                    url: '/api/general/get-point-conversion-rate?type=-1&point=' + $("#current-points").text(),
+                    type: 'GET',
+                    cache: false,
+                }).done(function (result) {
+                    console.log(result);
+                    $("#points-to-money").text(HvHelpers.formatNumber(result[0].Value));
+                });
+
+                $.ajax({
+                    url: '/api/general/get-point-conversion-rules',
+                    type: 'GET',
+                    cache: false,
+                }).done(function (result) {
+                    console.log(result);
+
+                });
+                                                                                                    //
+            </script>
+        }
+
+    }
+}

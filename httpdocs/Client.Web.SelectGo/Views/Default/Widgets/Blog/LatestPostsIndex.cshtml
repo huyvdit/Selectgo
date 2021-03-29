@@ -1,0 +1,54 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<BlogPostCategoryMapping>
+    @if (Model.Count > 0)
+    {
+        var items = Model.ToList();
+        for (int i = 0; i <= items.Count - 1; i++)
+        {
+           
+            <div class="col-md-4">
+                <div class="product-container gallery-wrap">
+                    <div class="left-block item-img">
+                        <div class="product-image-container ">
+                            <a class="product-img-link" href="@SlugHelper.BlogPost(items[i].BlogPostId)" title="@items[i].BlogPost.Title">
+                                <img class="w-100 image-effect" data-src="@ImageHelper.GetResize(items[i].BlogPost.Avatar)" src="~/images/shared/all/loading.gif" title="@items[i].BlogPost.Title" />
+                            </a>
+                        </div>
+                        <div class="gallery-action">
+                            <i class="ion-plus"></i>
+                        </div>
+                    </div>
+
+                    <div class="right-block">
+                        <div class="product-box text-center">
+                            <div class="meta-cat">
+                                <span>
+                                    <a href="@SlugHelper.BlogCategory(items[i].BlogCategoryId)">@items[i].BlogCategory.Name</a>
+                                </span>
+                            </div>
+                            <h4 class="name-blog">
+                                <a href="@SlugHelper.BlogPost(items[i].BlogPostId)" class="title-black">@items[i].BlogPost.Title</a>
+                            </h4>
+                            <ul class="article-info">
+                                <li>
+                                    <a href="#">
+                                      <time class="time-ago" data-format="date" datetime="@items[i].BlogPost.PublishedTime">@items[i].BlogPost.PublishedTime</time>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">0 Bình luận</a>
+                                </li>
+                                <li>
+                                    <a href="#">Chia sẻ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        }
+    }

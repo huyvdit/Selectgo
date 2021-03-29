@@ -1,0 +1,232 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Model.Models.CustomerAddress
+@if (ViewBag.ActionType == "List")
+{
+    var listAddress = ViewBag.AddressMappings as List<CustomerAddressMapping>;
+    <div>
+        <ol class="row items addresses">
+            @foreach (var item in listAddress)
+            {
+                <li class="col-12 col-sm-4 item item-@item.Id">
+                    <address class="edit" data-url='@Url.Action("UpdateAddress", "Account", new { id=item.AddressId})'>
+                        <b> @item.Address.FullName </b> <i class="fa fa-edit" style="font-size:11px"></i><br>
+                        @item.Address.Address1<br>
+                        <b>T:</b> <a href="tel:@item.Address.PhoneNumber">@item.Address.PhoneNumber</a>
+                        <b>E:</b> <a href="mailto:@item.Address.Email">@item.Address.Email</a>
+                        <br>
+                    </address>
+                    <div class="item actions">
+                       
+                        <a class="action delete" data-parentid="item-@item.Id" href="#" data-url="@Url.Action("UpdateAddress", "Account", new { id=(item.AddressId * -1)})"><span><i class="fa fa-times"></i>  Remove</span></a>
+                    </div>
+                </li>
+            }
+
+        </ol>
+        <div class="addresses-Edit row" style="border: 3px solid #eaedf2;padding:0px 15px;display:none">
+
+        </div>
+    </div>
+}
+else
+{
+    <hr style="background: green;" />
+    using (Ajax.BeginForm("UpdateAddress", "Account",
+                               new AjaxOptions
+                               {
+                                   HttpMethod = "POST",
+                                   OnSuccess = "AddressSaveOnSuccess"
+                               },
+                               new { @class = "form-horizontal mb-2 additional-address", @id = "additional-address" }))
+    {
+
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <input type="hidden" name="segment" value="address" />
+        <div style="display:none">
+            <div class="form-group col-xl-6 col-12">
+                @Html.LabelFor(model => model.DateOfBirth, "Ngày sinh")
+                @{
+                    var dob = Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value : new DateTime(0001, 1, 1);
+                }
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="">
+                            <select id="day" name="Day" class="selectpicker_x form-control">
+                                <option selected value="01">-Day-</option>
+                                @for (int d = 1; d <= 31; d++)
+                                {
+                                    <option value="@d" @(dob.Day == d ? "selected" : "")>@(d < 10 ? ("0" + d) : ("" + d))</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="">
+                            <select id="month" name="Month" class="selectpicker_x form-control">
+                                <option value="01">-Month-</option>
+                                @for (int m = 1; m <= 12; m++)
+                                {
+                                    <option value="@m" @(dob.Month == m ? "selected" : "")>@(m < 10 ? ("0" + m) : ("" + m))</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="">
+                            <select id="year" name="Year" class="selectpicker_x form-control">
+                                <option value="0001">--Year--</option>
+                                @for (int y = 1929; y <= 2019; y++)
+                                {
+                                    <option value="@y" @(dob.Year == y ? "selected" : "")>@(y)</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.form-control -->
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-xl-6 col-12">
+                @Html.LabelFor(model => model.Gender, "Title")
+                <select class="form-control " name="Gender">
+                    <optgroup label="Title">
+                        <option @(Model.Gender == Gender.Male ? "selected" : "") value="1">Mr</option>
+                        <option @(Model.Gender == Gender.Female ? "selected" : "") value="2">Miss</option>
+                    </optgroup>
+                    <optgroup label="Other">
+                        <option @(Model.Gender == Gender.Other ? "selected" : "") value="0">Secret</option>
+                    </optgroup>
+                </select> <!-- /.form-control -->
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-xl-6 col-12">
+                @Html.LabelFor(model => model.FirstName, "First name")
+                @Html.TextBoxFor(model => model.FirstName, new { placeholder = "", @class = "form-control" })
+            </div>
+
+            <div class="form-group col-xl-6 col-12">
+                @Html.LabelFor(model => model.LastName, "Last name")
+                @Html.TextBoxFor(model => model.LastName, new { placeholder = "", @class = "form-control" })
+            </div>
+
+            <div class="form-group col-xl-6 col-12">
+                @Html.LabelFor(model => model.Email, "E-mail")
+                @Html.TextBoxFor(model => model.Email, new { placeholder = "", @class = "form-control" })
+            </div>
+
+
+            <div class="form-group col-xl-6 col-12">
+                @Html.LabelFor(model => model.PhoneNumber, "Phone No.")
+                @Html.TextBoxFor(model => model.PhoneNumber, new { placeholder = "", @class = "form-control phone" })
+            </div>
+
+            <div class="form-group col-xl-6 col-12 col-sm-6">
+                <div style="display:none">
+                    <label for="CountryId">Country</label>
+                    <select id='CountryId' name="CountryId" class="custom-select cascadingDropDown form-control AdditionalAddress-CountryId"
+                            data-group="AdditionalAddress"
+                            data-target="StateProvinceId"
+                            data-id="countryId"
+                            data-val="@Model.CountryId"
+                            data-url="/api/general/get-state-province-by"
+                            data-default-label="[-Select Country-]"
+                            data-replacement="container1">
+                        <option value="1" selected="">Viet Nam</option>
+                    </select>
+                </div>
+                <label for="StateProvinceId">City</label>
+                <select id='StateProvinceId' name="StateProvinceId" class="custom-select cascadingDropDown form-control AdditionalAddress-StateProvinceId"
+                        data-group="AdditionalAddress"
+                        data-id="StateProvinceId"
+                        data-val="@Model.StateProvinceId"
+                        data-target="DistrictId"
+                        data-url="/api/general/get-district-by"
+                        data-replacement="container1"
+                        data-default-label="[-Select City-]"
+                        disabled></select>
+            </div>
+            <div class="form-group col-12 col-sm-6">
+                <label for="DistrictId">Region / State</label>
+                <select id="DistrictId" name="DistrictId"
+                        class="custom-select cascadingDropDown form-control AdditionalAddress-DistrictId"
+                        data-group="AdditionalAddress"
+                        data-id="DistrictId"
+                        data-target="WardId"
+                        data-url="/api/general/get-district-by"
+                        data-val="@Model.DistrictId"
+                        data-final
+                        data-replacement="container1"
+                        data-default-label="[-Select District-]"
+                        disabled></select>
+                <div class="help-block">
+                    <div class="panel cascadingContainer" style="display:none"
+                         data-replacement-container="container1"
+                         data-default-content="Please select {{StateProvince}} First./"></div>
+                </div>
+            </div>
+
+            <div class="form-group col-12">
+                @Html.LabelFor(model => model.Address1, "Address (Line 1)")
+                @Html.TextBoxFor(model => model.Address1, new { placeholder = "", @class = "form-control" })
+            </div>
+
+            <div class="form-group col-12">
+                @Html.LabelFor(model => model.Address2, "Address (Line 2)")
+                @Html.TextBoxFor(model => model.Address2, new { placeholder = "", @class = "form-control" })
+            </div>
+
+            <div class="form-group col-12">
+                @Html.LabelFor(model => model.CompanyName, "Your company name")
+                @Html.TextAreaFor(model => model.CompanyName, new { placeholder = "", @class = "form-control", rows = 1 })
+            </div>
+
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>  SAVE NOW</button>
+        </div>
+    }
+    using (Html.BeginScripts())
+    {
+        <script>
+            $(document).ready(function () {
+                console.log("CALL");
+                $('.cascadingDropDown').ssdCascadingDropDown({
+                    nonFinalCallback: function (trigger, props, data, self) {
+
+                        if ($("." + props.group + "-" + props.target).attr("data-ready") != "yes") {
+                            setTimeout(function () {
+                                $("." + props.group + "-" + props.target).val($("." + props.group + "-" + props.target).attr("data-val")).attr("data-ready", "yes").trigger("change");
+                            }, 120);
+                        }
+
+                        trigger.closest('form')
+                            .find('input[type="submit"]')
+                            .attr('disabled', true);
+
+                    },
+                    finalCallback: function (trigger, props, data) {
+
+                        if (props.isValueEmpty()) {
+                            trigger.closest('form')
+                                .find('input[type="submit"]')
+                                .attr('disabled', true);
+                        } else {
+                            trigger.closest('form')
+                                .find('input[type="submit"]')
+                                .attr('disabled', false);
+                        }
+
+                    }
+                });
+                setTimeout(function () {
+                    $(".AdditionalAddress-CountryId").val(1).trigger("change");
+                }, 12);
+            });
+        </script>
+    }
+}

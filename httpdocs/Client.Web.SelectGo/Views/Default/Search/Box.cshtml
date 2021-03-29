@@ -1,0 +1,57 @@
+﻿@using global::Web.Helpers
+@{
+    string suggestSearch = DataConfigsHelper.Get("ShowSuggestSearch");
+}
+@using (Html.BeginForm("Index", "Search", new { @id = string.Empty, culture = DataCurrentHelper.UniqueSeoCode }, FormMethod.Get, new { @name = "search-form" }))
+{
+    <input name="key" style="transition-duration: .8s;" type="search" data-scope="@ViewBag.scope" required role="search" class="top-search-input" placeholder="@LanguageHelper.Translate("What are you looking for_Text")?">
+    <input type="hidden" value="@ViewBag.scope" name="scope" />
+    <div class="cd-select">
+        <span>in</span>
+        <select name="select-category">
+            <option value="all-categories">all Categories</option>
+            <option value="category1">Category 1</option>
+            <option value="category2">Category 2</option>
+            <option value="category3">Category 3</option>
+        </select>
+        <span class="selected-value">all Categories</span>
+    </div>
+}
+@if (suggestSearch == "True")
+{
+    using (Html.BeginScripts())
+    {
+        <script>
+            var submitSession = undefined;
+             // Flag to show/hide confirmation
+            //var showConfirm = false;
+ 
+            $('input[name=key]').autocomplete({
+                serviceUrl: '/search/get-suggest',
+                groupBy: 'category',
+                onSelect: function() {
+
+                },
+                minChars: 1,
+                showNoSuggestionNotice: true,
+                noSuggestionNotice: '@LanguageHelper.Translate("NoSuggestionNotice_Text")'
+            }).keyup(function(e) {
+                if (e.which === 13) {
+                    //$(this).parent().parent().parent().find('button').trigger('click');
+                    $('input[name=key]').parent().submit();
+                }
+                 showConfirm = true;
+            });
+
+           
+            // Window event to show Confirm Notification
+            //window.onbeforeunload = confirmExit;
+            //function confirmExit()
+            //{
+            //    if(showConfirm){
+            //        return "You typed something in the textbox. Are you sure you want leave?";
+            //    }
+            //}
+        </script>
+    }
+}

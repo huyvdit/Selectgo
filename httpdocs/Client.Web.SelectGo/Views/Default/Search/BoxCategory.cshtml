@@ -1,0 +1,17 @@
+﻿@using global::Web.Helpers
+@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @name = "search-product", @class = "form-search" }))
+{
+    <div class="input-group">
+        <input type="hidden" value="@ViewBag.scope" name="scope" />
+        <input type="text" class="form-control bg-white" style="border: none;" data-scope="@ViewBag.scope" name="key" required value="@ViewBag.keyword" placeholder="@LanguageHelper.Translate("Search “Emoji, Calendar”_Text")" aria-label="search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn-primary" style="padding: .625rem 1.5rem; border: none;" type="submit">
+                <svg width="23" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.79 15.46C17.184 13.982 18 12.07 18 10a8 8 0 1 0-8 8c1.676 0 3.24-.544 4.578-1.488l.659-.465.554-.588zm6.41 6.326a.999.999 0 0 1-.002 1.412.999.999 0 0 1-1.412.002l-5.095-5.094C14.064 19.256 12.142 19.997 10 20c-5.515.008-10.008-4.485-10-10C.008 4.485 4.485.008 10 0c5.515-.008 10.008 4.485 10 10-.004 2.652-1.105 5-2.794 6.791l4.994 4.995zM14 9c0-1.654-1.346-3-3-3a1 1 0 0 1 0-2c2.757 0 5 2.243 5 5a1 1 0 0 1-2 0z" fill="#FFF"></path></svg>
+            </button>
+        </div>
+
+    </div>
+    
+}
+
+

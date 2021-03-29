@@ -1,0 +1,359 @@
+﻿@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default2x/home/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <section class="as-content">
+        <!-- Begin of home section -->
+        <div class="section section-home" data-section="home">
+
+            <!-- Content -->
+            <section class="content with-clock">
+                <!-- left elements -->
+                <div class="c-left">
+                    <div class="">
+                        <div class="c-logo home-logo ">
+                            <!--							<img class="" src="/as-images/homepage/logo.png" alt="Logo">-->
+                            <!--							<i class="icon lnr lnr-clock anim-zoomin"></i>-->
+                        </div>
+                    </div>
+                    <div class="c-clock clock clock-countdown">
+                        <div class="site-config"
+                             data-date="2/25/2020 02:00:00"
+                             data-date-readable="1" ,
+                             data-date-timezone="+0"></div>
+                        <div class="img-top">
+                            <div class="tile-hours anim-zoomin anim-1">
+                                <span class="hours">00</span>
+                                <span class="txt">hours</span>
+                            </div>
+                        </div>
+                        <div class="img-middle bg-img" data-image-src="/as-images/homepage/bg-sample1.jpg">
+                            <div class="tile-days">
+                                <span class="days">00</span>
+                                <span class="txt">days</span>
+                            </div>
+                            <div class="tile-minutes anim-zoomin anim-2">
+                                <span class="minutes">00</span>
+                                <span class="txt">minutes</span>
+                            </div>
+                            <div class="tile-seconds anim-zoomin anim-3">
+                                <span class="seconds">00</span>
+                                <span class="txt">seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right elements -->
+                <div class="c-right">
+                    <div class="anim-slideright">
+                        <header class="header">
+                            <h2>New <strong>Creation</strong></h2>
+                            <h3>An awesome new company.</h3>
+                        </header>
+                        <div class="desc">
+                            <p>Our website will be available here soon.</p>
+                        </div>
+                        <div class="btns">
+                            <a class="btn" href="#about-us">Discover</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- mouse scroll icon -->
+            <div class="intro-footer">
+                <span class="aboo-mouse-scroll"></span>
+            </div>
+            <!-- Arrows scroll down/up -->
+            <footer class="s-footer p-scrolldown">
+                <a class="down btn" href="#about-us">
+                    <span>About Us</span>
+                </a>
+            </footer>
+        </div>
+        <!-- End of home section -->
+        <!-- Begin of about us section -->
+        <div class="section  section-about section-cent" data-section="about-us">
+
+            <section class="content">
+                <!-- left elements -->
+                <div class="c-left">
+                    <div class="">
+                        <div class="c-logo home-logo ">
+                            <i class="icon lnr lnr-sun anim-rotate"></i>
+                        </div>
+                        <div class="c-illustr">
+                            
+                            <div class="img-middle bg-img" data-image-src="/as-images/homepage/bg-default.jpg">
+                                <div class="swipe-nav">
+                                    <a class="icon-left prev"><i class="icon lnr lnr-chevron-left"></i></a>
+                                    <a class="icon-right next"><i class="icon lnr lnr-chevron-right"></i></a>
+                                </div>
+                                <div class="slides owl-carousel">
+                                    <!--									<div class="slide-item  bg-img" data-image-src="/as-images/homepage/bg-foods.jpg"></div>-->
+                                    <div class="slide-item">
+                                        <img src="/as-images/homepage/bg-sample3.jpg" alt="slide pict">
+                                    </div>
+                                    <div class="slide-item">
+                                        <img src="/as-images/homepage/bg-sample4.jpg" alt="slide pict">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--							<div class="img-bottom"></div>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- right elements -->
+                <div class="c-right">
+                    <div class="anim-slideright">
+                        <header class="header">
+                            <h2>About <strong>Us</strong></h2>
+                            <h3>We make great things. How is that possible ?</h3>
+                        </header>
+                        <article class="desc">
+                            <p>Lorem ipsum <strong>magicum </strong>dolor sit amet, consectetur adipiscing elit. Maecenas a sem ultrices neque vehicula fermentum a sit amet nulla.</p>
+                            <p>Aenean ultricies odio at erat facilisis tincidunt. Fusce tempor auctor justo, nec facilisis quam vehicula vel. Aenean non mattis purus, eget lobortis odio. </p>
+                        </article>
+                        <!--<div class="btns">
+                        <a class="btn" href="#register">Regiter</a>
+                    </div>-->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Arrows scroll down/up -->
+            <footer class="s-footer p-scrolldown">
+                <a class="down btn" href="#register">
+                    <span>Get notified</span>
+                </a>
+            </footer>
+        </div>
+        <!-- End of about us section -->
+        <!-- Begin of register section -->
+        <div class="section section-register section-cent" data-section="register">
+            <!-- Content -->
+            <section class="content">
+                <!-- left elements -->
+                <div class="c-left">
+                    <div class="anim-slideleft">
+                        <div class="c-logo home-logo ">
+                            <i class="icon lnr lnr-pushpin"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- right elements -->
+                <div class="c-right">
+                    <div class="anim-slideright">
+                        <header class="header">
+                            <h2>Subscribe <strong>Now</strong></h2>
+                            <h3>
+                                <span>Register to follow us.</span>
+                            </h3>
+                        </header>
+                        <!-- begin of forms -->
+                        <div class="form-wrapper desc">
+                            <form id="mail-subscription" class="form magic send_email_form" method="get" action="ajaxserver/serverfile.php">
+                                <p class="invite">Please, write your email below to stay in touch with us :</p>
+                                <div class="fields clearfix">
+                                    <div class="input">
+                                        <label for="reg-email">Email </label>
+                                        <input id="reg-email" class="email_f" name="email" type="email" required=required placeholder="your@email.address" data-validation-type="email" />
+                                    </div>
+                                    <div class="btns">
+                                        <button id="submit-email" class="btn email_b" name="submit_email">Subscribe</button>
+                                    </div>
+
+                                </div>
+
+                                <p class="email-ok invisible"><strong>Thank you</strong> for your subscription. We will inform you.</p>
+                            </form>
+
+                        </div>
+                        <!-- end of forms -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Arrows scroll down/up -->
+            <footer class="s-footer p-scrolldown">
+                <a class="down btn" href="#contact">
+                    <span>Contact</span>
+                </a>
+            </footer>
+        </div>
+        <!-- End of register section -->
+        <!-- Begin of Contact section   -->
+        <div class="section section-contact section-cent" data-section="contact">
+            <section class="content">
+                <!-- left elements -->
+                <div class="c-left">
+                    <div class="">
+                        <div class="c-logo home-logo ">
+                            <i class="icon lnr lnr-phone anim-zoomin"></i>
+                        </div>
+                        <div class="c-illustr">
+                            <div class="img-middle bg-img" data-image-src="/as-images/homepage/img-contact.jpg">
+                                <div class="tiles-left">
+                                    <h4>Find us on</h4>
+                                    <!-- Begin of Social links -->
+                                    <ul class="socialnet">
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-social-facebook"></i>
+                                                <span class="title">Facebook</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-social-instagram"></i>
+                                                <span class="title">Instagram</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-social-twitter"></i>
+                                                <span class="title">Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-social-pinterest"></i>
+                                                <span class="title">Pinterest</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="ion ion-social-tumblr"></i>
+                                                <span class="title">Tumblr</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- End of Social links -->
+                                </div>
+                            </div>
+                            <!--<div class="img-bottom"></div>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- right elements -->
+                <div class="c-right c-contact">
+                    <div class="anim-slideright">
+                        <header class="header">
+                            <h2><strong>Contact</strong> us</h2>
+                            <h3><span>Want to say hello?</span></h3>
+                        </header>
+                        <article class="desc">
+                            <ul>
+                                <li>
+                                    <div class="title">
+                                        <i class="icon lnr lnr-map"></i>
+                                        <span class="readable">Address</span>
+                                    </div>
+                                    <div class="data">99 Street at our address City<br />This Continent Island - Earth</div>
+                                </li>
+                                <li>
+                                    <div class="title">
+                                        <i class="icon lnr lnr-envelope"></i>
+                                        <span class="readable">Email</span>
+                                    </div>
+                                    <div><a href="mailto://contact@mail.com" title="mail">contactemail@mail.com</a></div>
+                                </li>
+                                <li>
+                                    <div class="title">
+                                        <i class="icon lnr lnr-phone-handset"></i>
+                                        <span class="readable">Email</span>
+                                    </div>
+                                    <div class="data">+0 1 23 4567 89</div>
+                                </li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Arrows scroll down/up -->
+            <footer class="s-footer p-scrolldown">
+                <a class="down btn" href="#write-message">
+                    <span>Write to us</span>
+                </a>
+            </footer>
+
+        </div>
+        <!-- End of Contact section  -->
+        <!-- Begin of Message section -->
+        <div class="section  section-message section-cent" data-section="write-message">
+            <!-- Content -->
+            <section class="content">
+                <!-- left elements -->
+                <div class="c-left">
+                    <div class="anim-slideleft">
+                        <div class="c-logo home-logo ">
+                            <i class="icon lnr lnr-pencil"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- right elements -->
+                <div class="c-right">
+                    <div class="anim-slideright">
+                        <header class="header">
+                            <h2><strong>Write</strong> to us</h2>
+                            <h3>
+                                <span>Need help? Send us a message?</span>
+                            </h3>
+                        </header>
+                        <!-- begin of forms -->
+                        <div class="form-wrapper desc">
+                            <form class="message form send_message_form" method="get" action="ajaxserver/serverfile.php">
+                                <div class="fields clearfix">
+                                    <div class="input">
+                                        <label for="mes-name">Name </label>
+                                        <input id="mes-name" name="name" type="text" placeholder="Your Name" required=required />
+                                    </div>
+                                </div>
+                                <div class="fields clearfix">
+                                    <div class="input">
+                                        <label for="mes-email">Email </label>
+                                        <input id="mes-email" type="email" placeholder="Email Address" name="email" required=required />
+                                    </div>
+                                </div>
+                                <div class="fields clearfix no-border">
+                                    <label for="mes-text">Message </label>
+                                    <textarea id="mes-text" placeholder="Message ..." name="message" required=required></textarea>
+
+                                    <div>
+                                        <p class="message-ok invisible">Your message has been sent, thank you.</p>
+                                    </div>
+                                </div>
+
+                                <div class="btns">
+                                    <button id="submit-message" class="btn email_b" name="submit_message">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- end of forms -->
+
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Arrows scroll down/up -->
+        </div>
+        <!-- End of Message section -->
+    </section>
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @Scripts.Render("~/bundles/content/default2x/home/js")
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

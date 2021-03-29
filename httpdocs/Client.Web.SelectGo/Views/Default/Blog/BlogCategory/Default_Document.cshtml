@@ -1,0 +1,262 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<BlogPostCategoryMapping>
+    @{
+        ViewBag.SelfHeader = true;
+        var blogCategory = ViewBag.blogCategory as BlogCategory ?? new BlogCategory();
+        ViewBag.Title = blogCategory.MetaTitle ?? blogCategory.Name;
+        ViewBag.MetaKeywords = blogCategory.MetaKeywords;
+        ViewBag.MetaDescription = blogCategory.MetaDescription ?? blogCategory.Description;
+
+        var grouped = blogCategory.Grouped == "recruitment" ? "recruitment" : "media,news";
+        var subCategories = DataWhereHelper.BlogCategoryByGroupeds(grouped + ",");
+
+        var listBlogs = Model.Where(e => e.BlogPost.IsActive == true && e.BlogPost.PublishedTime <= DateTime.Now).ToList();
+        var featuredBlog = new BlogPostCategoryMapping() { BlogPost = new BlogPost() };
+        if (listBlogs.Any())
+        {
+            featuredBlog = listBlogs.FirstOrDefault(e => e.IsFeaturedPost) ?? listBlogs.First();
+        }
+
+        IEnumerable<BlogPostCategoryMapping> list2Blogs;
+        IEnumerable<BlogPostCategoryMapping> list1Blogs;
+        IEnumerable<BlogPostCategoryMapping> listNBlogs;
+        {
+            list2Blogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Take(2);
+            list1Blogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Skip(2).Take(1);
+            listNBlogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Skip(3).Take(6);
+        }
+
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/blog/blog-list/css", "~/bundles/content/default/blog/blog-category/faq/css", "~/bundles/content/default/pagelist/css")
+    }
+
+    <div class="wrapper">
+        <div class="uk-section section-sub-nav uk-padding-remove">
+            <div class="container">
+                <div class="uk-grid">
+                    <div class="uk-width-2-3@m">
+                        <ul class="uk-breadcrumb uk-visible@m">
+                            <li><a href="/">Home</a></li>
+                            <li><span href="#">Frequently Asked Questions</span></li>
+                        </ul>
+                    </div>
+                    <div class="uk-width-1-3@m">
+                        <div class="uk-margin">
+                            <form class="uk-search uk-search-default">
+                                <a href="" class="uk-search-icon-flip uk-search-icon uk-icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" stroke-width="1.1" cx="9" cy="9" r="7"></circle><path fill="none" stroke="#000" stroke-width="1.1" d="M14,14 L18,18 L14,14 Z"></path></svg>
+                                </a>
+                                <input id="autocomplete" class="uk-search-input" type="search" autocomplete="off" placeholder="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-top"></div>
+            </div>
+        </div>
+        <div class="">
+            <div class="uk-section uk-section-small uk-padding-remove-bottom section-content">
+                <div class="container padding-zero-m">
+                    <div class="uk-grid-medium uk-grid" style="    margin-left: 0px;">
+                        <div class="uk-width-1-4@m uk-visible@m text-dark sidebar" style="background: #8080800a; padding: 15px;">
+                            <div uk-sticky="offset: 50">
+                                <h3>Table of Contents </h3>
+                                <ul class="uk-list uk-list-large">
+                                    <li><a href="#target1" uk-scroll="offset: 50">General Options</a></li>
+                                    <li><a href="#target2" uk-scroll="offset: 50">User Account</a></li>
+                                    <li><a href="#target3" uk-scroll="offset: 50">Shipping Methods</a></li>
+                                    <li><a href="#target4" uk-scroll="offset: 50">Troubleshooting</a></li>
+
+                                    <li><a href="/en/how-to-setup-payment-gateways.html">How to setup payment gateways
+                                            <svg width="16" height="16" style="fill: #009688;" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <path d="M2.47,13.11 C4.02,10.02 6.27,7.85 9.04,6.61 C9.48,6.41 10.27,6.13 11,5.91 L11,2 L18.89,9 L11,16 L11,12.13 C9.25,12.47 7.58,13.19 6.02,14.25 C3.03,16.28 1.63,18.54 1.63,18.54 C1.63,18.54 1.38,15.28 2.47,13.11 L2.47,13.11 Z M5.3,13.53 C6.92,12.4 9.04,11.4 12,10.92 L12,13.63 L17.36,9 L12,4.25 L12,6.8 C11.71,6.86 10.86,7.02 9.67,7.49 C6.79,8.65 4.58,10.96 3.49,13.08 C3.18,13.7 2.68,14.87 2.49,16 C3.28,15.05 4.4,14.15 5.3,13.53 L5.3,13.53 Z"></path></svg>
+
+                                        </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="uk-width-3-4@m">
+                            <h1>Frequently Asked Questions <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <circle fill="none" stroke="#000" stroke-width="1.1" cx="10" cy="10" r="9"></circle> <circle cx="10.44" cy="14.42" r="1.05"></circle> <path fill="none" stroke="#000" stroke-width="1.2" d="M8.17,7.79 C8.17,4.75 12.72,4.73 12.72,7.72 C12.72,8.67 11.81,9.15 11.23,9.75 C10.75,10.24 10.51,10.73 10.45,11.4 C10.44,11.53 10.43,11.64 10.43,11.75"></path></svg></h1>
+                            <p class="uk-text-lead">Here are answers to most common questions. Can't find an answer? Call us!</p>
+
+                            <h2 id="target1">General Options</h2>
+                            <ul class="list-faq" uk-accordion="multiple: true">
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Transfer account ownership</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure eprehenderit in voluptate velit esse cillum dolore dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Shipping options page settings</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eeprehenderit in voluptate velit esse cillum doloreu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Setting up product attributes</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor eprehenderit in voluptate velit esse cillum dolore incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Downloadable product</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure eprehenderit in voluptate velit esse cillum dolore dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <h2 id="target2">User Account</h2>
+                            <ul class="list-faq" uk-accordion="multiple: true">
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Manage payment settings and invoices</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor eprehenderit in voluptate velit esse cillum dolore incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Pricing and plans guide</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure eprehenderit in voluptate velit esse cillum dolore dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Setting your company office hours</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eeprehenderit in voluptate velit esse cillum doloreu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <h2 id="target3">Shipping Methods</h2>
+                            <ul class="list-faq" uk-accordion="multiple: true">
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Shipping components</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure eprehenderit in voluptate velit esse cillum dolore dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Shipping options page settings</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eeprehenderit in voluptate velit esse cillum doloreu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Customizing Forms</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor eprehenderit in voluptate velit esse cillum dolore incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Increasing server memory</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure eprehenderit in voluptate velit esse cillum dolore dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <h2 id="target4">Troubleshooting</h2>
+                            <ul class="list-faq" uk-accordion="multiple: true">
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Manage user comments</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor eprehenderit in voluptate velit esse cillum dolore incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Multiple installs on one domain</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure eprehenderit in voluptate velit esse cillum dolore dolor reprehenderit.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h3 class="uk-accordion-title uk-margin-remove">Fully Responsive Design</h3>
+                                    <div class="uk-accordion-content">
+                                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eeprehenderit in voluptate velit esse cillum doloreu fugiat nulla pariatur. Excepteur sint occaecat cupidatat proident.</p>
+                                    </div>
+                                </li>
+                            </ul>
+
+
+                            <div class="text-dark article-related uk-margin-medium-top uk-margin-medium-bottom uk-grid">
+                                <div class="">
+                                   
+                                    <ul uk-tab="" class="uk-tab">
+                                        <li class="uk-active"><a href="#" style="padding-left: 0px; font-weight: 700;"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <rect x="2" y="2" width="3" height="3"></rect> <rect x="8" y="2" width="3" height="3"></rect> <rect x="14" y="2" width="3" height="3"></rect> <rect x="2" y="8" width="3" height="3"></rect> <rect x="8" y="8" width="3" height="3"></rect> <rect x="14" y="8" width="3" height="3"></rect> <rect x="2" y="14" width="3" height="3"></rect> <rect x="8" y="14" width="3" height="3"></rect> <rect x="14" y="14" width="3" height="3"></rect></svg> Popular Articles</a></li>
+                                    </ul>
+                                    <div class="articles">
+                                        <div class="row  vertical-gap">
+                                            <div class="hentry col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="How do I Start FTP?">How do I Start FTP?</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">File Transfer Protocol</a></p>
+                                            </div>
+                                            <div class="hentry half col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title">
+                                                    <a href="#" title="Increasing Email Quota">Increasing Email Quota</a>
+                                                </h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Email</a></p>
+                                            </div>
+                                            <div class="hentry third col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="Difference Between Desktop and Server">Difference Between Desktop and Server</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Server Tuning</a></p>
+                                            </div>
+
+
+                                            <div class="hentry col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="How do I Start FTP?">How do I Start FTP?</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">File Transfer Protocol</a></p>
+                                            </div>
+                                            <div class="hentry half col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title">
+                                                    <a href="#" title="Increasing Email Quota">Increasing Email Quota</a>
+                                                </h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Email</a></p>
+                                            </div>
+                                            <div class="hentry third col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="Difference Between Desktop and Server">Difference Between Desktop and Server</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Server Tuning</a></p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.HasNextPage)
+            {
+                <div class="pagination-wrap">
+                    @Html.PagedListPager(Model, page => Url.Action("Page", "Home", new { ViewBag.sortOrder, page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i>  Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" })
+                </div>
+            }
+            else
+            {
+
+            }
+
+
+        </div><!-- container -->
+    </div>
+
+    
+    <!-- main-slider -->
+
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/blog/blog-category/faq/js")
+        <script>
+            var currentLink = $($(".main-menu a[href='@SlugHelper.BlogCategory(grouped: "news")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass("active");
+                currentLink.parent().parent().addClass("active");
+                currentLink.parent().parent().parent().addClass("active");
+            }
+        </script>
+    }

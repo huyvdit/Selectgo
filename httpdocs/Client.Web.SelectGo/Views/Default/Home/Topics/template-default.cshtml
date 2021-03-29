@@ -1,0 +1,40 @@
+﻿@model ASP.Web.Model.Models.Page
+@if (Model.StylesInsert != null)
+    @Styles.Render("~/bundles/content/default/page/css")
+@{
+    var stylesInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.StylesInsert);
+    if (stylesInlineInsert != "")
+    {
+        @Html.Raw(stylesInlineInsert);
+    }
+}
+<section class="as-content">
+    @section banners{
+        @{
+            var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+            var paramArrs = new List<KeyValuePair<string, string>>()
+        {
+                    new KeyValuePair<string, string>("banner-title", picture.Title),
+                    new KeyValuePair<string, string>("banner-img", picture.Url )
+                };
+        }
+        @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+    }
+    @Html.Raw(Model.Body)
+</section>
+@section scripts{
+    @{
+        var scriptsFileInsert = DataWhereHelper.ExtractScriptsPage(Model.Id);
+        if (scriptsFileInsert != "")
+        {
+            @Html.Raw(scriptsFileInsert);
+        }
+    }
+    @{
+        var scriptsInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.ScriptsInsert);
+        if (scriptsInlineInsert != "")
+        {
+            @Html.Raw(scriptsInlineInsert);
+        }
+    }
+}

@@ -1,0 +1,115 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode">
+<head>
+    <title>..:: @DataCurrentHelper.Title(ViewBag.Title ?? ViewData["og:title"]) ::..</title>
+    @{
+        var gt = DataConfigsHelper.Get("GoogleWebmasterToolCode");
+        if (gt != null)
+        {
+            @Html.Raw(gt)
+        }
+        var url = HttpContext.Current.Request.Url;
+        GlobalVariables.OrderActive = false;
+    }
+    <link rel="icon" type="image/png" sizes="32x32" href="@DisplayHelper.Favicon">
+    <link rel="manifest" href="~/assets/faviconsite.webmanifest">
+
+    <link rel='shortlink' href='@DataConfigsHelper.LinksFrontEnd' />
+    <link rel="canonical" href="@(DataConfigsHelper.LinksFrontEnd + "/" + DataCurrentHelper.UniqueSeoCode + url.AbsolutePath)" />
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_MetaHead.cshtml");
+    }
+    @Styles.Render("~/bundles/css/core")
+
+</head>
+<body class="alt-bg">
+    <!-- Page Loader -->
+    <div class="preloader-wrapper preloader-it">
+
+        <div class="preloader" style="text-align:center;line-height:1.71429;">
+            <img src="@Url.ContentCdn("~/images/shared/all/loading-insight.gif")" width="128" />
+            <p class="sm-text-center" style="margin-top:-15px;font-family: sans-serif;">
+                @LanguageHelper.Translate("Loading to Insight_Text")...
+            </p>
+            <em style="font-family: sans-serif;top:0px!important; opacity:0; margin-top:0px!important; line-height: 1.71429!important;font-size: 9px!important;background: #dee2e6;padding: 8px 24px;border-radius: 0px 0px 5px 5px;color: #4caf50;font-style: normal;">Loading depends on your connection speed!</em>
+
+        </div>
+    </div>
+
+    <!-- main start -->
+    <section class="site all" style="display:none; opacity: 0;">
+        <main>
+
+            @RenderBody()
+        </main>
+
+    </section>
+
+    <section type="text/html" id="notify-template">
+        @Html.Raw(DataCurrentHelper.NotifyText)
+    </section>
+
+    @{
+        if (DataConfigsHelper.Mode == "preview" || DataConfigsHelper.Mode == "debug")
+        {
+            <p class="run-mode">
+                Mode:: @DataConfigsHelper.Mode <a href="@(HttpContext.Current.Request.Url.AbsolutePath + "?mode=publish&token=000-000-000~0")"> exit</a>
+            </p>
+        }
+    }
+
+    @RenderSection("scriptsInited", false)
+    @Scripts.Render("~/bundles/js/core")
+
+    <script src="@("/Scripts/global-resources/" + DataCurrentHelper.LanguageCulture + ".js")">
+    </script>
+    @Scripts.Render("~/bundles/js/shared")  @Scripts.Render("~/bundles/js/utils")
+
+    @RenderSection("styles", false)
+    @RenderSection("stylesInjected", false)
+    <script >
+        AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".site").show();
+        AppConfigs.OriginalBody.find(".preloader-it").fadeOut("slow", function () {
+        $(this).remove();
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".site").css("opacity", "1");
+        }, 10);
+        });
+    </script>
+    @RenderSection("scriptsdefault", false)
+    @RenderSection("scripts", false)
+    @RenderSection("scriptsInjected", false)
+    @Html.PageScripts()
+    @{
+        var ga = DataConfigsHelper.Get("GoogleAnalyticCode");
+        if (ga != null)
+        {
+            @Html.Raw(ga)
+        }
+        var lv = DataConfigsHelper.Get("ShowLiveChat");
+        if (lv == "True")
+        {
+            @Html.Raw(DataConfigsHelper.Get("LiveChatCode"))
+        }
+    }
+    @if (DataConfigsHelper.Mode == "debug")
+    {
+        <link href="~/content/default/plugins/page-guide/css/pageguide.min.css" rel="stylesheet" />
+        <script src="~/content/default/plugins/page-guide/js/pageguide.min.js">
+        </script>
+        <script>
+            $(document).ready(function () { tl.pg.init(); });
+        </script>
+        @Html.Action("PageGuide", "System", new { area = "" })
+    }
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_Orverride.cshtml");
+    }
+</body>
+</html>

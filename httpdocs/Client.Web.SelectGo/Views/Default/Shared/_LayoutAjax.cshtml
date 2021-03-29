@@ -1,0 +1,31 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode">
+<head>
+    
+</head>
+<body>
+    <main>
+
+        @RenderBody()
+    </main>
+
+    @RenderSection("scriptsInited", false)
+
+    @Styles.Render("~/bundles/css/sharedraw", "~/bundles/css/shared") @Styles.Render("~/bundles/css/utils")
+    @RenderSection("styles", false)
+    @RenderSection("stylesInjected", false)
+   
+
+    @RenderSection("scriptsdefault", false)
+    @RenderSection("scripts", false)
+    @RenderSection("scriptsInjected", false)
+    @Html.PageScripts()
+    
+  
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_Orverride.cshtml");
+    }
+</body>
+</html>

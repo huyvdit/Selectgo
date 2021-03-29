@@ -1,0 +1,1188 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@model Product
+@{
+    ViewBag.SelfHeader = true;
+    var isPreview = Request["mode"] == "preview";
+    var category = DataWhereHelper.ExtractPrimaryCategory(Model.ProductCategoryMappings);
+    string categoryIds = Model.ProductCategoryMappings.OrderByDescending(e => e.DisplayOrder).Aggregate("", (current, itemSame) => current + itemSame.CategoryId + ",");
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/catalog/product/"+(isPreview ? "preview":"showcase")+"/css")
+}
+
+@if (isPreview)
+{
+
+    Html.RenderPartial("~/Views/Default/Catalog/Product/Embed_Preview.cshtml");
+
+}
+else
+{
+    <div class="barba-container" data-namespace="underlayer">
+        <input type="hidden" value="@Model.Id" id="model-id" name="model-id" />
+        <div class="page-top">
+            <div class=" page-top__inner">
+                <a class="back-arrow" href="@SlugHelper.Category(category.Id)"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="34" viewBox="0 0 67 34"><g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round" transform="translate(2 1)"><path stroke-width="2" d="M0,15.5533333 L64,15.5533333" /><polyline stroke-width="2" points="15.556 0 0 15.556 15.556 31.111" /></g></svg></a>
+                <div class="container">
+                    <div class="title">
+                        <h2 class="title__text">@Model.Name<br>Web</h2>
+                        <div class="border js-toRight"><span></span><span></span></div>
+                        <p class="title__lead">
+                            @foreach (var itemTag in Model.ProductProductTagMappings.Take(3))
+                            {
+                                <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)">#@itemTag.ProductTag.Name</a>
+                            }
+                        </p>
+                        <div id="wordCloud"></div>
+                        <div class="btn-wrap"><a id="live-demo" class="btn" href="#" >Live demo</a></div>
+                    </div>
+                </div>
+
+                <div class="image image__reile" style="background-image:url('/as-images/shared/banner-bg.jpg')"></div>
+            </div>
+        </div>
+
+        <section class="wrapper">
+            <section class="meta" data-emergence="hidden">
+                <div class="meta__back"></div>
+                <div class="container meta__text-wrap">
+                    <ul class="meta__text">
+
+                        <li>
+                            <p class="small-title">Case OVERVIEW</p>
+                            <p>@Model.ShortDescription</p>
+                        </li>
+                        @*<li>
+                                <p class="small-title">Built with Technologies</p>
+                                <ol>
+                                    <li>UI/UX</li>
+                                    <li>Web Development</li>
+                                    <li>Illustration &amp; Animation</li>
+                                </ol>
+                            </li>*@
+                        <li>
+                            <p class="small-title">BRAND ordered</p>
+                            <p>David Courtney | Digital Works</p>
+                        </li>
+                        <li>
+                            <p class="small-title">Case TIMELINE</p>
+                            <p>2018 - 2019 September</p>
+                        </li>
+                        <li>
+                            <p class="small-title">IMPLEMENT by</p>
+
+                            <p>
+                                @foreach (var itemAuth in DataWhereHelper.ExtractListProductManufacturer(Model.ProductManufacturerMappings).Take(3))
+                                {
+                                    if (itemAuth != null)
+                                    {
+                                        <a class="author" href="@SlugHelper.Manufacturer(itemAuth.Id)"><img src="@itemAuth.Avatar" class="author" alt="author" /> @itemAuth.Name</a>
+                                    }
+
+
+                                }
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="content-mock-up" style="height:464px">
+
+                    <div class="container mock-up">
+                        <div class="screen monitor">
+                            <div class="viewport" style="background-image:url('@Model.Avatar');">
+                            </div>
+                            <div class="content">
+                                <div class="pg">
+                                    <ul class="btns">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                    <ul class="txt">
+                                        <li></li>
+                                        <li></li>
+                                        <li class="thin"></li>
+                                        <li class="thin"></li>
+                                        <li class="thin"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="base">
+                                <div class="grey-shadow"></div>
+                                <div class="foot top"></div>
+                                <div class="foot bottom"></div>
+                                @*<div class="shadow"></div>*@
+                                <div class="keyboard">
+                                    <div class="btm"></div>
+                                    <ul class="keys">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                    @*<div class="shadow"></div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="laptop" style="background: url(/as-images/sample/cd-app-image.png); background-size: cover;">
+                            <div class="content">
+                                <ul class="txt txt-laptop">
+                                    <li></li>
+                                    <li></li>
+                                    <li class="thin"></li>
+                                    <li class="thin"></li>
+                                    <li class="thin"></li>
+                                </ul>
+                            </div>
+                            <div class="btm"></div>
+                            @*<div class="shadow"></div>*@
+                        </div>
+                        <div class="phone">
+                            <div class="screen" style="background: url(/as-images/sample/cd-app-image.png); background-size: cover;">
+                                <div class="content">
+                                    <ul class="txt">
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            @*<div class="shadow"></div>*@
+                        </div>
+
+                    </div>
+
+                </div>
+                <section class="solution-wrapper">
+                    <div class="text-block text-center mb-60">
+                        <h4>Solutions</h4>
+                        <p>Penguin might be the most dreaded algorithm but Google doesn’t rely only on it. If you need a brush-up course on various birds Google is using to better the user experience, check out John Lincoln’s explanation of Penguin, Hummingbird and Pigeon.</p>
+                    </div>
+
+                    <div class="row mb-40">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="block-icon">
+                                <img src="/as-images/shared/User_base.svg" alt="">
+                                <div class="text-block">
+                                    <h4 class="text-center border-decor">User Interface & Experience</h4>
+                                    <p class="text-center">High resoulution images are going to look beautiful on this site.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="block-icon">
+                                <img src="/as-images/shared/Creative_Testing.svg" alt="">
+                                <div class="text-block">
+                                    <h4 class="text-center border-decor">User Friendly CMS Systems</h4>
+                                    <p class="text-center">Each page is specially engineered and search-engine-optimized (SEO).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="block-icon">
+                                <img src="/as-images/shared/Segment.svg" alt="">
+                                <div class="text-block">
+                                    <h4 class="text-center border-decor">Strategic Segment Hunting</h4>
+                                    <p class="text-center">Easy to understand documentation and video tutorials included.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+                <section class="wire-framing-wrapper cd-product">
+                    <div class="cd-product-intro">
+                        <h2>Wireframing 1.</h2>
+                        <p>Click on the Start button to launch the animation.<br>Then click on the points of interest to discover app features.</p>
+                        <div class="cd-triggers">
+                            <a href="#cd-product-tour" id="cd-start" class="cd-btn">Express</a>
+                        </div>
+                    </div>
+                    <div id="cd-product-tour" class="cd-product-mockup">
+                        <img src="/as-images/sample/cd-app-image.png" alt="Preview image">
+                        <ul class="cd-points-container">
+                            <li class="cd-single-point">
+                                <a class="cd-img-replace" href="#0">More info</a>
+                                <div class="cd-more-info cd-left">
+                                    <h2>Title</h2>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae distinctio esse placeat minus fugit, voluptate, quos, ea, nisi temporibus repudiandae perspiciatis natus quasi ipsa corrupti ipsum amet facere ut nihil.
+                                    </p>
+                                    <a href="#0" class="cd-close-info cd-img-replace">Close</a>
+                                </div>
+                            </li>
+                            <li class="cd-single-point">
+                                <a class="cd-img-replace" href="#0">More info</a>
+                                <div class="cd-more-info cd-left">
+                                    <h2>Title</h2>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae distinctio esse placeat minus fugit, voluptate, quos, ea, nisi temporibus repudiandae perspiciatis natus quasi ipsa corrupti ipsum amet facere ut nihil.
+                                    </p>
+                                    <a href="#0" class="cd-close-info cd-img-replace">Close</a>
+                                </div>
+                            </li>
+                            <li class="cd-single-point">
+                                <a class="cd-img-replace" href="#0">More info</a>
+                                <div class="cd-more-info cd-right">
+                                    <h2>Title</h2>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae distinctio esse placeat minus fugit, voluptate, quos, ea, nisi temporibus repudiandae perspiciatis natus quasi ipsa corrupti ipsum amet facere ut nihil.
+                                    </p>
+                                    <a href="#0" class="cd-close-info cd-img-replace">Close</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="cd-3d-right-side"></div>
+                        <div class="cd-3d-bottom-side"></div>
+                    </div>
+                    <a href="#0" class="cd-close-product-tour cd-img-replace"></a>
+                </section>
+
+
+
+                <div class="main">
+                    <div id="ac-wrapper" class="ac-wrapper">
+                        <h2>Wireframing 2. <span>Concept &amp; UI Design</span></h2>
+                        <div class="ac-device">
+                            <a href="#"><img src="/as-images/sample/screen2.jpg" /></a>
+                            <h3 class="ac-title">Gentrify small batch umami retro vegan</h3>
+                        </div>
+                        <div class="ac-grid">
+                            <a href="#"><img src="/as-images/sample/screen2.jpg" /><span>Gentrify small batch umami retro vegan</span></a>
+                            <a href="#"><img src="/as-images/sample/screen1.jpg" /><span>Chambray squid semiotics</span></a>
+                            <a href="#"><img src="/as-images/sample/screen3.jpg" /><span>Fashion axe blue bottle</span></a>
+                            <a href="#"><img src="/as-images/sample/screen4.jpg" /><span>Photo booth single-origin coffee</span></a>
+                        </div>
+                    </div>
+                    <p>Click to toggle between single and grid view.</p>
+                </div>
+
+
+            </section>
+
+            <section class="as-content">
+                <div class="container">
+                    @Html.Raw(Model.getFullDescription())
+                </div>
+            </section>
+
+            <section class="process-wrapper">
+                <div class="text">
+                    <p class="heading-num">01</p>
+                    <div class="text__wrap">
+                        <h2 class="heading">CONCEPT</h2>
+                        <p class="text__works">Since the university is near and students are the main target, I tried not to have an inorganic atmosphere like a barber shop, but a stylish atmosphere with a Western feeling. For the key visuals, we photographed a set of tools and hairdressing materials that we usually use, and adjusted them to look like a magazine while also giving a sense of commitment and craftsmanship. The main color uses a slightly darker floor color in the store and is adjusted so that there is no difference in atmosphere between the store。</p>
+                    </div>
+                </div>
+
+
+                <div class="text">
+                    <p class="heading-num">02</p>
+                    <div class="text__wrap">
+                        <h2 class="heading heading--left">DEVELOPMENT</h2>
+                        <p class="text__works">Regarding coding, we do not reinvent the wheel and utilize simple plug-ins. AOS is used for the fade-in scroll animation, and instafeed.js is used to get Instagram posts. CMS adopts ASP , you can update blog using smartphone。</p>
+                    </div>
+                </div>
+
+
+
+                <div class="process-result-by-images">
+                    <div class="_album_img_detail">
+                        @foreach (var i in Model.ProductPictureMappings.Where(e => e.PictureId != Model.PictureId).OrderBy(e => e.DisplayOrder).ToList())
+                        {
+                            <a href="@i.Picture.Url" style="background-image: url('@i.Picture.Url');" class="_item" data-fancybox="images">
+                            </a>
+                        }
+
+                    </div>
+                    <div class="kamp">
+                        <ul class="product-picture-mappings">
+                            @foreach (var itemImg in Model.ProductPictureMappings.Where(e => e.PictureId != Model.PictureId).OrderBy(e => e.DisplayOrder).ToList())
+                            {
+                                <li data-src="@ImageHelper.GetResize(itemImg.Picture.Url)">
+                                    <img src="@ImageHelper.GetResize(itemImg.Picture.Url)" alt="@itemImg.Picture.Title">
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="text">
+                    <p class="heading-num">04</p>
+                    <div class="text__wrap">
+                        <h2 class="heading heading--left">ON LIVE</h2>
+                    </div>
+                </div>
+                <div class="page-wrapper">
+                    <div style="margin-top:20px;">
+                        <div style="line-height:50px;">
+                            <button type="button" id="add-all-tabs" class="btn btn-light-primary">Add all page</button> <b>Or</b> <button type="button" id="add-tab-url" class="btn btn-light-primary" style="background: none;color: #9E9E9E;">Add custom</button>
+                            <p class="result">Click the "Add custom page" button then fill your url.</p>
+                            <div class="popup">
+                                <form class="form-horizontal">
+                                    <fieldset>
+
+                                        <!-- Form Name -->
+                                        <legend>Add New Page</legend>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="control-label" for="page.name">Page name</label>
+                                            <div class="">
+                                                <input id="page.name" name="page.name" type="text" placeholder="H." class="form-control input-md" required="" value="">
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="control-label" for="page.url">Url of page name</label>
+                                            <div class="">
+                                                <input id="page.url" name="page.url" type="url" placeholder="http://..." class="form-control input-md" value="">
+                                                <span class="help-block form-text text-muted">Your url of page name.</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Button (Double) -->
+                                        <div class="form-group">
+
+                                            <div class="col-md-12 text-right">
+                                                <button type="button" id="cancel" class="btn btn-link cancel" style=" background: none; color: gray;font-size: 17px;text-decoration: line-through;text-decoration: underline;">Cancel</button>
+                                                <button type="submit" id="save" class="btn btn-success submit" style="border-radius: 0px!important;    padding: 2px 64px;">Go</button>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="nth-tabs" id="main-tabs" style="height:760px">
+                    </div>
+
+                </div>
+                <div id="votes" class="tab-cnt">
+                    <h4>Like & Dislike</h4>
+                    <div class="tab-tr" id="vote-@Model.Id">
+                        <div class="like-btn like-h" data-toggle="tooltip" data-placement="top" title="" data-original-title="I like this">Like</div>
+                        <div class="dislike-btn dislike-h" data-toggle="tooltip" data-placement="top" title="" data-original-title="I dislike this"></div>
+                        <div class="share-btn">Share it</div>
+                        <div class="stat-cnt">
+                            <div class="rate-count">@Model.VotesCount</div>
+                            <div class="stat-bar">
+                                @if (Model.VotesCount == 0)
+                                {
+                                    <div class="bg-gray" style="width: 100%;background-color: gray;"></div>
+                                }
+                                else
+                                {
+                                    <div class="bg-green" style="width:@((int)Math.Round((double)(100 * (int)Model.LikeCount) / (int)Model.VotesCount))%;"></div>
+                                    <div class="bg-red" style="width:@((int)Math.Round((double)(100 * (int)Model.DislikeCount) / (int)Model.VotesCount))%"></div>
+                                }
+
+                            </div>
+                            <div class="dislike-count">@Model.DislikeCount</div>
+                            <div class="like-count">@Model.LikeCount</div>
+                        </div>
+                        <div class="share-cnt">
+                            <ul class="social-share social-share__with-bg unstyled">
+                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" data-description="@Model.ShortDescription" class="share-button facebook-share"><i class="fa fa-facebook-f"></i></a></li>
+                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-name="@Model.Name" class="share-button twitter-share"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" class="share-button pin-share"><i class="fa fa-pinterest"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reviews" style="text-align: left;">
+                    <h4>Your comment &amp; Rating</h4>
+                    @if (Model.AllowCustomerReviews == true)
+                    {
+                        <datalist id="TitleSuggest">
+                            <option selected value="Project:: @Model.Name" />
+                        </datalist>
+                        <div>
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_AddPartial.cshtml"); }
+                        </div>
+                    }
+                    else
+                    {
+                        <p style="border-bottom: 1px dotted rgb(188, 188, 188); padding-bottom: 10px; text-align: center;">@LanguageHelper.Translate("Disabled_Review_Text")</p>
+                    }
+                    <div>
+                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_ListPartial.cshtml"); }
+                    </div>
+                </div>
+
+            </section>
+
+
+            <section class="features-wrapper">
+                <div class="container">
+                    <h4 class="text-center mb-60">Project Features</h4>
+                    <p class="text-center">We handpick all our designers and developers to ensure that your project is the best that it can be.</p>
+
+                    <div class="features mb-30 row">
+                        <div class="col-md-8 col-sm-6">
+                            <div class="features-info">
+                                <h6 class="border-decor">Info</h6>
+                                <table class="table">
+                                    <tr>
+                                        <td>Created</td>
+                                        <td>20 November 16</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Upadted</td>
+                                        <td>5 December 16</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Software Version</td>
+                                        <td>4.6.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Framework Included</td>
+                                        <td>
+                                            <div class="tags">
+                                                <a href="#">DOT Net MVC 5</a>
+                                                <a href="#">SQL Server 2014</a>
+                                                <a href="#">Entity framework 6+</a>
+                                                <a href="#">Js</a>
+                                                <a href="#">Css 3</a>
+                                                <a href="#">Html 5</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/customizable_layout.svg" alt="">
+                                <h5 class="border-decor bd-center">Customizable Layout</h5>
+                                <p>Tons of display options make this one of our most customizable themes.</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/Responsive.svg" alt="">
+                                <h5 class="border-decor bd-center">Responsive Design</h5>
+                                <p>Highly optimized to look perfect on any browser, screen and device.</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/Retina_ready.svg" alt="">
+                                <h5 class="border-decor bd-center">Retina Ready</h5>
+                                <p>High resoulution images are going to look beautiful on this site.</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/SEO.svg" alt="">
+                                <h5 class="border-decor bd-center">SEO Friendly</h5>
+                                <p>Each page is specially engineered and search-engine-optimized (SEO).</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/Tutorial.svg" alt="">
+                                <h5 class="border-decor bd-center">Tutorials</h5>
+                                <p>Easy to understand documentation and video tutorials included.</p>
+                            </a>
+                        </div>
+
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/Mega_menu.svg" alt="">
+                                <h5 class="border-decor bd-center">Mega Menu</h5>
+                                <p>Insane menu customization with mega menu and tons of widgets.</p>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#">
+                                <img src="/as-images/shared/Smooth_scroll.svg" alt="">
+                                <h5 class="border-decor bd-center">Smooth Scroll</h5>
+                                <p>Easy to understand documentation and video tutorials included.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-wrapper">
+                <div>
+                    <h4 class="text-center mb-60">Master plan</h4>
+                    <p class="text-center">We handpick all our designers and developers to ensure that your project is the best that it can be.</p>
+                    <div class="container">
+                        <div class="Timeline">
+
+                            <svg height="5" width="200">
+                                <line x1="0" y1="0" x2="200" y2="0" style="stroke:#2d3657;stroke-width:5" />
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+
+                            <div class="event1">
+
+                                <div class="event1Bubble">
+                                    <div class="eventTime">
+                                        <div class="DayDigit">02</div>
+                                        <div class="Day">
+                                            Wednesday
+                                            <div class="MonthYear">february 2020</div>
+                                        </div>
+                                    </div>
+                                    <div class="eventTitle">Project Created</div>
+                                </div>
+                                <div class="eventAuthor">by HuyVd</div>
+                                <svg height="20" width="20">
+                                    <circle cx="10" cy="11" r="5" fill="#2d3657" />
+                                </svg>
+                                <div class="time">9 : 27 AM</div>
+
+                            </div>
+
+                            <svg height="5" width="300">
+                                <line x1="0" y1="0" x2="300" y2="0" style="stroke:#2d3657;stroke-width:5" />
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+
+                            <div class="event2">
+
+                                <div class="event2Bubble">
+                                    <div class="eventTime">
+                                        <div class="DayDigit">17</div>
+                                        <div class="Day">
+                                            Thursday
+                                            <div class="MonthYear">April 2020</div>
+                                        </div>
+                                    </div>
+                                    <div class="eventTitle">Sent Beta to Aprroved</div>
+                                </div>
+                                <div class="event2Author">by TuBA</div>
+                                <svg height="20" width="20">
+                                    <circle cx="10" cy="11" r="5" fill="#2d3657" />
+                                </svg>
+                                <div class="time2">1 : 32 PM</div>
+                            </div>
+
+                            <svg height="5" width="50">
+                                <line x1="0" y1="0" x2="50" y2="0" style="stroke:#2d3657;stroke-width:5" />
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+
+                            <div class="now">
+                                NOW
+                            </div>
+
+
+                            <svg height="5" width="150">
+                                <line x1="0" y1="0" x2="150" y2="0" style="stroke:rgba(162, 164, 163, 0.37);stroke-width:5" />
+                                Sorry, your browser does not support inline SVG.
+                            </svg>
+                            <div class="event3 futureGray ">
+                                <div class="event1Bubble futureOpacity">
+                                    <div class="eventTime">
+                                        <div class="DayDigit">05</div>
+                                        <div class="Day">
+                                            Tuesday
+                                            <div class="MonthYear">May 2020</div>
+                                        </div>
+                                    </div>
+                                    <div class="eventTitle">Optimated & Air Site</div>
+                                </div>
+                                <svg height="20" width="20">
+                                    <circle cx="10" cy="11" r="5" fill="rgba(162, 164, 163, 0.37)" />
+                                </svg>
+                            </div>
+                            <svg height="5" width="50">
+                                <line x1="0" y1="0" x2="50" y2="0" style="stroke:#2d3657;stroke-width:5" />
+                            </svg>
+                            <svg height="20" width="42">
+                                <line x1="1" y1="0" x2="1" y2="20" style="stroke:#2d3657;stroke-width:2" />
+                                <circle cx="11" cy="10" r="3" fill="#2d3657" />
+                                <circle cx="21" cy="10" r="3" fill="#2d3657" />
+                                <circle cx="31" cy="10" r="3" fill="#2d3657" />
+                                <line x1="41" y1="0" x2="41" y2="20" style="stroke:#2d3657;stroke-width:2" />
+                            </svg>
+
+                        </div>
+
+                        @if (Request["isshow-timeline"] == "yes")
+                        {
+                            <div class="g--flex timeline-details">
+                                <article>
+
+                                    <ul class="timeline">
+
+                                        <ul class="timeline__endured">
+
+                                            <li class="aside filled">
+
+                                                <div class="aside__line filled__line">
+
+                                                    <div class="filled__line__completed" style="height: 100%;">
+
+                                                    </div>
+
+                                                </div>
+
+                                            </li>
+
+                                            <li class="timeline__event is--first-day is--monday is--complete">
+
+                                                <p class="timeline__event__date">Monday 1st August</p>
+
+                                                <figure class="dot">
+
+                                                    <span class="ratio svg dot__icon">
+                                                        <canvas width="9px" height="9px"></canvas>
+                                                        <svg viewBox="0 0 9 9"><use xlink:href="/src/svg/symbols/symbols.svg#tick"></use></svg>
+                                                    </span>
+                                                </figure>
+
+                                                <h5 class="timeline__event__title">Project Start</h5>
+
+                                                <h6 class="timeline__event__difference"></h6>
+
+                                            </li>
+
+                                            <li class="timeline__event">
+
+                                                <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                            </li>
+
+                                            <li class="timeline__event">
+
+                                                <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                            </li>
+
+                                            <li class="timeline__event is--complete">
+
+                                                <p class="timeline__event__date">Thursday 4th August</p>
+
+                                                <figure class="dot">
+
+                                                    <span class="ratio svg dot__icon">
+                                                        <canvas width="9px" height="9px"></canvas>
+                                                        <svg viewBox="0 0 9 9"><use xlink:href="/src/svg/symbols/symbols.svg#tick"></use></svg>
+                                                    </span>
+                                                </figure>
+
+                                                <h5 class="timeline__event__title">Status Report</h5>
+
+                                                <h6 class="timeline__event__difference"></h6>
+
+                                            </li>
+
+                                            <li class="timeline__event">
+
+                                                <p class="timeline__event__date">Friday 5th August</p>
+
+                                            </li>
+
+                                            <li class="timeline__event is--weekend">
+
+                                                <p class="timeline__event__date">Saturday 6th August</p>
+
+                                            </li>
+
+                                            <li class="timeline__event is--weekend">
+
+                                                <p class="timeline__event__date">Sunday 7th August</p>
+
+                                            </li>
+
+                                            <li class="timeline__event is--monday is--today">
+
+                                                <p class="timeline__event__date">Monday 8th August</p>
+
+                                                <figure class="dot">
+
+                                                    <span class="ratio svg dot__icon is--waiting">
+                                                        <canvas width="13px" height="3px"></canvas>
+                                                        <svg viewBox="0 0 13 3"><use xlink:href="/src/svg/symbols/symbols.svg#waiting"></use></svg>
+                                                    </span>
+                                                </figure>
+
+                                                <h5 class="timeline__event__title">Wireframing Starts</h5>
+
+                                                <h6 class="timeline__event__difference"></h6>
+
+                                            </li>
+
+                                        </ul>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Thursday 4th August</p>
+
+                                            <figure class="dot">
+                                            </figure>
+
+                                            <h5 class="timeline__event__title">Status Report</h5>
+
+                                            <h6 class="timeline__event__difference"></h6>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Friday 5th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Saturday 6th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Sunday 7th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--monday">
+
+                                            <p class="timeline__event__date">Monday 1st August</p>
+
+                                            <figure class="dot">
+                                            </figure>
+
+                                            <h5 class="timeline__event__title">Design Starts</h5>
+
+                                            <h6 class="timeline__event__difference"></h6>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Thursday 4th August</p>
+
+                                            <figure class="dot">
+                                            </figure>
+
+                                            <h5 class="timeline__event__title">Status Report</h5>
+
+                                            <h6 class="timeline__event__difference"></h6>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Friday 5th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Saturday 6th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Sunday 7th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--monday">
+
+                                            <p class="timeline__event__date">Monday 1st August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Thursday 4th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Friday 5th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Saturday 6th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Sunday 7th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--monday">
+
+                                            <p class="timeline__event__date">Monday 1st August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Thursday 4th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Friday 5th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Saturday 6th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Sunday 7th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--monday">
+
+                                            <p class="timeline__event__date">Monday 1st August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Thursday 4th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Friday 5th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Saturday 6th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Sunday 7th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--monday">
+
+                                            <p class="timeline__event__date">Monday 1st August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Tuesday 2nd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Wednesday 3rd August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Thursday 4th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event">
+
+                                            <p class="timeline__event__date">Friday 5th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Saturday 6th August</p>
+
+                                        </li>
+
+                                        <li class="timeline__event is--weekend">
+
+                                            <p class="timeline__event__date">Sunday 7th August</p>
+
+                                        </li>
+
+                                        <li class="aside unfilled">
+
+                                            <div class="aside__line">
+
+                                            </div>
+
+                                        </li>
+
+                                    </ul>
+
+                                </article>
+
+                                <figure class="scene">
+
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade is--past"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+                                    <div class="scene__shade"></div>
+
+                                </figure>
+
+                            </div>
+                        }
+
+
+
+
+                    </div>
+
+                </div>
+                <div class="container">
+                    <div id="timeline-revision"></div>
+                </div>
+
+
+
+            </section>
+
+            <section class="benefits-wrapper">
+                <div class="text-block text-center border-decor bd-center bd-130">
+                    <h4>What are the benefits?</h4>
+                    <p>Want to make something custom? Why not check the services we provide.</p>
+                </div>
+                <div class="i-block-section row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="i-block border-decor-parent image-scale">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <img src="/as-images/shared/customizable_layout.svg" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="border-decor">Unlimited domain usage</h5>
+                                    <p>But if you are trying to reach a fat loss goal, then it could be ruining you your diet.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="i-block border-decor-parent image-scale">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <img src="/as-images/shared/Mega_menu.svg" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="border-decor">Unlimited access</h5>
+                                    <p>Regardless of whether you are an experienced lifter or new to fitness and looking to start.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="i-block border-decor-parent image-scale">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <img src="/as-images/shared/SEO.svg" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="border-decor">24x7 support</h5>
+                                    <p>The problem is, it is all well and good if you are an experienced gym user with a good idea.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="i-block border-decor-parent image-scale">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <img src="/as-images/shared/PSD.svg" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="border-decor">30 day refund</h5>
+                                    <p>There are three main mistakes people make time and time again when it comes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Product Cards carousel -->
+            <section class="similar-projects-wrapper">
+                <div class="space-1">
+                    <div class="text-block text-center border-decor bd-center">
+                        <h3>You might also like...</h3>
+                        <p>Want to make something custom? Why not check the services we provide.</p>
+                    </div>
+                    <div>
+                        <div class="centerflipcards">
+
+                            @{ Html.RenderAction("ProductFocus", "Catalog", new { pathView = "Widgets/Shop/ProductFocus", area = "" }); }
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+            <!-- End Product Cards carousel -->
+
+            <section class="thankiu-wrapper">
+                <h2>Thanks for Watching</h2>
+            </section>
+
+            <section class="post-navigation-wrapper container">
+                <nav class="post-navigation clearfix">
+                    @{
+                        List<ProductCategoryMapping> listProductSame = DataWhereHelper.ProductByCategoryIds(categoryIds, -1, take: 999);
+                    }
+                    @if (listProductSame.Any())
+                    {
+                        var nestProducts = (from x in listProductSame where x.ProductId < Model.Id orderby x.ProductId descending select x).Take(1).ToList();
+                        var nestProductsNext = (from x in listProductSame where x.ProductId > Model.Id orderby x.ProductId descending select x).Take(1).ToList();
+                        <div class="post-previous">
+                            @if (nestProducts.Any())
+                            {
+                                <a title="@nestProducts.First().Product.Name" href="@SlugHelper.Product(nestProducts.First().ProductId)">
+                                    <span><svg class="arrow arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35"><title>back-arrow</title><path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path></svg>  Previous Project</span>
+                                    <h3>
+                                        @nestProducts.First().Product.Name
+                                    </h3>
+                                </a>
+                            }
+                            else
+                            {
+                                <a title="@Model.Name" href="@SlugHelper.Product(Model.Id)" style="visibility: hidden;">
+                                    <span><i class="fa fa-circle"></i>Current Project</span>
+                                    <h3>
+                                        @Model.Name
+                                    </h3>
+                                </a>
+                            }
+                        </div>
+                        <span class="filter-icon"><span></span></span>
+                        <div class="post-next">
+                            @if (nestProductsNext.Any())
+                            {
+                                <a title="@nestProductsNext.Last().Product.Name" href="@SlugHelper.Product(nestProductsNext.Last().ProductId)">
+                                    <span>Next Project <svg class="arrow arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35"><title>back-arrow</title><path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path></svg></span>
+                                    <h3>
+                                        @nestProductsNext.Last().Product.Name
+                                    </h3>
+                                </a>
+                            }
+                        </div>
+                    }
+                </nav>
+            </section>
+
+        </section>
+    </div>
+}
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/catalog/product/"+(isPreview ? "preview":"showcase")+"/js")
+    <script>
+        $(document).ready(function() {
+
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-projects")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+    </script>
+
+}

@@ -1,0 +1,126 @@
+
+	.drilldown-toggle{
+		outline:none;
+		background:none;
+		width: 100%;
+		padding: 10px;
+		font-size: 20px;
+		transition: .5s all;
+		line-height: 100%;
+		position:relative;
+		z-index:2;
+		
+	}
+	.drilldown-menu{
+		width: 100%;
+		padding:0;
+		margin:0;
+		display:none;
+	    list-style-type: none;
+	}
+	.drilldown-toggle.open{		
+		box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	}
+	.drilldown-toggle:after{
+		color: #e8e8e8;
+		content: "\25BE";
+		float:right;
+		transition: .5s all;
+	}
+	.drilldown-toggle.open:after{
+		color: gray;
+	}
+	.drilldown-menu.open{
+		display:block;
+	}
+	.dd-layer{
+		width: 100%;
+		border: 1px solid gray;
+		display: none;
+		transition: .5s all;
+		position:relative;
+		box-sizing:border-box;
+	}
+	.dd-layer.active{
+		display: table;
+	}
+	.dd-question{
+		display: table-caption;
+		text-align:center;
+		border: 1px solid gray;
+		border-top:none;
+		padding:5px;
+		color:#585858;
+	}
+	.dd-choice{
+		padding: 10px;
+		text-align: center;
+		border-right: 1px solid gray;
+		box-sizing: border-box;
+		transition: .3s all;
+		display:table-cell;
+		line-height: 100%;
+		font-size: 20px;
+		text-decoration:none;
+		color: #585858;
+		position:relative;
+		z-index:2;
+	}
+	.dd-choice:last-child {
+		border-right: none;
+	}
+	.dd-choice.notChosen{
+		display:none;
+	}
+	.dd-choice.chosen{
+		display:block;
+		width: 100%;
+		border-right:none;
+		box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+		background: #f8f8f8;
+	}
+
+	.dd-choice:before{
+		content:"\2716";
+		float: left;
+		display:none;
+	}
+	.dd-choice.chosen:before{
+		display:block;
+		color: gray;
+	}
+
+.drilldown .drilldown-toggle, .drilldown.dd-default-style .drilldown-toggle{
+	border: 1px solid #c8c8c8;
+	color: #787878;
+}
+.drilldown .drilldown-toggle.open, .drilldown.dd-default-style .drilldown-toggle.open{
+	background: #e8e8e8;
+	color: #585858;
+	border: 1px solid gray;
+}
+.drilldown .dd-question, .drilldown.dd-default-style .dd-question{
+	background: #FFEB99;
+}
+.drilldown .drilldown-toggle:after, .drilldown.dd-default-style .drilldown-toggle:after{
+	color: #787878;
+}
+.drilldown .drilldown-toggle.open:after, .drilldown.dd-default-style .drilldown-toggle.open:after{
+	color: #585858;
+}
+
+.drilldown.dd-primary-style .drilldown-toggle{
+	background: #8b9dc3;
+	color: #fff;
+}
+.drilldown.dd-primary-style .drilldown-toggle.open{
+	background: #3b5998;
+	color: #fff;
+	border: 1px solid gray;
+}
+.drilldown.dd-primary-style .drilldown-toggle:after{
+	color: white;
+}
+.drilldown.dd-primary-style .dd-question{
+	background: #dfe3ee;
+}

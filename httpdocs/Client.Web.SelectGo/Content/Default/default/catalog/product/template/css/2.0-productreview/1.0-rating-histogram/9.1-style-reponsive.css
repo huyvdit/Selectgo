@@ -1,0 +1,15 @@
+﻿@media (max-width: 767px) {
+   
+
+    .rating-box .rating-histogram {
+        width: 100%;
+        padding: 15px 0px 15px 72px;
+        float: left;
+    }
+    .rating-box .score-container {
+        padding: 20px 0px;
+        text-align: center;
+        width: 50%;
+    }
+   
+}

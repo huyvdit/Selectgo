@@ -1,0 +1,282 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@using Web.Core.Models
+@model PagedList.IPagedList<ProductCategoryMapping>
+    @{
+        ViewBag.SelfHeader = true;
+        Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+        string slugCategory = SlugHelper.Category(category.Id);
+
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/category/css/dash")
+    }
+    <div id="main">
+
+        <div id="wrapper-search" class="wrapper" style="background-color:#fff">
+            <div class="container">
+
+                <div class="intro-2 poition-relative">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="intro-title">UI assets for startup owners &amp; busy designers</h1>
+                            <p class="lead">
+                                Find the perfect creative asset to <br>
+                                bring your project to life
+                            </p>
+                            <div class="row">
+                                <div class="col-md-7">
+
+                                    @Html.Action("Box", "Search", new { area = "", viewPath = "search/boxcategory", scope = "trends-category-product" })
+                                    <ul class="nav search-links">
+                                        <li class="nav-item" style="margin-left: -15px;">
+                                            <a class="nav-link text-body-color" href="#"><b>Trends</b>:</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/en/search/?key=Emoji&scope=*">#Emoji</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/en/search/?key=Calendar&scope=*">#Calendar</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/en/search/?key=Clipboard&scope=*">#Clipboard</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4 d-none d-sm-block">
+                            <img class="card-img-top opacity-8" src="/as-images/sample/theme-illustration.png" alt="image">
+                        </div>
+                    </div>
+                    <div id="advance-search" class="row d-flex justify-content-between align-items-center">
+                        <div class="col-md-12"> <a class="no-follow  btn btn-link float-none" style="background: #fff;border-radius: 36px!important;" data-toggle="collapse" href="#advance-search-form" role="button" aria-expanded="false" aria-controls="advance-search-form" aria-expanded="false">Refine Search <i class="las la-plus"></i> </a> </div>
+                        <div class="collapse multi-collapse refine-search-wrap" id="advance-search-form">
+                            <form class="card" method="get" action="@slugCategory" style="text-align: left; border-top: none;">
+                                <input type="hidden" name="filterby" value="*" />
+                                <div class="card-body">
+                                    <div class="card border-0">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h6>File Types</h6>
+
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <label class="custom-control-label w-100" for="customCheck1">PSD<span class="badge badge-light float-right">9</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                    <label class="custom-control-label w-100" for="customCheck2">HTML <span class="badge badge-light float-right">49</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                                    <label class="custom-control-label w-100" for="customCheck3">JS <span class="badge badge-light float-right">142</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                                    <label class="custom-control-label w-100" for="customCheck4">CSS <span class="badge badge-light float-right">457</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                                    <label class="custom-control-label w-100" for="customCheck5">Vector <span class="badge badge-light float-right">27</span></label>
+                                                </div>
+
+                                            </div>
+                                            <!--end: col -->
+                                            <div class="col-md-3">
+                                                <h6>File Category</h6>
+
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck10">
+                                                    <label class="custom-control-label w-100" for="customCheck10">HTML template<span class="badge badge-light float-right">875</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                                    <label class="custom-control-label w-100" for="customCheck11">WordPress Theme <span class="badge badge-light float-right">1485</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck12">
+                                                    <label class="custom-control-label w-100" for="customCheck12">eCommerce<span class="badge badge-light float-right">626</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck13">
+                                                    <label class="custom-control-label w-100" for="customCheck13">Magento <span class="badge badge-light float-right">58</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck14">
+                                                    <label class="custom-control-label w-100" for="customCheck14">UI kits <span class="badge badge-light float-right">114</span></label>
+                                                </div>
+
+                                            </div>
+                                            <!--end: col -->
+
+                                            <div class="col-md-3">
+                                                <h6>Tags</h6>
+
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck15">
+                                                    <label class="custom-control-label w-100" for="customCheck15">HTML template<span class="badge badge-light float-right">1321</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck16">
+                                                    <label class="custom-control-label w-100" for="customCheck16">WordPress Theme <span class="badge badge-light float-right">525</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck17">
+                                                    <label class="custom-control-label w-100" for="customCheck17">eCommerce<span class="badge badge-light float-right">487</span></label>
+                                                </div>
+                                                <hr>
+                                                <h6 class="mt-4">Sales</h6>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck18">
+                                                    <label class="custom-control-label w-100" for="customCheck18">Magento <span class="badge badge-light float-right">521</span></label>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck19">
+                                                    <label class="custom-control-label w-100" for="customCheck19">UI kits <span class="badge badge-light float-right">987</span></label>
+                                                </div>
+
+                                            </div>
+                                            <!--end: col -->
+
+                                            <div class="col-md-3">
+                                                <h6>Select Pricing range</h6>
+
+                                                <div class="form-row d-flex align-items-center justify-content-center"></div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 padding0">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="text" id="price-min-input" data-toggle="dropdown" class="form-control" placeholder="Min" value="">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1 text-center padding0">
+                                                        <p> - </p>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 padding0">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">$</div>
+                                                            </div>
+                                                            <input type="text" id="price-max-input" data-toggle="dropdown" class="form-control" placeholder="Max" value="">
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+                                                <button type="submit" class="btn btn-outline-primary">Select & go</button><div style="font-size: 12px;display: inline-block;margin-left: 5px;">press<strong>Enter ↵</strong> </div>
+                                            </div>
+                                            <!-- end: col-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <p id="video-controls" style="position: absolute; top: 0px;"><a href="#" style="display:none" class="tubular-play">Resume</a> <a href="#" class="tubular-pause">Pause <b>background</b></a></p>
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="container-share">
+                <div class="tip">Share</div>
+                <div class="share-window">
+                    <div class="share-bar">
+                        <div class="trigger"><a href="#"><i class="fab fa-facebook-f"></i></a></div>
+                        <div class="trigger"><a href="#"><i class="fab fa-twitter"></i></a></div>
+                        <div class="trigger"><a href="#"><i class="fab fa-pinterest-p"></i></a></div>
+                        <div class="trigger"><a href="#"><i class="fab fa-linkedin-in"></i></a></div>
+                        <div class="trigger"><a href="#"><i class="fab fa-whatsapp"></i></a></div>
+                        <div class="trigger"><a href="#"><i class="fas fa-paper-plane"></i></a></div>
+                    </div>
+                </div>
+                <div class="share">
+                    <div class="trigger share-btn sign-in"><a href="#"><i class="fas fa-plus"></i> Save for Later</a></div>
+                </div>
+                @*<div class="like">
+                        <div class="trigger like-btn"><a href="#"><i class="fas fa-heart"></i> Like</a></div>
+                    </div>*@
+            </div>
+        </div>
+        <div class="wrapper" style="padding-top: 25px;">
+
+            <div class="consoles_product consol_two ">
+                <div class="container">@Html.Action("CategoriesSpecial", "Catalog", new { groupOf = category.Grouped, take = 1, pathView = "Widgets/Shop/CategorySpecial",  area = "" })</div>
+            </div>
+
+            <div class="container">
+
+                @foreach (var item in category.CategoryChildren.Where(e => e.IsActive))
+                {
+                    <hr class="divider divider-fade">
+                    <div class="row mb-4 mt-3 d-flex justify-content-between align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="mb-0">@item.Name</h5>
+                            <p>@Html.Raw(item.Description)</p>
+                        </div>
+                        <div class="col-md-4"> <a href="@SlugHelper.Category(item.Id)" title="@item.Name" class="btn btn-link float-right">Explore all <svg tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.9 7.8" role="img" aria-label="Arrow right"><path d="M25 3.2H.7c-.4 0-.7.3-.7.7 0 .4.3.7.7.7H25c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7z"></path><path d="M24.4 4.7V.4c0-.4.3-.6.6-.3l1.2 1.1c.3.3.9.8 1.2 1.1l1.2 1.1c.3.3.3.8 0 1.1l-1.2 1.1c-.3.3-.9.8-1.2 1.1l-1.2.9c-.3.3-.6.2-.6-.3V4.7z"></path></svg> </a> </div>
+                    </div>
+                    <div class="row product-list">
+                        @{ Html.RenderAction("ProductTab", "Catalog", new { groupOf = item.Grouped + ",", pathView = "Widgets/Shop/CategoryBox", itemTake=8, area = "" }); }
+                        
+                    </div>
+                }
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-7 text-center mt-5 mb-5"> <a href="@slugCategory?filterby=*" class="btn btn-white" title="Show All"><i class="las la-redo-alt mr-2"></i>Show all...</a> </div>
+                </div>
+            </div>
+
+            <section class="pt-7 pb-sm-3">
+                <div class="container">
+                    <div class="client-logos-1 d-none d-sm-block">
+                        <div class="container">
+                            <h2 class="text-center h5 mb-3 text-gray font-weight-light">Featured in:</h2>
+                            <div class="row d-flex align-items-center justify-content-md-center flex-wrap justify-content-sm-between">
+                                <div class="col-sm-3 col-md-2">
+                                    <img class="mx-auto img-fluid" src="../../assets/images/sample/logos/1.png" alt="Image description">
+                                </div>
+                                <div class="col-sm-3 col-md-2">
+                                    <img class="mx-auto img-fluid" src="../../assets/images/sample/logos/2.png" alt="Image description">
+                                </div>
+                                <div class="col-sm-3 col-md-2">
+                                    <img class="mx-auto img-fluid" src="../../assets/images/sample/logos/3.png" alt="Image description">
+                                </div>
+                                <div class="col-sm-3 col-md-2">
+                                    <img class="mx-auto img-fluid" src="../../assets/images/sample/logos/4.png" alt="Image description">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+    <!-- Shop Area end -->
+    @section scripts
+    {
+        @Scripts.Render("~/bundles/content/default/catalog/category/js/dash")
+        <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "plugins-resources")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+        </script>
+    }

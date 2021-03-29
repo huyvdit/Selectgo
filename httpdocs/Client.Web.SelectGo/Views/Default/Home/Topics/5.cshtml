@@ -1,0 +1,98 @@
+﻿@using ASP.Web.Core.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@{
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@{
+    var stylesInlineInsert = DataWhereHelper.ExtractStylesPage(Model.StylesInsert);
+    if (stylesInlineInsert != "")
+    {
+        @Html.Raw(stylesInlineInsert);
+    }
+}
+<section class="as-content" style="padding:0px">
+    <!-- Main contents ================================================ -->
+    <div class="main-content">
+        <div class="under-construction-banner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-7" style="padding: 8% 0%;">
+                        <div class="under-construction-inner-content">
+                            <div class="brand-logo-container">
+                                <div class="logo">
+                                    <a href="@DisplayHelper.StoreLink" title="@DisplayHelper.StoreName">
+                                        <img src="@DisplayHelper.Logo" alt="@DisplayHelper.StoreName">
+                                        <span title="Select & go">Select & go.</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End of .brand-logo-container -->
+                            <div class="axil-title">
+                                <h1 class="h1 m-0">
+                                    This Page Is
+                                    <br>Under Construction
+                                </h1>
+                            </div>
+                            <div class="newsletter-content">
+                                <div class="text-left">
+                                    <h2 class="h5 m-b-xs-10">Are You Interested?</h2>
+                                    <p class="m-b-xs-20">
+                                        Be the first to know when we launch.
+                                        <br>Sign up for this website updates using the form below.
+                                    </p>
+                                </div>
+                                <!-- End of .section-title -->
+                                <div class="subscription-form-wrapper">
+                                    <form action="#" class="subscription-form row no-gutters" style="    margin-top: 15px;">
+                                        <div class="form-group m-b-xs-20 col-auto">
+                                            <input type="text" name="subscription-email" id="subscription-email" placeholder="Enter your email">
+                                        </div>
+                                        <div class="m-b-xs-0 col-auto" style="margin-top: 15px;">
+                                            <button class="btn btn-primary">SUBSCRIBE</button>
+                                        </div>
+                                    </form>
+                                    <!-- End of .subscription-form -->
+                                </div>
+                                <!-- End of .subscription-form-wrapper -->
+
+                                <div class="contact-social-share m-t-xs-20">
+                                    <div class="axil-social-title h5">Follow Us</div>
+                                    <ul class="social-share social-share__with-bg">
+                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-behance"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of .col-lg-8 -->
+                </div>
+                <!-- End of .row -->
+            </div>
+            <!-- End of .container -->
+        </div>
+        <!-- End of .under-construction-banner -->
+    </div>
+    <!-- End of .main-content -->
+</section>
+@section scripts{
+    @{
+        var scriptsFileInsert = DataWhereHelper.ExtractScriptsPage(Model.Id);
+        if (scriptsFileInsert != "")
+        {
+            @Html.Raw(scriptsFileInsert);
+        }
+    }
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @{
+        var scriptsInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.ScriptsInsert);
+        if (scriptsInlineInsert != "")
+        {
+            @Html.Raw(scriptsInlineInsert);
+        }
+    }
+}
+

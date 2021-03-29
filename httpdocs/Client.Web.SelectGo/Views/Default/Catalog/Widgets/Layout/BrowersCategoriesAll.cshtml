@@ -1,0 +1,117 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+
+ <ul class="dropdown-menu">
+                   @foreach (var item in Model)
+                   {
+                       if (!item.CategoryChildren.Any())
+                       {
+
+                       }
+                       else
+                       {
+
+                   <li>
+                       <div class="row">
+                           <div class="col-lg-5 tabHeader">
+                               <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                                   @foreach (var innerItem in item.CategoryChildren)
+                                   {
+                                       <li class="nav-item @(innerItem == item.CategoryChildren.FirstOrDefault()?"active":"")">
+                                           <a class="nav-link active" id="cat-@innerItem.Id" data-toggle="pill" href="@SlugHelper.Category(innerItem.Id)" title="@innerItem.Name" role="tab" aria-controls="v-pills-doc" aria-selected="true">@innerItem.Name</a>
+                                       </li>
+                                   }
+                                   <li class="nav-item">
+                                       <a class="nav-link" id="v-pills-content-tab" data-toggle="pill" href="#v-pills-content" role="tab" aria-controls="v-pills-content" aria-selected="false">Content</a>
+                                   </li>
+                                   <li class="nav-item">
+                                       <a class="nav-link" id="v-pills-pages-tab" data-toggle="pill" href="#v-pills-pages" role="tab" aria-controls="v-pills-pages" aria-selected="false">Other Pages</a>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="col-lg-7">
+                               <div class="tab-content tabContent" id="v-pills-tabContent">
+
+                                   @foreach (var innerItem in item.CategoryChildren)
+                                   {
+                                       <div class="tab-pane fade @(innerItem == item.CategoryChildren.FirstOrDefault()?"active show":"")" id="cat-@innerItem.Id" role="tabpanel" aria-labelledby="v-pills-code-tab">
+                                           <div class="d-flex">
+                                               <ul class="list-unstyled tab_list">
+                                                   @foreach (var innerItem2x in innerItem.CategoryChildren.Take(5))
+                                                   {
+                                                       <li><a href="@SlugHelper.Category(innerItem2x.Id)">@innerItem2x.Name</a></li>
+                                                   }
+                                               </ul>
+                                               <ul class="list-unstyled tab_list">
+                                                   @foreach (var innerItem2x in innerItem.CategoryChildren.Skip(5).Take(5))
+                                                   {
+                                                       <li><a href="@SlugHelper.Category(innerItem2x.Id)">@innerItem2x.Name</a></li>
+                                                   }
+                                               </ul>
+                                           </div>
+                                           <div class="menu-text">
+                                              
+                                               <a href="@SlugHelper.Category(innerItem.Id)">
+                                                   <p>All @innerItem.Name</p>
+                                               </a>
+                                           </div>
+                                       </div>
+                                   }
+
+
+
+                                   <div class="tab-pane fade" id="v-pills-content" role="tabpanel" aria-labelledby="v-pills-content-tab">
+                                       <div class="d-flex">
+                                           <ul class="list-unstyled tab_list">
+                                               <li><a href="#">Typrography</a></li>
+                                               <li><a href="#">Code</a></li>
+                                               <li><a href="#">Image</a></li>
+                                               <li><a href="#">Video</a></li>
+                                           </ul>
+                                       </div>
+                                       <div class="menu-text">
+                                           <a href="#">
+                                               <p>More Categories</p>
+                                           </a>
+                                           <a href="#">
+                                               <p>All docs</p>
+                                           </a>
+                                       </div>
+                                   </div>
+                                   <div class="tab-pane fade" id="v-pills-pages" role="tabpanel" aria-labelledby="v-pills-pages-tab">
+                                       <div class="d-flex">
+                                           <ul class="list-unstyled tab_list">
+                                               <li>
+                                                   <a href="#">Doc Topics</a>
+                                               </li>
+                                               <li>
+                                                   <a href="#">Onepage</a>
+                                               </li>
+                                               <li>
+                                                   <a href="#">Cheatseet</a>
+                                               </li>
+                                               <li>
+                                                   <a href="changelog.html">Changelog</a>
+                                               </li>
+                                           </ul>
+                                       </div>
+                                       <div class="menu-text">
+                                           <a href="#">
+                                               <p>More Categories</p>
+                                           </a>
+                                           <a href="#">
+                                               <p>All docs</p>
+                                           </a>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </li>
+
+                       }
+
+                   }
+               </ul>

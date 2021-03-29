@@ -1,0 +1,350 @@
+﻿@using ASP.Web.Core.Models;
+@{
+    ViewBag.SelfHeader = true;
+    ViewBag.Title = "Member/Post/To/*";
+}
+
+<!-- General stylesheet -->
+@section styles{
+    <link href="~/Assets/css/post/animatedheader.component.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/general.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/cw.css" rel="stylesheet" />
+    <link href="~/Assets/css/alertify.css" rel="stylesheet" />
+    <link href="~/Assets/css/alertify.theme-default.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/tagify.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/feather.css" rel="stylesheet" />
+
+    <link href="~/Assets/css/post/snarl.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/fileup.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/ui.fancytree.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/custom.fancytree.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/filepond.css" rel="stylesheet">
+
+    <link href="~/Assets/css/post/filepond-plugin-image-preview.css" rel="stylesheet">
+    @*<link href="~/Assets/css/post/filepond-plugin-file-poster.css" rel="stylesheet">*@
+    <link href="~/Assets/css/jquery.loadingModal.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/styles.css" rel="stylesheet" />
+}
+<div class="wrapper" id="Item">
+    <div class="container py-3">
+        <!-- Start Breadcrumbbar -->
+        <div class="breadcrumbbar cbp-af-header">
+            <div class="row align-items-center">
+                <div class="col-md-8 col-lg-8">
+                    <div class="breadcrumb-list">
+                        <nav aria-label="breadcrumb">
+                            @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = "#", Title = "Member" }, new BreadcrumbModel { Link = "#", Title = "New post" } }, homeIncluded = true, headingIncluded = false, area = "" })
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="widgetbar">
+                        <button class="btn btn-primary-rgba" id="btn-submit"><i class="feather icon-plus mr-2"></i>Submit</button>
+                        <button class="btn btn-danger-rgba my-1" id="btn-undo"><i class="feather icon-repeat mr-2"></i>Undo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumbbar -->
+        <!-- Start Contentbar -->
+        <div class="contentbar">
+            <!-- Start row -->
+            <div class="row">
+                <!-- Start col -->
+                <div class="col-lg-8 col-xl-9">
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Detail</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <input type="hidden" name="__RequestVerificationToken" value="@Html.AntiForgeryTokenForAjaxPost()" />
+                                <div class="form-group row">
+                                    <label for="ItemTitle" class="col-sm-12 col-form-label">Item Title</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control font-20" id="Name" name="Name" placeholder="Name">
+                                        <div class="my-error-tip"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="custom-control custom-switch" style="margin-left: 15px; margin-top: -15px;">
+                                        <input type="checkbox" class="custom-control-input" id="AllowCustomerReviews" name="AllowCustomerReviews">
+                                        <label class="custom-control-label" for="AllowCustomerReviews" style="float: left;line-height: 27px;">Allow Reviews?</label>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">Files Attachment</label>
+                                    <div class="col-sm-12">
+                                        <div id="upload-4-queue" class="files-attachment"></div>
+                                        <div class="btn btn-primary-rgba btn-lg btn-block fileup-btn">
+                                            <i class="feather icon-file-plus"></i> Add files
+                                            <input type="file" id="upload-4" multiple accept="zip/*">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">Short Description</label>
+                                    <div class="col-sm-12">
+                                        <textarea id="ShortDescription" name="ShortDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">Full Description</label>
+                                    <div class="col-sm-12">
+                                        @*<input type="hidden" id="FullDescription" name="FullDescription">*@
+                                        <textarea id="FullDescription"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Other Detail</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-4">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <div class="nav flex-column nav-pills" id="v-pills-Item-tab" role="tablist" aria-orientation="vertical">
+                                        <a class="nav-link mb-2" id="v-pills-general-tab" data-toggle="pill" href="#v-pills-general" role="tab" aria-controls="v-pills-general" aria-selected="true"><i class="feather icon-box mr-2"></i> Property</a>
+                                        <a class="nav-link mb-2" id="v-pills-stock-tab" data-toggle="pill" href="#v-pills-stock" role="tab" aria-controls="v-pills-stock" aria-selected="false"><i class="feather icon-feather mr-2"></i> SEO</a>
+                                        <a class="nav-link mb-2 active" id="v-pills-advanced-tab" data-toggle="pill" href="#v-pills-advanced" role="tab" aria-controls="v-pills-advanced" aria-selected="false"><i class="feather icon-settings mr-2"></i> Advance</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-xl-8">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <div class="tab-content" id="v-pills-Item-tabContent">
+                                        <div class="tab-pane fade " id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab">
+                                            <datalist id="PropertyValue_Suggest">
+                                                <option value="Bootstrap 4x">
+                                                <option value="Bootstrap 3x">
+                                                <option value="GPL license">
+                                                <option value="MIT license">
+                                                <option value="Apache License Version 2.0">
+                                                <option value="jQuery 1.5.1 or Latest version">
+                                                <option value="BSD 3-Clause">
+                                                <option value="https://selectgo.vn/updating">
+                                                <option value="None">
+                                            </datalist>
+                                            <div id="ListSpecificationAttributes">
+                                                <div class="row br2">
+                                                    <span class="fi-list"></span> &nbsp;
+                                                    <div include="form-input-select()" style="width: 24%;">
+                                                        <select placeholder="Property Name" class="SpecificationAttributeId">
+                                                            <option selected value="-1">  --Select one--  </option>
+                                                            <option value="17">  Fork on GitHub  </option>
+                                                            <option value="18">  Authors  </option>
+                                                            <option value="15">  License  </option>
+                                                            <option value="14">  Dependencies  </option>
+                                                            <option value="13">  Link Target  </option>
+                                                            
+                                                        </select>
+                                                    </div>
+
+                                                    <input list="PropertyValue_Suggest" type="text" placeholder="Property Value" class="CustomValue" style="width:70%;     height: 28px;   border-radius: 0px;">
+                                                    <span class="fi-x red o50 pl5"></span>
+                                                </div>
+                                            </div>
+                                            <input id="btn-add" type="button" value="Add property" class="mt10">
+                                        </div>
+                                        <div class="tab-pane fade" id="v-pills-stock" role="tabpanel" aria-labelledby="v-pills-stock-tab">
+                                            <div class="form-group row">
+                                                <label for="sku" class="col-sm-4 col-form-label">Meta Title</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="MetaTitle" placeholder="Meta Title">
+                                                    <div class="my-error-tip"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="stockStatus" class="col-sm-4 col-form-label">Meta Keyword</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="MetaKeywords" placeholder="Meta keyword">
+                                                    <div class="my-error-tip"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label for="stockQuantity" class="col-sm-4 col-form-label">Meta Description</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="MetaDescription" placeholder="Meta description"></textarea>
+                                                    <div class="my-error-tip"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade show active" id="v-pills-advanced" role="tabpanel" aria-labelledby="v-pills-advanced-tab">
+                                            <div class="form-group row mb-0">
+                                                <label for="AdminComment" class="col-sm-3 col-form-label">Your notes</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" name="AdminComment" id="AdminComment" rows="3" placeholder="Notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End col -->
+                <!-- Start col -->
+                <div class="col-lg-4 col-xl-3">
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">List Categories</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Add a <table> element where the tree should appear: -->
+                            <table id="treegrid">
+                                <colgroup>
+                                    <col width="30"></col>
+                                    <col width="*"></col>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <!-- Optionally define a row that serves as template, when new nodes are created: -->
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Tagged as</h5>
+                        </div>
+                        <div class="card-body">
+                            <input id="ListTags" name="ListTags" value='[]'>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Image</h5>
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" id="Avatar" />
+                            <div class="inside">
+                                <p class="hide-if-no-js">
+                                    <a href="#">
+                                        <img id="Avatar_Display" src="#" style="display:none">
+                                    </a>
+                                </p>
+                            </div>
+                            <input type="file" name="Avatar" accept="image/jpeg, image/png, image/gif" />
+                            <a id="fm-bs-modal" class="btn btn-primary-rgba" type="button" style="    width: 100%;">Select in library</a>
+
+                            
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Images Gallery</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="upload-5-dropzone" class="zone">
+                                <div id="dropZ">
+                                    <i class="fa fa-cloud-upload"></i>
+                                    <div>Drag and drop your file here</div>
+                                    <span>OR</span>
+                                    <p>File size limit : 10 MB</p>
+                                </div>
+
+                            </div>
+                            <div id="upload-5-queue"></div>
+                        </div>
+                        <div class="card-footer">
+
+                            <div class="btn btn-primary-rgba btn-lg btn-block fileup-btn">
+                                <i class="feather icon-file-plus"></i> Add gallery
+                                <input type="file" id="upload-5" multiple accept="image/jpeg, image/png, image/gif">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Confirmed by</h5>
+                        </div>
+                        <div class="card-body" style="background: #dddddd29;">
+                            <div class="Item-ListAuthors">
+                                <div class="badge-list">
+                                    <div>
+                                        <select id="ListAuthors" multiple="multiple" class="" style="width:100%"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer" style="padding: 10px 0px;">
+                                <div class="add-Item-ListAuthors">
+                                    <div id="ListAuthorsDisplay"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End col -->
+                </div>
+                <!-- End row -->
+            </div>
+            <!-- End Contentbar -->
+            <!-- Start Footerbar -->
+            <div class="footerbar" style="margin-top:150px;display:none">
+                <footer class="footer">
+                    <p class="mb-0">© 2020 Insight.selectgo.vn - All Rights Reserved.</p>
+                </footer>
+            </div>
+            <!-- End Footerbar -->
+        </div>
+
+    </div>
+
+</div>
+<!-- End Rightbar -->
+
+@section scripts {
+
+    <script src="~/Assets/js/post/localforage.js"></script>
+    <script src="~/Assets/js/post/jquery-ajax-addtoken-patch.js"></script>
+    <script src="~/Assets/js/post/cbpAnimatedHeader.min.js"></script>
+    <script src="~/Assets/js/post/minimal.js"></script>
+    <script src="~/Assets/js/post/plugins.js"></script>
+
+    <script src="~/Assets/js/alertify.js"></script>
+
+    <script src="~/Assets/tinymce/tinymce.min.js"></script>
+    <script src="~/Assets/tinymce/tinymce.init.js"></script>
+
+    <script src="~/Assets/js/post/tagify.min.js"></script>
+    @*<script src="~/Assets/js/post/jQuery.tagify.min.js"></script>*@
+
+    <script src="~/Assets/js/post/snarl.min.js"></script>
+    <script src="~/Assets/js/post/fileup.min.js"></script>
+    <script src="~/Assets/js/post/jquery.fancytree.js"></script>
+    <script src="~/Assets/js/post/jquery.fancytree.persist.js"></script>
+    <script src="~/Assets/js/post/jquery.fancytree.table.js"></script>
+
+    <script src="~/Assets/js/post/filepond-plugin-file-encode.js"></script>
+    <script src="~/Assets/js/post/filepond-plugin-image-validate-size.js"></script>
+    @*<script src="~/Assets/js/post/filepond-plugin-image-crop.js"></script>*@
+    @*<script src="~/Assets/js/post/filepond-plugin-file-poster.js"></script>*@
+    <script src="~/Assets/js/post/filepond-plugin-image-preview.js"></script>
+    <script src="~/Assets/js/post/filepond-plugin-file-validate-type.js"></script>
+    <script src="~/Assets/js/post/filepond.js"></script>
+    <script src="~/Assets/js/jquery.loadingModal.min.js"></script>
+
+    <script src="~/Assets/js/post/post-init.js"></script>
+}

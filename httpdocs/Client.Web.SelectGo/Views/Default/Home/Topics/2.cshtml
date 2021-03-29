@@ -1,0 +1,491 @@
+﻿@model ASP.Web.Model.Models.Page
+@{
+    if (Data.Domain == "plugins.selectgo.vn")
+    {
+        if (!HttpContext.Current.Response.IsRequestBeingRedirected)
+        {
+
+            HttpContext.Current.Response.Redirect(SlugHelper.Category(grouped: "plugins-resources"), true);
+
+        }
+    }
+    else  if (Data.Domain == "templates.selectgo.vn")
+    {
+        if (!HttpContext.Current.Response.IsRequestBeingRedirected)
+        {
+
+            HttpContext.Current.Response.Redirect(SlugHelper.Category(grouped: "web-themes-templates"), true);
+
+        }
+    }
+
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/home/css")
+}
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+<section class="as-content">
+
+
+    <section class="fullpage" id="fullpage">
+        <section class="section-main" data-anchor="start">
+            @section banners{
+                <div class="swiper-slider swiper-slider-home">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" data-tilt data-tilt-max="5" data-tilt-speed="500" data-tilt-perspective="1500">
+                            <div class="slide-inner bg-image primary-slide" data-background="/as-images/banner/01.png">
+                                <div class="container">
+                                    <div class="tagline">
+                                        <span>01</span>
+                                        <h6>Collected experiences innovation</h6>
+                                    </div>
+                                    <!-- end tagline -->
+                                    <h1 class="text-title-mask">
+                                        UX & UI <br>
+                                        <span>in design web</span>
+                                    </h1>
+
+                                    <div class="slide-btn">
+                                        <a href="#">
+                                            <div class="lines"> <span></span> <span></span> </div>
+                                            <!-- end lines -->
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 104 104" enable-background="new 0 0 104 104" xml:space="preserve"><circle class="video-play-circle" fill="none" stroke="#fff" stroke-width="2" stroke-miterlimit="1" cx="52" cy="52" r="50" /> </svg>
+                                            <b>LEARN MORE</b>
+                                        </a>
+                                    </div>
+                                    <!-- end slide-btn -->
+                                </div>
+                                <!-- end container -->
+                            </div>
+
+
+                            <!-- end slide-inner -->
+                        </div>
+
+                        <div class="swiper-slide" data-tilt data-tilt-max="5" data-tilt-speed="500" data-tilt-perspective="1500">
+                            <div class="slide-inner bg-image" data-background="/as-images/homepage/innovation.jpg">
+                                <div class="container">
+                                    <div class="tagline">
+                                        <span>02</span>
+                                        <h6>Collected experiences innovation</h6>
+                                    </div>
+                                    <!-- end tagline -->
+                                    <h1 class="text-title-mask">
+                                        Innovation<br>
+                                        <span>in layout & content web</span>
+                                    </h1>
+
+                                    <div class="slide-btn">
+                                        <a href="#">
+                                            <div class="lines"> <span></span> <span></span> </div>
+                                            <!-- end lines -->
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 104 104" enable-background="new 0 0 104 104" xml:space="preserve"><circle class="video-play-circle" fill="none" stroke="#fff" stroke-width="2" stroke-miterlimit="1" cx="52" cy="52" r="50" /> </svg>
+                                            <b>LEARN MORE</b>
+                                        </a>
+                                    </div>
+                                    <!-- end slide-btn -->
+                                </div>
+                                <!-- end container -->
+                            </div>
+
+
+                            <!-- end slide-inner -->
+                        </div>
+
+                    </div>
+                    <!-- end swiper-wrapper -->
+                    <div class="swiper-pagination"></div>
+                    <!-- end swiper-pagination -->
+                    <div class="swiper-fraction"></div>
+                    <!-- end swiper-fraction -->
+                </div>
+                <!-- end swiper-slider -->
+
+                <div class="intro-footer">
+                    <span class="aboo-mouse-scroll"></span>
+                </div>
+            }
+        </section>
+        <!-- perspective end  -->
+        <!-- end header -->
+        <section class="intro section-main" data-anchor="intro">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow fadeIn">
+                        <h6>SMOOTH INTERFACE INTERACTION</h6>
+                        <h2 data-text="Digital">Wireframe project User friendly interface </h2>
+                    </div>
+                    <!-- end col-12 -->
+                    <div class="col-lg-5 wow fadeIn">
+                        <h4>
+                            To create a powerful project once,
+                            a bit of luck is enough.
+                        </h4>
+                    </div>
+                    <!-- end col-5 -->
+                    <div class="col-lg-7 wow fadeIn" data-wow-delay="0.10s">
+                        <p>Thanks to our experience and expertise, we were entrusted with the development of a new website for <u>Araxia</u>’s capital city, Riyadh, in collaboration with a well-recognized local agency.</p>
+                        <p>Design very few <strong>companies</strong> in the world have ventured on a project of such tremendous scope and complex</p>
+                        <div class="custom-link wow fadeIn">
+                            <a href="#">
+                                <div class="lines"> <span></span> <span></span> </div>
+                                <!-- end lines -->
+                                <b>READ TO LEARN</b>
+                            </a>
+                        </div>
+                        <!-- end custom-link -->
+                    </div>
+                    <!-- end col-7 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end intro -->
+        <!-- Services Section Start -->
+        <section id="service" class="section-main services-area light-bg ptb-100 relative rt-animate" data-rt-offset="50%" data-anchor="services">
+            <div class="container-outside bg-img-2">
+                <div class="overlay-shape overlay overlay-1"></div>
+                <div class="d-table">
+                    <div class="dt-cell">
+                        <div class="heading white pl-60 relative">
+                            <h5>creative</h5>
+                            <h1>services</h1>
+                            <p>
+                                The amics of how users interact with interactive <br />
+                                element within a user interface.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-7 col-md-6">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 mobi-mb-30">
+                                <div class="single-service mb-50 mobi-mb-30">
+                                    <i class="icon-layers"></i>
+                                    <h5>ux design</h5>
+                                    <hr class="line" />
+                                    <p class="mt-15">The amics of how users interact with interactive element within a user interface.</p>
+                                </div>
+                                <div class="single-service">
+                                    <i class="icon-tools"></i>
+                                    <h5>interface</h5>
+                                    <hr class="line" />
+                                    <p class="mt-15">The amics of how users interact with interactive element within a user interface.</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 pl-20">
+                                <div class="single-service mb-50 mobi-mb-30">
+                                    <i class="icon-gears"></i>
+                                    <h5>branding</h5>
+                                    <hr class="line" />
+                                    <p class="mt-15">The amics of how users interact with interactive element within a user interface.</p>
+                                </div>
+                                <div class="single-service">
+                                    <i class="icon-lightbulb"></i>
+                                    <h5>creativity</h5>
+                                    <hr class="line" />
+                                    <p class="mt-15">The amics of how users interact with interactive element within a user interface.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Services Section End -->
+
+        <section class="section-main works" data-anchor="works">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow fadeIn">
+                        <h6>AMAZING USER INTERFACE & SMOOTH INTERACTION</h6>
+                        <h2 data-text="Works">Our selected works and showcases</h2>
+                    </div>
+                    <!-- end col-12 -->
+                    <div class="col-12">
+                        @{ Html.RenderAction("ProductFocus", "Catalog", new { pathView = "Widgets/Home/ProductFocus", area = "" }); }
+
+                    </div>
+                    <!-- end col-12 -->
+                </div>
+                <!-- end row -->
+                <div class="posts__list">
+                    <div class="posts__list__nav">
+                        <a href="@SlugHelper.Category(grouped:"our-work")" class="nav see-all">See all</a>
+                        <a href="#" class="nav">→</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end container -->
+        </section>
+
+
+        <!-- Testimonials slide -->
+        <section class="section-main container" data-anchor="testimonials">
+
+            <div class="testimonial-customer testimonial-carousel-contain swiper-container">
+                <div class="posts__list swiper-wrapper">
+
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <!-- Testimonial block -->
+                        <figure class="aboo-testimonial">
+                            <blockquote>
+                                Aboodoze is awesome! He did everything – with almost no time or effort for me! The best part was that I could completely trust his team to represent our company professionally with our clients.
+                            </blockquote>
+
+                            <img class="testimonial-person" src="/as-images/sample/head1.jpg" alt="" />
+                            <figcaption>
+                                <cite>Mark Jojoba</cite>
+                                CEO of Rocket chicken
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <!-- Testimonial block -->
+                        <figure class="aboo-testimonial">
+                            <blockquote>
+                                His work on our website and Internet marketing has made a significant different to our business. We’ve seen a 425% increase in quote requests from the website which has been pretty remarkable!
+                            </blockquote>
+
+                            <img class="testimonial-person" src="/as-images/sample/head3.jpg" alt="" />
+                            <figcaption>
+                                <cite>Cecilia Obotoh</cite>
+                                HR of Susuko
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide">
+                        <!-- Testimonial block -->
+                        <figure class="aboo-testimonial">
+                            <blockquote>
+                                We were able to test our way from a 5% conversion rate, all the way up to 20%. Without driving any more traffic, our client is getting four times the leads that he was getting before.
+                            </blockquote>
+
+                            <img class="testimonial-person" src="/as-images/sample/head5.jpg" alt="" />
+                            <figcaption>
+                                <cite>Jhonny Iskandar</cite>
+                                CEO of Dandodot
+                            </figcaption>
+                        </figure>
+                    </div>
+
+                </div>
+
+                <!-- Prev / Next button -->
+                <div class="testimonial-carousel-buttons posts__list__nav">
+                    <div class="testimonial-carousel-btn-prev">
+                        <a href="#" class="nav">←</a>
+                    </div>
+                    <div class="testimonial-carousel-btn-next">
+                        <a href="#" class="nav">→</a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="section-shape">
+            <img src="/as-images/shared/testimonial-shap.png" alt="shape image">
+        </div>
+
+
+        <!-- Blog Section Start -->
+        <section class="section-main blog-area blog-one light-bg section-padding" data-anchor="recent-blog">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-xs-12 col-sm-8 col-md-6 col-text-center">
+                        <div class="section-title pb-80">
+
+                            <h2>RECENT BLOG</h2>
+                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making </p>
+                            <div class="horizontal-line">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 mobile-mb-30">
+                        <div class="blog-post">
+                            <div class="thumb angle-shape relative">
+                                <a href="blog-details.html">
+                                    <img src="/as-images/sample/4.jpg" alt="Blog Thumbnail" />
+                                </a>
+                            </div>
+                            <div class="blog-text plr-40 ptb-35 white-bg">
+                                <div class="title">
+                                    <a href="blog-details.html"><h4>Totam Rem Aperiam</h4></a>
+                                    <h6>Jun 13, 2017</h6>
+                                    <hr class="line" />
+                                </div>
+                                <p class="ptb-15">I will give you a complete ofe system expound ttual teachings of the truth, the master-hnami tar cholo na volbo na.</p>
+                                <div class="blog-footer clearfix">
+                                    <div class="pull-left">
+                                        <a href="blog-details.html">Read More</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="blog-details.html"><i class="zmdi zmdi-favorite-outline"></i></a>
+                                        <a href="blog-details.html"><i class="zmdi zmdi-comment-outline"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 mobile-mb-30">
+                        <div class="blog-post">
+                            <div class="thumb">
+                                <a href="blog-details.html">
+                                    <img src="/as-images/sample/5.jpg" alt="Blog Thumbnail" />
+                                </a>
+                            </div>
+                            <div class="blog-text plr-40 ptb-35 white-bg">
+                                <div class="title">
+                                    <a href="blog-details.html"><h4>If you are going to use a pass..</h4></a>
+                                    <h6>Jun 13, 2017</h6>
+                                    <hr class="line" />
+                                </div>
+                                <p class="ptb-15">I will give you a complete ofe system expound ttual teachings of the truth, the master-hnami tar cholo na volbo na.</p>
+                                <div class="blog-footer clearfix">
+                                    <div class="pull-left">
+                                        <a href="blog-details.html">Read More</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="blog-details.html"><i class="zmdi zmdi-favorite-outline"></i></a>
+                                        <a href="blog-details.html"><i class="zmdi zmdi-comment-outline"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="blog-post">
+                            <div class="thumb">
+                                <a href="blog-details.html">
+                                    <img src="/as-images/sample/6.jpg" alt="Blog Thumbnail" />
+                                </a>
+                            </div>
+                            <div class="blog-text plr-40 ptb-35 white-bg">
+                                <div class="title">
+                                    <a href="blog-details.html"><h4>The standard chunk of Lorem</h4></a>
+                                    <h6>Jun 12, 2017</h6>
+                                    <hr class="line" />
+                                </div>
+                                <p class="ptb-15">I will give you a complete ofe system expound ttual teachings of the truth, the master-hnami tar cholo na volbo na.</p>
+                                <div class="blog-footer clearfix">
+                                    <div class="pull-left">
+                                        <a href="blog-details.html">Read More</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="blog-details.html"><i class="zmdi zmdi-favorite-outline"></i></a>
+                                        <a href="blog-details.html"><i class="zmdi zmdi-comment-outline"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="posts__list">
+                    <div class="posts__list__nav">
+                        <a href="#" class="nav see-all">See all</a>
+                        <a href="#" class="nav">→</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Blog Section End -->
+        <!-- end works -->
+        <section class="section-main work-with-us" data-anchor="work-with-us">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow fadeIn">
+                        <h6>START WORKING WITH US</h6>
+                        <h2 data-text="Hire us">So that's us. There's no other way to put it.</h2>
+                    </div>
+                    <!-- end col-12 -->
+                    <div class="col-lg-5 col-md-8 wow fadeIn">
+                        <h4>Do you have a project opportunity, or are you just a looking to get creative solutions?</h4>
+                        <div class="custom-link wow fadeIn">
+                            <a href="#">
+                                <div class="lines"> <span></span> <span></span> </div>
+                                <!-- end lines -->
+                                <b>GET STARTED</b>
+                            </a>
+                        </div>
+                        <!-- end custom-link -->
+                    </div>
+                    <!-- end col-5 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end work-with-us -->
+        <section class="section-main clients" data-anchor="our-clients">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 wow fadeIn">
+                        <h6>START WORKING WITH US</h6>
+                        <h2>Our clients</h2>
+                        <h4>Do you have a project opportunity, or are you just a looking to get creative solutions?</h4>
+                        <div class="custom-link wow fadeIn">
+                            <a href="#">
+                                <div class="lines"> <span></span> <span></span> </div>
+                                <!-- end lines -->
+                                <b>BE OUR CLIENT</b>
+                            </a>
+                        </div>
+                        <!-- end custom-link -->
+                    </div>
+                    <!-- end col-4 -->
+                    <div class="col-lg-7 wow fadeIn" data-wow-delay="0.10s">
+                        <ul>
+                            <li><img src="/as-images/sample/logo01.png" alt="Image"><small>ABSTER</small></li>
+                            <li><img src="/as-images/sample/logo02.png" alt="Image"><small>LOKOMOTIVE</small></li>
+                            <li><img src="/as-images/sample/logo03.png" alt="Image"><small>BIRDIEST</small></li>
+                            <li><img src="/as-images/sample/logo04.png" alt="Image"><small>PLOCSHA</small></li>
+                            <li><img src="/as-images/sample/logo05.png" alt="Image"><small>NEWKY</small></li>
+                            <li><img src="/as-images/sample/logo06.png" alt="Image"><small>HACHAPURY</small></li>
+                            <li><img src="/as-images/sample/logo02.png" alt="Image"><small>LOKOMOTIVE</small></li>
+                            <li><img src="/as-images/sample/logo05.png" alt="Image"><small>NEWKY</small></li>
+                        </ul>
+                    </div>
+                    <!-- end col-7 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+        <!-- end clients -->
+
+    </section>
+
+
+
+</section>
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @Scripts.Render("~/bundles/content/default/home/js")
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

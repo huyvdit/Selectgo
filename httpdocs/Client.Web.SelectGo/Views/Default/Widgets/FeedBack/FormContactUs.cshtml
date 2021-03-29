@@ -1,0 +1,60 @@
+﻿@using global::Web.Helpers
+@model FeedBack
+@{
+    var id = "add-feedback" + Model.CustomView;
+    //var data = JsonConvert.DeserializeObject<FeebackConfigsAnnoField>(Model.AnnoField);
+}
+@using (Ajax.BeginForm("FeedBack", "Widgets", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = id, LoadingElementId = "ajax_loader", OnComplete = "PagedFeedBackLoaded", OnBegin = "return PagedFeedBackBegin('" + (id + "-form") + "')" },
+                        new { id = (id + "-form"), @class = "form site-form contact__form" }))
+{
+    @Html.HiddenFor(model => model.Type)
+    <input value="@ViewBag.annoField" type="hidden" name="annoField" id="annoField" />
+    <input value="" type="hidden" name="Custom" id="Custom" />
+    <input value="@Model.CustomView" type="hidden" name="CustomView" id="CustomView" />
+    if (ViewBag.NotifyText != null)
+    {
+        @Html.Raw(ViewBag.NotifyText)
+    }
+    if (Model.Type == "status-disabled" || Model.Type == "type-incorrect")
+    {
+    }
+    else
+    {
+        <style>
+            .tooltiptext {
+                margin-top: -108px;
+                padding: 1px 14px;
+            }
+        </style>
+        <input type="hidden" name="DataCustom" id="DataCustom" data-scope="Custom" value="@ViewBag.dataCustom" />
+
+        <div class="row m-0">
+            <div class="col-12 contact__item-input">
+                <input type="text" id="FullName" name="FullName" value="@Model.FullName" @(Model.AnnoFullName[2] == "required" ? "required" : "") placeholder="@Model.AnnoFullName[0]"
+                       class="contact__input item--sub-text text-dark mb-4 mt-0 w-100">
+            </div>
+            <div class="col-12 contact__item-input">
+                <input type="text" placeholder="@LanguageHelper.Translate("Address_Text")" name="Address" data-scope="Custom"
+                       class="contact__input item--sub-text text-dark mb-4 mt-0 w-100">
+            </div>
+            <div class="col-md-6 col-12 contact__item-input">
+                <input type="tel" id="Phone" data-val="true" data-val-regex="Số điện thoại không hợp lệ, phải bắt đầu bằng số không và gồm 10 hoặc 11 số" data-val-regex-pattern="^[0]?[- .]?(\([0-9]\d{2}\)|[0-9]\d{2})[- .]?\d{3}[- .]?\d{4}$" name="Phone" @(Model.AnnoPhone[2] == "required" ? "required" : "") value="@Model.Phone" placeholder="@Model.AnnoPhone[0]"
+                       class="contact__input item--sub-text text-dark mb-4 mt-0 w-100">
+            </div>
+            <div class="col-md-6 col-12 contact__item-input">
+                <input type="email" id="Email" name="Email" @(Model.AnnoEmail[2] == "required" ? "required" : "") value="@Model.Email" placeholder="@Model.AnnoEmail[0]"
+                       class="contact__input item--sub-text text-dark mb-4 mt-0 w-100">
+            </div>
+            <div class="col-12 contact__item-input text-center">
+                <textarea id="Message" name="Message" style="display:none" rows="9" placeholder="">Sent from: @Request.Url.AbsoluteUri</textarea>
+                <button type="submit"
+                        class="contact__submit item--sub-text text-light text-uppercase border-0 m-0">
+                    submit
+                </button>
+            </div>
+        </div>
+
+        
+
+    }
+}

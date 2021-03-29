@@ -1,0 +1,115 @@
+﻿@model ProductInsideView
+<style>
+    .pagination{
+        margin-top: 30px;
+        text-align: center;margin-bottom: 0px;
+        text-transform: uppercase;
+        width: 100%;
+        padding-top: 15px;
+        display: block!important;
+        border-bottom: 1px solid;
+    }
+    .pagination > li{
+            display: inline-block!important;
+    }
+    .pagination > li > a, .pagination > li > span {
+        position: relative;
+        float: left;
+        padding: 6px 6px;
+        margin-left: -1px;
+        line-height: 20px;
+        color: #212529;
+        text-decoration: none;
+        height: 30px;
+        width: 30px;
+        border-radius: 30px;font-size: 12px;
+       
+    }
+    .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        color: var(--primary-color);
+        border-bottom: 1px solid var(--primary-color);
+    }
+   
+</style>
+
+
+<div class="portlet-body" id="list-product-inside">
+
+    @Html.Partial("/Views/Default/Catalog/Product/Inside/partial/_listItem.cshtml")
+
+</div>
+
+@using (Html.BeginScripts())
+{
+   
+    <script>
+        $(function () {
+            window.pageSubmit = function (pn) {
+                
+                  {
+                    ASPlus.loading.show();
+                    let params = {
+                                    pathview: '_listItem',
+                                    postFix: '@ViewBag.postFix',
+                                    pageNumber: pn,
+                                    pageSize: document.getElementById('page-size').value,
+
+                                }
+                    const withQuery = (url, params) => {
+                      let query = Object.keys(params)
+                        .filter(k => params[k] !== undefined)
+                        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                        .join('&');
+                      url += (url.indexOf('?') === -1 ? '?' : '&') + query;
+                      return url;
+                    };
+
+                    fetch(withQuery('@Url.Action("ProductInsideSingle","ProductPlus")', params))
+                           .then(
+                            function(response) {
+                              if (response.status !== 200) {
+                                console.log('Looks like there was a problem. Status Code: ' +
+                                  response.status);
+                                return;
+                              }
+
+                              // Examine the text in the response
+                              response.text().then(function(data) {
+                                   
+                                  $('#list-product-inside').html(data);
+                                  $("#total-chapters-display").text($("#total-items").val());
+                                  setTimeout(function () {
+                                      if (window.bindPager != undefined) window.bindPager();
+                                      ASPlus.loading.hide();
+                                      
+                                      if (Product != undefined) Product.init();
+                                  },1200)
+                                  
+                              });
+                            }
+                          )
+                          .catch(function(err) {
+                            console.log('Fetch Error :-S', err); HvHelpers.loading.hide();
+                       });
+                }
+            }
+             window.bindPager = function () {
+
+                //basic initialization
+                $("#pager-link a").bind("click", function (e) {
+                    e.preventDefault();
+                          
+                    window.pageSubmit($(this).attr("data-page"));
+                    return false;
+                });
+                 $("#total-chapters-display").text($("#total-items").val());
+ 
+                $(".time-ago").timeago();
+            }
+            $(document).ready(window.bindPager)
+        });
+    </script>
+}

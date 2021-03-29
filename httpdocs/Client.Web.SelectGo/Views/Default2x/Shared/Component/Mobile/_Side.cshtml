@@ -1,0 +1,55 @@
+﻿@using global::Web.Helpers
+<section class="nav-mobile hidden-lg">
+    <ul id="slide-out" class="side-nav">
+        <li>
+            <div class="user-view">
+                <b class="button-collapsed-close">x</b>
+                <div class="background">
+
+                </div>
+                @if (GlobalVariables.OrderActive)
+                {
+                    if (Request.IsAuthenticated && UserManager.User != null)
+                    {
+                        var profileUrl = Url.Action("Profile", "Account", new { segment = "profile" });
+                        <a rel="nofollow" href="@profileUrl"><img class="circle" src="@(@UserManager.User.Avatar ?? "/as-images/shared/avatar-default.png")" alt="@User.Identity.Name"></a>
+                        <a href="@profileUrl"><span class="white-text name">Welcome! @UserManager.User.FriendlyName</span></a>
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoff"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a href="javascript:document.getElementById('logoff').submit()" style="background: #333333; padding: 1px 16px;" rel="nofollow" title="Click here to signout">@LanguageHelper.Translate("Sign_out_Text")</a>
+                        }
+                    }
+                    else
+                    {
+                        <div class="profile">
+                            <div class="image">
+                                <div class="circle-1"></div>
+                                <div class="circle-2"></div>
+                                <a href="#!user"><img class="circle" alt="user-guest" src="/as-images/shared/avatar-default.png"></a>
+                            </div>
+                        </div>
+                        <div class="no-logged">
+
+                            <a rel="nofollow" href="@Url.Action("Login", "Account")"  title="Click here to login or new registered" > @LanguageHelper.Translate("Login_Text")</a>
+                            <a href="@Url.Action("Register", "Account")"><span class="white-text name">@LanguageHelper.Translate("Create_new_account_Text")</span></a>
+
+                        </div>
+                    }
+                }
+            </div>
+        </li>
+        @Html.Action("Menu", "Widgets", new {identifier = "main-menu", pathView = "Menu/Minified", area = ""})
+        <li class="divide">
+            
+        </li>
+        <li>
+            <ul class="topbar-menu">
+                <li class="dropdown">
+                    @{ Html.RenderPartial("~/Views/Default/Shared/Component/Mobile/_Language.cshtml"); }
+                </li>
+            </ul>
+        </li>
+    </ul>
+    
+</section>

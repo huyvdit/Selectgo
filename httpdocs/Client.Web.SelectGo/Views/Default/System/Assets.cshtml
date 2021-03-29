@@ -1,0 +1,294 @@
+﻿@using ASP.Web.Core.Models;
+@{
+    ViewBag.SelfHeader = true;
+    ViewBag.Title = "Assets/Images/" + ViewBag.ImagesFolder + "/*";
+
+    var listImages = ViewBag.ImagesItem as List<FigureModel>;
+}
+
+<link href="~/Assets/css/image-uploader.min.css" rel="stylesheet" />
+<link href="~/Assets/css/multi-step.min.css" rel="stylesheet" />
+<link href="~/Assets/css/gallery.css" rel="stylesheet" />
+<style></style>
+<div id="gallery-wrapper">
+
+    <h2>Assets/Images/@ViewBag.ImagesFolder* <span>(@ViewBag.ImagesCount)</span></h2>
+
+    <div>
+        <div class="box">
+            <div class="align-unit">
+                <div class="icon" data-state="0">
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                </div>
+                <div class="icon" data-state="1">
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                </div>
+                <div class="icon" data-state="2">
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                </div>
+                <input class="align-radio" title="100 items" type="radio" name="align" value="100" style="left: 0px;position: absolute;" aria-label="align to left" @(Request["take"] == "100" ? "checked" : "") autofocus="autofocus" />
+                <input class="align-radio" title="500 items" type="radio" name="align" value="500" aria-label="align to center" @(Request["take"] == "500" ? "checked" : "") />
+                <input class="align-radio" title="1000 items" type="radio" name="align" value="1000" style="right: 0px;position: absolute;" @(Request["take"] == "1000" ? "checked" : "") aria-label="align to right" />
+                <div class="icon">
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                    <div class="l">
+                        <div class="s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-control custom-switch" style="    margin-bottom: 25px;">
+        <input type="checkbox" class="custom-control-input" id="darkSwitch">
+        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+    </div>
+
+    <div id="gallery" class="container">
+        @{
+            var idx = 0;
+        }
+        @foreach (var figure in listImages.Take(500))
+        {
+            idx++;
+            var src = @Url.Content(figure.Src);
+            <div>
+                <a class="image-wrapper visibility-@figure.Visibility" href="@src" data-fancybox="@ViewBag.ImagesFolder" title="@figure.Caption">   <img class="OF-fill" src="@src" alt="@figure.Alt" /></a>
+
+                <div class="add">
+                    <a href="">
+                        <svg>
+                            <use xlink:href="#" />
+                        </svg>
+                    </a>
+                    <a data-toggle="modal" data-target="#updateModal" data-figureid="@figure.Id" data-figurename="@figure.Name" data-figureUploadedTime="@figure.UploadedTime" data-figureModifiedTime="@figure.ModifiedTime" data-figureCaption="@figure.Caption" data-figureAlt="@figure.Alt" data-figureVisibility="@figure.Visibility">
+                        <svg>
+                            <use xlink:href="#imageIcon" />
+                        </svg>
+                    </a>
+                    <a data-clipboard data-clipboard-text="http://insight.selectgo.vn@(src.Replace("/as-images","/assets/images"))">
+                        <svg>
+                            <use xlink:href="#clippy" />
+                        </svg>
+                    </a>
+                    <a class="btn-delete" data-name="@src">
+                        <svg style="zoom: 1.5;">
+                            <use xlink:href="#remove" />
+                        </svg>
+                    </a>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+                    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="imageIcon">
+                        <circle cx="16.1" cy="6.1" r="1.1"></circle>
+                        <rect fill="none" stroke="#000" x="0.5" y="2.5" width="19" height="15"></rect>
+                        <polyline fill="none" stroke="#000" stroke-width="1.01" points="4,13 8,9 13,14"></polyline>
+                        <polyline fill="none" stroke="#000" stroke-width="1.01" points="11,12 12.5,10.5 16,14"></polyline>
+
+                    </symbol>
+                    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 896" id="clippy">
+                        <path d="M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V192c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-29-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+                    </symbol>
+                    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="remove">
+
+                        <path d="M231.42,316.89A103.17,103.17,0,0,1,420.72,260V151.6A12.61,12.61,0,0,0,408.11,139H239.45V121.65A12.61,12.61,0,0,0,226.84,109H103.9a12.61,12.61,0,0,0-12.61,12.61V334.44a12.62,12.62,0,0,0,12.61,12.61h132A102.9,102.9,0,0,1,231.42,316.89Z" fill="#fff" />
+                        <path d="M334.65,230.82a86.07,86.07,0,1,0,86.07,86.07A86.07,86.07,0,0,0,334.65,230.82Zm56.62,89.68a6.36,6.36,0,0,1-6.35,6.34H284.36A6.36,6.36,0,0,1,278,320.5v-7.23a6.36,6.36,0,0,1,6.34-6.34H384.91a6.36,6.36,0,0,1,6.35,6.34Z" fill="red" />
+                    </symbol>
+                </svg>
+                <a href="#">@idx</a>
+            </div>
+        }
+
+    </div>
+
+    <ul class="honey">
+        @foreach (var figure in listImages.Take(6))
+        {
+            var src = @Url.Content(figure.Src);
+            <li><a href="@src" data-fancybox="@(ViewBag.ImagesFolder +"_Top")+" data-caption="@figure.Caption"><img src="@src" alt="@figure.Alt" /></a></li>
+        }
+
+    </ul>
+
+    <div class="container">
+        <form method="POST" name="form-example-1" id="form-post-images" class="form-image-uploader" enctype="multipart/form-data">
+
+            <div class="input-field">
+                <input type="text" name="path" id="name-1" required value="@ViewBag.ImagesFolder">
+                <label for="name-1" class="active">Directory</label>
+            </div>
+
+            <div class="input-field">
+                <input type="text" name="caption" id="caption-1" placeholder="">
+                <label for="caption-1">Caption</label>
+            </div>
+
+            <div class="input-field">
+                <input type="text" name="alt" id="alt-1" placeholder="">
+                <label for="alt-1">Alternative information</label>
+            </div>
+
+            <div class="input-field-radio" style="margin-bottom: 120px; margin-top: 20px;">
+                <label class="active">Visibility</label>
+                <div class="visibility">
+
+                    <label class="slot">
+                        <span><b>Public</b> Anyone can access to</span>
+                        <input type="radio" value="1" checked name="visibility" />
+                    </label>
+
+                    <label class="slot">
+                        <span><b>Protected</b> Not available</span>
+                        <input type="radio" value="2" name="visibility" disabled />
+                    </label>
+
+                    <label class="slot">
+                        <span><b>Private</b> Only you can access to</span>
+                        <input type="radio" value="3" name="visibility" />
+                    </label>
+
+                </div>
+            </div>
+
+            <div class="input-field">
+                <label class="active">Photos</label>
+                <div class="input-images-1" style="padding-top: .5rem;"></div>
+            </div>
+
+
+            <button type="submit" class="button submit-files button-as" style="margin: 15px auto;">
+                <div class="translate-as"></div>
+                <span> Upload's Go! </span>
+            </button>
+
+            <button type="reset" style="margin: 0px auto;color: gray;text-decoration: underline;background: none;font-size: 11px;">
+                <span> Reset </span>
+            </button>
+        </form>
+    </div>
+
+    <div class="normal-container">
+        <div class="smile-rating-container">
+            <div class="smile-rating-toggle-container">
+                <form class="submit-rating">
+                    <input id="meh" name="satisfaction" type="radio" />
+                    <input id="fun" name="satisfaction" type="radio" />
+                    <label for="meh" class="rating-label rating-label-meh">Bad</label>
+                    <div class="smile-rating-toggle"></div>
+
+                    <div class="rating-eye rating-eye-left"></div>
+                    <div class="rating-eye rating-eye-right"></div>
+
+                    <div class="mouth rating-eye-bad-mouth"></div>
+
+                    <div class="toggle-rating-pill"></div>
+                    <label for="fun" class="rating-label rating-label-fun">Fun</label>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <header id="masthead" role="banner">
+            <div class="container">
+                <button class="hamburger-quick hamburger-quick--boring" type="button">
+                    <span class="hamburger-quick-box">
+                        <span class="hamburger-quick-inner"></span>
+                    </span>
+                    <span class="hamburger-quick-label">+ Quick Links <span class="" style="opacity: 0.5; font-size: 9px;"> - Explore popular categories</span></span>
+                </button>
+
+                <nav id="site-nav" role="navigation">
+                    <div class="col">
+                        <h4>Expertise</h4>
+                        <ul>
+                            <li><a href="#">Insurance Industry</a></li>
+                            <li><a href="#">Retail Industry</a></li>
+                            <li><a href="#">Logistics Industry</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Results</h4>
+                        <ul>
+                            <li><a href="#">Case Studies</a></li>
+                            <li><a href="#">Client Partners</a></li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">Our Story</a></li>
+                            <li><a href="#">Our Team</a></li>
+                            <li><a href="#">Our Culture</a></li>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Join Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Approach</h4>
+                        <ul>
+                            <li><a href="#">Digital Transformation</a></li>
+                            <li><a href="#">Digital Readiness Tool</a></li>
+                            <li><a href="#">Solution Partners</a></li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="social">
+                            <li><a href=""><svg title="Facebook"><use xlink:href="#icon-facebook"></use></svg></a></li>
+                            <li><a href=""><svg title="Twitter"><use xlink:href="#icon-twitter"></use></svg></a></li>
+                            <li><a href=""><svg title="LinkedIn"><use xlink:href="#icon-linkedin"></use></svg></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- partial -->
+
+
+
+</div>
+<div id="updateModal" class="multi-step" style="z-index: 999999;"></div>
+
+
+@section scripts {
+    <script src="~/Assets/js/image-uploader.min.js"></script>
+    <script src="~/Assets/js/clipboard.min.js"></script>
+    <script src="~/Assets/js/multi-step.min.js"></script>
+    <script src="~/Assets/js/assets.js"></script>
+    <script>
+
+    </script>
+}

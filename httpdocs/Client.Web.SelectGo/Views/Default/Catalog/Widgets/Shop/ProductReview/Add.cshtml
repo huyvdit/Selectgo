@@ -1,0 +1,100 @@
+﻿@using global::Web.Helpers
+@model Web.Model.Models.ProductReview
+@{
+    var maxRate = DataConfigsHelper.Get("MaxRate");
+    if (maxRate == "")
+    {
+        maxRate = "5";
+    }
+}
+@using (Ajax.BeginForm("AddProductReview", "Catalog", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "add-product-review", LoadingElementId = "add-review-loader", OnComplete = "PagedOnComplete_Add" }))
+{
+    if (ViewBag.NotifyText != null)
+    {
+        @Html.Raw(ViewBag.NotifyText)
+    }
+    @Html.HiddenFor(model => model.ProductId)
+    <div style="display:none">
+        <input type="text" class="form-control" required name="FullName" value="@Model.FullName">
+        <input type="email" class="form-control" required name="Email" value="@Model.Email">
+    </div>
+    @*<h3 class="title">@LanguageHelper.Translate("Your_Comment_Text")</h3>*@
+
+
+    <div class="review-rate">
+        <label class="mb-0" for="Rating">@LanguageHelper.Translate("Reviews_for_this_page_Text")</label>
+        <input class="mb-0" id="Rating" value="@(Model.Rating == 0 ? 4: Model.Rating)" name="Rating" type="number" min=0 max="@(maxRate)" step=0.5 data-size="xl" data-stars="@maxRate" />
+    </div>
+
+    <div class="review-title">
+        <label for="Title">@LanguageHelper.Translate("Title_Text") <i>*</i></label> @Html.ValidationMessageFor(model => model.Title)
+        <input type="text" id="Title" name="Title" value="@Model.Title" placeholder="Type anything" list="TitleSuggest" />
+        <div class="form-text text-muted display-if"
+             data-target_name="Title"
+             data-target_type="text"
+             data-target_has_any_value=true>
+            <small>Thanks for your title :)</small>
+        </div>
+    </div>
+
+    <div class="review-content">
+        <label for="ReviewText">@LanguageHelper.Translate("Message_Text") <i>*</i></label>  @Html.ValidationMessageFor(model => model.ReviewText)
+        <textarea id="ReviewText" name="ReviewText" rows="5" cols="5" style="width: 100%;" placeholder="@(Model.ReviewText ?? LanguageHelper.Translate("I want said_Text") + ":broken_heart:")"></textarea>
+    </div>
+
+    <div>
+
+        <div class="checkbox checkbox-ripple show-info-in" style="display:none">
+            <label style="font-weight: normal;">
+                @Html.EditorFor(model => model.DisplayedOrders) <span class="ripple"></span><span class="check"></span> @LanguageHelper.Translate("Display purchased information in the comment section_Text")
+            </label>
+
+        </div>
+
+        <div id="table_Content_Review" style="display:none">
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-body form-inline dept1">
+                        <p><small>Please complete the form to sign up for the <a href="http://@Data.Domain" target="_blank">@Data.Domain</a> mailing list!</small></p>
+
+                        <form>
+                            <div class="form-group">
+                                <label for="full_name">Full name</label>
+                                <input type="text" class="form-control" required id="full_name" data-required value="@((UserManager.User == null || UserManager.User.MainAddress == null) ? Model.FullName : UserManager.User.MainAddress.FullName)">
+                                <small id="NameHelp" class="form-text text-muted">Shown in your review.</small>
+                            </div>
+
+
+                            <div class="form-group" style="margin-bottom: 25px;">
+                                <label for="e_mail">Email address</label>
+                                <input type="email" class="form-control" required id="e_mail" aria-describedby="emailHelp" value="@(UserManager.User == null ? Model.Email : UserManager.User.Email)" data-required>
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+
+
+                            <div class="form-group">
+                                <button type="submit" id="send_review" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path fill="#A09F9F" fill-rule="evenodd" stroke="#999" stroke-width=".2" d="M14.432 12.715l2.348-2.746a.415.415 0 0 1 .607-.038.47.47 0 0 1 .028.646l-2.64 3.09a.419.419 0 0 1-.3.15h-.014a.414.414 0 0 1-.3-.127l-1.498-1.516a.466.466 0 0 1-.014-.637.413.413 0 0 1 .606-.015l1.177 1.193zm-3.165-.868a3.749 3.749 0 0 0 3.744 3.745 3.749 3.749 0 0 0 3.744-3.745 3.749 3.749 0 0 0-3.744-3.745 3.749 3.749 0 0 0-3.744 3.745zm2.001-4.195a4.523 4.523 0 0 1 1.743-.35 4.55 4.55 0 0 1 4.545 4.545 4.55 4.55 0 0 1-4.545 4.545 4.55 4.55 0 0 1-4.545-4.545 4.53 4.53 0 0 1 1.91-3.688c-.026-.013-.045-.029-.045-.054V5.837c0-.159.08-.308.207-.395a.588.588 0 0 0 .254-.487V2.6c0-.907-.721-1.64-1.602-1.64h-.494c-.886 0-1.603.738-1.603 1.64v2.355c0 .192.095.376.255.487a.47.47 0 0 1 .207.395v2.268a.588.588 0 0 1-.32.526c-.288.145-1.791.921-3.181 2.089a.66.66 0 0 0-.235.511v1.612a.456.456 0 0 1-.458.473.47.47 0 0 1-.466-.478v-1.612c0-.487.207-.94.575-1.249.153-.129.307-.253.461-.373V7.21a.5.5 0 0 1 .214-.41.352.352 0 0 0 .156-.296V4.618c0-.666-.525-1.206-1.172-1.206h-.394c-.646 0-1.166.54-1.166 1.201v1.886c0 .121.058.231.155.296.136.09.214.245.214.41v1.817c0 .225-.121.42-.316.52a13.83 13.83 0 0 0-2.513 1.662.421.421 0 0 0-.146.325v1.291a.487.487 0 0 1-.481.496A.487.487 0 0 1 0 12.82v-1.291c0-.425.18-.821.501-1.091.967-.821 2.003-1.411 2.479-1.667V7.435a1.368 1.368 0 0 1-.369-.936V4.613c0-1.211.958-2.192 2.129-2.192h.394c1.177 0 2.129.986 2.129 2.192v1.886c0 .356-.136.686-.369.936V8.91a19.344 19.344 0 0 1 1.733-1.037V6.059a1.557 1.557 0 0 1-.462-1.109V2.595C8.165 1.162 9.305 0 10.7 0h.495c1.399 0 2.535 1.167 2.535 2.595V4.95c0 .424-.17.82-.462 1.109v1.593z"></path></svg>  @LanguageHelper.Translate("Completed_Text")</button>
+                                <a href="#" id="cancel_review" class="close">Cancel</a>
+                            </div>
+                          
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="pull-right">
+            <button style="float: right;height: 30px;" id="ReviewSubmit" class="submit" type="button">
+                <span id="add-review-loader" style="display:none;font-size: 10px;">
+                    @LanguageHelper.Translate("Waiting_Text")...
+                </span>
+                <svg width="20px" height="20px"  viewBox="0 0 50 52"><defs><linearGradient x1="-33.8638554%" y1="80.5915663%" x2="80.3337349%" y2="-33.6060241%" id="security-1"><stop stop-color="#c90000" offset="0%"></stop><stop stop-color="#c90000" offset="100%"></stop></linearGradient><linearGradient x1="42.6433735%" y1="57.1%" x2="109.859036%" y2="-10.1144578%" id="security-2"><stop stop-color="#c90000" offset="0%"></stop><stop stop-color="#c90000" offset="100%"></stop></linearGradient><linearGradient x1="-10.3722892%" y1="110.116867%" x2="56.8433735%" y2="42.9012048%" id="security-3"><stop stop-color="#c90000" offset="0%"></stop><stop stop-color="#c90000" offset="100%"></stop></linearGradient><linearGradient x1="19.153012%" y1="133.607229%" x2="133.350602%" y2="19.4096386%" id="security-4"><stop stop-color="#c90000" offset="0%"></stop><stop stop-color="#c90000" offset="100%"></stop></linearGradient><linearGradient x1="-9.28944099%" y1="89.1416216%" x2="112.72795%" y2="-17.0462162%" id="security-5"><stop stop-color="#c90000" offset="0%"></stop><stop stop-color="#c90000" offset="100%"></stop></linearGradient></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon-purple_ddos" transform="translate(-354.000000, -72.000000)"><g id="purple" transform="translate(355.000000, 74.000000)"><g id="Group"><polyline id="Shape" stroke="url(#security-1)" stroke-width="2.375" stroke-linejoin="round" points="7.2 0 0.331034483 0 0.331034483 6.98947368"></polyline><polyline id="Shape" stroke="url(#security-2)" stroke-width="2.375" stroke-linejoin="round" points="47.5034483 6.98947368 47.5034483 0 40.6344828 0"></polyline><polyline id="Shape" stroke="url(#security-3)" stroke-width="2.375" stroke-linejoin="round" points="0.331034483 41.0105263 0.331034483 48 7.2 48"></polyline><polyline id="Shape" stroke="url(#security-4)" stroke-width="2.375" stroke-linejoin="round" points="40.6344828 48 47.5034483 48 47.5034483 41.0105263"></polyline><path d="M30.537931,10.7789474 C30.537931,10.7789474 25.4896552,10.4421053 23.9172414,8.33684211 C22.3448276,10.3578947 17.2965517,10.7789474 17.2965517,10.7789474 C17.2965517,10.7789474 12.8275862,10.6947368 10.5931034,9.09473684 L10.5931034,25.7684211 C10.5931034,29.1368421 11.9172414,32.3368421 14.4,34.5263158 C16.3862069,36.2947368 19.4482759,38.2315789 23.9172414,39.4947368 C28.4689655,38.1473684 31.4482759,36.2947368 33.4344828,34.5263158 C35.9172414,32.2526316 37.2413793,29.0526316 37.2413793,25.7684211 L37.2413793,9.09473684 C35.0896552,10.6947368 30.537931,10.7789474 30.537931,10.7789474 Z" id="Shape" fill="url(#security-5)" fill-rule="nonzero"></path></g></g></g></g></svg>
+                @LanguageHelper.Translate("Submit_Text")
+            </button>
+
+        </p>
+    </div>
+
+}

@@ -1,0 +1,54 @@
+﻿.project-box .project-box__title .project-box__title-right h1 {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #606060;
+}
+.content-our-services img{
+    width:100%;
+}
+.content-our-services .services-inner {
+    width: 33%;
+    float: left;
+    height: 256px;
+}
+    .content-our-services .services-inner .title {
+        margin-bottom: 15px;
+    }
+    .content-our-services .sub-title {
+        padding-top: 30px;
+        font-size: 18px;
+    }
+    .content-our-services .service-list {
+        margin-top: 50px;
+    }
+    .content-our-services .services-inner .title::before {
+        position: absolute;
+        margin-left: 0px;
+        margin-top: 30px;
+        content: "";
+        width: 35px;
+        height: 3px;
+        background-color: #303030;
+    }
+   
+.content-our-services li {
+    font-size: 14px;
+    color: #7d7d7d;
+    line-height: 22px;
+}
+    .content-our-services li a {
+        font-size: 14px;
+        color: #606060;
+        line-height: 20px;
+        font-family: 'Open Sans', sans-serif !important;
+    }
+        .content-our-services li a:hover {
+            color: #ED1C24
+        }
+
+
+
+.project-box__description-right--text img{
+    max-width:100%;
+}

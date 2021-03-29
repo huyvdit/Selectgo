@@ -1,0 +1,35 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model List<Web.Model.Models.ProductReview>
+<ul>
+    @foreach (ProductReview item in Model)
+    { 
+        <li>
+            <div class="comment-avatar"><a href="#"><img  src="@item.Customer.Avatar"></a></div>
+            <div class="comment-info">
+                <span class="title"><a href="#">@item.Customer.MainAddress.FullName</a>
+                   
+                </span>
+                <div class="ratings">
+                    <div class="rating-box">
+                        <div class="rating" style="width: @((Convert.ToDouble(item.Rating)/ Convert.ToDouble(DataConfigsHelper.Get("MaxRate")))*100)%"></div>
+                    </div>
+                </div>
+                <div>
+                    <i class="mdi-device-access-time"></i>
+                    <time class="time-ago" datetime="@item.CreatedTime"> </time>
+                </div>
+                <a href="@(SlugHelper.Product(item.ProductId) + "#review-" + item.Id)"><span class="content">@item.ReviewText </span> </a>
+            </div>
+        </li>
+    }
+</ul>
+@using (Html.BeginScripts())
+{
+    <script src="~/Scripts/jquery.timeago.js" defer> </script>
+    <script>
+        $(document).ready(function () {
+            $(".time-ago").timeago();
+        });
+    </script>
+}

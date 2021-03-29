@@ -1,0 +1,39 @@
+﻿@using global::Web.Helpers
+@using Web.Core.Models
+@model List<Web.Core.Models.BreadcrumbModel>
+    @{ var i = 0;}
+               <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                   @if (ViewBag.homeIncluded)
+                   {
+                       <li class="breadcrumb-item"><a href="/@DataCurrentHelper.UniqueSeoCode"><i class="fa fa-home"></i>  @LanguageHelper.Translate("Home_Text")</a></li>
+
+                   }
+                   @foreach (BreadcrumbModel item in Model.Where(e => e.Title != null && !e.Title.Contains("ROOT")))
+                   {
+                       i++;
+                       if (Model.Last() == item)
+                       {
+                           <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+
+                               @if (ViewBag.headingIncluded != null && ViewBag.headingIncluded == true)
+                               {
+                                   <meta itemprop="url" content="#" />
+                                   <h1 itemprop="name"> @Html.Raw(item.Icon) @item.Title </h1>
+                               }
+                               else
+                               {
+                                   <span itemprop="name">@Html.Raw(item.Icon) @item.Title</span>
+                               }
+                               <meta itemprop="position" content="@i" />
+                           </li>
+                       }
+                       else
+                       {
+                           <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                               <a itemprop="item" href="@item.Link" title="@item.Title"> <span itemprop="name"> @Html.Raw(item.Icon) @item.Title </span> </a>
+                               <meta itemprop="position" content="@i" />
+                           </li>
+                       }
+                       
+                   }
+               </ol>

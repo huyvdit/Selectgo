@@ -1,0 +1,934 @@
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    background-color: transparent;
+    color:#fff!important;
+}
+i:hover {
+  color:#fff;
+}
+.sweet-alert {
+    background-color: #FFEB3B;
+    padding: 30px;
+    border-radius: 0px;
+    outline: 0px solid #dee2e6;
+}
+.sweet-alert h2 {
+    color: #c90000;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: none;
+    position: relative;
+    margin: 0px;
+    padding: 0;
+    line-height: 40px;
+    display: block;
+    text-transform: uppercase;
+}
+    .sweet-alert[data-has-cancel-button=false] button {
+        box-shadow: none !important;
+        border-radius: 50px;
+        line-height: 16px;
+        font-weight: 700;
+        border: 1px solid #2c3442 !important;
+        background-color: #FFEB3B !important;
+        color: #2c3442;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+.sweet-alert input {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0px;
+    border: 1px solid #2c3442;
+    height: 36px;
+    margin-top: 18px;
+    margin-bottom: 0px;
+    font-size: 18px;
+}
+    .form-group { 
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.formLabel {
+    display: block;
+    position: absolute;
+    font-size: 20px;
+    color:#999;
+    font-weight: 500;
+    line-height: 1.2;
+    transition: all .2s
+}
+.formLabel.active {
+    -webkit-transform: translateY(-140%);
+    transform: translateY(-140%);
+    font-size: 16px;
+}
+
+.formInput {
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-size: 24px;
+    width: 100%;
+    border-bottom: 2px solid #EEE;
+    display: block;
+}
+    .formInput:focus {
+        outline: none;
+        border-bottom: 1px solid #2c3442;
+        -webkit-transition: border-bottom .5s;
+        -moz-transition: border-bottom .5s;
+        -ms-transition: border-bottom .5s;
+        -o-transition: border-bottom .5s;
+        transition: border-bottom .5s;
+    }
+.formInput.input-error {
+    border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+.formInput.error { border-bottom-color:#ff6d6d; }  
+.errorIcon { position: absolute; top:8px; right:0; display: none; }
+.errorIcon i { color:#ff6d6d; font-size:18px; }
+.error { color:#ff6d6d; }
+
+.help-error {
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    padding: 10px 0;
+    display: none;
+    text-align: right;
+}
+.help-error i {
+    font-weight: bold;
+    font-size: 16px;
+    vertical-align: middle;
+    float: right;
+    margin-left: 20px;
+}
+.help-info {
+    text-align: right;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    padding: 10px 0;
+}
+
+.help-block { color:#ecb200; font-size:14px; }
+
+/*------------------------------------------------------------------
+[3. Buttons ]
+*/
+.btn {
+    font-weight: 700;
+    font-size: 15px;
+}
+.btn-rounded {
+    border-radius: 30px;
+}
+.btn-blue {
+    background: #48A5EA;
+    color: #FFF;
+    padding: 10px 30px !important;
+}
+.btn-blue:hover {
+    background: #317db5;
+    color:#FFF;
+}
+
+.btn-green {
+    background: #32b367;
+    color: #FFF;
+    padding: 10px 30px !important;
+}
+.btn-green:hover {
+    background: #12b957;
+    color:#FFF;
+}
+
+.btn-white-transparent {
+    border: 2px solid #FFF;
+    background: none;
+    color: #FFF;
+    padding: 10px 30px !important;
+}
+.btn-white-transparent:hover {
+    background: #FFF;
+    color: #777;
+}
+
+
+/*------------------------------------------------------------------
+[4. Loader / .luna-loader-container]
+*/
+.luna-loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background: #FFF;
+    z-index: 1000;
+}
+.luna-loader {
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    left: 50%;
+    margin-left: -25px;
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+
+/*------------------------------------------------------------------
+[5. Signup Container / .luna-signup-container]
+*/
+.luna-signup-container {
+    display: none;
+    position: relative;
+    z-index: 0;
+    overflow-x: hidden;
+}
+
+
+/*------------------------------------------------------------------
+[5.1 Left Panel / .luna-signup-left]
+*/
+.luna-signup-left {
+    padding: 60px 30px 30px;
+    position: fixed;
+    width:200px; 
+}
+
+.luna-signup-left:after {
+    
+}
+
+.luna-signup-left-overlay {
+    z-index: -1;
+    position: fixed;
+    height: auto;
+    display: block;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 19%;
+  
+}
+
+.luna-signup-left p {
+    font-size: 18px;
+    line-height: 30px;
+    color: #999;
+}
+
+.luna-navigation { height: calc(100% - 70px); position: relative; }
+
+.dots { list-style: none; margin: 0; padding:0; position: absolute; top:50%; left:50%; margin-left: -10px; margin-top:-20px;}
+.dots li { margin-bottom: 6px; text-align: center; width:20px; }
+.dots span { position: relative; width:8px; height:8px; display:block; margin:auto; border-radius: 50%; background:#FFF; opacity: 0.8; }
+.dots span:hover { cursor: default; }
+    .dots span:last-child{
+        background:#c90000;
+    }
+    .dots span.selected {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+        margin-top: 10px;
+    }
+.dots span.selected:after { content:''; position: absolute; top:-6px; left:0; width: 0; height: 0; border-style: solid; border-width: 0 5px 10px 5px; border-color: transparent transparent #ffffff transparent; }
+.toPrev, .toNext { width:40px; height:40px; border:2px solid #FFF; color:#FFF; text-align: center; border-radius: 50%; display:inline-block; font-size:20px; line-height: 40px; position: absolute; left:50%; margin-left: -20px; z-index: 1000; }
+.toNext:hover, .toPrev:hover { text-decoration: none; }
+.toNext { bottom: 0;  }
+/*------------------------------------------------------------------
+[5.1.1. Logo / .luna-signup-logo]
+*/
+.luna-signup-logo {
+    margin-bottom: 20px;
+    max-width:200px;
+    width:100%;
+}
+
+/*------------------------------------------------------------------
+[5.2. Right Panel / .luna-signup-right]
+*/
+.luna-signup-right {
+    position: relative;
+    margin-left:200px;
+    /*overflow-y: auto;*/
+    padding: 60px 30px 0 0
+}
+
+/*------------------------------------------------------------------
+[5.2.1 Steps Counts / .steps-count]
+*/
+.steps-count {
+    font-weight: bold;
+    font-size: 12px;
+    text-align: right;
+    margin-top: -16px;
+    float: right;
+    color: #c90000;
+}
+
+/*------------------------------------------------------------------
+[5.2.2 Steps / .luna-steps]
+*/
+.luna-steps { 
+    height:500px;
+    position: relative;
+}
+
+    .luna-steps .step {
+        padding-top: 60px;
+        padding-left: 60px;
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: .5s;
+        -webkit-transform: translateY(30px);
+        transform: translateY(30px);
+    }
+.step.step-active {
+    transform: none;
+    visibility: visible;
+    opacity: 1;
+}
+
+.step .form-group {  display:none; }
+.step.step-active .form-group {
+    display: block;
+}
+
+.step-hide {
+    -webkit-transform: translateY(-50px) !important;
+    transform: translateY(-50px) !important;
+}
+
+.step-label {
+    font-size: 10px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: dimgray;
+    margin-top: -29px;
+    text-transform: uppercase;
+}
+
+.luna-steps .checkbox-inline, .luna-steps .radio-inline{
+    font-size:20px; 
+    font-weight:500;
+    padding-left:25px;
+    line-height: 20px;
+    margin-right: 20px;
+}
+.checkbox-inline+.checkbox-inline, .radio-inline+.radio-inline { 
+    margin-left:0;
+}
+
+
+.step-title { color:#48A5EA; font-size:22px; margin-bottom:60px; margin-top:-20px; }
+.step-sub-title {
+    font-size: 20px;
+    border-bottom: 1px solid #EEE;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: #2c3442;
+    font-weight: 700;
+}
+
+
+/*------------------------------------------------------------------
+[5.2.2.2 Confirm Step / .step-confirm]
+*/
+
+.step-confirm {
+    height:0;
+    overflow:hidden;
+}
+
+.step-confirm.step-active { height: initial; overflow:initial;}
+
+.step-confirm.step-active .fadeTop {
+    opacity: 0;
+    animation: animateInput .3s forwards;
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+}
+
+
+
+.step-confirm.step-active .fadeTop:nth-of-type(1) {
+    animation-delay: 0.5s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(2) {
+    animation-delay: 0.7s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(3) {
+    animation-delay: 0.9s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(4) {
+    animation-delay: 1.05s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(5) {
+    animation-delay: 1.20s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(6) {
+    animation-delay: 1.35s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(7) {
+    animation-delay: 1.5s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(8) {
+    animation-delay: 1.65s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(9) {
+    animation-delay: 1.75s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(10) {
+    animation-delay: 1.85s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(11) {
+    animation-delay: 1.95s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(12) {
+    animation-delay: 2s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(13) {
+    animation-delay: 2.05s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(14) {
+    animation-delay: 2.08s;
+}
+.step-confirm.step-active .fadeTop:nth-of-type(15) {
+    animation-delay: 2.1s;
+}
+
+.step-confirm-buttons {
+    padding: 50px 0px;
+    text-align: center
+}
+
+.agreement {
+    font-size: 14px !important;
+}
+    .agreement a {
+        color: #5e5a54;
+        text-decoration: underline;
+    }
+
+.confirm-label,.confirm-text { font-size:16px; margin-bottom:10px;}
+.confirm-label {color:#999 }
+.confirm-text {}
+
+/*------------------------------------------------------------------
+[5.2.3 Buttons / .button-container]
+*/
+.button-container {
+    text-align: right;
+    position: relative;
+    z-index:10000;
+    width: 100%;
+}
+.button-container>div {
+    display: inline-block;
+    text-align: center;
+    float: right;
+    margin: 0 0 10px 10px;
+    
+}
+.button-container>div a {
+    margin-bottom: 10px;
+    display: block;
+}
+.prevStep {
+    outline: none;
+    display: none;
+}
+.button-container a,
+.button-container a:hover,
+.button-container a:focus,
+.button-container a:active,
+.button-container a:active:focus {
+    outline: none;
+}
+
+/*------------------------------------------------------------------
+[6. Animations]
+*/
+
+.luna_loading {
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    margin-bottom: 20px;
+    display: block;
+    background: transparent;
+    padding: 0pc;
+    border: none;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes animateInput {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(50px);
+        transform: translateY(50px)
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none
+    }
+}
+@keyframes animateInput {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(50px);
+        transform: translateY(50px)
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none
+    }
+}
+
+
+
+
+.tooltip-inner { color:#8a8a8a; background:#FFF; border:2px solid #999; font-size:14px; }
+.tooltip.top .tooltip-arrow { border-top-color:#999; }
+
+
+/* Luna Default Theme  */
+
+.luna-default .bootstrap-select button {
+    border:2px solid #c9c9c9;
+    border-radius:3px;
+    font-size:18px;
+}
+.luna-default .errorIcon {
+    top:37px;
+    right:10px;
+}
+
+.luna-default .input-group-addon {
+    border:2px solid #c9c9c9;    
+}
+
+.luna-default  .input-group-addon:first-child {
+    border-right: 0;
+}
+
+.form-control {
+    border:2px solid #c9c9c9;
+    box-shadow:none;
+    border-radius:3px;
+    height: 40px;
+    font-size:18px;
+}
+
+.form-control.error {
+    border-color:#ff6d6d;
+}
+
+.form-control:focus {
+    border-color:#52bad5;
+    box-shadow:none;
+}
+
+.luna-default .form-group { 
+    margin-bottom:30px; 
+}
+
+.luna-default .step-label { 
+    margin-top:0; 
+}
+
+
+
+
+/*------------------------------------------------------------------
+[8. Responsive Styles]
+*/
+
+@media only screen and (max-width: 990px) {
+    .luna-signup-left {
+        padding: 60px 15px 30px
+    }
+    
+    .luna-signup-right {
+        padding-right:0;
+    }
+    
+    .luna-signup-testimonial { 
+        height:360px;  
+    }
+    
+    .luna-steps .step {
+        padding-left:15px;
+    }
+    
+}
+
+@media only screen and (max-width: 767px) {
+    .container{
+        width:100%;
+    }
+    
+    .luna-signup-logo { margin: 20px auto; }
+    
+    .step-hide { height: 0; overflow: hidden; }
+    .luna-signup-container:after {
+        display: none;
+    }
+    .luna-signup-left {
+        padding: 15px;
+        width:100%;
+        position:initial;
+    }
+    
+    
+    .luna-navigation { position: relative; height:auto; padding:20px; }
+    .luna-navigation:after { clear:both; content:''; display:block; }
+    .dots { position: initial; }
+    .dots { text-align: center;  }
+    .dots li { display: inline-block; }
+    .toNext { float:right; transform: rotate(270deg); right:0; top:0; left:auto; }
+    .toPrev { float:left; transform: rotate(270deg); left:0; top:0; bottom:auto; left:auto; }
+    
+    .luna-signup-right {
+        min-height: 400px;
+        padding: 20px 0;
+        margin-left: 0;
+    }
+    .luna-steps {
+        height:auto;
+    }
+    .luna-steps .step {
+        padding: 0 15px;
+        position:relative;
+    }
+    .steps-count,
+    .button-container {
+        padding-right: 15px;
+    }
+    .step-confirm .form-group {
+        margin-bottom: 0;
+        padding: 10px 0;
+    }
+    .step-confirm .control-label {
+        font-size: 16px;
+    }
+    .step-confirm input,.step-confirm .bootstrap-select button {
+        padding: 6px 15px;
+        font-size: 16px;
+    }
+    
+    .button-container { bottom:15px; }
+    
+    .formLabel,
+    .formInput,.step-label {
+        font-size: 20px;
+    }
+    
+    .luna-signup-left:after {
+        display:none;
+    }
+    
+    .confirm-label { text-align: left; margin-bottom:5px; }
+    .confirm-text { margin-bottom:20px; }
+    .step-confirm-buttons { padding:15px 0; }
+    
+    
+}
+
+
+
+.sweet-alert{
+    border-radius:0px;
+}
+
+.step-title {
+    color: #5e5a54;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+    margin-top: -132px;
+    position: absolute;
+    z-index: 999999;
+}
+.nextStep {
+    color: dimgray;
+    text-transform: uppercase
+}
+a:not([href]):not([tabindex]) {
+    color: #fff;
+    text-decoration: none;
+}
+    a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+        color: #c90000;
+        text-decoration: none;
+        border-color: #c90000;
+    }
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+.formLabel {
+    line-height: 42px;
+    font-size: 13px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #2c3442;
+    text-transform: uppercase;
+}
+.help-block {
+  
+    font-size: 12px;
+    color: darkgrey;
+}
+.radio .radio, .radio-inline .radio {
+        top: auto;
+    left: auto;
+    margin-top: 0px;
+    margin-left: -26px;
+}
+checkbox .checker, .checkbox-inline .checker {
+        top: auto;
+    left: auto;
+    margin-top: 0px;
+    margin-left: -30px;
+}
+.luna-steps .checkbox-inline, .luna-steps .radio-inline{
+    font-size: 14px;
+    color: #2c3442;
+}
+.form-control {
+    border: 1px solid #e9ecef;
+    box-shadow: none;
+    border-radius: 2px;
+    height: 40px;
+    color: #000;
+    line-height: 19px;
+    font-size: 12px;
+}
+.formInput {
+    font-size: 24px;
+    color: #2c3442;
+    border-bottom: 1px solid #eee;
+}
+textarea.formInput {
+    font-size: 16px;
+}
+    .btn-green {
+        background: #2c3442;
+    }
+.finishBtn {
+    border: 1px solid #2c3442;
+    color: #c90000;
+    padding: 9px;
+    width: 20%;
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+    .finishBtn:hover {
+        background: #c90000;
+        color: #fff !important;
+    }
+    .checker span:after {
+        top: 0px;
+        color: #2c3442;
+    }
+.formLabel.active {
+    -webkit-transform: translateY(-140%);
+    transform: translateY(-140%);
+    font-size: 10px;
+    line-height: 12px;
+    color: dimgray;
+}
+form[name=signupForm]{
+    background: transparent;
+    height: 400px;
+    float: left;
+    width: 100%;
+  
+    margin-bottom: 25px;
+}
+.captcha-region {
+    background: #dc3545;
+    text-align: center;
+    width: 150px;
+    padding: 4px;
+}
+    .captcha-region .captcha-reloader {
+        color: #fff;
+        font-size: 9px;
+        text-transform: uppercase;
+    }
+.btn-blue {
+    background: transparent;
+    color: #2c3442;
+    padding: 0px 20px !important;
+}
+.luna-signup-container {
+   
+    overflow-x: inherit;
+}
+.button-container {
+    text-align: right;
+    position: relative;
+    z-index: 10000;
+    width: 100%;
+    float: left;
+    border-bottom: 1px solid #48a5ea;
+    margin-bottom: 32px;
+}
+    .button-container > div a {
+        margin-bottom: 0px;
+        display: inline-block;
+        font-size: 12px;
+        color: #c90000;
+        border: 1px solid #2c3442;
+    }
+        .button-container > div a:hover {
+            color: #2c3442;
+            border: 1px solid #c90000;
+        }
+        .luna-default .form-group {
+            margin-bottom: 60px;
+        }
+.luna-navigation {
+    height: calc(100% - 180px);
+}
+.luna-signup-left-overlay{
+     
+      background: rgb(72, 165, 234);
+}
+.luna-signup-left {
+    float: left;
+    text-align: center;
+}
+.luna-signup-right {
+   
+    float: right;
+    width: 100%;padding: 60px 0px;
+}
+.luna-default .errorIcon {
+    top: 0px;
+    right: 0px;
+}
+
+
+.luna-signup-left-overlay {
+    background: #2c3442;
+}
+.luna-signup-left {
+   background: #2c3442;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+    
+}
+
+.luna-signup-right {
+        padding-right: 50px;
+    }
+@media only screen and (max-width: 767px){
+    .luna-signup-right {
+        padding-right: 0px;
+    }
+    .site {
+        max-width: 768px;
+        overflow: inherit;
+        overflow-x: initial;
+    }
+    .step-title {
+        margin-top: -70px !important;
+        border-bottom: 1px solid #9e9e9eab;
+        padding: 8px;
+        margin-left: -15px;
+        border-left: 1px solid #9e9e9eab;
+        height: 35px;
+        overflow: hidden;
+        font-size: 14px;
+    }
+    .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+       
+        padding-right: 0px;
+        padding-left: 0px;
+       
+    }
+    .button-container {
+        bottom: -20px;
+        position: absolute;
+        float: right;
+    }
+    .toPrev, .toNext{
+        border:none;
+    }
+    .toPrev {
+        left: 20px !important;
+    }
+    form[name=signupForm] {
+        background: #9e9e9e21;
+        height: auto;
+        float: left;
+        width: 100%;
+        margin-top: -25px;
+        padding-top: 35px;
+    }
+    #passwordstrength-wrap {
+      
+        top: 40px;
+        left: 0%;
+        
+    }
+    .confirm-label {
+        margin-bottom: 5px;
+        width: 100%;
+        text-align: left !important;
+    }
+    .finishBtn {
+       
+        width: 100%;
+        margin-top: 0px;
+       
+    }
+}
+
+.jc-bootstrap-4-theme .btn {
+    margin: 0px 5px;
+    border: none;
+    padding: 2px 24px;
+    font-size: 12px;
+}

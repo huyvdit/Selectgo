@@ -1,0 +1,13 @@
+﻿@using global::Web.Helpers
+@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @name = "search-form", @class = "form-inline" }))
+{
+    <div class="input-group well">
+        <input type="text" name="key" style="height: 34px;" data-scope="@ViewBag.scope" placeholder="@LanguageHelper.Translate("Nhập thông tin tìm kiếm ..._Text")" required value="@ViewBag.keyword" class="form-control">
+        <span class="input-group-btn">
+            <button class="btn btn-main-color" type="submit">
+                <i class="fa fa-search"></i> @LanguageHelper.Translate("Search_Text")
+            </button>
+        </span>
+    </div>
+    <input type="hidden" value="@ViewBag.scope" name="scope" />
+}

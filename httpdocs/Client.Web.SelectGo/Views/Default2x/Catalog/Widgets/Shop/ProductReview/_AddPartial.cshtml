@@ -1,0 +1,75 @@
+﻿@{ Html.EnableClientValidation(); }
+<div id="add-product-review" class="add-product-review">
+    @Html.Action("AddProductReview", "Catalog", new {id = Model.Id, area = ""})
+</div>
+@using (Html.BeginScripts())
+{
+     <script>
+         HvHelpers.loadJs("/Scripts/jquery.validate.js", $.validator, function () {
+             HvHelpers.loadJs("/Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function () {
+                 HvHelpers.loadJs("/Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+             });
+         }, 'asyn');
+    </script>
+
+    <script>
+        PagedOnComplete_Add = function () {
+
+            $('input[name=Rating]').rating({
+                starCaptions: function (val) {
+                    var level = "";
+                    if (val == 0) return "Chưa đánh giá";
+                    if (val < 1) level = "Kém";
+                    else if (val < 3) level = "Bình thường";
+                    else if (val < 5) level = "Tốt";
+                    else level = "Tuyệt vời";
+                    return val + " - " + level;
+                },
+                starCaptionClasses: function (val) {
+                    if (val < 3)
+                        return 'label label-primary';
+                    else if (val < 6)
+                        return 'label label-warning';
+                    else if (val < 9)
+                        return 'label label-important';
+                    else
+                        return 'label label-success';
+                },
+                hoverOnClear: false
+            });
+            $("#Title").bind("change", function () {
+                if ($(this).val() != "") {
+                    $("#ReviewSubmit").addClass("ready");
+                }
+                else $("#ReviewSubmit").removeClass("ready");
+            });
+            window.emojioneVersion = "3.1.2";
+            var el = $("#ReviewText").emojioneArea({
+                 useSprite:true,         
+                 shortnames: true,
+                 pickerPosition: "bottom",
+  	            filtersPosition: "bottom",
+                tonesStyle: "checkbox",
+                autoHideFilters   : true,
+                tones: false,
+                autocomplete: true,
+                hidePickerOnBlur: false
+            });
+            el[0].emojioneArea.off("focus blur");
+
+            $(":submit").closest("form").submit(function () {
+                $(':submit').attr('disabled', 'disabled');
+            });
+
+            if ($(".submit-review-successful").length > 0) {
+                window.showNotify("success", $(".submit-review-successful").html());
+                setTimeout(function () {
+                    $(".submit-review-successful").remove();
+                }, 200);
+            }
+            $(".add-product-review").removeClass("hidden");
+        };
+        $(document).ready(function () { PagedOnComplete_Add(); });
+
+    </script>
+}

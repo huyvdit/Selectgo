@@ -1,0 +1,21 @@
+﻿@using ASP.Web.Model.Models
+@using global::Web.Helpers
+@{ var listCulture = (List<LanguageInstance>)ViewBag.Culture; }
+@{
+    if (listCulture != null && listCulture.Count > 1)
+    {
+        <ul class="header-language sub-menu">
+
+            @foreach (LanguageInstance item in listCulture)
+            {
+                <li class="@(DataCurrentHelper.LanguageCulture == item.LanguageCulture ? "active" : "")">
+                    <a href="/select-language/@item.LanguageCulture.ToLower()">
+                        @item.Name
+                    </a>
+                </li>
+            }
+
+        </ul>
+
+    }
+}

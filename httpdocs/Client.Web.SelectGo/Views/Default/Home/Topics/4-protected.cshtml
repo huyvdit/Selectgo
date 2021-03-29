@@ -1,0 +1,59 @@
+﻿@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+@{
+   Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+    <section class="as-content">
+
+        <div class="section-error pt-12 pb-12">            <div class="full-container">
+                <!-- 404 CONTENT
+          ================================================== -->
+                <div class="position-relative">
+
+                    <div class="container-fluid d-flex flex-column">
+                        <div class="row align-items-center justify-content-center py-5 min-vh-100 column-reverse">
+
+                            <div class="col-11 col-md-8 col-lg-5 text-center text-lg-left ">
+
+                                <div class="pl-0 pl-lg-5">
+
+                                    <h2 class="display-2 font-weight-bold mb-1" style="color: red;">OOPS</h2>
+                                    <h3 class="h4 mb-2">PAGE NOT FOUND</h3>
+                                    <p class="mb-5 w-100 w-lg-85 w-xl-70 mx-auto mx-lg-0">
+                                        We ran into an issue, but don’t worry, we’ll take care of it for sure.
+                                    </p>
+                                    <a href='@SlugHelper.Page(grouped:"home")' class="btn btn-primary mr-0 mr-sm-2 mx-auto d-sm-inline-block mb-sm-0"><img class="feather display-10 text-white" src="../../../as-images/shared/arrow-left.svg" alt="..."> Back to Home </a>
+                                    <a href='@SlugHelper.Page(grouped:"contact-us")' class="btn btn-contact btn-outline" style="background: gainsboro;">Contact Us <img class="feather display-10 text-dark" src="../../../as-images/shared/arrow-right.svg" alt="..."></a>
+
+                                </div>
+                            </div>
+
+                            <div class="col-11 col-md-8 col-lg-6 text-center mb-7 mb-lg-0">
+                                <img src="../../../as-images/shared/404.png" alt="404">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div></div>
+    </section>
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

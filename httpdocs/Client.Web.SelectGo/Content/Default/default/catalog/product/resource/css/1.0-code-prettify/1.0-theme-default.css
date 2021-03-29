@@ -1,0 +1,130 @@
+﻿li.L1, li.L3, li.L5, li.L7, li.L9 {
+   
+}
+
+/* Causes line numbering to appear on every line */
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+    list-style-type: decimal !important;
+}
+/* Required for markdown code block to work */
+/* pre tags will work without this */
+pre.prettyprinted {
+    display: block;
+}
+
+    pre.prettyprinted ol.linenums {
+        top: 72px !important;
+        margin: auto 25px !important;
+    }
+
+
+pre.prettyprint {
+    padding: 5px 10px;
+    border-color: #d0d0d0;
+    margin-bottom: 20px;
+}
+
+    pre.prettyprint.no-wrap {
+        white-space: pre;
+        overflow: auto;
+    }
+
+    /* Pretty printing styles. Used with prettify.js. */
+    pre.prettyprint strong {
+        background: rgba(255, 128, 0, 0.1);
+    }
+
+/* SPAN elements with the classes below are added by prettyprint. */
+.pln {
+    color: #000;
+}
+
+/* plain text */
+@media screen {
+    .com {
+        color: #008000;
+    }
+
+    .str, .tag {
+        color: #A31515;
+    }
+
+    .kwd, .atv {
+        color: #0000FF;
+    }
+
+    .typ {
+        color: #2B91AF;
+    }
+
+    .lit, .atn {
+        color: #FF0000;
+    }
+
+    .pun, .pln {
+        color: #000000;
+    }
+
+    .dec {
+        color: #800080;
+    }
+}
+
+/* Use higher contrast and text-weight for printable form. */
+@media print, projection {
+    .str {
+        color: #060;
+    }
+
+    .kwd {
+        color: #006;
+        font-weight: bold;
+    }
+
+    .com {
+        color: #600;
+        font-style: italic;
+    }
+
+    .typ {
+        color: #404;
+        font-weight: bold;
+    }
+
+    .lit {
+        color: #044;
+    }
+
+    .pun, .opn, .clo {
+        color: #440;
+    }
+
+    .tag {
+        color: #006;
+        font-weight: bold;
+    }
+
+    .atn {
+        color: #404;
+    }
+
+    .atv {
+        color: #060;
+    }
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+    /* IE indents via margin-left */
+    ol.linenums li {
+        color: #666666;
+    }
+
+/* Alternate shading for lines */
+li.L1, li.L3, li.L5, li.L7, li.L9 {
+    background: #eee;
+}

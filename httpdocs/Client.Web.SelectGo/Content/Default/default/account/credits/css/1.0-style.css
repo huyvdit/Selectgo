@@ -1,0 +1,241 @@
+﻿.body {
+    background: #212529;
+    transition: all .5s;
+    padding: 64px;
+}
+
+.veen {
+    width: 70%;
+    margin: 100px auto;
+    background: rgba(255,255,255,.5);
+    min-height: 400px;
+    display: table;
+    position: relative;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+}
+
+    .veen > div {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        color: #fff;
+    }
+
+    .veen button {
+        background: transparent;
+        //background-image: linear-gradient(90deg, #2c3442, #c90000);
+        display: inline-block;
+        padding: 3px 30px;
+        border: 3px solid #fff;
+        border-radius: 0px;
+        background-clip: padding-box;
+        position: relative;
+        color: #FFF;
+        //box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+        transition: all .25s;
+    }
+
+        .veen button.dark {
+            border-color: #c90000;
+            background: #c90000;
+            border-radius: 0px;
+            width: 100%;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+    .veen .move button.dark {
+        border-color: #2c3442;
+        background: #2c3442;
+        border-radius: 0px;
+        width: 100%;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .veen .splits p {
+        font-size: 18px;
+    }
+
+    .veen button:active {
+        box-shadow: none;
+    }
+
+    .veen button:focus {
+        outline: none;
+    }
+
+    .veen > .wrapper {
+        position: absolute;
+        width: 40%;
+        height: 120%;
+        top: -10%;
+        left: 5%;
+        background: #fff;
+        box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+        transition: all .5s;
+        color: #303030;
+        overflow: hidden;
+    }
+
+    .veen .wrapper > form {
+        padding: 15px 30px 30px;
+        width: 100%;
+        transition: all .5s;
+        background: #fff;
+        width: 100%;
+    }
+
+        .veen .wrapper > form:focus {
+            outline: none;
+        }
+
+    .veen .wrapper #change-pass {
+        padding-top: 10%;
+        visibility: visible;
+    }
+
+    .veen .wrapper #forgot-pass {
+        transform: translateY(-80%) translateX(100%);
+        visibility: hidden;
+    }
+
+    .veen .wrapper.move #forgot-pass {
+        transform: translateY(-161%) translateX(0%);
+        visibility: visible;
+    }
+
+    .veen .wrapper.move #change-pass {
+        transform: translateX(-100%);
+        visibility: hidden;
+    }
+
+    .veen .wrapper > form > div {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    .veen .wrapper label {
+        position: absolute;
+        top: -13px;
+        font-size: 10px;
+        white-space: nowrap;
+        background: #fff;
+        text-align: left;
+        left: 15px;
+        padding: 0 5px;
+        color: #9E9E9E;
+        pointer-events: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+        width: 88%;
+        right: 15px;
+    }
+
+    .veen .wrapper h3 {
+        margin-bottom: 50px;
+        text-transform: uppercase;
+        font-size: 19px;
+        font-weight: 700;
+        color: #392a25;
+    }
+
+    .veen .wrapper input {
+        height: 40px;
+        padding: 5px 15px;
+        width: 100%;
+        border: solid 1px #999;
+        text-align:center;
+    }
+
+    .veen .wrapper input {
+        height: 40px padding: 5px 15px;
+        width: 100%;
+        border: solid 1px #999;
+    }
+
+        .veen .wrapper input:focus {
+            outline: none;
+            border-color: #c90000;
+        }
+
+    .veen > .wrapper.move {
+        left: 45%;
+    }
+
+        .veen > .wrapper.move input:focus {
+            border-color: #2c3442;
+        }
+
+@media (max-width: 767px) {
+    .body {
+        padding: 0px;
+        width: 100%;
+        float: left;
+        height: 576px;
+    }
+    .veen {
+        margin: 0;
+        width: 96%;
+        display: block;
+        margin-left: 2%;
+    }
+    .change-pass-btn {
+        background: #c90000 !important;
+    }
+    .forget-pass-btn {
+        background: #2c3442 !important;
+    }
+    .veen > .wrapper {
+        position: relative;
+        height: auto;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+        .veen > div {
+            display: inline-block;
+        }
+
+    .splits {
+        width: 50%;
+        background: #fff;
+        float: left;
+    }
+
+        .splits button {
+            width: 100%;
+            border-radius: 0;
+            border: 0;
+            opacity: .7;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 15px 0px;
+        }
+
+           
+
+            .splits button.active {
+                opacity: 1;
+              
+            }
+
+        .splits.rgstr-btn button.active {
+            
+        }
+
+        .splits p {
+            display: none;
+        }
+
+    .veen > .wrapper.move {
+        left: 0%;
+    }
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    box-shadow: inset 0 0 0 50px #fff
+}

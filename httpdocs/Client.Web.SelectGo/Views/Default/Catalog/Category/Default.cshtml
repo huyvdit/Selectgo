@@ -1,0 +1,502 @@
+﻿@using Web.Model.Models
+@model PagedList.IPagedList<ProductCategoryMapping>
+
+    @{
+        Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+        var listProducts = Model.Where(e => e.Product.IsActive).ToList();
+
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/category/css/default")
+    }
+    @section pageCover{
+        @{
+            var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+            var paramArrs = new List<KeyValuePair<string, string>>()
+{
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string> ("banner-img", picture.Url )};
+
+        }
+        @*@Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })*@
+        <div class="video-bg" style="background: #2c3442; background: linear-gradient(200deg, #fff 0%, #9E9E9E 50%);">
+            @*<video src="../../assets/video/video2.mp4" muted loop autoplay></video>*@
+        </div>
+        <!-- end video-bg -->
+        <div class="container">
+            <h2 data-shadow="Case studies - @category.Name">Case studies - @category.Name</h2>
+            <p>@Html.Raw(category.Description)</p>
+        </div>
+        <div class="line"></div>
+        <svg class="card__svg" viewBox="0 0 800 500">
+
+            <path d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400 L 800 500 L 0 500" stroke="transparent" fill="#2c3442" />
+            <path class="card__line_default" d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400" stroke="red" stroke-width="4" fill="transparent" />
+        </svg>
+        <a href="#sct-topics" class="tongue tongue-bottom tongue-section-primary scroll-me">
+            <i class="far fa-angle-down"></i>
+        </a>
+        <!-- end container -->
+    }
+    <div class="wrapper">
+
+        <section type="template" id="configs-template" style="display: none;">
+            @foreach (var item in Model)
+            {
+                <div class="elastic_grid_project_data">
+
+                    <span data-field="title" data-value="html">@item.Product.Name</span>
+                    <span data-field="link" data-value="html">@SlugHelper.Product(item.ProductId)</span>
+                    <span data-field="description" data-value="html">@Html.Raw(item.Product.ShortDescription)</span>
+                    @{
+
+                        var tags = (from u in item.Product.ProductProductTagMappings select new { Name = u.ProductTag.Name }).ToArray();
+
+                        var builderTags = "[";
+                        var defaultTag = "Web";
+
+                        for (int i = -1; i < tags.Length; i++)
+                        {
+                            if (i == -1 && tags.Length == 0)
+                            {
+                                builderTags += '"' + defaultTag + '"' + (tags.Length == 0 ? "" : ",");
+
+                            }
+                            else if (i > -1)
+                            {
+                                builderTags += '"' + tags[i].Name + '"' + (i == tags.Length - 1 ? "" : ",");
+                            }
+
+                        }
+                        builderTags += (builderTags.EndsWith(",") ? "" : ",") + '"' + "<i class='fa fa-times'></i>" + '"';
+                        builderTags += "]";
+                    }
+
+                    @{
+
+                        var pics = (from u in item.Product.ProductPictureMappings.OrderBy(e => e.DisplayOrder) select new { Url = u.Picture.Url, Title = u.Picture.Title }).ToArray();
+                        var builderThumbnail = "[";
+                        var builderLarge = "[";
+                        var builderTitle = "[";
+                        for (int i = 0; i < pics.Length; i++)
+                        {
+                            var end = (i == pics.Length - 1 ? "" : ",");
+                            builderThumbnail += '"' + ImageHelper.GetResize(pics[i].Url) + '"' + end;
+                            builderLarge += '"' + pics[i].Url + '"' + end;
+                            builderTitle += '"' + pics[i].Title + '"' + end;
+                        }
+                        builderThumbnail += "]";
+                        builderLarge += "]";
+                        builderTitle += "]";
+                    }
+                    <textarea data-convert-to="json" data-field="tags">@Html.Raw(builderTags)</textarea>
+                    <textarea data-convert-to="json" data-field="img_title">@Html.Raw(builderTitle)</textarea>
+                    <textarea data-convert-to="json" data-field="thumbnail">@Html.Raw(builderThumbnail)</textarea>
+                    <textarea data-convert-to="json" data-field="large">@Html.Raw(builderLarge)</textarea>
+                    <textarea data-convert-to="json" data-field="button_list">[
+                            { "title": "See more", "url": "@SlugHelper.Product(item.ProductId)", "new_window": false },
+                            { "title": "Visit admin", "url": "http://hub.asiteplus.com/", "new_window": true },
+                            { "title": "Visit web", "url": "http://@(item.Product.Name.ToLower())asiteplus.com/", "new_window": true }
+        ]
+        </textarea>
+                </div>
+            }
+
+        </section>
+
+        <section>
+            <div class="full-container">
+                <div id="elastic_grid_project"></div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-7 text-center mt-3"> <a href="#" class="btn btn-white "><i class="las la-redo-alt mr-2"></i>Reload...</a> </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="offers">
+            <a href="#" class="tongue tongue-up tongue-section-primary">
+                <i class="fa fa-angle-up"></i>
+            </a>
+            <div class="top-left-corner"></div>
+            <div class="top-right-corner"></div>
+            <div class="container">
+
+                <div class="text-block mb-70">
+                    <h4 class="text-center">Services we provide</h4>
+                    <p class="text-center">We provide various services, if you can’t find what you are looking for, please feel free to contact us with a custom service request. </p>
+                </div>
+                <section class="offers-item anim-scale row mb-40">
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <div class="hover"></div>
+                            <img src="/as-images/shared/PSD.svg" alt="">
+                            <p>PSD Desing</p>
+                            <span>$450</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <div class="hover"></div>
+                            <img src="/as-images/shared/wordpress.svg" alt="">
+                            <p>Wordpress</p>
+                            <span>$1200</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <div class="hover"></div>
+                            <img src="/as-images/shared/Mobile_app.svg" alt="">
+                            <p>Mobile App</p>
+                            <span>$750</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <div class="hover"></div>
+                            <img src="/as-images/shared/icon_design.svg" alt="">
+                            <p>Icon Design</p>
+                            <span>$200</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <div class="hover"></div>
+                            <img src="/as-images/shared/Content_writing.svg" alt="">
+                            <p>Content Writing</p>
+                            <span>$250</span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <div class="hover"></div>
+                            <img src="/as-images/shared/Bug_fix.svg" alt="">
+                            <p>Bug Fixes</p>
+                            <span>$140</span>
+                        </a>
+                    </div>
+
+                </section>
+
+
+
+            </div>
+            <div class="bottom-left-corner"></div>
+            <div class="bottom-right-corner"></div>
+
+        </section>
+
+        <section class="consult-wrapper bg-primary">
+            <div class="row">
+                <div class=" col-lg-8 col-md-12 consult-left">
+                    <h3 class="text-white mb-2">A Free Consultation and Business Tips 24/7</h3>
+                    <p class="text-white">If you interested in out theme don't wait to purchase or call us</p>
+                </div>
+                <div class="col-lg-4 col-md-12 consult-right">
+                    <div class="text-white"><a href='@SlugHelper.Page(grouped:"contact-us")' class="btn btn-secondary">Get Customer Support</a></div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="services">
+            <div class="container">
+                <div class="row mb-30">
+                    <div class="col-md-8">
+                        <div class="block-icon">
+                            <img src="/as-images/shared/support.svg" alt="">
+                            <div class="text-block">
+                                <h4 class="text-center border-decor">We offer fast &amp; top-notch customer support.</h4>
+                                <p class="text-center">Our solution experts are here to answer your questions, help you troubleshoot issues, improve your experience &amp; increase satisfaction with our solutions.</p>
+                            </div>
+                            <a href="#" class="btn btn-small btn-center">Let's get started <i class="far fa-fire"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" class="comment">
+                            <div class="image">
+                                <img src="/as-images/sample/eiefy_0041_User_1.png" alt="">
+                            </div>
+                            <p>Before we dive into the examples, I think it's worth reviewing the elements of a brilliant homepage design. For reference.</p>
+                            <div class="caption">
+                                <p>Stan Marsh</p>
+                                <p>CEO, horizon.com</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="clients">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 wow fadeIn">
+                        <h6>START WORKING WITH US</h6>
+                        <h2>Our clients</h2>
+                        <h4>Do you have a project opportunity, or are you just a looking to get creative solutions?</h4>
+                        <div class="custom-link wow fadeIn">
+                            <a href="#">
+                                <div class="lines"> <span></span> <span></span> </div>
+                                <!-- end lines -->
+                                <b>BE OUR CLIENT</b>
+                            </a>
+                        </div>
+                        <!-- end custom-link -->
+                    </div>
+                    <!-- end col-4 -->
+                    <div class="col-lg-7 wow fadeIn" data-wow-delay="0.10s">
+                        <ul>
+                            <li><img src="/as-images/sample/logo01.png" alt="Image"><small>ABSTER</small></li>
+                            <li><img src="/as-images/sample/logo02.png" alt="Image"><small>LOKOMOTIVE</small></li>
+                            <li><img src="/as-images/sample/logo03.png" alt="Image"><small>BIRDIEST</small></li>
+                            <li><img src="/as-images/sample/logo04.png" alt="Image"><small>PLOCSHA</small></li>
+                            <li><img src="/as-images/sample/logo05.png" alt="Image"><small>NEWKY</small></li>
+                            <li><img src="/as-images/sample/logo06.png" alt="Image"><small>HACHAPURY</small></li>
+                            <li><img src="/as-images/sample/logo02.png" alt="Image"><small>LOKOMOTIVE</small></li>
+                            <li><img src="/as-images/sample/logo05.png" alt="Image"><small>NEWKY</small></li>
+                        </ul>
+                    </div>
+                    <!-- end col-7 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </section>
+
+        <!-- end clients -->
+        <section class="main-slide update1" id="slider9">
+            <div class="skw-slide" data-bg="../as-images/banner/01.jpg">
+                <div class="gallery-caption">
+                    Image Caption [1]
+                </div>
+            </div>
+            <div class="skw-slide" data-bg="../as-images/banner/02.png">
+                <div class="gallery-caption">
+                    Image Caption [2]
+                </div>
+            </div>
+            <div class="skw-slide" data-bg="../as-images/banner/03.jpg">
+                <div class="gallery-caption">
+                    Image Caption [3]
+                </div>
+            </div>
+            <div class="skw-slide" data-bg="../as-images/banner/04.jpg">
+                <div class="gallery-caption">
+                    Image Caption [4]
+                </div>
+            </div>
+            <span class="close fa fa-close"></span>
+        </section>
+
+        <section class="work-with-us">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow fadeIn">
+                        <h6>START WORKING WITH US</h6>
+                        <h2 data-text="Hire us">So that"s us. There"s no other way to put it.</h2>
+                    </div>
+                    <!-- end col-12 -->
+                    <div class="col-lg-7 col-md-8 wow fadeIn">
+                        <h4>Do you have a project opportunity, or are you just a looking to get creative solutions?</h4>
+                        <div class="custom-link wow fadeIn">
+                            <a href="#get-started" data-toggle="modal" title="Click to Get Started">
+                                <div class="lines"> <span></span> <span></span> </div>
+                                <!-- end lines -->
+                                <b class="bright">GET STARTED</b>
+                            </a>
+                        </div>
+                        <!-- end custom-link -->
+                    </div>
+                    <!-- end col-5 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+
+        </section>
+
+    </div>
+
+    <!-- end work-with-us -->
+
+    <p class="hidden" style="display:none"><a href="#" class="btn btn-success init-exit-modal">Init exit modal</a> <a href="#" class="btn btn-danger destroy-exit-modal">Destroy exit modal</a></p>
+    <div class="modal exit-modal fade modal-fullscreen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="get-started">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!-- Contact -->
+                    <section id="contact" class="bg-white-color">
+                        <div class="container fluid">
+                            <div class="row">
+
+                                <div class="col-12 col-lg-6 pr-lg-5 pb-5 pb-lg-0 align-self-center text-center text-sm-left">
+                                    <div class="success message" style="display: none">
+                                        <div class="card featured left bg-white-color">
+
+                                            <!-- Success Message -->
+                                            <i class="icon icon-check primary-color"></i>
+                                            <h3 class="grey-color">Success</h3>
+                                            <p>Your message has been sent successfully.</p>
+                                            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit quisque sed leo vel dolor dictum hendrerit.</p>
+                                            <a href="" class="mt-3"><i class="btn-icon icon-refresh"></i></a>
+
+                                        </div>
+                                    </div>
+                                    <div class="row layout-title">
+                                        <div class="col-12 p-0">
+
+                                            <!-- Text 1 -->
+                                            <div id="text-1">
+                                                <h2 class="featured alt">Let's Talk?</h2>
+                                                <p>With a multi-step form, visitors feel more willing to submit a request. Remember that the <b>main objective</b> is to capture leads.</p>
+                                            </div>
+
+                                            <!-- Text 2 -->
+                                            <div id="text-2" style="display: none">
+                                                <h2 class="featured alt">Forms Work</h2>
+                                                <p>This template has an indispensable differential on a web page. <b>The forms are functional</b> with field validation.</p>
+                                            </div>
+
+                                            <!-- Text 3 -->
+                                            <div id="text-3" style="display: none">
+                                                <h2 class="featured alt">Limited Offer</h2>
+                                                <p>With so many resources it is difficult to believe that it is sold for such a low price. <b>Run!</b> It is for a limited time.</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col-12 p-0">
+                                            <form id="msform" style="height: 356.425px;">
+                                                <ul id="progressbar">
+                                                    <li class="active">Personal Details</li>
+                                                    <li>Company Budget</li>
+                                                    <li>Service Setup</li>
+                                                </ul>
+
+                                                <!-- Group 1 -->
+                                                <fieldset id="group-1">
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <input type="text" name="name" minlength="3" class="form-control input-light" placeholder="Name" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <input type="email" name="email" minlength="3" class="form-control input-light" placeholder="Email" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <input type="text" name="phone" minlength="3" class="form-control input-light" placeholder="Phone" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 input-group p-0">
+                                                        <a id="next-1" class="next0 btn btn-primary-color">NEXT<i class="btn-icon pw-icon-right-arrow left"></i></a>
+                                                    </div>
+                                                </fieldset>
+
+                                                <!-- Group 2 -->
+                                                <fieldset id="group-2">
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <input type="text" name="company" minlength="3" class="form-control input-light" placeholder="Company" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <input type="text" name="manager" class="form-control input-light" placeholder="Company address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <i class="icon-arrow-down"></i>
+                                                            <select name="budget" minlength="1" class="form-control input-light" required>
+                                                                <option value="0" selected disabled>What's your budget range?</option>
+                                                                <option>Less than $2.000</option>
+                                                                <option>$2.000 — $5.000</option>
+                                                                <option>$5.000 — $10.000</option>
+                                                                <option>$10,000+</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 input-group p-0 d-flex justify-content-center justify-content-md-start">
+                                                        <a id="prev-2" class="previous btn btn-primary-color mr-4"><i class="btn-icon pw-icon-left-arrow"></i>PREV</a>
+                                                        <a id="next-2" class="next btn btn-primary-color">NEXT<i class="btn-icon pw-icon-right-arrow left"></i></a>
+                                                    </div>
+                                                </fieldset>
+
+                                                <!-- Group 3 -->
+                                                <fieldset id="group-3">
+                                                    <div class="row">
+                                                        <div class="col-12 input-group p-0">
+                                                            <textarea name="message" minlength="3" class="form-control input-light" placeholder="Message" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 input-group p-0 d-flex justify-content-center justify-content-md-start">
+                                                        <a id="prev-3" class="previous btn btn-primary-color mr-4"><i class="btn-icon pw-icon-left-arrow"></i>PREV</a>
+                                                        <a id="next-3" class="send btn btn-primary-color">SEND NOW<i class="btn-icon pw-icon-newspaper left"></i></a>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gallery col-12 col-lg-6 pl-lg-5 d-none d-lg-block">
+
+                                    <!-- Step 1 -->
+                                    <a id="step-1" data-poster="/as-images/sample/about-2-creative-agency.jpg" href="#">
+                                        
+                                        <img src="/as-images/sample/about-2-creative-agency.jpg" class="image-fit">
+                                    </a>
+
+                                    <!-- Step 2 -->
+                                    <a id="step-2" href="/as-images/sample/about-1-portfolio.jpg" style="display:none">
+                                        <img src="/as-images/sample/about-1-portfolio.jpg" class="image-fit">
+                                    </a>
+
+                                    <!-- Step 3 -->
+                                    <a id="step-3" href="/as-images/sample/about-1-digital-agency.jpg" style="display:none">
+                                        <img src="/as-images/sample/about-1-digital-agency.jpg" class="image-fit">
+                                    </a>
+
+                                    <!-- Step 4 -->
+                                    <a id="step-4" href="/as-images/sample/contact-1.jpg" style="display:none">
+                                        <img src="/as-images/sample/contact-1.jpg" class="image-fit">
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-link" style="    background: none!important;" data-dismiss="modal">Latter</button>
+                    <button type="button" class="btn btn-primary close-exit-modal">No, Thanks</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts
+    {
+
+        @Scripts.Render("~/bundles/content/default/catalog/category/js/default")
+
+        <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-projects")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass("active");
+            }
+            setTimeout(function () {
+                $(".card__line_default").addClass("card__line");
+            }, 7200);
+
+        });
+        </script>
+    }

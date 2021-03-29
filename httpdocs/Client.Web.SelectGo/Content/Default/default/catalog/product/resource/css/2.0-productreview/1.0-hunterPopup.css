@@ -1,0 +1,161 @@
+.Hunter-pop-up {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    padding: 1px;
+    background-color: #ffffff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 2px solid #cccccc;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+    .Hunter-pop-up .form-control {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle;
+        border-radius: 0px;
+        font-size: 13px;
+    }
+        .Hunter-pop-up .text-muted {
+            color: rgba(46,66,87,.65) !important;
+            font-size: 10px;
+            margin-left: 10px;
+        }
+    .Hunter-pop-up .form-group {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+        .Hunter-pop-up .form-group label {
+            font-weight: 500;
+            -webkit-animation-name: none;
+            font-size: 10px !important;
+            line-height: 24px;
+            color: #000;
+        }
+
+    .Hunter-pop-up button {
+        background-color: #2c3442;
+        padding: 0 12px;
+        color: #fff;
+        outline: none;
+        line-height: 30px;
+        border: none;
+        border-radius: 0px;
+        font-size: 12px;
+        min-width: 100px;
+        text-transform: uppercase;
+        font-weight: 700;
+        float: left;
+        margin-right: 12px;
+        border-radius: 0px !important;
+    }
+
+    .Hunter-pop-up:before,
+    .Hunter-pop-up:after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        border-width: 10px;
+        border-style: solid;
+        position: absolute;
+        left: 20px;
+        z-index: 999999;
+    }
+
+.Hunter-pop-up-right:before,
+.Hunter-pop-up-right:after {
+    left: auto;
+    right: 20px;
+}
+
+.Hunter-pop-up:before {
+    border-color: transparent transparent #f5f5f5;
+    top: -17px;
+    z-index: 9999999;
+}
+
+.Hunter-pop-up:after {
+    border-color: transparent transparent #c9cbce;
+    top: -20px;
+}
+
+.Hunter-pop-up ul {
+    list-style: none;
+}
+
+    .Hunter-pop-up ul li {
+        display: inline-block;
+        position: relative;
+        margin: 4px;
+        cursor: pointer;
+    }
+
+.Hunter-pop-up p {
+    font-weight: bold;
+    padding: 0 4px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+.Hunter-pop-up .line {
+    width: 340px;
+    margin: 0 auto;
+    margin-top: 4px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.Hunter-pop-up .Hunter-wrap a.close {
+    font-size: 13px;
+    float: left;
+    text-decoration: underline;
+    margin-top: 6px;
+    float: left;
+    width: 64px;
+    margin-top: -2px;
+}
+
+.Hunter-pop-up .title {
+    padding: 8px 14px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 18px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    border-radius: 5px 5px 0 0;
+}
+
+
+/*弹出内容*/
+
+.Hunter-pop-up .Hunter-wrap {
+    position: relative;
+    background: #ffffff;
+    padding: 8px;
+    overflow: auto;
+}
+
+@media (max-width: 991px) {
+    .Hunter-pop-up {
+        width: 100%;
+        left: 0px !important;
+        text-align: left;
+    }
+        .Hunter-pop-up p {
+         
+            margin-bottom: 25px;
+            /* text-align: center; */
+        }
+        .Hunter-pop-up .Hunter-wrap {
+           
+            width: 100% !important;
+        }
+            .Hunter-pop-up .Hunter-wrap a.close{margin-top:10px!important}
+}
+    

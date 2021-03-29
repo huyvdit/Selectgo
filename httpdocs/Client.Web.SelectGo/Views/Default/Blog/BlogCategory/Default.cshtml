@@ -1,0 +1,565 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<BlogPostCategoryMapping>
+    @{
+        ViewBag.SelfHeader = true;
+        var blogCategory = ViewBag.blogCategory as BlogCategory ?? new BlogCategory();
+        ViewBag.Title = blogCategory.MetaTitle ?? blogCategory.Name;
+        ViewBag.MetaKeywords = blogCategory.MetaKeywords;
+        ViewBag.MetaDescription = blogCategory.MetaDescription ?? blogCategory.Description;
+
+        var grouped = blogCategory.Grouped == "recruitment" ? "recruitment" : "media,news";
+        var subCategories = DataWhereHelper.BlogCategoryByGroupeds(grouped + ",");
+
+        var listBlogs = Model.Where(e => e.BlogPost.IsActive == true && e.BlogPost.PublishedTime <= DateTime.Now).ToList();
+        var featuredBlog = new BlogPostCategoryMapping() { BlogPost = new BlogPost() };
+        if (listBlogs.Any())
+        {
+            featuredBlog = listBlogs.FirstOrDefault(e => e.IsFeaturedPost) ?? listBlogs.First();
+        }
+
+        IEnumerable<BlogPostCategoryMapping> list2Blogs;
+        IEnumerable<BlogPostCategoryMapping> list1Blogs;
+        IEnumerable<BlogPostCategoryMapping> listNBlogs;
+        {
+            list2Blogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Take(2);
+            list1Blogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Skip(2).Take(1);
+            listNBlogs = listBlogs.Where(e => e.BlogPost.Title != featuredBlog.BlogPost.Title).Skip(3).Take(6);
+        }
+
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/blog/blog-list/css", "~/bundles/content/default/blog/blog-category/default/css", "~/bundles/content/default/pagelist/css")
+    }
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="breakingNews" id="bn7">
+                <div class="bn-title"><h2>Latest News</h2><span></span></div>
+                <ul>
+                    <li><a href="#"><span>CNN News</span> - Mauris interdum elit non sapien imperdiet, ac dapibus mi maximus</a></li>
+                    <li><a href="#"><span>BBC News</span> - Nullam sit amet nisl ex</a></li>
+                    <li><a href="#"><span>CNN News</span> - Cras lorem augue, facilisis a commodo in, facilisis finibus libero vel ultrices.</a></li>
+                    <li><a href="#"><span>AOL News</span> - Maecenas imperdiet ante vitae neque facilisis cursus</a></li>
+                    <li><a href="#"><span>YAHOO News</span> - Maecenas libero ipsum, placerat in mattis vel, tincidunt quis est.</a></li>
+                    <li><a href="#"><span>BBC News</span> - Curabitur tortor libero, vehicula sagittis luctus sed, lobortis sed arcu</a></li>
+                </ul>
+                <div class="bn-navi">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="main-slider-conatiner height-100 mlr--7-5">
+
+                <div class="float-left float-sm-none width-50 width-sm-100 height-500px">
+                    <div class="hover-img-2 position-relative height-100 height-xs-150px width-100 p-7-5 transition-20ms color-white-imp">
+
+                        <a class="overflow-hidden position-relative display-block height-100" href="blog-detail-full-width.html">
+                            <div class="position-absolute z-index--1 img-sclae-up" style="background: url(/as-images/sample/blog-1-600x400.jpg) no-repeat;background-size: cover;"><div class="bg-layer-shadow-5"></div></div>
+                            <div class="position-btm p-20 p-md-10">
+                                <h6><b><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <polygon fill="none" stroke="#000" points="9.5 5.5 8.5 3.5 1.5 3.5 1.5 16.5 18.5 16.5 18.5 5.5"></polygon></svg> ANDROID</b></h6>
+                                <h4 class="mt-10"><b> A Post-Modern Android Retrospective <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <circle cx="16.1" cy="6.1" r="1.1"></circle> <rect fill="none" stroke="#000" x="0.5" y="2.5" width="19" height="15"></rect> <polyline fill="none" stroke="#000" stroke-width="1.01" points="4,13 8,9 13,14"></polyline> <polyline fill="none" stroke="#000" stroke-width="1.01" points="11,12 12.5,10.5 16,14"></polyline></svg></b></h4>
+                                <h6>by <b>John Doe</b></h6>
+                            </div><!-- content-wrapper -->
+                        </a><!-- blog-slider-content -->
+
+                    </div><!-- slider-section -->
+                </div><!-- left-area -->
+
+                <div class="float-right float-sm-none width-50 width-sm-100 height-500px ">
+                    <div class="height-50 width-100">
+                        <div class="hover-img-2 position-relative height-100 height-sm-200px height-xs-150px width-100 p-7-5 transition-20ms color-white-imp">
+
+                            <a class="overflow-hidden position-relative display-block height-100" href="blog-detail-full-width.html">
+                                <div class="position-absolute z-index--1 img-sclae-up" style="background: url(/as-images/sample/blog-2-600x400.jpg) no-repeat;background-size: cover;"><div class="bg-layer-shadow-5 img-opacity"></div></div>
+                                <div class="position-btm p-20 p-md-10 p-sm-15">
+                                    <h6><b><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <polygon fill="none" stroke="#000" points="9.5 5.5 8.5 3.5 1.5 3.5 1.5 16.5 18.5 16.5 18.5 5.5"></polygon></svg> ANDROID</b></h6>
+                                    <h4 class="mt-10"><b>A Post-Modern Android Retrospective</b></h4>
+                                    <h6>by <b>John Doe</b></h6>
+                                </div><!-- content-wrapper -->
+                            </a><!-- blog-slider-content -->
+
+                        </div><!-- slider-section -->
+                    </div><!-- right-top-area -->
+
+                    <div class="height-50 width-100">
+
+                        <div class="float-left float-sm-none height-100 width-50 width-sm-100">
+                            <div class="hover-img-2 position-relative height-100 height-sm-200px height-xs-150px width-100 p-7-5 transition-20ms color-white-imp">
+
+                                <a class="overflow-hidden position-relative display-block height-100" href="blog-detail-full-width.html">
+                                    <div class="position-absolute z-index--1 img-sclae-up" style="background: url(/as-images/sample/blog-3-600x400.jpg) no-repeat;background-size: cover;"><div class="bg-layer-shadow-5 img-opacity"></div></div>
+                                    <div class="position-btm p-20 p-md-10 p-sm-15">
+                                        <h6><b><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <polygon fill="none" stroke="#000" points="9.5 5.5 8.5 3.5 1.5 3.5 1.5 16.5 18.5 16.5 18.5 5.5"></polygon></svg> ANDROID</b></h6>
+                                        <h4 class="mt-10"><b>A Post-Modern Android Retrospective</b></h4>
+                                        <h6>by <b>John Doe</b></h6>
+                                    </div><!-- content-wrapper -->
+                                </a><!-- blog-slider-content -->
+
+                            </div><!-- slider-section -->
+                        </div><!-- right-bottom-left -->
+
+                        <div class="float-left float-sm-none height-100 width-50 width-sm-100">
+                            <div class="hover-img-2 position-relative height-100 height-sm-200px height-xs-150px width-100 p-7-5 transition-20ms color-white-imp">
+
+                                <a class="overflow-hidden position-relative display-block height-100" href="blog-detail-full-width.html">
+                                    <div class="position-absolute z-index--1 img-sclae-up" style="background: url(/as-images/sample/blog-4-600x400.jpg) no-repeat;background-size: cover;"><div class="bg-layer-shadow-5 img-opacity"></div></div>
+                                    <div class="position-btm p-20 p-md-10 p-sm-15">
+                                        <h6><b><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <polygon fill="none" stroke="#000" points="9.5 5.5 8.5 3.5 1.5 3.5 1.5 16.5 18.5 16.5 18.5 5.5"></polygon></svg> ANDROID</b></h6>
+                                        <h4 class="mt-10"><b>A Post-Modern Android Retrospective</b></h4>
+                                        <h6>by <b>John Doe</b></h6>
+                                    </div><!-- content-wrapper -->
+                                </a><!-- blog-slider-content -->
+
+                            </div><!-- slider-section -->
+                        </div><!-- right-bottom-right -->
+
+                    </div><!-- right-bottom-area -->
+                </div><!-- right-area -->
+
+            </div><!-- main-slider-conatiner -->
+            <div class="tg-trending">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="tg-heading">
+                        <h3>Explore Whats Trending</h3>
+                    </div>
+                </div>
+                <div class="tg-featuredposts">
+                    <div id="tg-featuredpostslider" class="tg-featuredpostslider">
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <a href="javascript:void(0);"><img src="/as-images/sample//img-12.jpg" alt="image description"></a>
+                                    <a class="tg-btnview" href="#">view post</a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Luxury Life in Sydney</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <a href="javascript:void(0);"><img src="/as-images/sample//img-16.jpg" alt="image description"></a>
+                                    <a class="tg-btnview" href="#">view post</a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">First New Look at the Fall Collection</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <img src="/as-images/sample//img-17.jpg" alt="image description">
+                                    <a class="tg-btnplayvideo" href="javascript:void(0);"><i class="fa fa-play"></i></a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Classic View From the Heart of Rome Valley</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <a href="javascript:void(0);"><img src="/as-images/sample//img-18.jpg" alt="image description"></a>
+                                    <a class="tg-btnview" href="#">view post</a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Brattle Announced Shocking News About Smart Watch</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <a href="javascript:void(0);"><img src="/as-images/sample//img-15.jpg" alt="image description"></a>
+                                    <a class="tg-btnview" href="#">view post</a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">First New Look at the Fall Collection</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <a href="javascript:void(0);"><img src="/as-images/sample//img-14.jpg" alt="image description"></a>
+                                    <a class="tg-btnview" href="#">view post</a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Classic View From the Heart of Rome Valley</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="item">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <img src="/as-images/sample//img-13.jpg" alt="image description">
+                                    <a class="tg-btnplayvideo" href="javascript:void(0);"><i class="fa fa-play"></i></a>
+                                    <ul class="tg-postmatadata">
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-eye"></span>
+                                                <span>2.4K</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <span class="lnr lnr-bubble"></span>
+                                                <span>17.9K</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                            <li><a href="javascript:void(0);">DIY</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Brattle Announced Shocking News About Smart Watch</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="tg-slidecount">
+                        <span class="tg-currentItem"><span class="tg-result"></span></span>
+                        <span>/</span>
+                        <span class="tg-owlItems"><span class="tg-result"></span></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="tg-heading">
+                    <h3>What’s New</h3>
+                </div>
+            </div>
+
+            <div class="page_content posts">
+
+
+                @if (Model.Count < 1)
+                {
+                    <div style="padding: 32px 0px;">
+                        <b>@LanguageHelper.Translate("This category currently does not have corresponding information_Text")!</b>
+                    </div>
+                }
+                else
+                {
+                    foreach (BlogPostCategoryMapping item in Model)
+                    {
+                        <a href="@SlugHelper.BlogPost(item.BlogPostId)" title="@item.BlogPost.Title" class="post">
+                            <div class="_image ie-img">
+                                <img src="@ImageHelper.GetResize(item.BlogPost.Avatar, 410, 233)" alt="@item.BlogPost.Title" />
+                            </div>
+                            <div class="_content">
+                                @{ 
+                                    var categories = "";
+                                    var listCategories = DataWhereHelper.ExtractListBlogCategory(BlogPostId: item.BlogPostId);
+                                }
+                                @foreach (var itemL in listCategories)
+                                {
+                                    if (itemL.ParentBlogCategory.Grouped != "root")
+                                    {
+                                        categories += itemL.Name + (itemL == listCategories.Last() ? "" : ", ");
+                                    }
+                                }
+                                <div class="_category">@categories</div>
+                                <h3 class="_title">
+                                    @item.BlogPost.Title
+                                </h3>
+                                <div class="_author">
+                                    <div class="userpic ie-img">
+                                        <img src="/as-images/sample/userpic.jpg" alt="">
+                                    </div>
+                                    <div class="name">By @item.BlogPost.AuthorName – <time class="time-ago" datetime="@item.BlogPost.PublishedTime"></time></div>
+                                </div>
+                                <p class="_text except-3">
+                                    @Html.Raw(item.BlogPost.Excerpt)
+                                </p>
+                            </div>
+                        </a>
+
+                    }
+                }
+
+
+                <a href="post-page-fullwidth.html" class="post">
+                    <div class="_image ie-img">
+                        <img src="/as-images/sample/post-9.jpg" alt="">
+                    </div>
+                    <div class="_content">
+                        <div class="_category">News  |  Health and beauty</div>
+                        <h3 class="_title">
+                            Lorem Ipsum is that it has a more-or-less normal distribution of letters
+                        </h3>
+                        <div class="_author">
+                            <div class="userpic ie-img">
+                                <img src="/as-images/sample/userpic.jpg" alt="">
+                            </div>
+                            <div class="name">By Maya Delia – July 26, 2019</div>
+                        </div>
+                        <p class="_text">
+                            On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment
+                        </p>
+                    </div>
+                </a>
+
+                <a href="post-page-fullwidth.html" class="post">
+                    <div class="_image ie-img">
+                        <img src="/as-images/sample/post-10.jpg" alt="">
+                    </div>
+                    <div class="_content">
+                        <div class="_category">Photography</div>
+                        <h3 class="_title">
+                            On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized
+                        </h3>
+                        <div class="_author">
+                            <div class="userpic ie-img">
+                                <img src="/as-images/sample/userpic.jpg" alt="">
+                            </div>
+                            <div class="name">By Victor Shibut – July 26, 2019</div>
+                        </div>
+                        <p class="_text">
+                            Lorem Ipsum is that it has a more-or-less normal distribution of letters
+                        </p>
+                    </div>
+                </a>
+                <a href="post-page-fullwidth.html" class="post">
+                    <div class="_image ie-img">
+                        <img src="/as-images/sample/post-5.jpg" alt="">
+                    </div>
+                    <div class="_content">
+                        <div class="_category">Electronics</div>
+                        <h3 class="_title">
+                            Lorem Ipsum is that it has a more-or-less normal distribution of letters
+                        </h3>
+                        <div class="_author">
+                            <div class="userpic ie-img">
+                                <img src="/as-images/sample/userpic.jpg" alt="">
+                            </div>
+                            <div class="name">By Maya Delia – July 26, 2019</div>
+                        </div>
+                        <p class="_text">
+                            Now that we have mentioned it, you probably perfectly understand why it is important for the payment process to go as smoothly as possible. After all, if a customer has
+                        </p>
+                    </div>
+                </a>
+
+                <a href="post-page-fullwidth.html" class="post">
+                    <div class="_image ie-img">
+                        <img src="/as-images/sample/post-6.jpg" alt="">
+                    </div>
+                    <div class="_content">
+                        <div class="_category">News  |  Electronics</div>
+                        <h3 class="_title">
+                            The point of using Lorem Ipsum is that it has a more-or-less normal
+                        </h3>
+                        <div class="_author">
+                            <div class="userpic ie-img">
+                                <img src="/as-images/sample/userpic.jpg" alt="">
+                            </div>
+                            <div class="name">By Maya Delia – July 26, 2019</div>
+                        </div>
+                        <p class="_text">
+                            Now that we have mentioned it, you probably perfectly understand why it is important for the payment process to go as smoothly as possible. After all, if a customer has
+                        </p>
+                    </div>
+                </a>
+
+                <a href="post-page-fullwidth.html" class="post">
+                    <div class="_image ie-img">
+                        <img src="/as-images/sample/post-7.jpg" alt="">
+                    </div>
+                    <div class="_content">
+                        <div class="_category">News  |  Electronics</div>
+                        <h3 class="_title">
+                            On the other hand, we denounce with righteous indignation and dislike
+                        </h3>
+                        <div class="_author">
+                            <div class="userpic ie-img">
+                                <img src="/as-images/sample/userpic.jpg" alt="">
+                            </div>
+                            <div class="name">By Victor Shibut – July 26, 2019</div>
+                        </div>
+                        <p class="_text">
+                            Now that we have mentioned it, you probably perfectly understand why it is important for the payment process to go as smoothly as possible. After all, if a customer has
+                        </p>
+                    </div>
+                </a>
+            </div>
+            @if (Model.HasNextPage)
+            {
+                <div class="pagination-wrap">
+                    @Html.PagedListPager(Model, page => Url.Action("Page", "Home", new { ViewBag.sortOrder, page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i>  Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" })
+                </div>
+            }
+            else
+            {
+                <div class="row d-flex justify-content-center">
+                    <div class="col-7 text-center mt-3"> <a href="#" class="btn btn-white "><i class="las la-redo-alt mr-2"></i>Reload...</a> </div>
+                </div>
+            }
+
+
+        </div><!-- container -->
+    </div><!-- main-slider -->
+
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/blog/blog-category/default/js")
+        <script>
+            var currentLink = $($(".main-menu a[href='@SlugHelper.BlogCategory(grouped: "news")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass("active");
+                currentLink.parent().parent().addClass("active");
+                currentLink.parent().parent().parent().addClass("active");
+            }
+        </script>
+    }

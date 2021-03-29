@@ -1,0 +1,79 @@
+@media (min-width : 1024px) {
+
+    .section.anim {
+        opacity: 0;
+    }
+
+    .section.active.anim {
+        float: left;
+        width: 100%;
+        top: 0px;
+        opacity: 1;
+        position: absolute;
+    }
+}
+.header-top {
+   
+    border-bottom: 1px solid #ffffff12;
+}
+.header-top .logo-wrapper {
+    
+    margin-left: 40px;
+    margin-top: 12px;
+}
+.header-top .logo-wrapper .logo img {
+    max-height: 56px;
+    width: auto;
+    margin-right: 8px;
+    background: #fff;
+    border-radius: 50px;
+}
+    .header-top .logo-wrapper .logo .title {
+        text-transform: capitalize;
+        font-size: 32px;
+    }
+
+    .section-about .content .c-right, .section-register .content .c-right, .section-message .content .c-right, .section-contact .content .c-right {
+       
+    }
+    
+
+    .btn-round, .section .content .btns .btn {
+        background: #00a758;
+    }
+
+    #fp-nav li .active span, .fp-slidesNav .active span {
+        background: #00a758;
+    }
+
+    .site-footer .note .marked {
+        color: #00a758;
+    }
+
+    .section .content .c-illustr .img-middle .swipe-nav, .section .content.with-clock .c-left .c-clock .img-middle .swipe-nav {
+        background: #00a758;
+    }
+
+.page-nav li.active .icon {
+    background: #f40;
+}
+    .page-nav li:not(.active):hover .icon {
+        color: #00a758;
+    }
+
+    .section .content.with-clock .c-left .c-clock .tile-hours, .section .content.with-clock .c-left .c-clock .tile-seconds, .section .content.with-clock .c-left .c-clock .tile-minutes {
+        color: #00a758;
+    }
+
+    .section .content.with-clock .c-left .c-clock .tile-seconds {
+        color: #fff;
+        background: #00a758;
+    }
+
+    .section-contact .content .c-illustr .img-middle .tiles-left h4, .section-contact .section .content.with-clock .c-left .c-clock .img-middle .tiles-left h4, .section .section-contact .content.with-clock .c-left .c-clock .img-middle .tiles-left h4 {
+        color: #00a758;
+    }
+
+    .section-contact .content .c-illustr .img-middle .tiles-left .socialnet li a, .section-contact .section .content.with-clock .c-left .c-clock .img-middle .tiles-left .socialnet li a, .section .section-contact .content.with-clock .c-left .c-clock .img-middle .tiles-left .socialnet li a, .section-contact .content .c-illustr .img-middle .tiles-left ul li a, .section-contact .section .content.with-clock .c-left .c-clock .img-middle .tiles-left ul li a, .section .section-contact .content.with-clock .c-left .c-clock .img-middle .tiles-left ul li a {
+        background: #00a758;
+    }

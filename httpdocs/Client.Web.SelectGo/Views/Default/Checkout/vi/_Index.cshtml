@@ -1,0 +1,795 @@
+﻿@{
+    var step = ViewBag.step; 
+    dynamic isAuthenticated = (Request.IsAuthenticated || ViewBag.Identifier != null);
+    if(Model.Order.ShippingMethod == null)
+    {
+        Model.Order.ShippingMethod = new ShippingMethod() { Description = "{{DES}}", Fees = 0 };
+    }
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Core.Models.Ecommerce.View.CheckOutViewModel
+
+<div class="wrapper" style="opacity: 0">
+    <header class="primary">
+        <nav class="navbar navbar-expand-lg navbar-primary">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="/"><img src="@DisplayHelper.Logo" /> Đặt hàng dễ - giao hàng nhanh</a>
+                </div>
+            
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav navbar-right">
+                        <li class="nav-item"><a href="@SlugHelper.Category(grouped:"our-product")"><i class="flaticon-arrows"></i> Quay lại cửa hàng</a></li>
+                        <li class="nav-item active"><a href="#">|</a></li>
+                        <li class="nav-item"><a href="#"><i class="ionicons ion-ios-lightbulb-outline"></i> Hướng dẫn thanh toán</a></li>
+                    </ul>
+                </div>
+            </div>
+     
+        </nav>
+
+        <div class="navbar navbar-secondary">
+            <div class="steps">
+                <div class="steps-inner">
+                    <div class="step-item @(step == 1 ? "active" : "") @(step > 1 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-bag"></i></div>
+                        <div class="step-label"> Mặt hàng</div>
+                    </div> <!-- /.item-step-item -->
+                    <div class="step-item @(step == 2 ? "active" : "") @(step > 2 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-android-people"></i></div>
+                        <div class="step-label"> Thông tin</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item @(step == 3 ? "active" : "") @(step > 3 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-cube"></i></div>
+                        <div class="step-label"> Vận chuyển</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item @(step == 4 ? "active" : "") @(step > 4 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-cash"></i></div>
+                        <div class="step-label"> Thanh toán</div>
+                    </div> <!-- /.step-item -->
+               
+                </div>
+            </div> <!-- /.step -->
+        </div>
+    </header> <!-- /.primary -->
+
+    <section class="section">
+        <div class="container">
+            @if (step == 1)
+            {
+                <div class="section-inner">
+                    <div class="section-body">
+                        <h2 class="section-title padding-top">Mặt hàng của bạn</h2> 
+                        <div class="line"></div>
+                        <div class="items">
+                            <p class="section-p">Bạn có thể thay đổi mặt hàng bằng cách <a href="@Url.Action("Index","ShoppingCart")" class="edit-cart"> <i class="ionicons ion-edit"></i> sửa giỏ hàng</a></p>
+                            @foreach (var item in Model.ShoppingCart.CartItems)
+                            {
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <figure>
+                                            <a href="@SlugHelper.Product(item.Product.Id)">
+                                                <img alt="img" class="w-100" src="@ImageHelper.GetResize(item.Product.Avatar)">
+                                            </a>
+                                        </figure>
+                                        <div class="item-details">
+                                            <div class="item-title">
+                                                <a href="@SlugHelper.Product(item.Product.Id)">@item.Product.Name</a>
+                                            </div>
+                                            <div class="item-description">Mã: #@item.Product.Sku</div>
+                                            <div class="item-price">Giá: @FormatHelper.FormatCurrency(item.Product.Price)</div>
+                                            <div class="item-variants">
+                                                <ul>
+                                                    <li>
+                                                        <div class="variant-label">Size</div>
+                                                        <div class="variant-value">L</div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="variant-label">Color</div>
+                                                        <div class="variant-value">
+                                                            <div class="circle-color" style="background-color: #1abc9c;"></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div> <!-- /.item-variants -->
+                                        </div> <!-- /.item-details -->
+                                        <div class="item-price">
+                                            
+                                            <div class="quantity" data-quantity-control data-min="1" data-target="#item-1-price">
+                                                <div class="control min">
+                                                    <i class="ion-ios-arrow-back"></i>
+                                                </div>
+                                                <div class="control count">
+                                                    <span>X</span><span>@item.Count</span>
+                                                </div>
+                                                <div class="control plus">
+                                                    <i class="ion-ios-arrow-forward"></i>
+                                                </div>
+                                            </div>
+                                            <div class="value" id="item-@item.Id-price" >@FormatHelper.FormatCurrency(item.Product.Price * item.Count)</div>
+                                        </div> <!-- /.item-price -->
+                  
+                                    </div> <!-- /.item-inner -->
+                                </div> <!-- /.item -->
+                            }
+                        </div> <!-- /.items -->
+                    </div> <!-- /.section-body -->
+                    <div class="section-footer">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="coupon">
+                                    <div class="coupon-inner">
+                                        <form class="coupon-form" id="coupon-form">
+                                            <h2 class="section-title sm">Sử dụng điểm tích lũy</h2>
+                                            <div class="line sm"></div>
+                                            <div class="form-group">
+                                                <input type="text" readonly name="Order.UsePoints" @(UserManager.User.CurrentPoints > 0 ? "":"disabled") value="@Model.Order.UsePoints" title="Bạn quay lại bước giỏ hàng để nhập lại" min="0" max="1000" class="form-control total-point" placeholder="points">
+                                                <button type="submit" class="btn btn-default" @(UserManager.User.CurrentPoints > 0 ? "":"disabled") disabled>Sử dụng</button>
+                                                <div class="help-text">
+                                                    Hãy xem thêm thông tin về chính sách <a href="#"> điểm tích lũy </a> tại đây.
+                                                </div>
+                                            </div> <!-- /.form-group -->
+                                        </form> <!-- /.coupon-form -->
+                                    </div> <!-- /.coupon-inner -->
+                                </div> <!-- /.coupon -->
+                            </div> <!-- /.col-md-6 -->
+                            <div class="col-md-6 col-sm-6">
+                                <h2 class="section-title sm">Dự tính</h2>
+                                <div class="line sm"></div>
+                                <div class="total-info" data-calculate-me>
+                                    <div class="total-item">
+                                        <div class="total-name">Thành tiền</div>
+                                        <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.ShoppingCart.CartTotal)</div>
+                                    </div> <!-- /.total-item -->
+                                    <div class="total-item">
+                                        <div class="total-name">Phí vận chuyển <span style="color:dimgray; font-size:10px">(tùy chọn sau)</span></div>
+                                        <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                    </div> <!-- /.total-item -->
+                                    <div class="total-item discount" data-calculate-min="true">
+                                        <div class="total-name">Tiền quy đổi từ điểm </div>
+                                        <div class="total-value" id="total-discount" data-price>@FormatHelper.FormatCurrency(Model.Order.OrderUsePoints)</div>
+                                    </div> <!-- /.total-item -->
+                                    <div class="total-item total">
+                                        <div class="total-name">Tổng tiền <span style="color:dimgray; font-size:10px">cần thanh toán</span></div>
+                                        <div class="total-value" id="total-all" data-price>0</div>
+                                    </div> <!-- /.total-item -->
+                                </div> <!-- /.total-info -->
+                            </div> <!-- /.col-md-6 -->
+                        </div> <!-- /.row -->
+                    </div> <!-- /.footer -->
+                    <div class="section-cta">
+                        <p>Sau bước này bạn sẽ điền thông tin địa chỉ nhận hàng</p>
+                        <button class="btn btn-primary" type="submit" data-href="?step=2">Bước tiếp <i class="ion-ios-arrow-thin-right"></i></button>
+                    </div> <!-- /.section-cta -->
+                </div> <!-- /.section-inner -->
+            }
+            else if (step == 2)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post, new { name="checkout-step2"}))
+                {
+                    <input type="hidden" name="step" value="3"/>
+                    <div class="data-filled">
+                        <input name="Order.PaymentMethodId" type="hidden" value="@Model.Order.PaymentMethodId">
+                        <input name="Order.ShippingMethodId" type="hidden" value="@Model.Order.ShippingMethodId">
+                        <input name="Order.UsePoints" type="hidden" value="@Model.Order.UsePoints" />
+                    </div>
+              
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <div class="section-nav-group">
+                                <div class="section-nav back" data-href="?step=1">
+                                    <i class="ion-android-arrow-back"></i>
+                                    <div>Quay lại</div>
+                                </div> <!-- /.section-nav.back -->
+                            </div> <!-- /.section-nav-group -->
+                            <h2 class="section-title padding-top">Thông tin của bạn</h2>
+                            <div class="line"></div>
+                            <div class="account-form">
+
+                                <div class="section-subtitle">Tài khoản</div>
+                                <div class="row" id="account-form">
+                                    @if (isAuthenticated)
+                                    {
+                                    <span style="margin-left: 45px;">Xin chào <b>@UserManager.User.FriendlyName</b>, Bạn đã đăng nhập với tài khoản <b>@UserManager.User.Username</b>. <br /> Để đặt hàng với thông tin khác bạn có thể đăng xuất <a href="@Url.Action("Logoff","Account", new {returnUrl="/"+ DataCurrentHelper.UniqueSeoCode +"/checkout/?step=2"})">  tại đây</a> và dùng tài khoản khách hoặc tài khoản khác./</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-12 col-sm-6">
+                                            <div class="email-field" id="as-guest-form">
+                                                <div class="form-group">
+                                                    <label>Địa chỉ e-mail của bạn <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.AsGuest.UserName, new { placeholder = "", @class = "form-control", type = "email" })
+                                                    @Html.ValidationMessageFor(model => model.AsGuest.UserName)
+                                                </div> <!-- /.form-group.email-field -->
+                                                <div class="form-group">
+                                                    <p class="help-block">
+                                                        Bạn đã có sẵn tài khoản? <a href="#" data-fade="#login-form,.email-field">Đăng nhập</a>
+                                                    </p>
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- ./email-field -->
+                                            <div class="login-form" id="login-form">
+                                                <div class="form-group">
+                                                    <label>Tên đăng nhập || e-mail || số điện thoại  <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.AsMember.UserName, new { placeholder = "", @class = "form-control", disabled=true })
+                                                    @Html.ValidationMessageFor(model => model.AsMember.UserName)
+                                                </div> <!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label>Mật khẩu <span class="required"></span></label>
+                                                    @Html.PasswordFor(model => model.AsMember.Password, new { placeholder = "", @class = "form-control", disabled=true })
+                                                    @Html.ValidationMessageFor(model => model.AsMember.Password)
+                                                </div> <!-- /.form-group -->
+                                                <div class="form-group text-right">
+                                                    <label class="remember"><input type="checkbox" id="AsMember_RememberMe" name="AsMember.RememberMe"> Ghi nhớ ?</label>
+                                                    <button id="login-btn" formnovalidate type="submit" class="btn btn-primary"> <svg viewBox="0 0 24 24" width="20px" style="    margin-bottom: -6px;" height="20px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M12,1A16.53,16.53,0,0,1,3.88,4,1,1,0,0,0,3,5v8a8.5,8.5,0,0,0,4.37,7.43L12,23l4.63-2.57A8.5,8.5,0,0,0,21,13V5a1,1,0,0,0-.88-1A16.53,16.53,0,0,1,12,1ZM5,5.78a18.59,18.59,0,0,0,7-2.49,17.29,17.29,0,0,0,3.31,1.57L5.25,14.9A6.48,6.48,0,0,1,5,13.12V5.78Zm0.59,10L16.26,5.15A20.88,20.88,0,0,0,19,5.78V7.17L7.74,18.42A6.49,6.49,0,0,1,5.59,15.81Zm10.07,3-3.66,2L8.5,18.89,19,8.4v4.72A6.5,6.5,0,0,1,15.66,18.81Z" class="large-icon" style="fill: currentColor"></path></svg> ĐĂNG NHẬP</button>
+                                                </div> <!-- /.form-group.text-right -->
+                                                <div class="form-group">
+                                                    <p class="help-block">
+                                                        Đặt hàng với tài khoản khách? <a href="#" data-fade=".email-field,#login-form">Quay lại</a>
+                                                    </p>
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.login-form -->
+                                        </div>
+                                    }
+                                     <!-- /.col-md-6 -->
+
+                                </div> <!-- /.row -->
+                                <div class="divider"></div>
+                                <div class="section-subtitle" id="shipping-address">Địa chỉ nhận hàng</div>
+                                <div class="row" id="shipping-address-form">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Xưng hô <span class="required"></span></label>
+                                                    <select class="form-control " name="Order.Customer.MainAddress.Gender" required>
+                                                        <optgroup label="Gọi">
+                                                            <option @(Model.Order.Customer.MainAddress.Gender == Gender.Male ? "selected" : "") value="1">Anh</option>
+                                                            <option @(Model.Order.Customer.MainAddress.Gender == Gender.Female ? "selected" : "") value="2">Chị</option>
+                                                        </optgroup>
+                                                        <optgroup label="Gọi tôi là">
+                                                            <option @(Model.Order.Customer.MainAddress.Gender == 0 ? "selected" : "") value="0">Bạn</option>
+                                                        </optgroup>
+                                                    </select> <!-- /.form-control -->
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                            <div class="col-md-5 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Họ đệm <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.Order.Customer.MainAddress.FirstName, new { placeholder = "", @class = "form-control", required = "required" })
+                                                    @Html.ValidationMessageFor(model => model.Order.Customer.MainAddress.FirstName)
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                            <div class="col-md-5 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Tên <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.Order.Customer.MainAddress.LastName, new { placeholder = "", @class = "form-control", required = "required" })
+                                                    @Html.ValidationMessageFor(model => model.Order.Customer.MainAddress.LastName)
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+
+                                        </div> <!-- /.row -->
+                                        <div class="row">
+                                            
+                                            <div class="col-md-7 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Số điện thoại <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.Order.Customer.MainAddress.PhoneNumber, new { placeholder = "", @class = "form-control phone", required = "required"  })
+                                                    @Html.ValidationMessageFor(model => model.Order.Customer.MainAddress.PhoneNumber)
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+
+                                        </div> <!-- /.row -->
+                                       
+                                      
+                                        <div class="row">
+                                            <div class="col-md-7 col-sm-6">
+                                                <div class="form-group">
+                                                   
+                                                    <select class="form-control " style="display: none" name="Order.Customer.MainAddress.CountryId">
+                                                        <optgroup label="Country">
+                                                            @foreach (var item in Model.Countries)
+                                                            {
+                                                                <option @(Model.Order.Customer.MainAddress.CountryId == item.Id ? "selected" : "") value="@item.Id">@item.Name</option>
+                                                            }
+
+                                                        </optgroup>
+                                                    </select> <!-- /.form-control -->
+                                                    <label>Thành phố <span class="required"></span></label>
+                                                    <select class="form-control" id="Order_Customer_MainAddress_StateProvinceId" name="Order.Customer.MainAddress.StateProvinceId" required>
+
+                                                        @foreach (var item in Model.Countries.Where(e=>e.StateProvinces.Any()).ToList())
+                                                        {
+                                                            <optgroup label="@item.Name">
+                                                                @foreach (var item2 in item.StateProvinces)
+                                                                {
+                                                                    <option data-country="@item.Id" @(Model.Order.Customer.MainAddress.StateProvinceId == item2.Id ? "selected" : "") value="@item2.Id">@item2.Name</option>
+                                                                }
+                                                            </optgroup>
+                                                        }
+
+                                                    </select> <!-- /.form-control -->
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                            <div class="col-md-5 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Quận huyện <span class="required"></span></label>
+                                                    <select class="form-control" id="Order_Customer_MainAddress_DistrictId" name="Order.Customer.MainAddress.DistrictId" required = "required" >
+
+                                                        @foreach (var item in Model.Countries.Where(e => e.StateProvinces.Any()).ToList())
+                                                        {
+                                                            foreach (var item2 in item.StateProvinces.Where(e => e.Districts.Any()).ToList())
+                                                            {
+                                                                <optgroup label="@item.Name - @item2.Name">
+                                                                    @foreach (var item3 in item2.Districts)
+                                                                    {
+                                                                        <option data-StateProvince="@item2.Id" @(Model.Order.Customer.MainAddress.DistrictId == item3.Id ? "selected" : "") value="@item3.Id">@item3.Name</option>
+                                                                    }
+                                                                </optgroup>
+                                                            }
+
+                                                        }
+
+                                                    </select> <!-- /.form-control -->
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                        </div> <!-- /.row -->
+
+                                        <div class="form-group">
+                                            <label>Địa chỉ chính<span class="required"></span></label>
+                                            @Html.TextBoxFor(model => model.Order.Customer.MainAddress.Address1, new { placeholder = "", @class = "form-control", required = "required"  })
+                                        </div> <!-- /.form-group -->
+
+                                        <div class="form-group">
+                                            <label>Địa chỉ (dòng 2)</label>
+                                            @Html.TextBoxFor(model => model.Order.Customer.MainAddress.Address2, new { placeholder = "", @class = "form-control" })
+                                        </div> <!-- /.form-group -->
+                                        
+                                    </div> <!-- /.col-md-12 -->
+                                </div> <!-- /.row -->
+                                <!-- /.account-action -->
+
+                            </div> <!-- /.account-form -->
+                        </div> <!-- /.section-body -->
+                        <div class="section-cta">
+                            <p>
+                                Sau bước này, bạn sẽ chọn phương thức vận chuyển
+                            </p>
+                            <button class="btn btn-primary" type="submit">Bước tiếp <i class="ion-ios-arrow-thin-right"></i></button>
+                        </div> <!-- /.section-cta -->
+                    </div>
+                    <!-- /.section-inner -->
+
+                }
+
+            }
+            else if (step == 3)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post))
+                {
+                    <input type="hidden" name="step" value="4"/>
+                    @Html.AntiForgeryToken()
+                    <div class="data-filled">
+                        <input name="AsGuest.UserName" type="hidden" value="@Model.AsGuest.UserName">
+                        <input name="Order.Customer.Email" type="hidden" value="@Model.Order.Customer.Email">
+
+                        <input name="RegisterNewLeters" type="hidden" value="@Model.RegisterNewLeters" />
+
+                        <input name="Order.Customer.MainAddress.Gender" type="hidden" value="@Model.Order.Customer.MainAddress.Gender">
+                        <input name="Order.Customer.MainAddress.FirstName" type="hidden" value="@Model.Order.Customer.MainAddress.FirstName">
+                        <input name="Order.Customer.MainAddress.LastName" type="hidden" value="@Model.Order.Customer.MainAddress.LastName">
+                        <input name="Order.Customer.MainAddress.PhoneNumber" type="hidden" value="@Model.Order.Customer.MainAddress.PhoneNumber">
+
+                        <input name="Order.Customer.MainAddress.CountryId" type="hidden" value="@Model.Order.Customer.MainAddress.CountryId">
+                        <input name="Order.Customer.MainAddress.StateProvinceId" type="hidden" value="@Model.Order.Customer.MainAddress.StateProvinceId">
+                        <input name="Order.Customer.MainAddress.DistrictId" type="hidden" value="@Model.Order.Customer.MainAddress.DistrictId">
+
+                        <input name="Order.Customer.MainAddress.Address1" type="hidden" value="@Model.Order.Customer.MainAddress.Address1">
+                        <input name="Order.Customer.MainAddress.Address2" type="hidden" value="@Model.Order.Customer.MainAddress.Address2">
+
+                        <input name="Order.PaymentMethodId" type="hidden" value="@Model.Order.PaymentMethodId">
+                        <input name="Order.UsePoints" type="hidden" value="@Model.Order.UsePoints" />
+
+                    </div>
+                   
+                    @Html.ValidationSummary(true)
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <div class="section-nav-group">
+                                <div class="section-nav back" data-href="?step=2">
+                                    <i class="ion-android-arrow-back"></i>
+                                    <div>Quay lại</div>
+                                </div> <!-- /.section-nav.back -->
+                            </div> <!-- /.section-nav-group -->
+                            <h2 class="section-title padding-top">Phương thức vận chuyển</h2>
+                            <div class="line"></div>
+                            <div class="shipping-list">
+                                <p class="section-p">Chọn một trong các phương thức vận chuyển dưới đây</p>
+                                @if (Model.Order.ShippingMethodId == 0)
+                                {
+                                    Model.Order.ShippingMethod.Fees = 0;
+                                    var i=0;
+                                    foreach (var item in Model.ShippingMethods.OrderBy(e => e.Fees))
+                                    {
+                                        <label class="shipping-item @((i == 0) ? "active":"")" data-shipping-method>
+                                            <span class="shipping-item-checkbox">
+                                                <input type="radio" required data-val="@item.Fees" name="Order.ShippingMethodId" @(i == 0 ? "checked" : "") value="@item.Id">
+                                            </span> <!-- /.shipping-item-checkbox -->
+                                            <strong class="shipping-item-label">
+                                                @item.Name <i style="color: dimgrey;"> @(i == 0 ? "(default)" : "") </i> <b class="etd">@Html.Raw(item.Description)</b>
+                                            </strong> <!-- /.shipping-item-label -->
+                                            <strong class="shipping-item-price">
+                                                @FormatHelper.FormatCurrency(item.Fees)
+                                            </strong> <!-- /.shipping-item-price -->
+                                        </label>
+                                        <!-- /.shipping-item -->
+                                        i++;
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var item in Model.ShippingMethods.OrderBy(e => e.Fees))
+                                    {
+                                        if (item.Id == Model.Order.ShippingMethodId)
+                                        {
+                                            Model.Order.ShippingMethod.Fees = item.Fees;
+                                        }
+
+                                        <label class="shipping-item @((Model.Order.ShippingMethodId == item.Id) ? "active":"")" data-shipping-method>
+                                            <span class="shipping-item-checkbox">
+                                                <input type="radio" data-val="@item.Fees" name="Order.ShippingMethodId" @(Model.Order.ShippingMethodId == item.Id ? "checked" : "") value="@item.Id">
+                                            </span> <!-- /.shipping-item-checkbox -->
+                                            <strong class="shipping-item-label">
+                                                @item.Name <b class="etd">@Html.Raw(item.Description)</b>
+                                            </strong> <!-- /.shipping-item-label -->
+                                            <strong class="shipping-item-price">
+                                                @FormatHelper.FormatCurrency(item.Fees)
+                                            </strong> <!-- /.shipping-item-price -->
+                                        </label>
+                                        <!-- /.shipping-item -->
+
+                                    }
+                                }
+
+
+                            </div> <!-- /.shipping-list -->
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h2 class="section-title">Vận chuyển tới</h2>
+                                    <div class="line sm"></div>
+                                    <div class="shipping-to">
+                                        <div class="shipping-inner">
+                                            <div class="name">@Model.Order.Customer.MainAddress.FullName</div>
+                                            <div class="address">@Model.Order.Customer.MainAddress.Address1</div>
+                                            <div class="address">@Model.Order.Customer.MainAddress.Address2</div>
+                                            <div class="contact">Số điện thoại  <span style="margin-left:7px;">@Model.Order.Customer.MainAddress.PhoneNumber</span></div>
+                                            <div class="action">Chưa đúng ? <a href="?step=2#shipping-address">Thay đổi tại đây</a></div>
+                                        </div> <!-- /.shipping-inner -->
+                                    </div> <!-- /.shipping-to -->
+                                </div> <!-- /.col-md-6 -->
+                                <div class="col-md-6 col-sm-6">
+                                    <h2 class="section-title">Dự tính</h2>
+                                    <div class="line sm"></div>
+                                    <div class="total-info" data-calculate-me>
+                                        <div class="total-item">
+                                            <div class="total-name">Thành tiền</div>
+                                            <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.ShoppingCart.CartTotal)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item">
+                                            <div class="total-name">Phí vận chuyển</div>
+                                            <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item discount" data-calculate-min="true">
+                                            <div class="total-name">Tiền quy đổi từ điểm </div>
+                                            <div class="total-value" id="total-discount" data-price>@FormatHelper.FormatCurrency(Model.Order.OrderUsePoints)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item total">
+                                            <div class="total-name">Tổng tiền <span style="color:dimgray; font-size:10px">cần thanh toán</span></div>
+                                            <div class="total-value" id="total-all" data-price>0</div>
+                                        </div> <!-- /.total-item -->
+                                    </div>
+                                </div> <!-- /.col-md-6 -->
+                            </div> <!-- /.row -->
+                        </div> <!-- /.section-body -->
+                        <div class="section-cta">
+                            <p>
+                                Sau bước này, bạn sẽ chọn phương thức thanh toán bạn muốn
+                            </p>
+                            <button class="btn btn-primary" type="submit">Bước tiếp <i class="ion-ios-arrow-thin-right"></i></button>
+                        </div> <!-- /.section-cta -->
+                    </div> <!-- /.section-inner -->
+                }
+
+            }
+            else if (step == 4)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="step" value="5"/>
+
+                    <div class="data-filled">
+                        <input name="AsGuest.UserName" type="hidden" value="@Model.AsGuest.UserName">
+                        <input name="Order.Customer.Email" type="hidden" value="@Model.Order.Customer.Email">
+
+                        <input name="Order.Customer.MainAddress.Gender" type="hidden" value="@Model.Order.Customer.MainAddress.Gender">
+                        <input name="Order.Customer.MainAddress.FirstName" type="hidden" value="@Model.Order.Customer.MainAddress.FirstName">
+                        <input name="Order.Customer.MainAddress.LastName" type="hidden" value="@Model.Order.Customer.MainAddress.LastName">
+                        <input name="Order.Customer.MainAddress.PhoneNumber" type="hidden" value="@Model.Order.Customer.MainAddress.PhoneNumber">
+
+                        <input name="Order.Customer.MainAddress.CountryId" type="hidden" value="@Model.Order.Customer.MainAddress.CountryId">
+                        <input name="Order.Customer.MainAddress.StateProvinceId" type="hidden" value="@Model.Order.Customer.MainAddress.StateProvinceId">
+                        <input name="Order.Customer.MainAddress.DistrictId" type="hidden" value="@Model.Order.Customer.MainAddress.DistrictId">
+
+                        <input name="Order.Customer.MainAddress.Address1" type="hidden" value="@Model.Order.Customer.MainAddress.Address1">
+                        <input name="Order.Customer.MainAddress.Address2" type="hidden" value="@Model.Order.Customer.MainAddress.Address2">
+
+                        <input name="Order.ShippingMethodId" type="text" value="@Model.Order.ShippingMethodId">
+                        <input name="Order.UsePoints" type="text" value="@Model.Order.UsePoints" />
+                    </div>
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <div class="section-nav-group">
+                                <div class="section-nav back" data-href="?step=3">
+                                    <i class="ion-android-arrow-back"></i>
+                                    <div>Quay lại</div>
+                                </div> <!-- /.section-nav.back -->
+                            </div> <!-- /.section-nav-group -->
+                            <h2 class="section-title padding-top">Phương thức thanh toán</h2>
+                            <div class="line"></div>
+                            <div class="section-subtitle">Dự tính</div>
+                            <div class="grand-total">
+                                <div class="grand-total-inner" data-slide=".grand-total-details," data-active=".grand-total-inner">
+                                    <div class="grand-total-toggle">
+                                        <div class="grand-total-icon">
+                                            <i class="ion-bag"></i>
+                                        </div> <!-- /.grand-total-icon -->
+                                        <div class="grand-total-label">
+                                            Tổng tiền cần thanh toán cho <span>@Model.ShoppingCart.CartItems.Count mặt hàng</span>
+                                        </div> <!-- /.grand-total-label -->
+                                        <div class="grand-total-price" id="grand-total-all">
+                                            @FormatHelper.FormatCurrency(Model.Order.OrderTotal)
+                                        </div> <!-- /.grand-total-price -->
+                                    </div>
+                                    <div class="grand-total-details">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="total-info" data-calculate-me>
+                                                    <div class="total-item">
+                                                         <div class="total-name">Thành tiền</div>
+                                                        <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.ShoppingCart.CartTotal)</div>
+                                                    </div> <!-- /.total-item -->
+                                                    <div class="total-item">
+                                                        <div class="total-name">Phí vận chuyển</div>
+                                                        <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                                    </div> <!-- /.total-item -->
+                                                    <div class="total-item discount" data-calculate-min="true">
+                                                        <div class="total-name">Tiền quy đổi từ điểm </div>
+                                                        <div class="total-value" id="total-discount" data-price>@FormatHelper.FormatCurrency(Model.Order.OrderUsePoints)</div>
+                                                    </div> <!-- /.total-item -->
+                                                    <div class="total-item total">
+                                                        <div class="total-name">Tổng tiền <span style="color:dimgray; font-size:10px">cần thanh toán</span></div>
+                                                        <div class="total-value" id="total-all">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</div>
+                                                    </div> <!-- /.total-item -->
+                                                </div> <!-- /.total-info -->
+                                            </div> <!-- /.col-md-12 -->
+                                        </div> <!-- /.row -->
+                                    </div> <!-- /.grand-total-details -->
+                                </div> <!-- /.grand-total-inner -->
+                            </div> <!-- /.grand-total -->
+                            <div class="section-subtitle">Chọn một hình thức dưới đây</div>
+                            <div class="payment-method-list">
+                                @foreach (var item in Model.PaymentMethods)
+                                {
+                                    <label class="payment-method-item @(Model.Order.PaymentMethodId == item.Id ? "active" : "")" data-target="payment-@item.Id">
+                                        <span class="payment-method-checkbox">
+                                            <input type="radio" required name="Order.PaymentMethodId" @(Model.Order.PaymentMethodId == item.Id ? "checked" : "") value="@item.Id">
+                                        </span> <!-- /.payment-method-checkbox -->
+                                        <span class="payment-method-details">
+                                            <b class="title">@item.Name</b>
+                                            <span class="description">
+                                                @Html.Raw(item.Description)
+                                            </span>  <!-- /.description -->
+                                        </span>  <!-- /.payment-method-details -->
+                                    </label>
+                                    <!-- /.payment-method-item -->
+
+                                }
+                            </div> <!-- /.payment-method-list -->
+
+
+                                @foreach (var item in Model.PaymentMethods)
+                                {
+                                    <div class="payment-method-form @(Model.Order.PaymentMethodId == item.Id ? "show" : "")" id="payment-@item.Id">
+                                        <div class="section-subtitle">@item.Name</div>
+                                        <div class="payment-method-form-inner">
+                                            @Html.Raw(item.Instructions)
+                                        </div> <!-- /.payment-method-form-inner -->
+                                    </div>
+                                    <!-- /.payment-method-form -->
+                                }
+                           <!-- /.payment-method-form -->
+                        </div> <!-- /.section-body -->
+                        <div class="section-cta">
+                            <p>
+                                Sau bước này, bạn chỉ cần xác nhận thông tin đặt hàng của bạn
+                            </p>
+                            <button class="btn btn-primary" type="submit">Bước tiếp <i class="ion-ios-arrow-thin-right"></i></button>
+                        </div> <!-- /.section-cta -->
+                    </div>
+                    @Html.ValidationSummary(true)
+
+                }
+                 <!-- /.section-inner -->
+
+            }
+            else if (step == 5)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="step" value="6"/>
+                    <div class="data-filled">
+                        <input name="AsGuest.UserName" type="hidden" value="@Model.AsGuest.UserName">
+                        <input name="Order.Customer.Email" type="hidden" value="@Model.Order.Customer.Email">
+
+                        <input name="Order.Customer.MainAddress.Gender" type="hidden" value="@Model.Order.Customer.MainAddress.Gender">
+                        <input name="Order.Customer.MainAddress.FirstName" type="hidden" value="@Model.Order.Customer.MainAddress.FirstName">
+                        <input name="Order.Customer.MainAddress.LastName" type="hidden" value="@Model.Order.Customer.MainAddress.LastName">
+                        <input name="Order.Customer.MainAddress.PhoneNumber" type="hidden" value="@Model.Order.Customer.MainAddress.PhoneNumber">
+
+                        <input name="Order.Customer.MainAddress.CountryId" type="hidden" value="@Model.Order.Customer.MainAddress.CountryId">
+                        <input name="Order.Customer.MainAddress.StateProvinceId" type="hidden" value="@Model.Order.Customer.MainAddress.StateProvinceId">
+                        <input name="Order.Customer.MainAddress.DistrictId" type="hidden" value="@Model.Order.Customer.MainAddress.DistrictId">
+
+                        <input name="Order.Customer.MainAddress.Address1" type="hidden" value="@Model.Order.Customer.MainAddress.Address1">
+                        <input name="Order.Customer.MainAddress.Address2" type="hidden" value="@Model.Order.Customer.MainAddress.Address2">
+
+                        <input name="Order.ShippingMethodId" type="hidden" value="@Model.Order.ShippingMethodId">
+                        <input name="Order.PaymentMethodId" type="hidden" value="@Model.Order.PaymentMethodId">
+
+                        <input name="Order.UsePoints" type="hidden" value="@Model.Order.UsePoints" />
+                        <input name="Order.OrderUsePoints" type="hidden" value="@Model.Order.OrderUsePoints" />
+                        <input name="Order.OrderDiscount" type="hidden" value="@Model.Order.OrderDiscount">
+                        <input name="Order.OrderTransportFee" type="hidden" value="@Model.Order.OrderTransportFee" />
+                        <input name="Order.OrderTotal" type="hidden" value="@Model.Order.OrderTotal">
+                    </div>
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <h2 class="section-title padding-top">Xác nhận đơn hàng</h2>
+                            <div class="line"></div>
+                            <div class="row row-fat">
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Mặt hàng <a href="?step=1" class="block-cta">Sửa</a></div>
+                                    <div class="block-body">
+                                        <div class="items">
+                                            @foreach (var item in Model.ShoppingCart.CartItems)
+                                            {
+                                                <div class="item">
+                                                    <div class="item-inner">
+                                                        <figure>
+                                                            <a href="@SlugHelper.Product(item.Product.Id)">
+                                                                <img alt="img" class="w-100" src="@ImageHelper.GetResize(item.Product.Avatar)">
+                                                            </a>
+                                                        </figure>
+                                                        <div class="item-details">
+                                                            <div class="item-title"><a href="@SlugHelper.Product(item.Product.Id)">@item.Product.Name</a></div>
+                                                            <div class="item-price">
+                                                                <div class="value">@FormatHelper.FormatCurrency(item.Product.Price)</div>
+                                                                <div class="quantity">
+                                                                    <div class="control count">x@(item.Count)</div>
+                                                                </div>
+                                                            </div> <!-- /.item-price -->
+                                                        </div> <!-- /.item-details -->
+                                                    </div> <!-- /.item-inner -->
+                                                </div>
+                                                <!-- /.item -->
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Thông tin của bạn <a href="?step=2" class="block-cta">Sửa</a></div>
+                                    <div class="block-body">
+                                        <div class="section-p">
+                                            <div class="text-bold">@Model.Order.Customer.MainAddress.FullName</div>
+                                            Địa chỉ: @Model.Order.Customer.MainAddress.Address1 @Html.Raw(Model.Order.Customer.MainAddress.Address2 == null ? "" : "<span style='color: dimgray;font-size: 89%;'>(" + Model.Order.Customer.MainAddress.Address2 + ")</span>"),
+                                            @if (@Model.Order.Customer.MainAddress.District != null)
+                                            {
+                                                <span>
+                                                    @Model.Order.Customer.MainAddress.District.Name,
+                                                @Model.Order.Customer.MainAddress.StateProvince.Name
+                                            </span>
+                                        }
+                                            <br>
+                                            Số điện thoại: @Model.Order.Customer.MainAddress.PhoneNumber
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-fat">
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Hình thức vận chuyển <a href="?step=3" class="block-cta">Sửa</a></div>
+                                    <div class="block-body">
+                                        <div class="section-p">
+                                            <div class="text-bold">@Model.Order.ShippingMethod.Name</div>
+                                            <span class="text-bold text-primary uppercase">Dự kiến</span> <span class="mr-left">@Model.Order.ShippingMethod.Description</span><br>
+                                            <span class="text-bold text-primary uppercase">Phí</span> <span class="mr-left">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Phương thức thanh toán <a href="?step=4" class="block-cta">Sửa</a></div>
+                                    <div class="block-body">
+                                        @if(Model.Order.OrderTotal == 0)
+                                        {
+                                            <div class="section-p">
+                                               
+                                                <p><span class="text-bold">Không yêu cầu thanh toán</span> Đơn hàng của bạn không phát sinh phí./</p>
+                                            </div>  
+                                        }
+                                        else
+                                        {
+                                            <div class="section-p">
+                                                <img src="@Model.Order.PaymentMethod.Avatar" width="50">
+                                                <p><span class="text-bold">@Model.Order.PaymentMethod.Name</span> @Model.Order.PaymentMethod.Description</p>
+                                            </div>
+                                        }
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-fat">
+                                <div class="col-sm-12 block">
+                                    <div class="section-subtitle">Ghi chú cho đơn hàng</div>
+                                    <div class="block-body">
+                                        <div class="section-p">
+                                            <textarea name="notes" style="width: 100%;padding: 12px;" placeholder="Gõ nội dung bạn muốn lưu ý ở đây..."></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                      
+                            <div class="section-cta">
+                                <p>
+                                    Nếu bạn đã xác nhận đơn hàng thì hãy <b>đặt hàng</b> @Html.Raw(Model.Order.OrderTotal > 0 ? " và khi <b>hoàn tất</b>  bạn sẽ được cộng thêm <b id='points-from-money'>0</b> điểm":" ngay để chúng tôi xử lý").
+                                </p>
+                                <div class="price">
+                                    <div>Số tiền cần thanh toán</div>
+                                    <b id="cart-total">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</b>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Đặt hàng <i class="ion-bag"></i></button>
+                            </div> <!-- /.section-cta -->
+                        </div> <!-- /.section-inner -->
+                }
+
+            }
+
+        </div> <!-- /.container -->
+    </section> <!-- /.section -->
+
+    <footer class="primary">
+        <div class="container">
+            <div class="copyright">
+                @Html.Action("Caller", "StaticBlock", new { identifier = "footer-copyright", area = "", noWrapper = true })
+                <div class="payment-methods">
+                    
+                </div>
+            </div> <!-- /.copyright -->
+        </div> <!-- /.container -->
+    </footer> <!-- /.footer-primary -->
+</div> <!-- /.wrapper -->
+
+
+
+

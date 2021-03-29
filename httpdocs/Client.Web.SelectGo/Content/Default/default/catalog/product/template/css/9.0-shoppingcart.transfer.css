@@ -1,0 +1,179 @@
+﻿
+.stickyCart {
+    display: none;
+    color: #f5f5f5;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    text-align: left;
+    width: 100%;
+    padding: 3px;
+    padding-left: 42px;
+    line-height: 36px;
+    background-color: #9E9E9E;
+}
+.stickyOptions-wrapper {
+    float: right;
+    margin-right: 40px;
+}
+.stickyCart .container {
+    max-width: calc(1234px + 40px)!important;
+}
+    .stickyCart .img, .stickyCart .sticky-title {
+        display: inline-block;
+        vertical-align: middle
+    }
+
+    .stickyCart .product-featured-img {
+        display: block;
+        margin: 0 auto;
+        height: 36px;
+    }
+
+    .stickyCart .sticky-title {
+        padding: 0 60px 0 10px;
+    }
+
+    .stickyCart .stickyOptions {
+        margin-right: 10px;
+        border: 1px solid #535353;
+        line-height: 18px;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+    }
+
+        .stickyCart .stickyOptions .selectedOpt {
+            padding: 8px 30px 0 15px;
+            font-size: 110%;
+            height: 35px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 220px;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .stickyCart .stickyOptions .selectedOpt:after {
+                content: "\f3bf";
+                font-family: 'Line Awesome Free';
+                position: absolute;
+                display: none;
+                top: 8px;
+                right: 10px;
+            }
+
+        .stickyCart .stickyOptions ul {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            display: none;
+            min-width: 100%;
+            max-height: 300px;
+            overflow: auto;
+            background-color: #000;
+        }
+
+            .stickyCart .stickyOptions ul li {
+                font-size: 90%;
+                padding: 10px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                cursor: pointer;
+            }
+
+                .stickyCart .stickyOptions ul li.soldout {
+                    opacity: 0.5;
+                    text-decoration: line-through;
+                }
+
+    .stickyCart .product-form__cart-submit {
+        padding: 0 20px;
+        line-height: 37px;
+        border: 0;
+        border-radius: 0px;
+        background: #e34848;
+        color: #ffffff;
+    }
+.selectedOpt .money {
+    margin-left: 15px;
+}
+.stickyCart .wrapQtyBtn {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    float: none;
+}
+
+    .stickyCart .qtyField {
+        border: 1px solid #535353;
+    }
+
+        .stickyCart .qtyField .qtyBtn, .stickyCart .qtyField .qty {
+            color: #f5f5f5;
+            height: 35px;
+            background-color: #000;
+            border: 0;
+        }
+
+    .stickyCart.popup {
+        padding-right: 16px;
+    }
+
+    .stickyCart .product-form__variants.selectbox.no-js {
+        display: none;
+    }
+
+@media (max-width: 991px) {
+    #sticky-cart {
+        margin-bottom: 40px;
+    }
+    .stickyCart {
+        display: none;
+        color: #f5f5f5;
+        position: fixed;
+        bottom: -84px;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        text-align: center;
+        width: 100%;
+        padding: 0px;
+        background-color: #9e9e9e;
+        z-index: 999999;
+    }
+    .stickyCart {
+        bottom: -42px;
+    }
+
+        .stickyCart .img, .stickyCart .sticky-title, .stickyCart .wrapQtyBtn {
+            display: none;
+        }
+
+        .stickyCart .stickyOptions {
+            width: 50%;
+            margin-right: 5px;
+        }
+
+            .stickyCart .stickyOptions .selectedOpt {
+                width: 100%;
+            }
+
+        .stickyCart .product-form__cart-submit {
+            width: calc(50% - 10px);
+            border-radius: 0px;
+            height: 36px;
+        }
+    .stickyOptions-wrapper {
+        float: none;
+        margin-right: 0px;
+    }
+        .stickyCart .product-form__cart-submit span:first-child{
+            display:none;
+        }
+}

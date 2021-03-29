@@ -1,0 +1,9 @@
+﻿@using global::Web.Helpers
+@using (Html.BeginForm("Index", "Search", new { @id = string.Empty, culture = DataCurrentHelper.UniqueSeoCode }, FormMethod.Get, new { @id = "frm_search", @name = "frm_search", @class = "frm_search" }))
+{
+
+    <input type="search" data-scope="@ViewBag.scope" required role="search" class="txt_search" name="key" placeholder="@LanguageHelper.Translate("What are you looking for_Text") ...">
+    <button class="btn_search" id="btn_search" name="btn_search" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+    <input type="hidden" value="@ViewBag.scope" name="scope" />
+
+}

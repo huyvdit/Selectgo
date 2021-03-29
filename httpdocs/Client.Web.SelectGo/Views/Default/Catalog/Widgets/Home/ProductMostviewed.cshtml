@@ -1,0 +1,11 @@
+﻿@model List<Product>
+    @foreach (var item in Model)
+    {
+        var slug = SlugHelper.Product(item.Id);
+        <li class="col-12-12 col-desktop-1-1 col-tablet-1-4 col-phablet-1-3 col-phone-1-2">
+            <a href="@slug" title="@item.Name">
+                <span class="title">@item.Name</span>
+            </a>
+            <b>@item.ProductType.Name</b> <p>@Html.Raw(item.getShortDescription())</p>
+        </li>
+    }

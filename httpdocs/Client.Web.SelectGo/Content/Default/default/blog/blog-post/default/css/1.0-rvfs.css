@@ -1,0 +1,178 @@
+/*
+ * Font size style declarations for each variation.
+ *
+ * Observation: Note that the amount of classes here
+ * rely on how many variations you set on $.rvFontsize() call.
+ * 
+ * This classes are required to make rv font size jquery plugin works.
+ */
+
+.rvfs-1 p, .rvfs-1 li,.rvfs-1 .documentation_item .media-body h5{ font-size: 70%}
+.rvfs-2 p, .rvfs-2 li,.rvfs-2 .documentation_item .media-body h5{ font-size: 80%}
+.rvfs-3 p, .rvfs-3 li,.rvfs-3 .documentation_item .media-body h5{ font-size: 90%}
+.rvfs-4 p, .rvfs-4 li{ font-size: 100%}
+.rvfs-5 p, .rvfs-5 li,.rvfs-5 .documentation_item .media-body h5{ font-size: 110%}
+.rvfs-6 p, .rvfs-6 li,.rvfs-6 .documentation_item .media-body h5{ font-size: 120%}
+.rvfs-7 p, .rvfs-7 li,.rvfs-7 .documentation_item .media-body h5{ font-size: 130%}
+.rvfs-4 .documentation_item .media-body h5{
+    font-size: 18px;
+}
+.rvfs-1 .shortcode_title h2{
+    font-size: 10px;
+}
+.rvfs-2 .shortcode_title h2{
+    font-size: 20px;
+}
+.rvfs-3 .shortcode_title h2{
+    font-size: 25px;
+}
+.rvfs-4 .shortcode_title h2{
+    font-size: 30px;
+}
+.rvfs-5 .shortcode_title h2{
+    font-size: 35px;
+}
+.rvfs-6 .shortcode_title h2{
+    font-size: 40px;
+}
+.rvfs-7 .shortcode_title h2{
+    font-size: 45px;
+}
+
+.fontsize-controllers {
+    margin-bottom: 15px;
+}
+
+    .fontsize-controllers .btn-group {
+        float: right;
+    }
+
+    .fontsize-controllers .btn {
+        border-radius: 0px!important;
+    }
+    /* bootstrap */
+    .group {
+        *zoom: 1;
+    }
+
+    .group:before,
+    .group:after {
+        display: table;
+        line-height: 0;
+        content: "";
+    }
+
+    .group:after {
+        clear: both;
+    }
+
+
+.btn {
+    background: #2d3657;
+    padding: 0px 15px;
+    margin-right: 2px !important;
+}
+
+    .btn:hover,
+    .btn:focus,
+    .btn:active,
+    .btn.active,
+    .btn.disabled,
+    .btn[disabled] {
+        color: #333333;
+        background-color: #e6e6e6;
+        *background-color: #d9d9d9;
+    }
+
+    .btn:active,
+    .btn.active {
+        background-color: #cccccc \9;
+    }
+
+    .btn:first-child {
+        *margin-left: 0;
+    }
+
+    .btn:hover,
+    .btn:focus {
+        color: #333333;
+        text-decoration: none;
+        background-position: 0 -15px;
+        -webkit-transition: background-position 0.1s linear;
+        -moz-transition: background-position 0.1s linear;
+        -o-transition: background-position 0.1s linear;
+        transition: background-position 0.1s linear;
+    }
+
+    .btn:focus {
+        outline: thin dotted #333;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+
+    .btn.active,
+    .btn:active {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn.disabled,
+    .btn[disabled] {
+        color: #7e7e7e;
+        cursor: default;
+        background-image: none;
+        opacity: 0.65;
+        filter: alpha(opacity=65);
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+
+.btn-group {
+    position: relative;
+    display: inline-block;
+    *display: inline;
+    *margin-left: .3em;
+    font-size: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    *zoom: 1;
+}
+
+    .btn-group:first-child {
+        *margin-left: 0;
+    }
+
+    .btn-group > .btn {
+        position: relative;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+
+        .btn-group > .btn + .btn {
+            margin-left: -1px;
+        }
+
+        .btn-group > .btn:first-child {
+            margin-left: 0;
+            -webkit-border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+            -moz-border-radius-bottomleft: 4px;
+            -moz-border-radius-topleft: 4px;
+        }
+
+        .btn-group > .btn:last-child,
+        .btn-group > .dropdown-toggle {
+            -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+            -webkit-border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            -moz-border-radius-topright: 4px;
+            -moz-border-radius-bottomright: 4px;
+        }

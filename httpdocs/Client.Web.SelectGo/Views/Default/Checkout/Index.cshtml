@@ -1,0 +1,134 @@
+﻿@using global::Web.Helpers
+@{
+    Html.EnableClientValidation();
+    ViewBag.step = int.Parse(Request["step"] ?? "1");
+    ViewBag.Title = LanguageHelper.Translate("Check out - Step_Text") + " " + ViewBag.step;
+    Layout = "~/Views/Default/Shared/_LayoutNull.cshtml";
+    if (!HttpContext.Current.Response.IsRequestBeingRedirected)
+    {
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1.
+        Response.Cache.AppendCacheExtension("no-store, must-revalidate");
+        Response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
+        Response.AppendHeader("Expires", "0"); // Proxies.
+    }
+}
+
+@section styles{
+    @Styles.Render("~/bundles/content/default/checkout/css")
+    @*<link rel="stylesheet" href="@Url.ContentVersioned("/content/default/default/checkout/css/9.1-thanhhm-custom.css")" />*@
+}
+@{
+    Html.RenderPartial("~/Views/Default/CheckOut/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Index.cshtml");
+}
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+    </script>
+    <script>
+        $(document).ready(function () {
+            var orderCustomerMainAddressDistrictId = $("select[id=Order_Customer_MainAddress_DistrictId]").val();
+            //on page ready hide all task option
+            $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+            // set task as empty
+            $("select[id=Order_Customer_MainAddress_DistrictId]").val(orderCustomerMainAddressDistrictId);
+
+            // onchange of StateProvinceId Drop down
+            $("select[id=Order_Customer_MainAddress_StateProvinceId]").on('change', function () {
+                var selectedStateProvinceId = $(this).val();
+                if (selectedStateProvinceId != '') {
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+                    $("select[id=Order_Customer_MainAddress_DistrictId] option[value='']").show();
+                    $('*[data-stateProvince="' + selectedStateProvinceId + '"]').show();
+                } else {
+                    // if StateProvinceId not selected then hide all tasks
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").val(orderCustomerMainAddressDistrictId);
+                }
+
+            }).trigger("change");
+
+            // 
+            $("input[name='Order.ShippingMethodId']").bind("change", function () {
+                var f = $(this).data("val");
+                $(".payment-shipping").data("checkout-total-shipping-target", parseFloat(f));
+                $(".payment-shipping").text("$" + (f));
+                calcTotal();
+            });
+
+            if ($("#points-from-money").length > 0) {
+                var getPrice = function (res) {
+                    res = res.replace(/,/g, '');
+                    res = res.replace('₫', '').replace('$', '').replace('.', '').replace('.00 ', '');
+                    if (res == "" || res == "-") return 0;
+                    res = parseFloat(res);
+                    return res;
+                }
+                $.ajax({
+                    url: '/api/general/get-point-conversion-rate?type=1&amount=' + getPrice($("#cart-total").html()),
+                    type: 'GET',
+                    cache: false,
+                }).done(function (result) {
+                    $("#points-from-money").text((result[0].Value));
+
+                });
+            }
+
+            if ($("#discount-from-subscription").length > 0) {
+                var getPrice = function (res) {
+                    res = res.replace('.00', '').replace(',00', '');
+                    res = res.replace(/,/g, '');
+                    console.log(res);
+                    res = res.replace('₫', '').replace('$', '').replace('.', '').replace(',', '');
+                    if (res == "" || res == "-") return 0;
+                    res = parseFloat(res);
+                    console.log(res);
+                    return res;
+                }
+                $.ajax({
+                    url: '/api/general/get-subscription-conversion-rate?type=1&amount=' + getPrice($("#cart-total").html()),
+                    type: 'GET',
+                    cache: false,
+                }).done(function (result) {
+
+                    if (result!= undefined && result.val != 0) {
+                        $("input[name='__Subscription']").val(result.token);
+                        $(".payment-discount-explain").append("(from subscription)");
+                        $(".payment-discount").data("checkout-total-discount-target", result.val);
+                        $("#discount-from-subscription span").text("$" + (result.val));
+                        calcTotal();
+                    }
+                    
+
+                });
+            }
+
+
+        });
+    </script>
+
+    <script>
+
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+        AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+        AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function() {
+
+            $(this).remove();
+
+        });
+        setTimeout(function() {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+    </script>
+    <script>
+        window.wizardStep = '@ViewBag.step';
+    </script>
+    @Scripts.Render("~/bundles/content/default/checkout/js")
+}

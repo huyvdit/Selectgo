@@ -1,0 +1,133 @@
+﻿@model ProductInsideView
+<div class="portlet-body" id="list-product-inside">
+
+    @Html.Partial("/Views/Default/Catalog/Product/Inside/partial/_item.cshtml")
+
+</div>
+
+@using (Html.BeginScripts())
+{
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                 window.pageSelect = function () {
+                 $('#page-select').selectPage({
+                        showField : 'desc',
+                        keyField: 'id',
+                        lang: 'en',
+                        data: '@Url.Action("ProductInsideFind","ProductPlus")?' + "id=@ViewBag.id&pageNumber=@Model.pager.CurrentPage",
+                         params : function(){return {'id':'@ViewBag.id'};},
+                        //Ajax response data format
+                        //The formated data must contain 'list' (Array) and 'totalRow' (number|string) nodes
+                        eAjaxSuccess : function(d){
+                            return d ? d : undefined;
+                        },
+                        pageSize : 15,
+                        //close down arrow button
+                        dropButton : false,
+                        //customize row content render
+                        formatItem: function (data) {
+                             return "#" + data.id + " | " + data.name;
+                        },
+                        eSelect: function (data) {
+                             $('#pager-action').show();
+                             setTimeout(function () {
+                                 $('#pager-action').trigger("click");
+                             },1200)
+                        },
+                        eClear: function(){//when clear province, clear the city at the same time
+                             $('#pager-action').hide();
+                        }
+                 });
+               
+                }
+
+                window.pageSelect();
+
+            if ($("#page-select").val() != "") {
+                setTimeout(function () {
+
+                   
+                },1200)
+            }
+            else {
+               
+            }
+            
+                  
+            window.bindPager = function () {
+
+                //basic initialization
+                $("#pager-link a").bind("click", function (e) {
+                    e.preventDefault();
+                    $("#page-select").val($(this).attr("data-page"));       
+                    $('#pager-action').trigger("click");  $('#page-select').selectPageClear(); 
+                    return false;
+                });
+                 
+            }
+                window.bindPager();
+
+            $('#pager-action').on("click", function (e) {
+
+                e.preventDefault();
+
+                if ($("#page-select").val() != "") {
+                    ASPlus.loading.show();
+                    let params = {
+                                     pathview: '_item',
+                                    pageNumber: document.getElementById('page-select').value,
+                                    pageSize: document.getElementById('page-size').value,
+
+                                }
+                    const withQuery = (url, params) => {
+                      let query = Object.keys(params)
+                        .filter(k => params[k] !== undefined)
+                        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+                        .join('&');
+                      url += (url.indexOf('?') === -1 ? '?' : '&') + query;
+                      return url;
+                    };
+
+                    fetch(withQuery('@Url.Action("ProductInsideSingle","ProductPlus")', params))
+                           .then(
+                            function(response) {
+                              if (response.status !== 200) {
+                                console.log('Looks like there was a problem. Status Code: ' +
+                                  response.status);
+                                return;
+                              }
+
+                              // Examine the text in the response
+                              response.text().then(function(data) {
+                                  
+                                  $('#list-product-inside').html(data);
+                                  $("#current-chapter").text($("#pager-link li.active a").attr("data-page"));
+                                  setTimeout(function () {
+                                      if (window.bindPager != undefined) window.bindPager();
+                                      if (window.bindPlugin != undefined) window.bindPlugin.init();
+                                      ASPlus.loading.hide();
+                                      HvHelpers.scrollTo("#list-product-inside");
+
+                                      if (window.checkServer != undefined) window.checkServer();
+
+                                      if (Product != undefined) Product.init();
+                                      history.pushState(null, null, "/"+ $("#page-slug").val() +"/link-" + $("#current-chapter").text() + ".html");
+                                  },1200)
+                                  
+                              });
+                            }
+                          )
+                          .catch(function(err) {
+                            console.log('Fetch Error :-S', err); HvHelpers.loading.hide();
+                       });
+                }
+                $(this).hide();
+                return false;
+            });
+            })
+           
+           
+        });
+    </script>
+}

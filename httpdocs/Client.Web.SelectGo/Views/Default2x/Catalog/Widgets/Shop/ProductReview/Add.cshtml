@@ -1,0 +1,60 @@
+﻿@using global::Web.Helpers
+@model Web.Model.Models.ProductReview
+@{
+    var maxRate = DataConfigsHelper.Get("MaxRate");
+    if (maxRate == "")
+    {
+        maxRate = "5";
+    }
+}
+@using (Ajax.BeginForm("AddProductReview", "Catalog", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "add-product-review", LoadingElementId = "add-review-loader", OnComplete = "PagedOnComplete_Add" }))
+{
+    if (ViewBag.NotifyText != null)
+    {
+        @Html.Raw(ViewBag.NotifyText)
+    }
+    @Html.HiddenFor(model => model.ProductId)
+    <h3 class="title">@LanguageHelper.Translate("Your_Comment_Text")</h3>
+    <div class="review-rate">
+        <label class="mb-0" for="Rating">@LanguageHelper.Translate("Reviews_for_this_product_Text")</label>
+        <input class="mb-0" id="Rating" value="@(Model.Rating == 0 ? 4: Model.Rating)" name="Rating"  type="number" min=0 max="@(maxRate)" step=0.5 data-size="xl" data-stars="@maxRate" />
+    </div>
+
+    <div class="review-title">
+        <label for="Title">@LanguageHelper.Translate("Title_Text") <i>*</i></label> @Html.ValidationMessageFor(model => model.Title)
+        <input type="text" id="Title" name="Title" value="@Model.Title" placeholder="Type anything"  list="TitleSuggest"/>
+        <div class="form-text text-muted display-if"
+             data-target_name="Title"
+             data-target_type="text"
+             data-target_has_any_value=true>
+            <small>Thanks for your title :)</small>
+        </div>
+    </div>
+
+    <div class="review-content">
+        <label for="ReviewText">@LanguageHelper.Translate("Message_Text") <i>*</i></label>  @Html.ValidationMessageFor(model => model.ReviewText)
+        <textarea id="ReviewText" name="ReviewText" rows="5" cols="5" style="width: 100%;" placeholder="">@(Model.ReviewText ?? LanguageHelper.Translate("I want said_Text") + ":broken_heart:")</textarea>
+    </div>
+
+    <div>
+
+        <div class="checkbox checkbox-ripple show-info-in">
+            <label style="font-weight: normal;">
+                @Html.EditorFor(model => model.DisplayedOrders) <span class="ripple"></span><span class="check"></span> @LanguageHelper.Translate("Display purchased information in the comment section_Text")
+            </label>
+          
+        </div>
+        
+        <p class="pull-right">
+            <button style="float: right;height: 30px;" id="ReviewSubmit" class="submit" type="submit">
+                <span id="add-review-loader" style="display:none;font-size: 10px;">
+                    @LanguageHelper.Translate("Waiting_Text")...
+                </span>
+                <svg width="20px" height="20px" style="margin-bottom: 2px;" viewBox="0 0 50 52"><defs><linearGradient x1="-33.8638554%" y1="80.5915663%" x2="80.3337349%" y2="-33.6060241%" id="security-1"><stop stop-color="#77c3e2" offset="0%"></stop><stop stop-color="#83caa6" offset="100%"></stop></linearGradient><linearGradient x1="42.6433735%" y1="57.1%" x2="109.859036%" y2="-10.1144578%" id="security-2"><stop stop-color="#77c3e2" offset="0%"></stop><stop stop-color="#83caa6" offset="100%"></stop></linearGradient><linearGradient x1="-10.3722892%" y1="110.116867%" x2="56.8433735%" y2="42.9012048%" id="security-3"><stop stop-color="#77c3e2" offset="0%"></stop><stop stop-color="#83caa6" offset="100%"></stop></linearGradient><linearGradient x1="19.153012%" y1="133.607229%" x2="133.350602%" y2="19.4096386%" id="security-4"><stop stop-color="#77c3e2" offset="0%"></stop><stop stop-color="#83caa6" offset="100%"></stop></linearGradient><linearGradient x1="-9.28944099%" y1="89.1416216%" x2="112.72795%" y2="-17.0462162%" id="security-5"><stop stop-color="#77c3e2" offset="0%"></stop><stop stop-color="#83caa6" offset="100%"></stop></linearGradient></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon-purple_ddos" transform="translate(-354.000000, -72.000000)"><g id="purple" transform="translate(355.000000, 74.000000)"><g id="Group"><polyline id="Shape" stroke="url(#security-1)" stroke-width="2.375" stroke-linejoin="round" points="7.2 0 0.331034483 0 0.331034483 6.98947368"></polyline><polyline id="Shape" stroke="url(#security-2)" stroke-width="2.375" stroke-linejoin="round" points="47.5034483 6.98947368 47.5034483 0 40.6344828 0"></polyline><polyline id="Shape" stroke="url(#security-3)" stroke-width="2.375" stroke-linejoin="round" points="0.331034483 41.0105263 0.331034483 48 7.2 48"></polyline><polyline id="Shape" stroke="url(#security-4)" stroke-width="2.375" stroke-linejoin="round" points="40.6344828 48 47.5034483 48 47.5034483 41.0105263"></polyline><path d="M30.537931,10.7789474 C30.537931,10.7789474 25.4896552,10.4421053 23.9172414,8.33684211 C22.3448276,10.3578947 17.2965517,10.7789474 17.2965517,10.7789474 C17.2965517,10.7789474 12.8275862,10.6947368 10.5931034,9.09473684 L10.5931034,25.7684211 C10.5931034,29.1368421 11.9172414,32.3368421 14.4,34.5263158 C16.3862069,36.2947368 19.4482759,38.2315789 23.9172414,39.4947368 C28.4689655,38.1473684 31.4482759,36.2947368 33.4344828,34.5263158 C35.9172414,32.2526316 37.2413793,29.0526316 37.2413793,25.7684211 L37.2413793,9.09473684 C35.0896552,10.6947368 30.537931,10.7789474 30.537931,10.7789474 Z" id="Shape" fill="url(#security-5)" fill-rule="nonzero"></path></g></g></g></g></svg>
+                @LanguageHelper.Translate("Submit_Text")
+            </button>
+        </p>
+
+    </div>
+
+}

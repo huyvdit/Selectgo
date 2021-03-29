@@ -1,0 +1,32 @@
+﻿ul.fancytree-container {
+    border: none;
+    padding: 0px;
+}
+a.fancytree-title:focus,
+span.fancytree-focused a:link, /* @IE */
+span.fancytree-focused span.fancytree-title {
+    outline: none!important;
+    background-color: #fff; /* gray */
+}
+span.fancytree-folder .fancytree-title {
+    font-weight: 300;
+}
+span.fancytree-selected span.fancytree-title {
+    color: #673AB7;
+    font-style: normal;
+}
+.fancytree-ext-filter span.fancytree-node.fancytree-match .fancytree-title {
+    color: black;
+    font-weight: 300;
+}
+.fancytree-container {
+    border: none !important;
+}
+
+.fancytree-treefocus {
+    outline: none;
+}
+.fancytree-ext-filter span.fancytree-node.fancytree-match .fancytree-title mark {
+    padding: 0px;
+    background-color: #ffecbf;
+}

@@ -1,0 +1,54 @@
+﻿@{
+    Html.EnableClientValidation();
+    ViewBag.Title = "Đăng ký tài khoản mới";
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@using System.Web.Mvc
+@using System.Web.Optimization
+@using CaptchaMvc.HtmlHelpers
+@using global::Web.Helpers
+@model RegisterModel
+@section styles{
+    @Styles.Render("~/bundles/content/default/account/base/css","~/bundles/content/default/account/register/css")
+
+
+}
+
+    <div class="authfy-register-wrapper">
+        @{
+            Html.RenderPartial("~/Views/Default/Account/_Partial/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Register.cshtml");
+
+        } <!-- ./container -->
+    </div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/account/base/js","~/bundles/content/default/account/register/js")
+  
+    
+    <script>
+            $(function () {
+                var img = $('.captcha-image');
+                $('.captcha-reloader').click(function () {
+                    // the core of answer is 2 lines below
+                    var dummy = '?dummy=';
+                    var type = img.attr('src').split("type=")[1];
+                    img.attr('src', img.attr('src').split("?")[0] + dummy + (new Date()).getTime() + "&type=" + type);
+
+                    return false;
+                });
+
+            });
+    </script>
+    <script>
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function() {
+            AppConfigs.OriginalBody.find(".luna-default").css("opacity", "1");
+        }, 300);
+        
+    </script>
+}

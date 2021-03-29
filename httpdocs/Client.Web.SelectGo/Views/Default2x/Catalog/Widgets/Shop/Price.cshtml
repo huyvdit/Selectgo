@@ -1,0 +1,43 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@{
+    var p = ViewData["Product"] as Product;
+}
+<span class="ratting f-left">
+    @for (var i = 0; i < p.RatingValue; i++)
+    {<i class="fa fa-star"></i>}
+    @for (var j = p.RatingValue; j < 5; j++)
+    {<i class="fa fa-star-o"></i>}
+</span>
+@if (p.DisplayStockPrice == true)
+{
+    <ins>@FormatHelper.FormatCurrency(p.OriginalPrice)</ins>
+}
+else
+{
+    if (p.IsPromotion)
+    {
+        <del>@FormatHelper.FormatCurrency(p.Price)</del>
+        if (p.SpecialPriceByPercent > 0)
+        {
+            <ins>@p.SpecialPriceByPercent %</ins>
+        }
+        else if (p.SpecialPrice > 0)
+        {
+            <ins>@FormatHelper.FormatCurrency(p.SpecialPrice)</ins>
+        }
+    }
+    else
+    {
+        if (p.CallForPrice == true)
+        {
+            <ins style="font-size: 11px;color: red;text-transform: uppercase;">@LanguageHelper.Translate("Contact to price quote_Text")</ins>
+        }
+        else
+        {
+
+            <ins>@FormatHelper.FormatCurrency(p.Price)</ins>
+        }
+
+    }
+}

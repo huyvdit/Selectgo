@@ -1,0 +1,67 @@
+﻿@using global::Web.Helpers
+@using PagedList.Mvc
+@using Web.Model.Models
+@model PagedList.IPagedList<Web.Model.Models.ProductReview>
+@{
+    var maxRate = DataConfigsHelper.Get("MaxRate");
+    if (maxRate == "")
+    {
+        maxRate = "5";
+    }
+}
+<div> 
+<div class="comment-paging">
+    @Html.PagedListPager(Model, page => Url.Action("ListProductReview", "Catalog", new { ViewBag.id, page }), 
+                         PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions { 
+                                                                                                              LinkToPreviousPageFormat = "<", LinkToNextPageFormat = ">", MaximumPageNumbersToDisplay = 2 }, new AjaxOptions {
+                                                                                                                                                                                                                                 HttpMethod = "GET",
+                                                                                                                                                                                                                                 UpdateTargetId = "list-product-review",
+                                                                                                                                                                                                                                 LoadingElementId = "list-review-loader",
+                                                                                                                                                                                                                                 OnComplete = "PagedOnComplete_List"
+                                                                                                                                                                                                                             }))
+</div>
+<ul class="col-xs-12 product-review-list hidden">
+    @if (Model.Count > 0)
+    {
+        foreach (ProductReview item in Model)
+        {
+    <li class="col-xs-12 item">
+        <div class="col-xs-2 avatar">
+            <img src="@item.Customer.Avatar" />
+            <div class="rate">
+                <strong style="text-transform: uppercase;font-size: 12px;">@((item.Customer.Email == null || item.Customer.Email.Contains("guest@") == true) ? "Review as guest" : item.Customer.Username) <span style="font-size: 10px;color: #8d8d99;">(@((item.Customer.Email == null || item.Customer.Email.Contains("guest@") == true) ? "Not signed" : item.Customer.Email))</span> </strong>
+                @if (item.Customer.MainAddress.StateProvince != null)
+                {
+                    <span class="from"> <i class="fa fa-location-arrow"></i> @LanguageHelper.Translate("from_Text") <b>@item.Customer.MainAddress.StateProvince.Name</b></span>
+                }
+                <i class="fa fa-clock-o"></i> <time class="time" datetime="@item.CreatedTime"></time>
+                <br />
+                <input value="@Convert.ToDouble(item.Rating)" name="rating-list" type="number" min=0 max="@maxRate" step=0.5 data-size="xs" data-stars="@maxRate" />
+            </div>
+           
+        </div>
+        <div class="col-xs-12 right">
+           
+            <h3 class="title">@LanguageHelper.Translate("Wrote_Text"): "@item.Title"</h3>
+            <p class="content">@Html.Raw(item.ReviewText)</p>
+            @if (item.DisplayedOrders == true)
+            {
+                <p class="product-purchared">@LanguageHelper.Translate("Number of products purchased_Text") : <b> @item.Product.OrderItems.Count(e=>e.Order.CustomerId == item.CustomerId) </b></p>
+            }
+            <p class="pull-right"><span>@LanguageHelper.Translate("This Review Helpful To You_Text") ? </span> <a class="review-helpful" data-helpful="@(item.Id + "-yes")">@LanguageHelper.Translate("Yes_Text") (<b>@item.HelpfulYesTotal</b>)</a> | <a class="review-helpful" data-helpful="@(item.Id + "-no")">@LanguageHelper.Translate("No_Text") (<b>@item.HelpfulNoTotal</b>)</a></p>
+        </div>
+    </li>
+        }
+    }
+    else
+    {
+        <li>
+            <p class="empty">
+                @LanguageHelper.Translate("There are no reviews yet, please be the first to comment on this product?_Text")
+            </p>
+        </li>
+        
+    }
+
+</ul>
+</div>

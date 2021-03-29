@@ -1,0 +1,573 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@model Product
+@{
+    ViewBag.SelfHeader = true;
+    var isAjaxRequest = Request.IsAjaxRequest();
+    Layout = isAjaxRequest == false ? "~/Views/Default/Shared/_Layout.cshtml" : "~/Views/Default/Shared/_LayoutAjax.cshtml";
+
+    var category = DataWhereHelper.ExtractPrimaryCategory(Model.ProductCategoryMappings.Where(e => e.Category.Parent.Id != 1).ToList());
+    if (category.CategoryParent == null)
+    {
+        category.CategoryParent = new Category() { Name = "" };
+    }
+    var categoryIds = Model.ProductCategoryMappings.OrderByDescending(e => e.DisplayOrder).Aggregate("", (current, itemSame) => current + itemSame.CategoryId + ",");
+    var slug = SlugHelper.Product(Model.Id);
+
+    var pmms = DataWhereHelper.ExtractListProductManufacturer(Model.ProductManufacturerMappings);
+    var pmm = pmms == null ? new List<Manufacturer>() : pmms.ToList();
+}
+@if (isAjaxRequest)
+{
+
+}
+else
+{
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/product/resource/css")
+    }
+}
+
+@if (isAjaxRequest)
+{
+    <div class="wrapper">
+
+    </div>
+}
+else
+{
+    <div class="wrapper">
+        <input type="hidden" value="@Model.Id" id="model-id" name="model-id" />
+        <div class="breadcrumb-wrap">
+            <div class="container py-3">
+                <div class="row d-flex justify-content-md-between justify-content-sm-center">
+                    <div class="col-md-6">
+                        <nav aria-label="breadcrumb">
+                            @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(category.Parent.Id), Title = category.Parent.Name }, new BreadcrumbModel { Link = SlugHelper.Category(category.Id), Title = category.Name }, new BreadcrumbModel { Link = "#", Title = Model.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+                        </nav>
+                    </div>
+                    <div class="header-actions">
+
+                        <a class="btn btn-ghost grey-dark like-button font-weight-bold" href="#votes" title="Like | Dislike">
+                            <i class="las la-hand-holding-heart"></i>
+                            <span>@Model.LikeCount Likes</span>
+                        </a>
+
+                        <button class="btn btn-ghost grey-dark font-weight-bold sign-in">
+                            <i class="las la-bookmark"></i>
+                            <span><span>Save for Later</span></span>
+                        </button>
+                        <button class="btn btn-ghost grey-dark font-weight-bold" data-toggle="download-as" data-backdrop="blurred">
+                            <i class="fas fa-cloud-download"></i>
+                            <span><span> Save as file </span></span>
+                        </button>
+                        <div class="c-share" style="margin-top: 4px;">
+                            <input class="c-share__input" type="checkbox" id="checkbox">
+                            <label class="c-share__toggler" for="checkbox">
+                                <span class="c-share__icon"></span>
+                                <span class="font-weight-bold"> Share </span>
+                            </label>
+                            <ul class="c-share_options" data-title="Share page with:">
+                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" data-description="@Model.ShortDescription" class="share-button facebook-share"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-name="@Model.Name" class="share-button twitter-share"><i class="fab fa-twitter"></i> Twitter</a></li>
+                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" class="share-button pin-share"><i class="fab fa-pinterest"></i> Pinterest</a></li>
+                            </ul>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <div class="container">
+                <section>
+                    <!-- partial:index.partial.html -->
+                    <header class="page__header fixed-top" role="banner">
+                        <div class="container">
+                            <h1 class="page__title">@Model.Name</h1>
+                        </div>
+                    </header>
+
+                    <div class="main full-article-page" role="main">
+
+                        <article class="article full-article">
+                            <div class="content">
+
+                                <div class="article-content">
+
+                                    <h1 itemprop="headline">@Model.Name</h1>
+
+                                    <p class="meta">
+                                        <b>In categories:</b>
+                                        <strong class="categories">
+                                            @foreach (var itemCate in Model.ProductCategoryMappings.Where(e => e.Category.Parent.Id != 1 && e.Category.IsActive == true).Take(3))
+                                            {
+                                                <a href="@SlugHelper.Category(itemCate.CategoryId)" title="View all posts in @itemCate.Category.Name" class="post_tag category-resources">@itemCate.Category.Name</a>
+                                            }
+                                        </strong>
+                                        <b>Posted by:</b>
+                                        @foreach (var m in pmm)
+                                        {
+                                           <a href="@SlugHelper.Manufacturer(m.Id)" title="Posts by @m.Name" rel="author">@m.Name</a> @Html.Raw("•")
+                                        }
+                                        <span itemprop="datePublished" content="@Model.CreatedTime"><time class="time-ago" datetime="@Model.CreatedTime.Value.ToString("dd/MM/yyyy HH:mm:ss")"></time></span> • <small><span id="eta"></span>  READ&nbsp; (<span id="words"></span> words)</small>
+                                    </p>
+                                    <div class="tabs tabs-style-linetriangle">
+                                        <nav>
+                                            <ul>
+                                                <li><a href="#overview"><span><svg version="1.1" viewBox="-66 0 569 569.286" class="cursor svg-icon svg-fill" style="width: 24px; height: 24px;"><path pid="0" d="M.11 66.383v493.133A9.484 9.484 0 0 0 9.593 569H369.96c5.234 0 9.48-4.246 9.48-9.484V161.219c0-.211-.101-.39-.12-.598a8.942 8.942 0 0 0-.485-2.437c-.106-.305-.18-.598-.313-.895a9.387 9.387 0 0 0-1.898-2.777L281.793 59.68a9.198 9.198 0 0 0-2.79-1.899 8.56 8.56 0 0 0-.87-.312 9.399 9.399 0 0 0-2.457-.492c-.16.027-.348-.075-.547-.075H9.594c-5.239 0-9.485 4.243-9.485 9.48zm346.956 85.351H284.61V89.277zM19.074 75.867h246.57v85.352c0 5.234 4.247 9.48 9.481 9.48h85.352v379.336H19.074zm0 0"></path><path pid="1" d="M398.41 493.133v18.965h28.45c5.238 0 9.484-4.243 9.484-9.48V9.483A9.484 9.484 0 0 0 426.859 0H66.492a9.484 9.484 0 0 0-9.484 9.484v28.45h18.969v-18.97h341.398v474.169zm0 0"></path><path pid="2" d="M75.977 189.668h227.597v18.965H75.977zm0 0M75.977 132.766h75.867v18.968H75.977zm0 0M75.977 246.566H227.71v18.97H75.977zm0 0M246.676 246.566h56.898v18.97h-56.898zm0 0M75.977 303.465h227.597v18.969H75.977zm0 0M75.977 417.266h227.597v18.968H75.977zm0 0M161.324 360.367h142.25v18.965h-142.25zm0 0M75.977 360.367h66.382v18.965H75.977zm0 0M75.977 474.168h37.933v18.965H75.977zm0 0M132.875 474.168h170.7v18.965h-170.7zm0 0"></path></svg>  Summary</span></a></li>
+                                                <li><a href="#rate-reviews"><span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path fill="#A09F9F" fill-rule="evenodd" stroke="#999" stroke-width=".2" d="M14.432 12.715l2.348-2.746a.415.415 0 0 1 .607-.038.47.47 0 0 1 .028.646l-2.64 3.09a.419.419 0 0 1-.3.15h-.014a.414.414 0 0 1-.3-.127l-1.498-1.516a.466.466 0 0 1-.014-.637.413.413 0 0 1 .606-.015l1.177 1.193zm-3.165-.868a3.749 3.749 0 0 0 3.744 3.745 3.749 3.749 0 0 0 3.744-3.745 3.749 3.749 0 0 0-3.744-3.745 3.749 3.749 0 0 0-3.744 3.745zm2.001-4.195a4.523 4.523 0 0 1 1.743-.35 4.55 4.55 0 0 1 4.545 4.545 4.55 4.55 0 0 1-4.545 4.545 4.55 4.55 0 0 1-4.545-4.545 4.53 4.53 0 0 1 1.91-3.688c-.026-.013-.045-.029-.045-.054V5.837c0-.159.08-.308.207-.395a.588.588 0 0 0 .254-.487V2.6c0-.907-.721-1.64-1.602-1.64h-.494c-.886 0-1.603.738-1.603 1.64v2.355c0 .192.095.376.255.487a.47.47 0 0 1 .207.395v2.268a.588.588 0 0 1-.32.526c-.288.145-1.791.921-3.181 2.089a.66.66 0 0 0-.235.511v1.612a.456.456 0 0 1-.458.473.47.47 0 0 1-.466-.478v-1.612c0-.487.207-.94.575-1.249.153-.129.307-.253.461-.373V7.21a.5.5 0 0 1 .214-.41.352.352 0 0 0 .156-.296V4.618c0-.666-.525-1.206-1.172-1.206h-.394c-.646 0-1.166.54-1.166 1.201v1.886c0 .121.058.231.155.296.136.09.214.245.214.41v1.817c0 .225-.121.42-.316.52a13.83 13.83 0 0 0-2.513 1.662.421.421 0 0 0-.146.325v1.291a.487.487 0 0 1-.481.496A.487.487 0 0 1 0 12.82v-1.291c0-.425.18-.821.501-1.091.967-.821 2.003-1.411 2.479-1.667V7.435a1.368 1.368 0 0 1-.369-.936V4.613c0-1.211.958-2.192 2.129-2.192h.394c1.177 0 2.129.986 2.129 2.192v1.886c0 .356-.136.686-.369.936V8.91a19.344 19.344 0 0 1 1.733-1.037V6.059a1.557 1.557 0 0 1-.462-1.109V2.595C8.165 1.162 9.305 0 10.7 0h.495c1.399 0 2.535 1.167 2.535 2.595V4.95c0 .424-.17.82-.462 1.109v1.593z"></path></svg> Rate & reviews (@(Model.ApprovedTotalReviews ?? 0))</span></a></li>
+                                                @*<li><a href="#reference-links"><span><svg style="width: 12px; fill: #c90000;" focusable="false" aria-hidden="true" viewBox="0 0 16 18"><path d="M14.154 6.918l-.004.003.001-.004-3.287 3.286-.006-.005-3.574 3.574c-.016.017-.03.036-.048.053l-.05.047-.043.041v-.002c-1.167 1.07-2.692 1.331-3.823.2-1.13-1.13-.89-2.677.18-3.843l-.005-.004.074-.073.016-.018c.006-.005.012-.009.017-.016l6.053-6.053.761.76-6.053 6.054-.029.028v.001l-.005.004-.073.074c.011-.01.025-.018.035-.03-.688.75-.93 1.636-.21 2.356.72.72 1.583.456 2.333-.232l-.03.034.04-.042.01-.008.008-.009.033-.03.031-.034.01-.009.007-.009 5.004-5.003.005.006 1.858-1.859c1.223-1.218 1.51-2.913.291-4.132C12.462.806 10.414.74 9.195 1.958L2.248 8.905c.003 0 .006-.002.008-.004-1.625 1.667-1.542 4.43.103 6.074 1.646 1.646 4.474 1.795 6.141.17-.003.002-.004.008-.008.012l.047-.047 6.053-6.054.042-.042.743.78-.025.021.001.002-6.05 6.05-.002.002-.002.001-.046.046h-.002c-2.094 2.04-5.578 1.894-7.652-.18-2.049-2.049-2.15-5.407-.183-7.505l-.006-.005h-.002l.076-.078 6.943-6.944.003-.002.004-.005c1.641-1.64 4.367-1.574 6.008.066 1.64 1.642 1.353 4.014-.288 5.655z" fill-rule="evenodd"></path></svg> Reference links & download it.</span></a></li>*@
+                                            </ul>
+                                        </nav>
+                                        <div class="content-wrap">
+                                            <section id="overview">
+                                                <h4> <span class="red-line">Brief</span> &amp; short info</h4>
+                                                <div class="top-content">
+                                                    <div class="item-top bold short-description">
+                                                        <div>@Html.Raw(Model.getShortDescription())</div>
+                                                        <div style="border-bottom: 1px solid #80808024;margin: 15px 0px">
+                                                            <meta itemprop="name" content="@Model.Name">
+                                                            <meta itemprop="image" content="@Model.Avatar">
+                                                            @if (Model.RatingCount == 0)
+                                                            {
+                                                                <img src="/as-images/product/review-icon.png" style="height: 16px;margin-bottom: 6px;" alt="Online Review">
+                                                                <a style="color: #c90000;" href="#rate-reviews" onclick="$('.tabs a[href=" #rate-reviews"]').trigger('click');">  @LanguageHelper.Translate("Be the first to review_Text")</a>
+                                                            }
+
+                                                            else
+                                                            {
+
+                                                                <a href="@SlugHelper.Product(Model.Id)" title="@Model.Name" style="font-size: 15px;">
+                                                                    <span itemprop="aggregateRating" class="as-rate">
+                                                                        @for (var i = 1; i <= 5; i++)
+                                                                        {
+                                                                            <i class="@(Model.RatingValue >=i ? "active":"")">★</i>
+                                                                        }
+
+                                                                    </span> Rating: <span>
+                                                                        <span>
+                                                                            <span>@Model.RatingValue</span>
+                                                                            /<span property="bestRating">5</span>
+                                                                        </span>
+                                                                    </span> - <span>@Model.RatingCount </span>Rating count.
+                                                                </a>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-top table-of-contents">
+                                                        <span>
+                                                            Table of Contents  <b class="toc-toggle">
+                                                                <a href="#" id="as-toc-toggle" class="lwptoc_toggle_label" data-label="show">hide</a>
+                                                            </b>
+                                                        </span>
+
+                                                        <ol id="as-toc"></ol>
+                                                    </div>
+                                                </div>
+
+
+                                                <section id="additional-information">
+                                                    <h4> <span class="red-line">Additional</span> &amp; Information</h4>
+                                                    <div class="row">
+
+                                                        <div class="col-lg-9 @(Model.ProductPictureMappings.Any()?"":"col-lg-12")">
+                                                            <dl class="info">
+                                                                <dt>@LanguageHelper.Translate("Category_Text"):</dt>
+                                                                <dd>
+                                                                    @foreach (var item in DataWhereHelper.ExtractListProductCategory(Model.ProductCategoryMappings))
+                                                                    {
+                                                                        if (item.Grouped != "plugins-resources")
+                                                                        {
+                                                                            <a href="@SlugHelper.Category(item.Id)"><b>@item.Name </b> | </a>
+                                                                        }
+                                                                    }
+                                                                    <a href="#"><b>[...]</b></a>
+                                                                </dd>
+
+
+
+                                                                @foreach (var item in DataWhereHelper.ExtractListProductSpecificationAttribute(Model.ProductSpecificationAttributeMappings).Where(e => e.SpecificationAttributeOption != null && e.SpecificationAttributeOption.DisplayOrder > 0).ToList())
+                                                                {
+                                                                    <dt>@LanguageHelper.Translate(item.SpecificationAttributeOption.SpecificationAttribute.Name + "_Text"):</dt>
+                                                                    if (item.SpecificationAttributeOption.SpecificationAttribute.Name == "Authors" && !String.IsNullOrEmpty(item.CustomValue))
+                                                                    {
+
+                                                                        <dd style="border: none;">
+                                                                            <span class="myTooltip" data-options="background:#fff;animation:fade;max-width:700px" title=".github-widget"><b style="border-bottom: 1px dashed #ddd;">@item.CustomValue</b> <svg height="16" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></span>
+                                                                            <div class="github-widget" style="float: left;max-width: 100%; margin-top: 10px;display:none" data-username="@item.CustomValue"></div>
+                                                                        </dd>
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        <dd>@Html.Raw(item.SpecificationAttributeOption.Name.ToLower().Contains(LanguageHelper.Translate("Declared # Value").ToLower()) ? item.CustomValue : item.SpecificationAttributeOption.Name)</dd>
+
+                                                                    }
+
+                                                                }
+
+
+                                                            </dl>
+                                                        </div>
+                                                        @if (Model.ProductPictureMappings.Any())
+                                                        {
+                                                            <div class="col-lg-3 _right" style="text-align: right;">
+                                                                <div class="swiper-container gallery_top gallery_top_album">
+                                                                    <div class="swiper-wrapper">
+                                                                        @foreach (var itemImg in Model.ProductPictureMappings.OrderBy(e => e.DisplayOrder).ToList())
+                                                                        {
+
+                                                                            <div class="swiper-slide" data-src="@ImageHelper.GetResize(itemImg.Picture.Url, 3000,3000, watermark: "insight")">
+                                                                                <div class="swiper-slide-zoom">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 96h-88V8c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v88h-88c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h88v88c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-88h88c4.42 0 8-3.58 8-8v-16c0-4.42-3.58-8-8-8zm-6.77 270.71l-99.72-42.87 99.72-42.87c8.35-3.6 12.19-13.23 8.58-21.52-3.65-8.29-13.32-12.13-21.74-8.48l-225.32 96.86c-1.81.77-3.74.77-5.48 0L45.23 258.4l193.45-83.16c8.35-3.59 12.19-13.23 8.58-21.52-3.65-8.28-13.26-12.13-21.74-8.48L14.81 235.81C5.81 239.66 0 248.52 0 258.4c0 9.87 5.81 18.74 14.77 22.58l99.73 42.87-99.7 42.85C5.81 370.55 0 379.42 0 389.31c0 9.87 5.81 18.74 14.77 22.58l225.32 96.84c5.06 2.17 10.48 3.28 15.9 3.28s10.84-1.09 15.9-3.28l225.29-96.83c9-3.85 14.81-12.72 14.81-22.59.01-9.89-5.8-18.76-14.76-22.6zM258.74 478.72c-1.81.77-3.74.77-5.48 0L45.23 389.29 156 341.68l84.1 36.15c5.06 2.17 10.48 3.28 15.9 3.28s10.84-1.09 15.9-3.28l84.12-36.16 110.78 47.62-208.06 89.43z" /></svg>
+                                                                                </div>
+                                                                                <div class="_img" style="background-image: url('@ImageHelper.GetResize(itemImg.Picture.Url,600,400)')">
+
+                                                                                    @*<img src="@ImageHelper.GetResize(itemImg.Picture.Url)" alt="@itemImg.Picture.Title">*@
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+
+
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Add Arrows -->
+                                                                <div class="swiper-button-next album-btn-next"><img src="/as-images/product/btn-next.png" alt="next"></div>
+                                                                <div class="swiper-button-prev album-btn-prev"><img src="/as-images/product/btn-prev.png" alt="prev"></div>
+                                                                <div class="swiper-container gallery_thumbs gallery_thumbs_album" style="height: 40px;">
+                                                                    <div class="swiper-wrapper">
+                                                                        @foreach (var itemImg in Model.ProductPictureMappings.OrderBy(e => e.DisplayOrder).ToList())
+                                                                        {
+
+
+                                                                            <div class="swiper-slide">
+                                                                                <img src="@ImageHelper.GetResize(itemImg.Picture.Url)" alt="@itemImg.Picture.Title">
+                                                                            </div>
+                                                                        }
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        }
+
+                                                    </div>
+
+
+                                                    <!--end info-->
+                                                </section>
+
+                                                <section id="as-article" class="as-content" style="margin-top: 30px;">
+                                                    @Html.Raw(ASP.Web.Core.Helpers.HtmlUtility.RemoveInvalidCodeTags(Model.getFullDescription()))
+                                                </section>
+
+                                                <section class="as-tags">
+                                                    <ul class="cloud-tags">
+                                                        @foreach (var itemTag in Model.ProductProductTagMappings.Where(e => e.ProductTag != null && e.ProductTag.IsActive == true).Take(5))
+                                                        {
+
+                                                            <li>
+                                                                <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)">@itemTag.ProductTag.Name</a>
+                                                            </li>
+                                                        }
+
+                                                    </ul>
+
+                                                </section>
+
+                                                <section id="votes" class="tab-cnt">
+                                                    <h4><span class="red-line">Like</span> or Dislike</h4>
+                                                    <div class="tab-tr" id="vote-@Model.Id">
+                                                        <div class="like-btn like-h" data-toggle="tooltip" data-placement="top" title="" data-original-title="I like this">Like</div>
+                                                        <div class="dislike-btn dislike-h" data-toggle="tooltip" data-placement="top" title="" data-original-title="I dislike this"></div>
+                                                        <div class="share-btn">Share it</div>
+                                                        <div class="stat-cnt">
+                                                            <div class="rate-count">@Model.VotesCount</div>
+                                                            <div class="stat-bar">
+                                                                @if (Model.VotesCount == 0)
+                                                                {
+                                                                    <div class="bg-gray" style="width: 100%;background-color: gray;"></div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="bg-green" style="width:@((int)Math.Round((double)(100 * (int)Model.LikeCount) / (int)Model.VotesCount))%;"></div>
+                                                                    <div class="bg-red" style="width:@((int)Math.Round((double)(100 * (int)Model.DislikeCount) / (int)Model.VotesCount))%"></div>
+                                                                }
+
+                                                            </div>
+                                                            <div class="dislike-count">@Model.DislikeCount</div>
+                                                            <div class="like-count">@Model.LikeCount</div>
+                                                        </div>
+                                                        <div class="share-cnt">
+                                                            <ul class="social-share social-share__with-bg unstyled">
+                                                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" data-description="@Model.ShortDescription" class="share-button facebook-share"><i class="fab fa-facebook-f"></i></a></li>
+                                                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-name="@Model.Name" class="share-button twitter-share"><i class="fab fa-twitter"></i></a></li>
+                                                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" class="share-button pin-share"><i class="fab fa-pinterest"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                            </section>
+                                            <section id="rate-reviews">
+                                                <h4> <span class="red-line">Ratting</span> & reviews.</h4>
+                                                @if (Model.AllowCustomerReviews == true)
+                                                {
+                                                    <datalist id="TitleSuggest">
+                                                        <option selected value="Item:: @Model.Name" />
+                                                    </datalist>
+                                                    <div>
+                                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_AddPartial.cshtml"); }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <p style="border-bottom: 1px dotted rgb(188, 188, 188); padding-bottom: 10px; text-align: center;">@LanguageHelper.Translate("Disabled_Review_Text")</p>
+                                                }
+                                                <div>
+                                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_ListPartial.cshtml"); }
+                                                </div>
+                                            </section>
+                                            <section id="reference-links">
+                                                    <h4> <span class="red-line">Referece links</span> & <span class="red-line">download</span> now.</h4>
+                                                    <div class="chapter-content">
+                                                        @Html.Action("ProductInsideSingle", "ProductPlus", new { id = Model.Id, page = 1, pageSize = 15, postFix = SlugHelper.Product(Model.Id), pathView = "_listSingle", area = "" })
+                                                    </div>
+                                                </section>
+                                        </div><!-- /content -->
+                                    </div>
+
+                                </div>
+
+                                <div class="author-box">
+                                    @foreach (var m in pmm)
+                                    {
+                                        if (m == pmm.FirstOrDefault())
+                                        {
+
+                                            <img alt="Editorial" src="@(m.Avatar ?? "/as-images/sample/dm-icon-white-75x75.png")" height="75" width="75" style="float: left;margin-right:15px;">
+                                            <div>
+                                                <h4>
+                                                    <a href="@SlugHelper.Manufacturer(m.Id)" title="Posts by @m.Name" rel="author">@m.Name</a>
+                                                </h4>
+                                                <ul class="social-links " style="float: right;">
+                                                    <li>
+                                                        <a href="https://@(SlugHelper.Manufacturer(m.Id).Replace(".html",".selectgo.vn"))" rel="nofollow" target="_blank" class="background-website">
+                                                            <svg id="website" viewBox="0 0 24 24"><path d="M12 0c-6.6 0-12 5.4-12 12s5.4 12 12 12 12-5.4 12-12-5.4-12-12-12zm8.3 7.2h-3.5c-.5-2.2-1.7-4.3-1.7-4.3s3.4 1 5.2 4.3zm-8.3-4.8s1.5 2.1 2.3 4.8h-4.6c.9-2.9 2.3-4.8 2.3-4.8zm-9.3 12s-.7-2.2 0-4.8h4.1c-.4 2.2 0 4.8 0 4.8h-4.1zm1 2.4h3.5c.7 2.7 1.7 4.3 1.7 4.3-3.7-1.3-5.2-4.3-5.2-4.3zm3.5-9.6h-3.5c1.9-3.3 5.2-4.3 5.2-4.3s-1.2 2.1-1.7 4.3zm4.8 14.4s-1.6-2.3-2.3-4.8h4.6c-.7 2.5-2.3 4.8-2.3 4.8zm2.8-7.2h-5.6s-.4-2.4 0-4.8h5.6c.4 2.2 0 4.8 0 4.8zm.3 6.7s1.2-2.2 1.7-4.3h3.5c-1.9 3.3-5.2 4.3-5.2 4.3zm2.1-6.7s.4-2.5 0-4.8h4.1c.7 2.6 0 4.8 0 4.8h-4.1z"></path></svg>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+
+                                            <p>@Html.Raw(m.getDescription())</p>
+
+                                            <a href="@SlugHelper.Manufacturer(m.Id)" class="post-links">Posts by @m.Name</a>
+                                        }
+                                    }
+                                    <div class="share" data-post-url="@slug">
+                                        <div class="table">
+                                            <div class="cell">
+                                                <strong>Share post</strong>
+                                                <ul>
+                                                    <li class="background-facebook facebook"><a href="#"><i class="fab fa-facebook-f"></i> Share</a></li>
+                                                    <li class="background-twitter twitter"><a href="#"><i class="fab fa-twitter"></i> Tweet</a></li>
+                                                    <li class="background-linkedin linkedin"><a href="#"><i class="fab fa-linkedin"></i> Share</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </article>
+
+
+
+                    </div>
+                    <!-- Popular Articles -->
+
+                </section>
+
+                <section class="ae-4 do sidebar-wrapper">
+                    <div class="sidebar-contents">
+
+                        <div class="content popular-posts article-list">
+                            <h5>
+                                Popular Posts
+                                <ul class="controller" data-slider-id="pp-range-selector">
+                                    <li class="selected"><a rel="nofollow" title="Top week" href="/plugins-snippets?tags=all&amp;sortorder=topweek">Top Week</a></li>
+                                    <li class=""><a rel="nofollow" title="Top Month" href="/plugins-snippets?tags=all&amp;sortorder=topmonth">Top Month</a></li>
+                                    <li class=""><a rel="nofollow" title="Top week" href="/plugins-snippets?tags=all&amp;sortorder=topyear">Top Year</a></li>
+                                </ul>
+                            </h5>
+                            <ul class="slider autoHeight animated fast bounce" data-slider-id="pp-range-selector">
+                                <li class="selected">
+                                    <ul class="flex fixedSpaces">
+                                        @Html.Action("ProductMostviewed", "Catalog", new { take = 5, pathView = "Widgets/Home/ProductMostviewed", area = "" })
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section>
+                    @{
+                        List<Product> listRelationships = DataWhereHelper.ProductByIds(Model.RelatedProducts, 10);
+                        if (!listRelationships.Any())
+                        {
+                            listRelationships = DataWhereHelper.ProductByIds(Model.CrossSells, 10);
+                        }
+                    }
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="ititle pt-30"> Relationships items:<span class="red-line"> Relates </span> | <span class="red-line"> CrossSells </span></h4>
+                        </div>
+                        @if (!listRelationships.Any())
+                        {
+                            <div class="post-item col-lg-3 col-sm-6">
+                                <div class="ithumb">
+
+                                    <div class="ithumb-share">
+                                        <a href="#"><span class="las la-desktop"></span></a>
+                                        <a href="#"><span class="lar la-bookmark"></span></a>
+                                    </div>
+                                    <div class="thumbimg">
+                                        <a href="#"
+                                           title="#" class="img-cover">
+                                            <img src="/as-images/sample/continuous-updating.jpg" alt="#">
+                                        </a>
+                                        <div>
+                                            <a class="thumbcate" href="#" title="#">Updating...</a>
+                                        </div>
+                                    </div>
+                                    <a href="#" title="#">
+                                        <h5>Updating...</h5>
+                                        <div class="read-divider"><i class="ti-timer"></i> <time class="time-ago" datetime="@DateTime.Now.AddDays(3).ToString("dd/MM/yyyy HH:mm:ss")"></time></div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (Product item in listRelationships.AsQueryable())
+                            {
+                                var url = SlugHelper.Product(item.Id);
+                                var primaryCategory = DataWhereHelper.ExtractPrimaryCategory(item.ProductCategoryMappings);
+                                <div class="post-item col-lg-3 col-sm-6">
+                                    <div class="ithumb">
+
+                                        <div class="ithumb-share">
+                                            <ul class="list-unstyled">
+                                                <li><a href="@url"><i class="las la-desktop"></i></a></li>
+                                                <li><a href="#"><i class="lar la-bookmark"></i></a></li>
+                                            </ul>
+
+                                        </div>
+                                        <div class="thumbimg">
+                                            <a href="@url"
+                                               title="@item.Name" class="img-cover">
+                                                <img src="@ImageHelper.GetResize(item.Picture.Url, 600, 400)" alt="@item.Name">
+                                            </a>
+                                            <div>
+                                                <a class="thumbcate" href="@SlugHelper.Category(primaryCategory.Id)" title="@primaryCategory.Name">@primaryCategory.Name</a>
+                                            </div>
+                                        </div>
+                                        <a href="@url" title="@item.Name">
+                                            <h5>@item.Name</h5>
+                                            <div class="read-divider"><i class="ti-timer"></i> <time class="time-ago" datetime="@item.LastModified"></time></div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="post-navigation-wrapper container" style="    border-top: 1px solid #9e9e9e21;">
+                    <nav class="post-navigation clearfix">
+                        @{
+                            List<ProductCategoryMapping> listProductSame = DataWhereHelper.ProductByCategoryIds(categoryIds, -1, take: 999);
+                        }
+                        @if (listProductSame.Any())
+                        {
+                            var nestProducts = (from x in listProductSame where x.ProductId < Model.Id orderby x.ProductId descending select x).Take(1).ToList();
+                            var nestProductsNext = (from x in listProductSame where x.ProductId > Model.Id orderby x.ProductId descending select x).Take(1).ToList();
+                            <div class="post-previous">
+                                @if (nestProducts.Any())
+                                {
+                                    <a title="@nestProducts.First().Product.Name" href="@SlugHelper.Product(nestProducts.First().ProductId)">
+                                        <span><svg class="arrow arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35"><title>back-arrow</title><path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path></svg>  Previous</span>
+                                        <h3>
+                                            @nestProducts.First().Product.Name
+                                        </h3>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a title="@Model.Name" href="@SlugHelper.Product(Model.Id)" style="visibility: hidden;">
+                                        <span><i class="fa fa-circle"></i>Current</span>
+                                        <h3>
+                                            @Model.Name
+                                        </h3>
+                                    </a>
+                                }
+                            </div>
+                            <span class="filter-icon"><span></span></span>
+                            <div class="post-next">
+                                @if (nestProductsNext.Any())
+                                {
+                                    <a title="@nestProductsNext.Last().Product.Name" href="@SlugHelper.Product(nestProductsNext.Last().ProductId)">
+                                        <span>Next <svg class="arrow arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35"><title>back-arrow</title><path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path></svg></span>
+                                        <h3>
+                                            @nestProductsNext.Last().Product.Name
+                                        </h3>
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </nav>
+                </section>
+            </div>
+        </section>
+    </div>
+}
+
+@{
+    Html.RenderPartial("~/Views/Default/Shared/Schema/_Product.cshtml");
+}
+@if (isAjaxRequest)
+{
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/catalog/product/resource/js")
+    }
+}
+else
+{
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/catalog/product/resource/js")
+        <script>
+        $(document).ready(function() {
+
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "plugins-resources")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+        </script>
+
+    }
+}

@@ -1,0 +1,151 @@
+﻿@using Web.Model.Models
+@model PagedList.IPagedList<ProductCategoryMapping>
+
+    @{
+        Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+        var listProducts = Model.Where(e => e.Product.IsActive).ToList();
+
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/category/css/default")
+    }
+    @section banners{
+        @{
+            var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+            var paramArrs = new List<KeyValuePair<string, string>>()
+{
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-img", picture.Url )
+            };
+        }
+        @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+    }
+
+    <div class="villas">
+        <div class="container">
+            <div class="row m-0">
+                <div class="col-lg-6 col-md-8 col-12 offset-lg-3 offset-md-2 p-0">
+                    <div class="card__introduction">
+                        <div class="title--default color-dark title--line-center title--line-dark">
+                            INSPIRATION
+                            <div class="progress-bar-section js-progres-bar"><span></span></div>
+                        </div>
+                        <div class="card--desc-text text-center color-dark">
+                            @category.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="villas__media media">
+            @Html.Raw(category.Presentation)
+        </div>
+        <div class="villas__tabs" id="js-tab-villas">
+            <div class="container tab-view-container">
+                <div class="row m-0">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="tab-title-container">
+                            <div class="tab-title-container__list text-center">
+                                <a href="#tab-content-1" class="tab-title-content is-active" data-head="">Floor Plan</a>
+                                <a href="#tab-content-2" class="tab-title-content" data-head="">Master Plan</a>
+                                <a href="#tab-content-3" class="tab-title-content" data-head="">Vertual Tour</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-content-container">
+                <div class="row m-0">
+                    <div class="col-md-10 offset-md-1">
+
+                        <div class="tab-content" data-content="" id="tab-content-1">
+                            @foreach (var innerItem in listProducts)
+                            {
+                                var url = @SlugHelper.Product(innerItem.ProductId);
+
+                                <div class="slide-box js-slideItemtab-@(innerItem.ProductId)">
+                                    <div class="row m-0 slide">
+                                        <div class="col-md-6 slide__text p-0 pr-md-5">
+                                            <div class="slide__title font-weight-bold">@innerItem.Product.Name</div>
+                                            @Html.Raw(innerItem.Product.FullDescription)
+                                        </div>
+                                        <div class="col-md-6 slide__images p-0 pl-md-5">
+                                            <div class="swiper-container">
+                                                <div class="swiper-wrapper">
+
+                                                    @foreach (var itemImg in innerItem.Product.ProductPictureMappings.OrderBy(e => e.DisplayOrder).ToList())
+                                                    {
+
+                                                        <div class="swiper-slide">
+                                                            <a href="@itemImg.Picture.Url" data-fancybox="">
+                                                                <img src="@ImageHelper.GetResize(itemImg.Picture.Url)" alt="@itemImg.Picture.Title">
+                                                            </a>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                                <div class="swiper-button-prev slide-box__prev">
+                                                    <span>
+                                                        <img src="../../../assets/images/components/left.png" alt="next">
+                                                    </span>
+                                                </div>
+                                                <div class="swiper-button-next slide-box__next">
+                                                    <span>
+                                                        <img src="../../../assets/images/components/right.png" alt="prev">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row tab-content" data-content="" id="tab-content-2">
+                            coming soon
+                        </div>
+                        <div class="row tab-content" data-content="" id="tab-content-3">
+                            coming soon
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="feature">
+        <div class="feature__images" style="background-image: url('@category.Avatar');">
+        </div>
+    </div>
+
+    @section scripts
+    {
+        @foreach (var innerItem in listProducts)
+        {
+            <script>
+
+                    jQuery(document).ready(function($) {
+                        window['js-mb_@(innerItem.ProductId)'] = new Swiper('.js-slideItemtab-@(innerItem.ProductId) .swiper-container', {
+                                    navigation: {
+                                        nextEl: '.js-slideItemtab-@(innerItem.ProductId) .swiper-button-next',
+                                        prevEl: '.js-slideItemtab-@(innerItem.ProductId) .swiper-button-prev',
+                                    },
+                                    slidesPerView: 1,
+                                    loop: true,
+                                    speed: 1000,
+
+                                });
+
+                    });
+            </script>
+        }
+        @Scripts.Render("~/bundles/content/default/catalog/category/js/default")
+
+        <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-villas")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+        </script>
+    }

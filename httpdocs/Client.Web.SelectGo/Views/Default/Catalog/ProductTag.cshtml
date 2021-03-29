@@ -1,0 +1,266 @@
+﻿@{
+    var tagsText = LanguageHelper.Translate("Tag_Text");
+    ViewBag.SelfHeader = true;
+    ViewBag.Title = tagsText + ": " + ViewBag.productTagName;
+}
+@model PagedList.IPagedList<Web.Model.Models.ProductProductTagMapping>
+    @using global::Web.Helpers
+    @using PagedList.Mvc;
+    @section styles{
+        @Styles.Render("~/bundles/content/default/search/css", "~/bundles/content/default/taglist/css", "~/bundles/content/default/pagelist/css")
+    }
+
+    <div class="wrapper" style="padding-top: 15px;">
+        <div class="__quick_search_tags container">
+            <div class="nav_wrap">
+                <div class="_content_full">
+                    <div class="_form_tags">
+                        <div  class="_frm_quick_search_tags">
+
+                            <div class="_tags js_tags">
+                                <div class="_seclect_tag">
+                                    <p>Select new tag</p>
+                                    <p class="tags_type">Favorites tags: <b></b></p>
+                                </div>
+                                <div class="_search_tags">
+                                    <input type="text" name="tags_search" class="tags_search" id="tags_search" placeholder="Type to search..." autocomplete="off">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 109 79" style="float: right;">
+                                        <g fill="none" fill-rule="evenodd">
+                                            <path fill="#E6ECF1" d="M17 49.5a1.5 1.5 0 0 0-1.5-1.5h-6a1.5 1.5 0 1 0 0 3h6a1.5 1.5 0 0 0 1.5-1.5zm-13 0A1.5 1.5 0 0 0 2.5 48h-1a1.5 1.5 0 1 0 0 3h1A1.5 1.5 0 0 0 4 49.5zm85 0a1.5 1.5 0 0 0-1.5-1.5h-26a1.5 1.5 0 1 0 0 3h26a1.5 1.5 0 0 0 1.5-1.5zm-47 0a1.5 1.5 0 0 0-1.5-1.5h-18a1.5 1.5 0 1 0 0 3h18a1.5 1.5 0 0 0 1.5-1.5zm-30-11a1.5 1.5 0 0 0-1.5-1.5h-1a1.5 1.5 0 1 0 0 3h1a1.5 1.5 0 0 0 1.5-1.5zm77 0a1.5 1.5 0 0 0-1.5-1.5h-26a1.5 1.5 0 1 0 0 3h26a1.5 1.5 0 0 0 1.5-1.5zm-52 0a1.5 1.5 0 0 0-1.5-1.5h-18a1.5 1.5 0 1 0 0 3h18a1.5 1.5 0 0 0 1.5-1.5zm-10-11a1.5 1.5 0 0 0-1.5-1.5h-8a1.5 1.5 0 1 0 0 3h8a1.5 1.5 0 0 0 1.5-1.5zm10 0a1.5 1.5 0 0 0-1.5-1.5h-3a1.5 1.5 0 1 0 0 3h3a1.5 1.5 0 0 0 1.5-1.5zm-8-11a1.5 1.5 0 0 0-1.5-1.5h-2a1.5 1.5 0 1 0 0 3h2a1.5 1.5 0 0 0 1.5-1.5zM66 24l-1-3-1 3h2zm3.012 4.91a1.5 1.5 0 0 1-1.923-.897l-.55-1.514H62.46l-.55 1.514a1.5 1.5 0 0 1-2.82-1.027l4-11.003c.008-.02.02-.037.028-.057a1.883 1.883 0 0 1 .14-.264 1.21 1.21 0 0 1 .087-.114 1.51 1.51 0 0 1 .1-.113c.031-.032.066-.06.101-.09a1.285 1.285 0 0 1 .236-.16c.05-.028.101-.053.155-.075.017-.007.032-.018.05-.025.022-.007.043-.009.065-.016a1.344 1.344 0 0 1 .296-.062 1.413 1.413 0 0 1 .598.061c.022.007.045.01.067.017.018.007.034.018.052.026.052.021.102.046.152.072.038.022.076.043.113.067.043.03.083.061.123.094.036.03.07.06.104.091.035.036.067.074.098.112.03.037.06.074.087.114a1.883 1.883 0 0 1 .14.266c.009.019.02.036.028.056l4 11.003c.282.78-.12 1.64-.898 1.924zM89 27.5a1.5 1.5 0 0 0-1.5-1.5h-13a1.5 1.5 0 1 0 0 3h13a1.5 1.5 0 0 0 1.5-1.5zm0-11a1.5 1.5 0 0 0-1.5-1.5h-16a1.5 1.5 0 1 0 0 3h16a1.5 1.5 0 0 0 1.5-1.5zM40.5 18h-6a1.5 1.5 0 1 1 0-3h6a1.5 1.5 0 1 1 0 3z" />
+                                            <path fill="#D3DCE4" d="M75.5 62C59.785 62 47 49.215 47 33.5S59.785 5 75.5 5 104 17.785 104 33.5 91.215 62 75.5 62m0-62C57.028 0 42 15.028 42 33.5c0 8.338 3.069 15.968 8.127 21.837L30.732 74.732a2.501 2.501 0 0 0 3.536 3.536l19.395-19.395C59.532 63.931 67.162 67 75.5 67 93.972 67 109 51.972 109 33.5S93.972 0 75.5 0" />
+                                        </g>
+                                    </svg>
+
+                                    <ul></ul>
+                                </div>
+                                <div class="_content_select_tag">
+                                    <div class="_content">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- search result area end -->
+        <div class="container" style="margin-bottom: 0px;">
+            <div class="row">
+                <!-- Home grid section -->
+                <div class="jl_home_section jl_radius jl_none_box_styles jl_border_radiuss">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 jl_mid_main_3col">
+                                <div class="jl_3col_wrapin">
+
+                                    <div class="jelly_homepage_builder jl_nonav_margin homepage_builder_3grid_post jl_fontsize22 jl_cus_grid3 colstyle1">
+                                        <div class="homepage_builder_title">
+                                            <h2>
+                                                @ViewBag.Title
+                                            </h2>
+                                            <a href="#" id="see-more-tags" class="" style="margin-left: 10px;" title="see more">
+                                                <svg width="20px" height="4px" viewBox="0 0 20 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+                                                    <g id="Symbols" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
+                                                        <g id="Header" transform="translate(-1138.000000, -32.000000)" fill="currentColor">
+                                                            <path d="M1140,36 C1138.89543,36 1138,35.1045695 1138,34 C1138,32.8954305 1138.89543,32 1140,32 C1141.10457,32 1142,32.8954305 1142,34 C1142,35.1045695 1141.10457,36 1140,36 Z M1148,36 C1146.89543,36 1146,35.1045695 1146,34 C1146,32.8954305 1146.89543,32 1148,32 C1149.10457,32 1150,32.8954305 1150,34 C1150,35.1045695 1149.10457,36 1148,36 Z M1156,36 C1154.89543,36 1154,35.1045695 1154,34 C1154,32.8954305 1154.89543,32 1156,32 C1157.10457,32 1158,32.8954305 1158,34 C1158,35.1045695 1157.10457,36 1156,36 Z" id="dots"></path>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </a>
+                                            <span class="jl_hsubt">@LanguageHelper.Translate("Has_Text") <b>@Model.TotalItemCount</b> @LanguageHelper.Translate("item is tagged to this tag._Text")<sup style="    color: #c90000;"> (You can click to button <b>...</b> above to find & change tags)</sup></span>
+                                        </div>
+                                        <div class="jl_wrapper_row">
+                                            <div class="row">
+                                                @{ 
+                                                    var col = 3;
+                                                    if(Model.Count() == 1)
+                                                    {
+                                                        col = 12;
+                                                    }
+                                                    else if(Model.Count() == 2)
+                                                    {
+                                                        col = 6;
+                                                    }
+                                                    else if(Model.Count() == 3)
+                                                    {
+                                                        col = 4;
+                                                    }
+                                                }
+                                                @foreach (var item in Model)
+                                                {
+                                                    var primaryCategory = DataWhereHelper.ExtractPrimaryCategory(item.Product.ProductCategoryMappings);
+                                                    <div class="col-md-@col blog_grid_post_style  jl_row_1">
+                                                        <div class="jl_grid_box_wrapper">
+                                                            <div class="image-post-thumb">
+                                                                <a href="@SlugHelper.Product(item.Product.Id)" class="link_image featured-thumbnail" title="This is a great photo and nice for shooting">
+                                                                    <img src="@ImageHelper.GetResize(item.Product.Picture.Url, 600,400, sizeDefault:"600x400")" class="attachment-disto_large_feature_image size-disto_large_feature_image wp-post-image" alt="@item.Product.Name" />
+                                                                    <div class="background_over_image"></div>
+                                                                </a>
+                                                                <span class="meta-category-small">
+                                                                    <a class="post-category-color-text" style="background:#6b34ba" href="@SlugHelper.Category(primaryCategory.Id)">@primaryCategory.Name</a>
+                                                                </span>
+                                                                <span class="jl_post_type_icon"><i class="la la-quote-right"></i></span>
+                                                            </div>
+                                                            <div class="post-entry-content">
+                                                                <h3 class="image-post-title">
+                                                                    <a href="@SlugHelper.Product(item.Product.Id)">
+                                                                        @item.Product.Name
+                                                                    </a>
+                                                                </h3>
+                                                                <span class="jl_post_meta">
+                                                                    <span class="jl_author_img_w">
+                                                                        <img src="http://storage.selectgo.vn/media/images/shared/no-avatar.png" width="30" height="30" alt="huyvd.it" class="avatar avatar-30 wp-user-avatar wp-user-avatar-30 alignnone photo" />
+                                                                        <a href="#" title="Posts by Huy vũ" rel="author">Huy vũ</a>
+                                                                    </span><span class="post-date"><i class="far fa-clock"></i>@item.Product.CreatedTime.Value.ToString("dd MMM yyyy")</span>
+                                                                </span>
+                                                                <div class="content_post_grid except-3">
+                                                                    <p>@Html.Raw(item.Product.Description)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                }
+
+                                                @*<div class="col-md-3 blog_grid_post_style  jl_row_2">
+                    <div class="jl_grid_box_wrapper">
+                        <div class="image-post-thumb">
+                            <a href="#" class="link_image featured-thumbnail" title="This big boss is work hard and also play hard">
+                                <img width="780" height="450" src="http://jellywp.com/theme/disto/demo/wp-content/uploads/2019/02/s-o-c-i-a-l-c-u-t-1133933-unsplash-780x450.jpg" class="attachment-disto_large_feature_image size-disto_large_feature_image wp-post-image" alt="" />
+                                <div class="background_over_image"></div>
+                            </a> <span class="meta-category-small"><a class="post-category-color-text" style="background:#36c942" href="#">Sports</a></span> <span class="jl_post_type_icon"><i class="la la-quote-right"></i></span>
+                        </div>
+                        <div class="post-entry-content">
+                            <h3 class="image-post-title">
+                                <a href="#">
+                                    This big boss is work hard and also play hard
+                                </a>
+                            </h3>
+                            <span class="jl_post_meta"><span class="jl_author_img_w"> <img src="http://jellywp.com/disto-preview/img/favicon.jpg" width="30" height="30" alt="Anna Nikova" class="avatar avatar-30 wp-user-avatar wp-user-avatar-30 alignnone photo" /><a href="#" title="Posts by Anna Nikova" rel="author">Anna Nikova</a></span><span class="post-date"><i class="far fa-clock"></i>Dec 24, 2016</span></span>
+                            <div class="content_post_grid">
+                                <p>Mauris mattis auctor cursus. Phasellus tellus tellus, imperdiet ut imperdiet eu, iaculis a sem. Donec vehicula luctus nunc in...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 blog_grid_post_style  jl_row_3">
+                    <div class="jl_grid_box_wrapper">
+                        <div class="image-post-thumb">
+                            <a href="#" class="link_image featured-thumbnail" title="Enjoy a great view of flower before the sunset">
+                                <img width="780" height="450" src="http://jellywp.com/theme/disto/demo/wp-content/uploads/2019/02/wade-lambert-681672-unsplash-780x450.jpg" class="attachment-disto_large_feature_image size-disto_large_feature_image wp-post-image" alt="" />
+                                <div class="background_over_image"></div>
+                            </a> <span class="meta-category-small"><a class="post-category-color-text" style="background:#36c942" href="#">Sports</a></span>
+                        </div>
+                        <div class="post-entry-content">
+                            <h3 class="image-post-title">
+                                <a href="#">
+                                    Enjoy a great view of flower before the sunset
+                                </a>
+                            </h3>
+                            <span class="jl_post_meta"><span class="jl_author_img_w"> <img src="http://jellywp.com/disto-preview/img/favicon.jpg" width="30" height="30" alt="Anna Nikova" class="avatar avatar-30 wp-user-avatar wp-user-avatar-30 alignnone photo" /><a href="#" title="Posts by Anna Nikova" rel="author">Anna Nikova</a></span><span class="post-date"><i class="far fa-clock"></i>Dec 24, 2016</span></span>
+                            <div class="content_post_grid">
+                                <p>Mauris mattis auctor cursus. Phasellus tellus tellus, imperdiet ut imperdiet eu, iaculis a sem. Donec vehicula luctus nunc in...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 blog_grid_post_style  jl_row_4">
+                    <div class="jl_grid_box_wrapper">
+                        <div class="image-post-thumb">
+                            <a href="#" class="link_image featured-thumbnail" title="We are best friends and we been every where">
+                                <img width="780" height="450" src="http://jellywp.com/theme/disto/demo/wp-content/uploads/2019/02/roberto-nickson-1299738-unsplash-780x450.jpg" class="attachment-disto_large_feature_image size-disto_large_feature_image wp-post-image" alt="" />
+                                <div class="background_over_image"></div>
+                            </a> <span class="meta-category-small"><a class="post-category-color-text" style="background:#6b34ba" href="#">Gaming</a></span>
+                        </div>
+                        <div class="post-entry-content">
+                            <h3 class="image-post-title">
+                                <a href="#">
+                                    We are best friends and we been every where
+                                </a>
+                            </h3>
+                            <span class="jl_post_meta"><span class="jl_author_img_w"> <img src="http://jellywp.com/disto-preview/img/favicon.jpg" width="30" height="30" alt="Anna Nikova" class="avatar avatar-30 wp-user-avatar wp-user-avatar-30 alignnone photo" /><a href="#" title="Posts by Anna Nikova" rel="author">Anna Nikova</a></span><span class="post-date"><i class="far fa-clock"></i>Dec 24, 2016</span></span>
+                            <div class="content_post_grid">
+                                <p>Mauris mattis auctor cursus. Phasellus tellus tellus, imperdiet ut imperdiet eu, iaculis a sem. Donec vehicula luctus nunc in...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 blog_grid_post_style  jl_row_5">
+                    <div class="jl_grid_box_wrapper">
+                        <div class="image-post-thumb">
+                            <a href="#" class="link_image featured-thumbnail" title="This thing is strong and make your job good">
+                                <img width="780" height="450" src="http://jellywp.com/theme/disto/demo/wp-content/uploads/2019/02/lucas-benjamin-1326601-unsplash-780x450.jpg" class="attachment-disto_large_feature_image size-disto_large_feature_image wp-post-image" alt="" />
+                                <div class="background_over_image"></div>
+                            </a> <span class="meta-category-small"><a class="post-category-color-text" style="background:#ed1c1c" href="#">Active</a></span>  <span class="jl_post_type_icon"><i class="la la-camera"></i></span>
+                        </div>
+                        <div class="post-entry-content">
+                            <h3 class="image-post-title">
+                                <a href="#">
+                                    This thing is strong and make your job good
+                                </a>
+                            </h3>
+                            <span class="jl_post_meta"><span class="jl_author_img_w"> <img src="http://jellywp.com/disto-preview/img/favicon.jpg" width="30" height="30" alt="Anna Nikova" class="avatar avatar-30 wp-user-avatar wp-user-avatar-30 alignnone photo" /><a href="#" title="Posts by Anna Nikova" rel="author">Anna Nikova</a></span><span class="post-date"><i class="far fa-clock"></i>Dec 24, 2016</span></span>
+                            <div class="content_post_grid">
+                                <p>Mauris mattis auctor cursus. Phasellus tellus tellus, imperdiet ut imperdiet eu, iaculis a sem. Donec vehicula luctus nunc in...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 blog_grid_post_style  jl_row_6">
+                    <div class="jl_grid_box_wrapper">
+                        <div class="image-post-thumb">
+                            <a href="#" class="link_image featured-thumbnail" title="Nice photo shooting with hand classic style">
+                                <img width="780" height="450" src="http://jellywp.com/theme/disto/demo/wp-content/uploads/2018/11/mikky-koopac-1056364-unsplash-780x450.jpg" class="attachment-disto_large_feature_image size-disto_large_feature_image wp-post-image" alt="" />
+                                <div class="background_over_image"></div>
+                            </a> <span class="meta-category-small"><a class="post-category-color-text" style="background:#0015ff" href="#">Business</a></span>
+                        </div>
+                        <div class="post-entry-content">
+                            <h3 class="image-post-title">
+                                <a href="#">
+                                    Nice photo shooting with hand classic style
+                                </a>
+                            </h3>
+                            <span class="jl_post_meta"><span class="jl_author_img_w"> <img src="http://jellywp.com/disto-preview/img/favicon.jpg" width="30" height="30" alt="Anna Nikova" class="avatar avatar-30 wp-user-avatar wp-user-avatar-30 alignnone photo" /><a href="#" title="Posts by Anna Nikova" rel="author">Anna Nikova</a></span><span class="post-date"><i class="far fa-clock"></i>Dec 24, 2016</span></span>
+                            <div class="content_post_grid">
+                                <p>Mauris mattis auctor cursus. Phasellus tellus tellus, imperdiet ut imperdiet eu, iaculis a sem. Donec vehicula luctus nunc in...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear_line_3col_home"></div>*@
+                                            </div>
+                                        </div>
+                                        @if (Model.PageCount > 1)
+                                        {
+                                            <div class="pagination-wrap">
+                                                @Html.PagedListPager(Model, page => Url.Action("Page", "Home", new { sortorder = ViewBag.sortOrder, pageSize = 3, page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i> Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" })
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <!-- search result area end -->
+    </div>
+
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/taglist/js")
+        <script>
+           
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-project")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        </script>
+    }
+

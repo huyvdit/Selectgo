@@ -1,0 +1,31 @@
+﻿@model MenuCategory
+@foreach (var mlcm in Model.MenuLinkCategoryMappings.Where(e => e.ParentId == null && e.IsActive).OrderBy(e => e.DisplayOrder))
+{
+    <li class="@mlcm.StylesheetClasses">
+        @if (mlcm.StylesheetClasses == "only-icon")
+        {
+            <a title="@mlcm.UrlRewrite.Title" href="#" target="@mlcm.Target"> @Html.Raw(mlcm.Icon)</a>
+        }
+        else
+        {
+            var mlcmHref = "";
+            if (string.IsNullOrEmpty(mlcm.HashTag))
+            {
+                mlcmHref = mlcm.UrlRewrite.Slug == "/" ? (SessionManager.GetUniqueSeoCode + "/") : (SessionManager.GetUniqueSeoCode + "/" + mlcm.UrlRewrite.Slug);
+            }
+            else { mlcmHref = mlcm.HashTag; }
+
+            if (Data.IsInRoleOrAuthenticated(mlcmHref))
+            {
+                <a title="@mlcm.UrlRewrite.Title" href="@mlcmHref" target="@mlcm.Target"> @Html.Raw(mlcm.Icon)   @(mlcm.Alias ?? mlcm.UrlRewrite.Title) </a>
+            }
+
+        }
+        @if (mlcm.MenuLinkCategoryChildren.Count > 0)
+        {
+
+
+
+        }
+    </li>
+}

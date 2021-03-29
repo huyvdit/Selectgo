@@ -1,0 +1,43 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+    <div class="row d-flex align-items-center">
+        <div class="col text-center" style="margin-left: -8px;">
+            @foreach (var item in Model)
+            {
+                if (!item.CategoryChildren.Any())
+                {
+
+                }
+                else
+                {
+
+                    foreach (var innerItem in item.CategoryChildren)
+                    {
+                        if (innerItem.Name == "Site Templates")
+                        {
+                            foreach (var innerItem2x in innerItem.CategoryChildren)
+                            {
+                                <div class="c1-box">
+                                    <a href="@SlugHelper.Category(innerItem2x.Id)" title="@innerItem2x.Name">
+                                        <div class="c1-box-txt">
+
+                                            <h5 class="h5-xs">@innerItem2x.Name</h5>
+                                            <p>@innerItem2x.ProductCategoryMappingsCount Theme(s)</p>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+
+
+                    }
+
+
+                }
+
+            }
+
+        </div>
+    </div>

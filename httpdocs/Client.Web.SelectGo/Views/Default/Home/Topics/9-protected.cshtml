@@ -1,0 +1,38 @@
+﻿@using global::Web.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <section class="as-content">
+        <div class="masthead"><img src="./assets/images/components/masthead.jpg" class="masthead__img" alt=""></div>
+        <div class="contact-page">
+            <div class="contact">
+                <div class="row m-0">
+                    <div class="col-lg-6 col-md-8 col-12 offset-lg-3 offset-md-2 p-0">
+                        <div class="title--default color-dark title--line-center title--line-dark m-auto">
+                            Enquiry form
+                            <div class="progress-bar-section js-progres-bar"><span></span></div>
+                        </div>
+                        @{ Html.RenderPartial("~/Views/Default/Widgets/FeedBack/_FormPatial.cshtml", new FeedBack() { Type = "contact-us", CustomView = "ContactUs" });}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+} 

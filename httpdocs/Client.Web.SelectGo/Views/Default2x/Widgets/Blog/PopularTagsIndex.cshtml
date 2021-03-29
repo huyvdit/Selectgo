@@ -1,0 +1,10 @@
+﻿@model List<ASP.Web.Model.Models.BlogPostTagMapping>
+@if(Model.Any()) {
+    <ul>
+        @foreach(var item in Model) {
+            <li class="item">
+                <a href="@SlugHelper.BlogTag(item.BlogTagId)" title="@item.BlogTag.Name" >@item.BlogTag.Name</a>
+            </li>
+        }
+    </ul>
+}

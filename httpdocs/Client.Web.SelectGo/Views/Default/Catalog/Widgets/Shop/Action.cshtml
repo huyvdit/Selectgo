@@ -1,0 +1,14 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@{
+    var p = ViewData["Product"] as Product;
+}
+
+<div class="btn-group btn-block">
+  <a href="@SlugHelper.Product(p.Id)" class="btn btn-primary btn-block" style="background: #c90000;color: #fff;border: none;"> 
+        Let's go <svg tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.9 7.8" role="img" aria-label="Arrow right" style="width: 36px;     stroke: transparent;">
+        <path d="M25 3.2H.7c-.4 0-.7.3-.7.7 0 .4.3.7.7.7H25c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7z"></path>
+        <path d="M24.4 4.7V.4c0-.4.3-.6.6-.3l1.2 1.1c.3.3.9.8 1.2 1.1l1.2 1.1c.3.3.3.8 0 1.1l-1.2 1.1c-.3.3-.9.8-1.2 1.1l-1.2.9c-.3.3-.6.2-.6-.3V4.7z"></path>
+    </svg>
+  </a>
+</div>

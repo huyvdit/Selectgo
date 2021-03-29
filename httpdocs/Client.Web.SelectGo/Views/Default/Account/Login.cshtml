@@ -1,0 +1,79 @@
+﻿@model LoginModel
+@{
+    Html.EnableClientValidation();
+}
+
+
+    <div class="auth auth--inline" style="width:300px;height:500px;padding: 15px;">
+        <div data-tabs-role="tabs" class="tabs tabs_style_default tabs_color_blue">
+            <h5 class="auth__title">Login in your account</h5>
+            <div class="tabs__head">
+                <button class="tabs__tab" type="button" data-tabs-target="tab1" data-tabs-role="tab">with pass</button>
+                <button class="tabs__tab" type="button" data-tabs-target="tab2" data-tabs-role="tab">with [...]</button>
+            </div>
+            <div class="tabs__body">
+                <div class="tabs__pane" data-tabs-id="tab1">
+                    <div class="auth__wrap auth__wrap--login">
+
+                        @using (Ajax.BeginForm("Login", "Account", new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "cboxLoadedContent",
+                            LoadingElementId = "login-loader",
+                            OnBegin = "PagedOnBegin_Login",
+                            OnSuccess = "PagedOnComplete_Login"
+
+                        }, new { autocomplete = "on", @class = "form--flex form--auth js-login-form js-parsley" }))
+                        {
+                            @Html.ValidationSummary(true)
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="login-username-inline" class="control-label">Username</label>
+                                    <input type="text" name="username" id="login-username-inline" value="@Model.UserName" required data-parsley-trigger="keyup" data-parsley-minlength="6" data-parsley-validation-threshold="5" data-parsley-minlength-message="Login should be at least 6 chars" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="login-password-inline" class="control-label">Password</label>
+                                    <input type="password" name="password" id="login-password-inline" value="@Model.Password" required class="form-control">
+                                    <span class="fa fa-eye-slash pwd-toggle"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form__options form__options--forgot">
+                                    @Html.ActionLink("Forgot password ?", "ForgotPass", "Account", null, new { @class = "text-link" })
+                                </div>
+                                <button type="submit" class="form__submit">Sign in</button>
+                            </div>
+                            <div class="form__remember">
+                                <input type="checkbox" id="remember-in-inline" class="in-checkbox" value="@Model.RememberMe" name="rememberMe">
+                                <label for="remember-in-inline" class="in-label">Remember me</label>
+                            </div>
+                            <div>
+
+                                <button type="button" style="width: 100%;margin: 15px 0px;padding: 4px;" data-tabs-role="control" data-tabs-target="tab2" class="button button_color_blue">Sign In with [...]</button>
+                            </div>
+                            <div class="row">
+                                <div class="form__options">
+                                    Not a user yet?
+                                    @Html.ActionLink("Get an account", "Register", "Account", null, new { @class = "text-link" })
+                                </div>
+                            </div>
+
+
+                        }
+                        <!-- BEGIN AUTH LOGIN-->
+
+                    </div>
+                 
+                </div>
+                <div class="tabs__pane" data-tabs-id="tab2">
+                    <div>
+                        <iframe id="authencation-fb" style="border:none;height: 476px;margin-left: -15px;background: #9e9e9e26;    margin-top: -45px;"> </iframe>
+                    </div>
+                    <button type="button" style="width: 100%;margin: 15px 0px;padding: 4px;" data-tabs-role="control" data-tabs-target="tab1" class="button button_color_blue">Sign In with pass</button>
+                </div>
+                <div class="tabs__preloader" data-tabs-role="preloader"></div>
+            </div>
+        </div>
+       
+    </div>

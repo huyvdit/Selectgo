@@ -1,0 +1,175 @@
+﻿@using System.Web.Mvc
+@using System.Web.Optimization
+@using CaptchaMvc.HtmlHelpers
+@using global::Web.Helpers
+@model RegisterModel
+
+<div class="app-content content" style="padding: 0px 70px; margin: 0px;margin-bottom: 50px;">
+    <div class="content-wrapper">
+        <div class="content-body">
+            <!-- register section starts -->
+            <section class="row flexbox-container">
+                <div class="col-xl-12 col-12">
+                    <div class="card bg-authentication mb-0">
+                        <div class="row m-0">
+                            <div class="col-md-6 d-md-block d-none text-center align-self-center p-3">
+                                <img class="img-fluid" src="/as-images/page/register.png" alt="@DisplayHelper.StoreName">
+                            </div>
+                            <!-- register section left -->
+                            <div class="col-md-6 col-12 px-0">
+                                <div class="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
+                                    <div class="card-header pb-1" style="padding: 0px!important;">
+                                        <div class="card-title">
+                                            <h4 class="mt-2">@LanguageHelper.Translate("CREATE AN ACCOUNT_Text")</h4>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <p>
+                                            <small>@LanguageHelper.Translate("Join the Insider loyalty program. Earn points, redeem rewards, and more. Please enter your details to sign up and be part of our great community_Text")</small>
+                                        </p>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="">
+                                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "signupForm", autocomplete = "off" }))
+                                            {
+                                                @Html.ValidationSummary(true)
+                                                @Html.AntiForgeryToken()
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 mb-50">
+                                                        <label for="inputfirstname4">@LanguageHelper.Translate("first name_Text")</label>
+                                                        @Html.TextBoxFor(model => model.FirstName, null, new { placeholder = "First name", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                        @Html.ValidationMessageFor(model => model.FirstName)
+
+                                                    </div>
+                                                    <div class="form-group col-md-6 mb-50">
+                                                        <label for="LastName">@LanguageHelper.Translate("last name_Text")</label>
+                                                        @Html.TextBoxFor(model => model.LastName, null, new { placeholder = "First name", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                        @Html.ValidationMessageFor(model => model.LastName)
+                                                    </div>
+                                                    <small style="margin-left: 15px; margin-bottom: 15px;">@LanguageHelper.Translate("We will use this to personalize your account experience._Text")</small>
+                                                </div>
+
+                                                <div class="hidden">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <div class="step-label">@LanguageHelper.Translate("Birthday_Text")</div>
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <div class="">
+                                                                        <select id="day" name="day" class="selectpicker_x form-control">
+                                                                            <option selected value="01">-Day-</option>
+                                                                            @for (int d = 1; d <= 31; d++)
+                                                                            {
+                                                                                <option value="@d" @(Model.Day == d ? "selected" : "")>@(d < 10 ? ("0" + d) : ("" + d))</option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="">
+                                                                        <select id="month" name="month" class="selectpicker_x form-control">
+                                                                            <option value="01">-Month-</option>
+                                                                            @for (int m = 1; m <= 12; m++)
+                                                                            {
+                                                                                <option value="@m" @(Model.Month == m ? "selected" : "")>@(m < 10 ? ("0" + m) : ("" + m))</option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="">
+                                                                        <select id="year" name="year" class="selectpicker_x form-control">
+                                                                            <option value="0001">-Year-</option>
+                                                                            @for (int y = 1929; y <= 2000; y++)
+                                                                            {
+                                                                                <option value="@y" @(Model.Year == y ? "selected" : "")>@(y)</option>
+                                                                            }
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="help-block" style="margin-left: 15px;">No required</div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group mb-50">
+                                                    <label class="text-bold-600" for="UserName">@LanguageHelper.Translate("username_Text")</label>
+                                                    @Html.TextBoxFor(model => model.UserName, null, new { placeholder = "Username", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                    @Html.ValidationMessageFor(model => model.UserName)
+                                                </div>
+                                                <div class="form-group mb-50">
+                                                    <label class="text-bold-600" for="Email">@LanguageHelper.Translate("Email address_Text")</label>
+                                                    @Html.TextBoxFor(model => model.Email, null, new { placeholder = "E-mail address", type = "Email", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                    @Html.ValidationMessageFor(model => model.Email)
+                                                    <small style="margin-left: 15px;">@LanguageHelper.Translate("We will send the purchase receipt to this address._Text")</small>
+                                                </div>
+                                                <div class="form-group mb-50">
+                                                    <label class="text-bold-600" for="PhoneNumber">@LanguageHelper.Translate("Phone number_Text")</label>
+                                                    @Html.TextBoxFor(model => model.PhoneNumber, null, new { placeholder = "Phone number (optional)", type = "tel", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                                </div>
+
+
+                                                <div class="form-group mb-2">
+                                                    <label class="text-bold-600" for="Password">@LanguageHelper.Translate("Password_Text")</label>
+                                                    @Html.TextBoxFor(model => model.Password, null, new { placeholder = "Password (6 to 12 characters)", type = "Password", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                    @Html.ValidationMessageFor(model => model.Password)
+                                                </div>
+                                                <div class="form-group mb-2 hidden">
+                                                    <label class="text-bold-600" for="Password">@LanguageHelper.Translate("Repeat password_Text")</label>
+                                                    @Html.TextBoxFor(model => model.ConfirmPassword, null, new { placeholder = "Password", type = "Password", @class = "form-control", autocomplete = "off", spellcheck = "false" })
+                                                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                                                </div>
+                                                <div id="tos-box" class="material-form-group">
+                                                    <input type="checkbox" class="big-checkbox" id="Tos" name="Tos" tabindex="7" style="float: left;margin-right: 10px;margin-top: 5px;">
+                                                    <label for="Tos"> I accept the <a href="/legal/tos" target="_blank">Our Terms of Service</a><br> and have read the <a href="/legal/privacy" target="_blank">Our Privacy Statement</a></label><span class="help-block">&nbsp;</span>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary glow position-relative w-100">
+                                                    <svg viewBox="0 0 24 24" width="15px" style="margin-bottom: 4px;" height="15px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M12,1A16.53,16.53,0,0,1,3.88,4,1,1,0,0,0,3,5v8a8.5,8.5,0,0,0,4.37,7.43L12,23l4.63-2.57A8.5,8.5,0,0,0,21,13V5a1,1,0,0,0-.88-1A16.53,16.53,0,0,1,12,1ZM5,5.78a18.59,18.59,0,0,0,7-2.49,17.29,17.29,0,0,0,3.31,1.57L5.25,14.9A6.48,6.48,0,0,1,5,13.12V5.78Zm0.59,10L16.26,5.15A20.88,20.88,0,0,0,19,5.78V7.17L7.74,18.42A6.49,6.49,0,0,1,5.59,15.81Zm10.07,3-3.66,2L8.5,18.89,19,8.4v4.72A6.5,6.5,0,0,1,15.66,18.81Z" class="large-icon" style="fill: currentColor"></path></svg> @LanguageHelper.Translate("Join Now_Text")
+                                                </button>
+                                            }
+
+                                            <hr>
+                                            <div class="text-center">
+                                                <small class="mr-25">@LanguageHelper.Translate("Already have an account?_Text")</small><a href="@Url.Action("Login", "Account")"><small>@LanguageHelper.Translate("Sign in_Text")</small> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- image section right -->
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- register section endss -->
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginScripts())
+{
+    <script>
+        $(document).ready(function () {
+            $('input#Password').passwordstrength({
+                'minlength': 6,
+                'number': true,
+                'capital': true,
+                'special': true,
+                'labels': {
+
+                    'general': '@LanguageHelper.Translate("Password must have:_Text")',
+                    'minlength': '@LanguageHelper.Translate("Minimum length {{minlength}} characters_Text")',
+                    'number': '@LanguageHelper.Translate("At least one number_Text")',
+                    'capital': '@LanguageHelper.Translate("At least one capital letter_Text")',
+                    'special': '@LanguageHelper.Translate("At least one special character_Text")'
+                }
+            });
+        });
+
+    </script>
+}

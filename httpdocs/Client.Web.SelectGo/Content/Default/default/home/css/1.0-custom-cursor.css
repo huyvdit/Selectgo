@@ -1,0 +1,30 @@
+﻿/* CUSTOM CURSOR */
+.custom-cursor {
+    position: fixed;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 350ms ease;
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 999;
+}
+
+    .custom-cursor:before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: #fff;
+        border-radius: 50%;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+.custom-cursor--link {
+    transform: translate(-50%, -50%) scale(1);
+    background: #fff;
+}

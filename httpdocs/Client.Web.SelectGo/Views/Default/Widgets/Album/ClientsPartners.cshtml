@@ -1,0 +1,30 @@
+﻿@model Album
+@{
+    List<AlbumPictureMapping> items = Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder).ToList();
+}
+<div class="partner-box partner-box_pc" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+    @for (int i = 0; i <= items.Count - 1; i++)
+    {
+        <a href="@items[i].Link" title="@items[i].Picture.Title" class="parter-box__item">
+            <img src="@items[i].Picture.Url" alt="@items[i].Picture.Title">
+        </a>
+    }
+
+
+</div>
+<div class="partner-box partner-box_mobile">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            @for (int i = 0; i <= items.Count - 1; i++)
+            {
+                <div class="swiper-slide">
+                    <a href="@items[i].Link" class="parter-box__item">
+                        <img src="@items[i].Picture.Url" alt="@items[i].Picture.Title">
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="swiper-pagination pagination-partner"></div>
+</div>
+

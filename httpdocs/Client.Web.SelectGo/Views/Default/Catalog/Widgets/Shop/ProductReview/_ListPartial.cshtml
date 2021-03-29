@@ -1,0 +1,59 @@
+﻿@using Web.Model.Models
+@using global::Web.Helpers
+@model Web.Model.Models.Product
+<div class="col-xs-12 col-md-12 m-list-comment">
+    <h3 class="title">@LanguageHelper.Translate("Other_Comments_Text")</h3>
+    <span id="list-review-loader" style="display: none;width: 100%;text-align: center;position: absolute;margin-top: 5px;font-style: italic;"> @LanguageHelper.Translate("Loading_Text")... </span>
+    <div id="list-product-review">
+        @Html.Action("ListProductReview", "Catalog", new { id = Model.Id, area = "" })
+    </div>
+</div>
+@using (Html.BeginScripts())
+{
+    <script>
+        HvHelpers.loadJs("/Scripts/jquery.validate.js", $.validator, function () {
+            HvHelpers.loadJs("/Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function () {
+                HvHelpers.loadJs("/Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+            });
+        }, 'asyn');
+    </script>
+    <script>
+        PagedOnComplete_List = function () {
+            Register();
+            ToIndicate();
+        };
+        Register = function () {
+            $('input[name=rating-list]').rating({}).rating('refresh', { showClear: false, disabled: true, showCaption: false });
+            $(".time-ago").timeago();
+            $(".product-review-list").removeClass("hidden");
+            $(".review-helpful").bind("click", function () {
+                var self = $(this).css("opacity", "0.2").prop('disabled', true);
+                var pointer = $(self.find("b"));
+                new Services("ProductReviewHelpfulnessService/Helpfulness", { inf: $(this).data("helpful") }, function (ret) {
+
+                    if (ret == 0) {
+                        HvHelpers.alert("Bạn phải đăng nhập trước khi sử dụng chức năng này!");
+                    } else if (ret < 0) {
+                        HvHelpers.alert("Bạn vừa đánh giá, bạn chỉ có thể đánh giá lại sau " + (ret * -1) + " phút nữa!");
+                    } else {
+                        pointer.html(parseInt(pointer.html()) + ret);
+                    }
+
+                    self.css("opacity", "1").prop('disabled', false);
+
+                }).post();
+
+            });
+            setTimeout(function () {
+                $(".product-review-list .content").each(function () {
+                    $(this).html(emojione.unicodeToImage($(this).html()));
+                    $(this).html(emojione.shortnameToImage($(this).html()));
+                });
+            }, 3200);
+        };
+        ToIndicate = function () {
+            $('body').scrollTo($('#list-product-review').offset().top - 20);
+        };
+        $(document).ready(function () { Register(); });
+    </script>
+}

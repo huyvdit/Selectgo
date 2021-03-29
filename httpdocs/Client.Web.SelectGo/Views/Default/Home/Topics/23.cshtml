@@ -1,0 +1,99 @@
+﻿@using ASP.Web.Core.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@{
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+<link href="~/Content/Default/default/page-landing/css/1.0-animate.css" rel="stylesheet" />
+<link href="~/Content/Default/default/page-landing/css/1.0-jquery.bxslider.css" rel="stylesheet" />
+<link href="~/Content/Default/default/page-landing/css/9.0-style.css" rel="stylesheet" />
+<link href="~/Content/Default/default/page-landing/css/9.1-vegas.css" rel="stylesheet" />
+<section class="as-content" style="padding:0px">
+    <!-- Main contents ================================================ -->
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container">
+            <div class="welcome">
+                <div class="logo animated fadeInDown">
+                <img src="@DisplayHelper.Logo.Replace("logo.png","logo-vertically.svg")" alt=""> </div>
+
+                <!-- Social Icons -->
+                <div class="social-icons">
+                    <ul class="animated fadeInDownBig">
+                        <li><a href=""><i class="fa fa-fw fa-facebook"></i></a></li>
+                        <li><a href=""><i class="fa fa-fw fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fa fa-fw fa-instagram"></i></a></li>
+                        <li><a href=""><i class="fa fa-snapchat-ghost" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+                <!-- /Social Icons -->
+
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <!-- CONTENT SLIDER -->
+
+    <div id="slider" class="container">
+        <ul class="bxslider">
+            <!-- Slide 1-->
+            <li>
+                <div class="title">
+                    Discovering your city’s<br>
+                    <span>Nightlife</span>
+                </div>
+                <h3>
+                    a real guide on what & where is happening<br>
+                    around you minute by minute
+                </h3>
+                <div class="scroller"><a href="#footer"><span><span class="scroll-down"></span></span>SCROLL FOR MORE</a></div>
+            </li>
+
+            <!-- Slide 2-->
+            <li>
+                <div class="title">
+                    A brand <span>new</span> and <span>exiting</span><br>
+                    experience.
+                </div>
+                <h3>
+                    discover a new amazing world surrounded by fun,<br>
+                    thrill, exiting parties, movies, etc... We are going to rock your world
+                </h3>
+                <div class="scroller"><a href="#footer"><span><span class="scroll-down"></span></span>SCROLL FOR MORE</a></div>
+            </li>
+
+            <!-- Slide 3-->
+            <li>
+                <div class="title">
+                    Invite your <span>friends</span> for a
+                    crazy and fun night!
+                </div>
+                <h3>
+                    no more lonely nights with yourself and the cat.<br>
+                    Choose what you're in the mood for and find a night partner
+                </h3>
+                <div class="scroller"><a href="#footer"><span><span class="scroll-down"></span></span>SCROLL FOR MORE</a></div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- END CONTENT SLIDER -->
+    <!-- FOOTER -->
+    
+
+    <!-- END FOOTER -->
+    <!-- End of .main-content -->
+
+</section>
+@section scripts{
+
+
+<script src="~/Content/Default/default/page-landing/js/9.0-vegas.js"></script>
+<script src="~/Content/Default/default/page-landing/js/1.0-sliders.js"></script>
+<script src="~/Content/Default/default/page-landing/js/1.0-jquery.bxslider.js"></script>
+<script>
+
+
+</script>
+}
+

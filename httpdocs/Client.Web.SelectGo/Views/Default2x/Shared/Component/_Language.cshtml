@@ -1,0 +1,25 @@
+﻿@using ASP.Web.Model.Models
+@using global::Web.Helpers
+@{ var listCulture = (List<LanguageInstance>)ViewBag.Culture;
+    if (listCulture == null)
+    {
+        listCulture = new List<LanguageInstance>() { new LanguageInstance() { LanguageCulture = "un-DF", UniqueSeoCode = "un" } };
+    }
+}
+@{
+    var current = listCulture.FirstOrDefault(e => e.LanguageCulture == DataCurrentHelper.LanguageCulture);
+    if (current == null)
+    {
+        <a class="nav-link" href="#">@LanguageHelper.Translate("Language_Text"): {{@DataCurrentHelper.LanguageCulture}} </a>
+    }
+    else
+    {
+        <div class="header__lang language">
+            <select onchange="if (this.value) window.location.href=this.value" class="language__item navbar-menu__links">
+                <option  @("en" == current.UniqueSeoCode ? "selected" : "") value="/select-language/en-us">en</option>
+                <option  @("vi" == current.UniqueSeoCode ? "selected" : "") value="/select-language/vi-vn">vi</option>
+            </select>
+        </div>
+    }
+
+}

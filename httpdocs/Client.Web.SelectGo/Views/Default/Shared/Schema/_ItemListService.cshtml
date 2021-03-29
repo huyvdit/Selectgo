@@ -1,0 +1,73 @@
+﻿@using ASP.Web.Core.Helpers
+@using ASP.Web.Model.Models
+@{
+    var category = ViewBag.category as Category ?? new Category();
+    var listService = category.CategoryChildren.Where(e => e.IsActive).ToList();
+}
+    @using (Html.BeginScripts())
+    {
+        var storeLink = AppConfigs.Get("StoreLink");
+        if (listService.Count() == 1)
+        {
+            <script type="application/ld+json">
+                {
+                "@@context":"http://schema.org",
+                "@@type":"ItemList",
+                "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":1,
+                "url":"@storeLink@SlugHelper.Category(listService[0].Id)"
+                }
+                ]
+                }
+            </script>
+        }
+        else if (listService.Count() == 2)
+        {
+            <script type="application/ld+json">
+                {
+                "@@context":"http://schema.org",
+                "@@type":"ItemList",
+                "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":1,
+                "url":"@storeLink@SlugHelper.Category(listService[0].Id)"
+                },
+                {
+                "@@type":"ListItem",
+                "position":2,
+                "url":"@storeLink@SlugHelper.Category(listService[1].Id)"
+                }
+                ]
+                }
+            </script>
+        }
+        else if (listService.Count() >= 3)
+        {
+            <script type="application/ld+json">
+                {
+                "@@context":"http://schema.org",
+                "@@type":"ItemList",
+                "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":1,
+                "url":"@storeLink@SlugHelper.Category(listService[0].Id)"
+                },
+                {
+                "@@type":"ListItem",
+                "position":2,
+                "url":"@storeLink@SlugHelper.Category(listService[1].Id)"
+                },
+                {
+                "@@type":"ListItem",
+                "position":3,
+                "url":"@storeLink@SlugHelper.Category(listService[2].Id)"
+                }
+                ]
+                }
+            </script>
+        }
+    }

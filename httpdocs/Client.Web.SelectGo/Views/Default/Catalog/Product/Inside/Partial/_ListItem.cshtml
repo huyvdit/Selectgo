@@ -1,0 +1,120 @@
+﻿@model ProductInsideView
+@{
+    if (Model.pager.EndPage > 1)
+    {
+        <div class="pager" style=" text-align: center; background: #eee;">
+
+
+            <ul id="pager-link" class="pagination">
+                <!--If Current page is not the First Page, we will show Button/Link to go First or on Previous page-->
+                @if (Model.pager.CurrentPage == 1)
+                {
+                    <li>
+                        <a style="color: gray;text-decoration: line-through;" disabled href="#">‹‹</a>
+                    </li>
+                    <li>
+                        <a style="color: gray;text-decoration: line-through;" disabled href="#">←</a>
+                    </li>
+                }
+                else if (Model.pager.CurrentPage > 1)
+                {
+                    <li>
+                        <a data-page="1" href="#">‹‹</a>
+                    </li>
+                    <li>
+                        <a data-page="@(Model.pager.CurrentPage - 1)" href="#">←</a>
+                    </li>
+                }
+                <!--Paging from StartPage to the end Page-->
+                @for (var page = Model.pager.StartPage; page <= Model.pager.EndPage; page++)
+                {
+                    <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                        <a data-page="@page" href="#">@page</a>
+                    </li>
+                }
+                <!--If Current Page is not the Last Page then show Next and Last Button/link on Paging-->
+                @if (Model.pager.CurrentPage < Model.pager.TotalPages)
+                {
+                    <li>
+                        <a data-page="@(Model.pager.CurrentPage + 1)" href="#"> →</a>
+                    </li>
+                    <li>
+                        <a data-page="@(Model.pager.TotalPages)" href="#"> ››</a>
+                    </li>
+                }
+            </ul>
+            @if (Model.pager.CurrentPage == 1)
+            {
+                <span class="page-label"><i class="fa ti-files"></i> Showing 1  -  @((Model.pager.CurrentPage) * Model.pager.PageSize) of @Model.pager.TotalItems chapters</span>
+            }
+            else
+            {
+                <span class="page-label"><i class="fa ti-files"></i> Showing @(Model.pager.CurrentPage * Model.pager.PageSize)  -  @((Model.pager.CurrentPage + 1) * Model.pager.PageSize) of @Model.pager.TotalItems chapters</span>
+            }
+
+        </div>
+
+    }
+}
+@functions{
+   
+    string getStatus(string flag)
+    {
+        if (flag == "{{200}}") return "<i class='fa fa-circle' style='color:#098837'></i>";
+        else if (flag == "{{202}}") return "<i class='fa fa-circle' style='color:#ff9800'></i>";
+        return "<i class='fa fa-circle' style='color: #6c757d;'></i>";
+    }
+
+}
+<input type="hidden" id="page-size" value="@ViewBag.PageSize" />
+<input type="hidden" id="total-items" value="@Model.pager.TotalItems" />
+<table class="tablesaw tablesaw-swipe" data-tablesaw-mode="swipe" data-tablesaw-minimap>
+    <thead>
+        <tr style="border-bottom: 1px solid #80808036">
+
+            <th class="text-center bold" scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="persist">No.</th>
+            <th class="title" scope="col" style="min-width: 120px;" data-tablesaw-sortable-col data-tablesaw-priority="persist">Link</th>
+            <th class="text-center" scope="col" data-tablesaw-sortable-col><abbr title="Updated time">Updated time</abbr></th>
+            <th class="text-center" scope="col" data-tablesaw-sortable-col>Ready to download</th>
+            <th scope="col"><label><input type="checkbox" style="margin:12px 6px 0px 2px;" data-tablesaw-checkall><span class="sr-only-x">Select All</span></label></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Binding the data in the List-->
+        @if (Model.List != null)
+        {
+            if (Model.List.Count > 0)
+            {
+                for (int i = 0; i < Model.List.Count; i++)
+                {
+                    <tr>
+                        <td class="text-center bold">
+                            @(Model.List[i].Page)
+                        </td>
+                        <td class="title"><a href="@ViewBag.postFix/link-@(Model.List[i].Page).html" title="Read more">@Model.List[i].Title</a></td>
+                        <td class="text-center"><time class="time-ago" datetime="@Model.List[i].LastModified"></time></td>
+                        <td class="text-center">@Html.Raw(getStatus(Model.List[i].Flag))</td>
+                        <td><label><input type="checkbox"><span class="sr-only-x"> Select & go</span></label></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    <tr>
+                        <td class="text-center bold">
+                            <b>@i</b>
+                        </td>
+                        <td class="title"><a href="#" title="Read more">Updating</a></td>
+                        <td class="text-center"><time class="time-ago" datetime="@DateTime.Now.AddDays(3).ToString("dd/MM/yyyy HH:mm:ss")"></time></td>
+                        <td class="text-center">@Html.Raw(getStatus("{{202}}"))</td>
+                        <td><label><input type="checkbox"><span class="sr-only-x"> Stay & wait</span></label></td>
+                    </tr>
+                }
+
+            }
+
+        }
+    </tbody>
+</table>

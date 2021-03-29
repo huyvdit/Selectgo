@@ -1,0 +1,260 @@
+﻿@using global::Web.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@{
+    var stylesInlineInsert = DataWhereHelper.ExtractStylesPage(Model.StylesInsert);
+    if (stylesInlineInsert != "")
+    {
+        @Html.Raw(stylesInlineInsert);
+    }
+}
+
+<section class="as-content">
+    @{
+        ViewBag.SelfHeader = true;
+    }
+    <!-- end page-header -->
+    <section class="content-section">
+        <div>
+            <div class="row">
+                <div class="container">
+                    <div class="col-12 wow" data-splitting>
+                        <div class="section-titles">
+                            <h5>TIME TO VISIT DRECTION</h5>
+                            <h2>You are allways welcome to our workplace </h2>
+                        </div>
+                        <!-- end section-titles -->
+                    </div>
+                    <div class="col-12">
+                        <section class="call-to-action background">
+
+                            <div class="center">
+
+                                <div class="left">
+
+                                    <h2>Are you worried about your project?</h2>
+                                    <p>
+                                        Fill free to contact me,
+                                        I have a better solution for you.
+                                    </p>
+
+                                    <div class="form">
+
+                                        <div class="call-to-action-thanks">
+
+                                            <div class="call-to-action-thanks-content">
+
+                                                Thank you, we'll call you soon.
+                                                <span class="call-to-action-thanks-close">Close this notice.</span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <input type="text" name="Phone number" placeholder="Your phone number..." class="phone-number" />
+                                        <button class="button button-navy-blue send-phone-call-quote">
+                                            Get a phone call <svg viewBox="0 0 512 512" style="fill: #9E9E9E; height: 24px;">
+                                                <path d="m256 419c-26 0-47 21-47 46 0 26 21 47 47 47 26 0 47-21 47-47 0-25-21-46-47-46z m-140-419c-25 0-46 21-46 47 0 25 21 46 46 46 26 0 47-21 47-46 0-26-21-47-47-47z m0 140c-25 0-46 21-46 46 0 26 21 47 46 47 26 0 47-21 47-47 0-25-21-46-47-46z m0 139c-25 0-46 21-46 47 0 25 21 46 46 46 26 0 47-21 47-46 0-26-21-47-47-47z m280-186c25 0 46-21 46-46 0-26-21-47-46-47-26 0-47 21-47 47 0 25 21 46 47 46z m-140 186c-26 0-47 21-47 47 0 25 21 46 47 46 26 0 47-21 47-46 0-26-21-47-47-47z m140 0c-26 0-47 21-47 47 0 25 21 46 47 46 25 0 46-21 46-46 0-26-21-47-46-47z m0-139c-26 0-47 21-47 46 0 26 21 47 47 47 25 0 46-21 46-47 0-25-21-46-46-46z m-140 0c-26 0-47 21-47 46 0 26 21 47 47 47 26 0 47-21 47-47 0-25-21-46-47-46z m0-140c-26 0-47 21-47 47 0 25 21 46 47 46 26 0 47-21 47-46 0-26-21-47-47-47z"></path>
+                                            </svg>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="right">
+
+                                    <div class="circles">
+
+                                        <div class="circle-1 circle-pulse">
+                                        </div>
+
+                                        <div class="circle-2 circle-pulse">
+                                        </div>
+
+                                        <div class="circle-3 circle-pulse">
+                                        </div>
+
+                                        <div class="circle-4 circle-pulse">
+                                        </div>
+
+                                        <a href="tel:+123456789000">
+
+                                            <div class="circle-center">
+
+                                                <div class="circle-center-tip">Call us: <strong>(+123) 456 789 000</strong></div>
+                                                <i class="fa fa-phone"></i>
+
+                                            </div>
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="clear">
+                                </div>
+
+                            </div>
+
+                        </section>
+                    </div>
+                </div>
+
+
+
+                <!-- end col-12 -->
+                <div class="col-12 wow fadeIn">
+                    <div class="map-holder">
+
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3025.2378765886474!2d-73.97644805915624!3d40.69075842971381!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25bb6c6fe52c7%3A0x2b3bb16e97b13c01!2sFort+Greene+Tennis+Courts!5e0!3m2!1sen!2str!4v1559831164025!5m2!1sen!2str" allowfullscreen></iframe>
+                    </div>
+                    <!-- end map-holder -->
+                </div>
+                <!-- end col-12 -->
+                <div class="container">
+                    <div class="col-lg-7 wow fadeIn">
+                        <div class="section-titles">
+                            <h5>Hello, what’s on your mind?</h5>
+                            <h4>Have a new project? Let's work on it together. We’re always looking to collaborate with local sponsors who align with our values. Connect with us at hello@selectgo.vn or drop us a line in the form below! </h4>
+                        </div>
+                        <div class="contact-form">
+                            <form id="contact" name="contact" method="post">
+                                <div class="form-group">
+                                    <p>Full Name</p>
+                                    <small>Not to be stranger to eachothers</small>
+                                    <input type="text" name="name" id="name" autocomplete="off" required>
+                                </div>
+                                <!-- end form-group -->
+                                <div class="form-group">
+                                    <p>Your E-mail Address *</p>
+                                    <small>We never share to other about your email.</small>
+                                    <input type="text" name="email" id="email" autocomplete="off" required>
+                                </div>
+                                <div class="form-group">
+                                    <p>Please specify your need *?</p>
+
+                                    <div id="other-question" class="drilldown dd-default-style">
+                                        <button class="drilldown-toggle" type="button">Pick something that you allways use for forms:</button>
+                                        <ul class="drilldown-menu">
+                                            <li class="dd-layer" id="newsletter">
+                                                <span class="dd-question">Subscribe to our newsletter?</span>
+                                                <span class="dd-choice" data-value="no" data-target="protection">No</span>
+                                                <span class="dd-choice" data-value="yes" data-target="protection">Yes</span>
+                                            </li>
+                                            <li class="dd-layer" id="protection">
+                                                <span class="dd-question">Add a supports plan?</span>
+                                                <span class="dd-choice" data-value="no" data-target="cart">No Thanks</span>
+                                                <span class="dd-choice" data-value="6" data-target="cart">6 Month</span>
+                                                <span class="dd-choice" data-value="12" data-target="cart">12 Month</span>
+                                            </li>
+                                            <li class="dd-layer" id="cart">
+                                                <span class="dd-question">Request copy of an invoice?</span>
+                                                <span class="dd-choice" data-value="no">No</span>
+                                                <span class="dd-choice" data-value="yes">Yes</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div id="results-other-question" class="results">
+                                        <p>RESULTS</p>
+                                        <div class="exampleComplete">COMPLETE</div>
+                                    </div>
+                                </div>
+                                <!-- end form-group -->
+                                <div class="form-group">
+                                    <p>Write Your Message</p>
+                                    <small>Now time to type tell us what exactly you need</small>
+                                    <textarea name="message" id="message" autocomplete="off" required></textarea>
+                                </div>
+
+
+                                <!-- end form-group -->
+                                <div class="form-group">
+                                    <button id="submit" type="submit" name="submit" class="btn">Send a message <i class="fa fa-paper-plane-o"></i></button> <div style="font-size: 12px;display: inline-block;">press  <strong>Enter ↵</strong> </div>
+                                    <button type="reset" name="reset" class="btn btn-link" style="color: gray;text-decoration: underline;    font-size: 12px;">or type again </button>
+                                </div>
+                                <!-- end form-group -->
+                            </form>
+                            <!-- end form -->
+                            <div class="form-group">
+                                <div id="success" class="alert alert-success" role="alert"> Your message was sent successfully! We will be in touch as soon as we can. </div>
+                                <!-- end success -->
+                                <div id="error" class="alert alert-danger" role="alert"> Something went wrong, try refreshing and submitting the form again. </div>
+                                <!-- end error -->
+                            </div>
+                            <!-- end form-group -->
+                        </div>
+                        <!-- end contact-form -->
+                    </div>
+                    <!-- end col-7 -->
+                    <div class="col-lg-5 wow fadeIn">
+                        <div class="_block subscribe-block">
+                            <h3 class="block_title">
+                                Newsletter
+                            </h3>
+                            <div class="block_subtitle">
+                                Enter your email address below to subscribe to my newsletter
+                            </div>
+                            <form class="form">
+                                <input type="text" placeholder="Email Address" class="input">
+                                <button class="submit">Subscribe</button>
+                            </form>
+                        </div>
+                        <address class="side-address">
+                            <b>Address</b>
+                            <div>
+                                <svg viewBox="0 0 512 512">
+                                    <path d="m434 479l-58-122c-1-2-3-4-4-5-5-4-13-3-17 2-4 4-5 10-2 14l50 107-50-23c-6-2-14-2-21 0l-76 34c0 0 0 0 0 0 0 0 0 0 0 0l-76-33c-7-3-15-3-21-1l-50 23 50-107c2-3 2-8 0-11-3-7-11-9-17-6-3 1-5 3-6 6l-58 122c-3 8-2 16 4 22 6 6 14 7 22 4l65-29 77 34c3 1 6 2 10 2 4 0 7-1 10-2l77-34 65 29c8 3 16 2 22-4 6-6 7-14 4-22z m-64-432c-32-31-73-48-116-47-43 1-83 18-113 48-30 30-46 70-47 113 0 26 6 51 18 74 0 1 0 1 0 1l111 185c7 12 19 19 33 19 14 0 26-7 33-19l111-185c0 0 0 0 0-1 12-23 18-47 18-73 0-44-17-85-48-115z m7 176l-110 185c-3 6-9 7-11 7-2 0-8-1-11-7l-110-185c-10-19-15-40-15-62 0-74 61-134 134-135 37-1 71 13 98 39 26 26 40 60 40 97 0 21-5 42-15 61z m-121-120c-32 0-58 26-58 59 0 32 26 58 58 58 32 0 59-26 59-58 0-33-27-59-59-59z m0 92c-18 0-33-15-33-33 0-18 15-33 33-33 18 0 33 15 33 33 0 18-15 33-33 33z"></path>
+                                </svg>
+                                <span class="info">795 South Park Avenue, Melbourne, Australia</span>
+                            </div>
+                            <div>
+                                <svg viewBox="0 0 512 512">
+                                    <path d="m256 419c-26 0-47 21-47 46 0 26 21 47 47 47 26 0 47-21 47-47 0-25-21-46-47-46z m-140-419c-25 0-46 21-46 47 0 25 21 46 46 46 26 0 47-21 47-46 0-26-21-47-47-47z m0 140c-25 0-46 21-46 46 0 26 21 47 46 47 26 0 47-21 47-47 0-25-21-46-47-46z m0 139c-25 0-46 21-46 47 0 25 21 46 46 46 26 0 47-21 47-46 0-26-21-47-47-47z m280-186c25 0 46-21 46-46 0-26-21-47-46-47-26 0-47 21-47 47 0 25 21 46 47 46z m-140 186c-26 0-47 21-47 47 0 25 21 46 47 46 26 0 47-21 47-46 0-26-21-47-47-47z m140 0c-26 0-47 21-47 47 0 25 21 46 47 46 25 0 46-21 46-46 0-26-21-47-46-47z m0-139c-26 0-47 21-47 46 0 26 21 47 47 47 25 0 46-21 46-47 0-25-21-46-46-46z m-140 0c-26 0-47 21-47 46 0 26 21 47 47 47 26 0 47-21 47-47 0-25-21-46-47-46z m0-140c-26 0-47 21-47 47 0 25 21 46 47 46 26 0 47-21 47-46 0-26-21-47-47-47z"></path>
+                                </svg>
+                                <div class="info-wrap">
+                                    <span class="info">8 800 567.890.11 <span>Central Office</span></span>
+                                    <span class="info">8 800 567.890.12 <span>Fax</span></span>
+                                </div>
+                            </div>
+                            <div>
+                                <svg viewBox="0 0 512 512">
+                                    <path d="m512 198c0-1-1-2-1-3-1-3-2-5-5-7l-73-51 0-55c0-7-6-13-13-13l-85 0-71-50c-5-3-11-3-15 0l-73 50-84 0c-7 0-13 6-13 13l0 54-73 51c-4 3-6 7-6 11 0 0 0 0 0 0l0 284c0 4 2 7 4 9 3 3 6 4 10 4 0 0 0 0 0 0l485 0c7 0 13-6 13-14z m-79-29l42 29-42 29z m-177-123l33 23-66 0z m-150 49l300 0 0 150-101 70-41-32c0 0 0 0 0 0-5-3-11-3-16 0l-41 33-101-70z m-27 73l0 60-43-30z m-53 55l159 110-158 122z m26 246l204-159 204 158z m275-137l158-110 1 233z m18-184l-178 0c-7 0-13 6-13 13 0 7 6 13 13 13l178 0c7 0 13-6 13-13 0-7-6-13-13-13z m0 68l-178 0c-7 0-13 6-13 13 0 7 6 13 13 13l178 0c7 0 13-6 13-13 0-7-6-13-13-13z"></path>
+                                </svg>
+                                <div class="info-wrap">
+                                    <span class="info"><a href="#" class="custom-link">contact@selectgo.vn</a> <span>Primary Email</span></span>
+
+                                </div>
+                            </div>
+
+                        </address>
+                        <!-- end side-address -->
+                    </div>
+                    <!-- end col-5 -->
+                </div>
+
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </section>
+</section>
+
+@section scripts{
+    @{
+        var scriptsFileInsert = DataWhereHelper.ExtractScriptsPage(Model.Id);
+        if (scriptsFileInsert != "")
+        {
+            @Html.Raw(scriptsFileInsert);
+        }
+    }
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @{
+        var scriptsInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.ScriptsInsert);
+        if (scriptsInlineInsert != "")
+        {
+            @Html.Raw(scriptsInlineInsert);
+        }
+    }
+}

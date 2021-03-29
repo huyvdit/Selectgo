@@ -1,0 +1,32 @@
+﻿@using ASP.Web.Core.Helpers
+@model ASP.Web.Model.Models.Page
+@{
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@Styles.Render("~/bundles/content/default/page/css")
+@{
+    var stylesInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.StylesInsert);
+    if (stylesInlineInsert != "")
+    {
+        @Html.Raw(stylesInlineInsert);
+    }
+}
+<section class="as-content">
+    @Html.Raw(Model.Body)
+</section>
+@section scripts{
+    @{
+        var scriptsFileInsert = DataWhereHelper.ExtractScriptsPage(Model.Id);
+        if (scriptsFileInsert != "")
+        {
+            @Html.Raw(scriptsFileInsert);
+        }
+    }
+    @{
+        var scriptsInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.ScriptsInsert);
+        if (scriptsInlineInsert != "")
+        {
+            @Html.Raw(scriptsInlineInsert);
+        }
+    }
+}

@@ -1,0 +1,25 @@
+﻿@model List<Testimonial>
+
+<div class="swiper-container slide-section-4">
+    <div class="swiper-wrapper">
+        @foreach (var item in Model)
+        {
+            <div class="swiper-slide">
+                <div class="item">
+                    <div class="UserFedback--images">
+                        <img src="@ImageHelper.GetResize(item.Avatar)" alt="@Html.Raw(item.Quotes)">
+
+                        @Html.Raw(item.ExtraInfo)
+                    </div>
+                    <div class="des">
+                        @Html.Raw(item.Quotes)
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="swiper-pagination pagination-fedback"></div>
+
+
+

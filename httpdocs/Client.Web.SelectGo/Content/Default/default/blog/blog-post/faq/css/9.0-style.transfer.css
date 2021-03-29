@@ -1,0 +1,90 @@
+.navbar, .wrapper .container, .footer .container, .footer .center {
+    position: relative;
+    max-width: 1298px;
+}
+
+.header-desktop-fluid.cd-main-header {
+}
+
+.wrapper {
+    margin-top: 70px;
+}
+
+.navbar {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+    .navbar .left {
+        display: none;
+    }
+
+    .navbar .logo {
+        margin: 0px;
+    }
+
+.dx-separator {
+   
+}
+
+.articles h4.title {
+    font-family: "Open Sans";
+    line-height: 20px;
+    font-weight: 400;
+    font-style: normal;
+    color: #6e6e6e;
+    font-size: 14px;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.24s ease-in-out;
+    -moz-transition: opacity 0.24s ease-in-out;
+    transition: opacity 0.24s ease-in-out;
+}
+.articles .hentry {
+  
+    min-height: 80px;
+    margin: 20px 0 0 0;
+    padding-right: 20px;
+}
+
+    .articles .hentry .thumb {
+        float: left;
+        width: 50px;
+        margin-right: 10px;
+    }
+
+    .articles .hentry.third {
+        padding-right: 0
+    }
+
+    .articles .hentry .categories {
+        float: left;
+        clear: both;
+        width: 100%;
+        font: 11px Arial, Tahoma, sans-serif;
+        line-height: 15px;
+        margin: 0;
+    }
+
+        .articles .hentry .categories span {
+            display: block;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+.single .hentry {
+    margin: 0 0 10px
+}
+
+.hentry .entry {
+    line-height: 25px
+}
+
+.hentry .title a {
+    font-weight: bold
+}
+

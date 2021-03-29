@@ -1,0 +1,14 @@
+﻿/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 991px){
+    html body .content {
+
+        margin-left: 0px
+    }
+        html body .content.app-content {
+            padding: 0px!important;
+        }
+        .p-2 {
+            padding: 12px !important;
+        }
+
+}

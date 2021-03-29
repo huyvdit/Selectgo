@@ -1,0 +1,1275 @@
+﻿@using ASP.Web.Core.Models;
+@{
+    ViewBag.SelfHeader = true;
+    ViewBag.Title = "Assets/Post/To/*";
+}
+
+<!-- General stylesheet -->
+@section styles{
+    <link href="~/Assets/css/post/animatedheader.component.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/general.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/cw.css" rel="stylesheet" />
+    <link href="~/Assets/css/alertify.css" rel="stylesheet" />
+    <link href="~/Assets/css/alertify.theme-default.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/tagify.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/feather.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/summernote-bs4.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/snarl.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/fileup.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/ui.fancytree.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/custom.fancytree.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/filepond.css" rel="stylesheet">
+
+    <link href="~/Assets/css/post/filepond-plugin-image-preview.css" rel="stylesheet">
+    @*<link href="~/Assets/css/post/filepond-plugin-file-poster.css" rel="stylesheet">*@
+    <link href="~/Assets/css/jquery.loadingModal.css" rel="stylesheet" />
+    <link href="~/Assets/css/post/styles.css" rel="stylesheet" />
+
+    <style>
+        table.fancytree-ext-table {
+            margin-top: -15px;
+            width: 100%;
+        }
+
+            table.fancytree-ext-table tbody tr td {
+                border: none !important;
+                border-bottom: 1px solid #9e9e9e38 !important;
+            }
+
+        .filepond--panel-root {
+            border-radius: 0px !important;
+            background-color: #f1f0ef;
+        }
+
+        .filepond--root * {
+            border-radius: 0px !important;
+        }
+
+        .alertify .ajs-body .ajs-content {
+            padding: 16px 24px 16px 0px;
+        }
+
+        .alertify .ajs-footer .ajs-buttons.ajs-primary .ajs-button {
+            margin: 0px;
+            text-transform: inherit;
+            min-width: 50px;
+            color: #9E9E9E;
+        }
+
+        .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-ok {
+            color: #009688;
+            background: #9e9e9e17;
+            padding: 0px 20px;
+            width: 111px;
+        }
+
+        .alertify-notifier .ajs-message {
+            width: 100%;
+            border: none !important;
+            border-radius: 0px;
+        }
+
+        .alertify-notifier.ajs-top, .alertify .ajs-modal, .alertify .ajs-dimmer {
+            top: 0px !important;
+            z-index: 999999 !important;
+            width: 100%;
+            left: 0px !important;
+        }
+
+        .note-editor.note-frame .note-editing-area .note-editable {
+            padding: 30px;
+            background-color: #fff;
+        }
+
+        .files-attachment .fileup-file {
+            background-color: #9e9e9e08;
+            border: 1px solid #fff;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 0px;
+            font: 11px Verdana,Geneva,sans-serif;
+            margin-bottom: 5px;
+            width: 30%;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+            float: left;
+            margin-right: 12px;
+        }
+
+        .jquery-loading-modal {
+            z-index: 999999 !important;
+        }
+       .note-toolbar .btn-light {
+            color: #607D8B;
+            background-color: #fff;
+            border-color: #9e9e9e17;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            border-width: 1px;
+
+        }
+    </style>
+
+}
+
+
+<div class="wrapper" id="Item">
+    <div class="container py-3">
+        <!-- Start Breadcrumbbar -->
+        <div class="breadcrumbbar cbp-af-header">
+            <div class="row align-items-center">
+                <div class="col-md-8 col-lg-8">
+                    <div class="breadcrumb-list">
+                        <nav aria-label="breadcrumb">
+                            @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = "#", Title = "System" }, new BreadcrumbModel { Link = "#", Title = "New post" } }, homeIncluded = true, headingIncluded = false, area = "" })
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="widgetbar">
+                        <button class="btn btn-primary-rgba" id="btn-submit"><i class="feather icon-plus mr-2"></i>Submit</button>
+                        <button class="btn btn-danger-rgba my-1" id="btn-undo"><i class="feather icon-repeat mr-2"></i>Undo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumbbar -->
+        <!-- Start Contentbar -->
+        <div class="contentbar">
+            <!-- Start row -->
+            <div class="row">
+                <!-- Start col -->
+                <div class="col-lg-8 col-xl-9">
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Detail</h5>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group row">
+                                    <label for="ItemTitle" class="col-sm-12 col-form-label">Item Title</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control font-20" id="Name" name="Name" placeholder="Name">
+                                        <div class="my-error-tip"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="custom-control custom-switch" style="margin-left: 15px; margin-top: -15px;">
+                                        <input type="checkbox" class="custom-control-input" id="IsHighlight" name="IsHighlight">
+                                        <label class="custom-control-label" for="IsHighlight" style="float: left;line-height: 27px;">Is Highlight?</label>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">Files Attachment</label>
+                                    <div class="col-sm-12">
+                                        <div id="upload-4-queue" class="files-attachment"></div>
+                                        <div class="btn btn-primary-rgba btn-lg btn-block fileup-btn">
+                                            <i class="feather icon-file-plus"></i> Add files
+                                            <input type="file" id="upload-4" multiple accept="zip/*">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">Short Description</label>
+                                    <div class="col-sm-12">
+                                        <textarea id="ShortDescription" name="ShortDescription"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-12 col-form-label">Description</label>
+                                    <div class="col-sm-12">
+                                        @*<input type="hidden" id="FullDescription" name="FullDescription">*@
+                                        <div id="FullDescription"><p><br></p></div>
+                                        <div class="placeholder" style="position: absolute;top: 110px;left: 36px;font-size: 34px;color: rgb(228, 229, 231);pointer-events: none;display:none">
+                                            hi,<br>
+                                            this is summernote.<br>
+                                            please, write text here!<br>
+                                            super simple WYSIWYG editor on Bootstrap
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Other Detail</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-xl-4">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <div class="nav flex-column nav-pills" id="v-pills-Item-tab" role="tablist" aria-orientation="vertical">
+                                        <a class="nav-link mb-2" id="v-pills-general-tab" data-toggle="pill" href="#v-pills-general" role="tab" aria-controls="v-pills-general" aria-selected="true"><i class="feather icon-box mr-2"></i> Property</a>
+                                        <a class="nav-link mb-2" id="v-pills-stock-tab" data-toggle="pill" href="#v-pills-stock" role="tab" aria-controls="v-pills-stock" aria-selected="false"><i class="feather icon-feather mr-2"></i> SEO</a>
+                                        <a class="nav-link mb-2 active" id="v-pills-advanced-tab" data-toggle="pill" href="#v-pills-advanced" role="tab" aria-controls="v-pills-advanced" aria-selected="false"><i class="feather icon-settings mr-2"></i> Advance</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-xl-8">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <div class="tab-content" id="v-pills-Item-tabContent">
+                                        <div class="tab-pane fade " id="v-pills-general" role="tabpanel" aria-labelledby="v-pills-general-tab">
+                                            <datalist id="PropertyValue_Suggest">
+                                                <option value="Bootstrap 4x">
+                                                <option value="Bootstrap 3x">
+                                                <option value="GPL license">
+                                                <option value="MIT license">
+                                                <option value="Apache License Version 2.0">
+                                                <option value="jQuery 1.5.1 or Latest version">
+                                                <option value="BSD 3-Clause">
+                                                <option value="https://selectgo.vn/updating">
+                                                <option value="None">
+                                            </datalist>
+                                            <div id="ListSpecificationAttributes">
+                                                <div class="row br2">
+                                                    <span class="fi-list"></span> &nbsp;
+                                                    <div include="form-input-select()" style="width: 24%;">
+                                                        <select placeholder="Property Name" class="SpecificationAttributeId">
+                                                            <option selected value="-1">  --Select one--  </option>
+                                                            <option value="17">  Fork on GitHub  </option>
+                                                            <option value="18">  Authors  </option>
+                                                            <option value="15">  License  </option>
+                                                            <option value="14">  Dependencies  </option>
+                                                        </select>
+                                                    </div>
+
+                                                    <input list="PropertyValue_Suggest" type="text" placeholder="Property Value" class="CustomValue" style="width:70%;     height: 28px;   border-radius: 0px;">
+                                                    <span class="fi-x red o50 pl5"></span>
+                                                </div>
+                                            </div>
+                                            <input id="btn-add" type="button" value="Add property" class="mt10">
+                                        </div>
+                                        <div class="tab-pane fade" id="v-pills-stock" role="tabpanel" aria-labelledby="v-pills-stock-tab">
+                                            <div class="form-group row">
+                                                <label for="sku" class="col-sm-4 col-form-label">Meta Title</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="MetaTitle" placeholder="Meta Title">
+                                                    <div class="my-error-tip"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="stockStatus" class="col-sm-4 col-form-label">Meta Keyword</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control" id="MetaKeywords" placeholder="Meta keyword">
+                                                    <div class="my-error-tip"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label for="stockQuantity" class="col-sm-4 col-form-label">Meta Description</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="MetaDescription" placeholder="Meta description"></textarea>
+                                                    <div class="my-error-tip"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade show active" id="v-pills-advanced" role="tabpanel" aria-labelledby="v-pills-advanced-tab">
+                                            <div class="form-group row mb-0">
+                                                <label for="AdminComment" class="col-sm-3 col-form-label">Your notes</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" name="AdminComment" id="AdminComment" rows="3" placeholder="Notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End col -->
+                <!-- Start col -->
+                <div class="col-lg-4 col-xl-3">
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">List Categories</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Add a <table> element where the tree should appear: -->
+                            <table id="treegrid">
+                                <colgroup>
+                                    <col width="30"></col>
+                                    <col width="*"></col>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <!-- Optionally define a row that serves as template, when new nodes are created: -->
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Tagged as</h5>
+                        </div>
+                        <div class="card-body">
+                            <input id="ListTags" name="ListTags" value='[]'>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Image</h5>
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" id="Avatar" />
+                            <div class="inside">
+                                <p class="hide-if-no-js">
+                                    <a href="#">
+                                        <img id="Avatar_Display" src="#" style="display:none">
+                                    </a>
+                                </p>
+                            </div>
+                            <input type="file" name="Avatar" accept="image/jpeg, image/png, image/gif" />
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Item Images Gallery</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="upload-5-dropzone" class="zone">
+                                <div id="dropZ">
+                                    <i class="fa fa-cloud-upload"></i>
+                                    <div>Drag and drop your file here</div>
+                                    <span>OR</span>
+                                    <p>File size limit : 10 MB</p>
+                                </div>
+
+                            </div>
+                            <div id="upload-5-queue"></div>
+                        </div>
+                        <div class="card-footer">
+
+                            <div class="btn btn-primary-rgba btn-lg btn-block fileup-btn">
+                                <i class="feather icon-file-plus"></i> Add gallery
+                                <input type="file" id="upload-5" multiple accept="image/jpeg, image/png, image/gif">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-30">
+                        <div class="card-header">
+                            <h5 class="card-title">Confirmed by</h5>
+                        </div>
+                        <div class="card-body" style="background: #dddddd29;">
+                            <div class="Item-ListAuthors">
+                                <div class="badge-list">
+                                    <div>
+                                        <select id="ListAuthors" multiple="multiple" class="" style="width:100%"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer" style="padding: 10px 0px;">
+                                <div class="add-Item-ListAuthors">
+                                    <div id="ListAuthorsDisplay"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End col -->
+                </div>
+                <!-- End row -->
+            </div>
+            <!-- End Contentbar -->
+            <!-- Start Footerbar -->
+            <div class="footerbar" style="margin-top:150px;display:none">
+                <footer class="footer">
+                    <p class="mb-0">© 2020 Insight.selectgo.vn - All Rights Reserved.</p>
+                </footer>
+            </div>
+            <!-- End Footerbar -->
+        </div>
+
+    </div>
+
+</div>
+<!-- End Rightbar -->
+
+@section scripts {
+
+    <script src="~/Assets/js/post/localforage.js"></script>
+    <script>
+        localforage.setDriver('asyncStorage'); // Force indexedDb
+
+        function onError(err) {
+            var msg = err.name + '\n' + err.message;
+            alert(msg);
+        }
+        window.deleteAllData = function () {
+            localforage.removeItem("PrimaryPicture");
+            localforage.removeItem("ListPictures");
+            localforage.removeItem("ListFiles");
+            localforage.removeItem("FullDescription");
+        }
+    </script>
+    <script src="~/Assets/js/post/jquery-ajax-addtoken-patch.js"></script>
+    <script src="~/Assets/js/post/cbpAnimatedHeader.min.js"></script>
+    <script src="~/Assets/js/post/minimal.js"></script>
+    <script src="~/Assets/js/post/plugins.js"></script>
+
+    <script src="~/Assets/js/alertify.js"></script>
+    <script src="~/Assets/js/post/summernote-bs4.min.js"></script>
+    <script src="~/Assets/js/post/tagify.min.js"></script>
+    @*<script src="~/Assets/js/post/jQuery.tagify.min.js"></script>*@
+
+    <script src="~/Assets/js/post/snarl.min.js"></script>
+    <script src="~/Assets/js/post/fileup.min.js"></script>
+    <script src="~/Assets/js/post/jquery.fancytree.js"></script>
+    <script src="~/Assets/js/post/jquery.fancytree.persist.js"></script>
+    <script src="~/Assets/js/post/jquery.fancytree.table.js"></script>
+
+    <script src="~/Assets/js/post/filepond-plugin-file-encode.js"></script>
+    <script src="~/Assets/js/post/filepond-plugin-image-validate-size.js"></script>
+    @*<script src="~/Assets/js/post/filepond-plugin-image-crop.js"></script>*@
+    @*<script src="~/Assets/js/post/filepond-plugin-file-poster.js"></script>*@
+    <script src="~/Assets/js/post/filepond-plugin-image-preview.js"></script>
+    <script src="~/Assets/js/post/filepond-plugin-file-validate-type.js"></script>
+    <script src="~/Assets/js/post/filepond.js"></script>
+    <script src="~/Assets/js/jquery.loadingModal.min.js"></script>
+    <script>
+        var input = document.querySelector('input[name=ListTags]'),
+
+            tagify = new Tagify(input, {
+                //pattern: /^.{0,20}$/,  // Validate typed tag(s) by Regex. Here maximum chars length is defined as "20"
+                //delimiters: ",| ",        // add new tags when a comma or a space character is entered
+                keepInvalidTags: true,         // do not remove invalid tags (but keep them marked as invalid)
+                editTags: 1,            // single click to edit a tag
+                maxTags: 6,
+                blacklist: ["fuck", "shit", "pussy"],
+                whitelist: [],
+                transformTag: transformTag,
+                //backspace: "edit",
+                placeholder: "Type something...",
+                dropdown: {
+                    enabled: 0,
+                }
+            }),
+            controller; // for aborting the call
+        // generate a random color (in HSL format, which I like to use)
+        function getRandomColor() {
+            function rand(min, max) {
+                return min + Math.random() * (max - min);
+            }
+
+            var h = rand(1, 360) | 0,
+                s = rand(40, 70) | 0,
+                l = rand(65, 72) | 0;
+
+            return 'hsl(' + h + ',' + s + '%,' + l + '%)';
+        }
+
+        function transformTag(tagData) {
+            tagData.style = "--tag-bg:" + getRandomColor();
+
+            if (tagData.value.toLowerCase() == 'shit')
+                tagData.value = 's✲✲t'
+        }
+        // listen to any keystrokes which modify tagify's input
+        tagify.on('input', onInput)
+
+        function onInput(e) {
+            var value = e.detail.value;
+            tagify.settings.whitelist.length = 0; // reset the whitelist
+
+            // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
+            controller && controller.abort();
+            controller = new AbortController();
+
+            // show loading animation and hide the suggestions dropdown
+            tagify.loading(true).dropdown.hide.call(tagify)
+
+            fetch('/api/helper/tags?value=' + value, { signal: controller.signal })
+                .then(RES => RES.json())
+                .then(function (whitelist) {
+                    // update inwhitelist Array in-place
+                    tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
+                    tagify.loading(false).dropdown.show.call(tagify, value); // render the suggestions dropdown
+                })
+        }
+        input.addEventListener('change', onChange)
+
+        function onChange(e) {
+            // outputs a String
+            var dt = $("#ListTags").val() == "" ? [] : JSON.parse($("#ListTags").val());
+            localStorage.setItem("ListTags", JSON.stringify($.map(dt, function (n) {
+                return n["value"];
+            })));
+        }
+        tagify.addTags(localStorage.getItem("ListTags") == null ? [] : JSON.parse(localStorage.getItem("ListTags")));
+
+        //tagify.on('add', function (e) {
+        //    console.log(e.detail)
+        //})
+
+        //tagify.on('invalid', function (e) {
+        //    console.log(e, e.detail);
+        //})
+
+    </script>
+
+    <script>
+
+        window.picturesUp = function (data) {
+            window.picturesUpDATA = data == null ? [] : (data);
+            var statusDropZone = function () {
+                setTimeout(function () {
+                    if ($("#upload-5-queue").html() == "") {
+                        $("#upload-5-dropzone").show();
+                    }
+                    else {
+                        $("#upload-5-dropzone").hide();
+
+                    }
+                }, 120);
+            }
+            $.fileup({
+
+                inputID: 'upload-5',
+                queueID: 'upload-5-queue',
+                dropzoneID: 'upload-5-dropzone',
+                onSelect: function (file) {
+                    var reader = new FileReader();
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            var fileString = e.target.result;
+                            window.picturesUpDATA.push({ name: file.name, size: file.size, previewUrl: fileString });
+                            localforage.setItem("ListPictures", window.picturesUpDATA);
+                        };
+                    })(file);
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(file);
+                    statusDropZone();
+                },
+                onRemove: function (fil_number, total, file) {
+
+                    for (var i = 0; i < window.picturesUpDATA.length; i++) {
+                        if (i == file) {
+                            window.picturesUpDATA.splice(i);
+                            localforage.setItem("ListPictures", window.picturesUpDATA);
+                        }
+
+                    }
+                    statusDropZone();
+                },
+                files: window.picturesUpDATA,
+                templateFile: '<div id="fileup-[INPUT_ID]-[FILE_NUM]" class="fileup-file [TYPE]">' +
+                    '<div class="fileup-preview"> ' +
+                    '<img src="[PREVIEW_SRC]" alt="[NAME]"/> ' +
+                    '</div> ' +
+                    '<div class="fileup-container"> ' +
+                    '<div class="fileup-description"> ' +
+                    '<span class="fileup-name">[NAME]</span> (<span class="fileup-size">[SIZE_HUMAN]</span>) ' +
+                    '</div> ' +
+                    '<div class="fileup-controls">' +
+                    '<span class="fileup-remove" onclick="$.fileup(\'[INPUT_ID]\', \'remove\', \'[FILE_NUM]\');" title="[REMOVE]"></span>' +
+                    '</div> ' +
+                    '</div> ' +
+                    '<div class="fileup-clear"></div> ' +
+                    '</div>'
+            }).dragEnter(function (event) {
+                $(event.target).addClass('over');
+            })
+                .dragLeave(function (event) {
+                    $(event.target).removeClass('over');
+                })
+                .dragEnd(function (event) {
+                    $(event.target).removeClass('over');
+                });
+
+            setTimeout(function () {
+                statusDropZone();
+            }, 1200);
+        }
+
+        window.filesUp = function (data) {
+            window.filesUpDATA = data == null ? [] : (data);
+
+            $.fileup({
+
+                inputID: 'upload-4',
+                queueID: 'upload-4-queue',
+                onSelect: function (file) {
+                    var reader = new FileReader();
+                    // Closure to capture the file information.
+                    reader.onload = (function (theFile) {
+                        return function (e) {
+                            var fileString = e.target.result;
+                            window.filesUpDATA.push({ name: file.name, size: file.size, data: fileString });
+
+                            localforage.setItem("ListFiles", window.filesUpDATA);
+                        };
+                    })(file);
+                    // Read in the image file as a data URL.
+                    reader.readAsDataURL(file);
+                },
+                onRemove: function (fil_number, total, file) {
+
+                    for (var i = 0; i < window.filesUpDATA.length; i++) {
+                        if (i == file) {
+                            window.filesUpDATA.splice(i);
+                            localforage.setItem("ListFiles", window.filesUpDATA);
+                        }
+                    }
+                },
+                files: window.filesUpDATA,
+                templateFile: '<div id="fileup-[INPUT_ID]-[FILE_NUM]" class="fileup-file [TYPE]">' +
+                    '<div class="fileup-preview"> ' +
+                    '<img src="[PREVIEW_SRC]" alt="[NAME]"/> ' +
+                    '</div> ' +
+                    '<div class="fileup-container"> ' +
+                    '<div class="fileup-description"> ' +
+                    '<span class="fileup-name">[NAME]</span> (<span class="fileup-size">[SIZE_HUMAN]</span>) ' +
+                    '</div> ' +
+                    '<div class="fileup-controls">' +
+                    '<span class="fileup-remove" onclick="$.fileup(\'[INPUT_ID]\', \'remove\', \'[FILE_NUM]\');" title="[REMOVE]"></span>' +
+                    '</div> ' +
+                    '</div> ' +
+                    '<div class="fileup-clear"></div> ' +
+                    '</div>'
+            }).dragEnter(function (event) {
+                $(event.target).addClass('over');
+            })
+                .dragLeave(function (event) {
+                    $(event.target).removeClass('over');
+                })
+                .dragEnd(function (event) {
+                    $(event.target).removeClass('over');
+                });
+        }
+
+        // Register the plugin with FilePond
+        FilePond.registerPlugin(FilePondPluginImagePreview, FilePondPluginImageValidateSize, FilePondPluginFileEncode, FilePondPluginFileValidateType); // FilePondPluginImageCrop,
+
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[name="Avatar"]');
+
+        // Create the FilePond instance
+        const pond = FilePond.create(inputElement, {
+            imageValidateSizeMaxWidth: 1920,
+            imageValidateSizeMaxHeight: 1080,
+
+            //imageCropAspectRatio: '1:1'
+        });
+
+        // Request encoded data
+        pond.onaddfile = (err, item) => {
+
+            if (err) {
+                console.warn(err);
+                return;
+            }
+            $("#Avatar").val(item.getFileEncodeDataURL());
+            localforage.setItem("PrimaryPicture", { src: $("#Avatar").val(), name: item.filename });
+            $("#Avatar_Display").hide();
+        }
+
+        // Load data:
+        localforage.getItem("ListFiles", function (data) {
+            filesUp(data == undefined ? [] : data);
+        });
+        localforage.getItem("PrimaryPicture", function (data) {
+            $("#Avatar").val(data == undefined ? "#" : data.src);
+            if ($("#Avatar").val() != "#")
+                $("#Avatar_Display").attr("src", $("#Avatar").val()).show();
+        });
+        localforage.getItem("ListPictures", function (data) {
+            picturesUp(data == undefined ? [] : data);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            // Attach the fancytree widget to an existing <div id="tree"> element
+            // and pass the tree options as an argument to the fancytree() function:
+            $("#treegrid").fancytree({
+                extensions: ["table", "persist"],
+                checkbox: true,
+                persist: {
+                    expandLazy: true,
+                    // fireActivate: false,    // false: suppress `activate` event after active node was restored
+                    // overrideSource: false,  // true: cookie takes precedence over `source` data attributes.
+                    store: "auto" // 'cookie', 'local': use localStore, 'session': sessionStore
+                    // Sample for a custom store:
+                    // store: {
+                    //   get: function(key){ this.info("get(" + key + ")"); return window.sessionStorage.getItem(key); },
+                    //   set: function(key, value){ this.info("set(" + key + ", " + value + ")"); window.sessionStorage.setItem(key, value); },
+                    //   remove: function(key){ this.info("remove(" + key + ")"); window.sessionStorage.removeItem(key); }
+                    // }
+                },
+                table: {
+                    indentation: 20,      // indent 20px per node level
+                    nodeColumnIdx: 1,     // render the node title into the 2nd column
+                    checkboxColumnIdx: 0  // render the checkboxes into the 1st column
+                },
+                source: {
+                    url: "../../assets/js/post/ajax-tree-category.json"
+                },
+                tooltip: function (event, data) {
+                    return data.node.data.author;
+                },
+                lazyLoad: function (event, data) {
+                    data.result = { url: "../../assets/js/post/ajax-tree-category-more.json" }
+                },
+                renderColumns: function (event, data) {
+                    var node = data.node,
+                        $tdList = $(node.tr).find(">td");
+
+                    // (index #0 is rendered by fancytree by adding the checkbox)
+                    //$tdList.eq(1).text(node.getIndexHier());
+                    // (index #2 is rendered by fancytree)
+                    // $tdList.eq(2).text(node.data.qty);
+                    // Rendered by row template:
+                    //        $tdList.eq(4).html("<input type='checkbox' name='like' value='" + node.key + "'>");
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            //$('#FullDescription').summernote({
+            //    tabsize: 2,
+            //    height: 540,
+            //    toolbar: [
+
+            //        ['para', ['ul', 'ol', 'paragraph']],
+            //        ['insert', ['link', 'picture', 'video']],
+            //        ['view', ['fullscreen', 'codeview', 'help']]
+            //    ],
+            //    //placeholder: 'Type starting with : and any alphabet',
+            //});
+
+            // main summernote with custom placeholder
+          var $placeholder = $('.placeholder');
+          $('#FullDescription').summernote({
+                height: 500,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['style']],
+                    ['type', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                  ],
+                callbacks: {
+                  onInit: function() {
+                    if($('#FullDescription').summernote('code') =="<p><br></p>") $placeholder.show();
+                  },
+                  onFocus: function() {
+                    $placeholder.hide();
+                  },
+                  onBlur: function() {
+                    var $self = $(this);
+                    setTimeout(function() {
+                      if ($self.summernote('isEmpty') && !$self.summernote('codeview.isActivated')) {
+                        $placeholder.show();
+                      }
+                    }, 300);
+                  }
+                }
+              });
+
+            var $delayUpdate;
+            // summernote.change
+            $('#FullDescription').on('summernote.change', function (we, contents, $editable) {
+
+                if ($delayUpdate != undefined) clearTimeout($delayUpdate);
+                $delayUpdate = setTimeout(function () {
+                    console.log('summernote\'s content is changed.');
+                    localforage.setItem("FullDescription", $('#FullDescription').summernote('code'));
+                    delete $delayUpdate;
+                }, 3200);
+
+            });
+            localforage.getItem("FullDescription", function (data) {
+                $('#FullDescription').summernote('code', data);
+            });
+
+        });
+    </script>
+    <script>
+        $(function () {
+
+            var $defaultData = { Name: "", IsHighlight: ["on"], ListAuthors: [], ShortDescription: "", AdminComment: "", FullDescription: "" };
+            $form = $("#Item").my({
+                params: {
+                    delay: 10,
+                    remember: 10, historyDelay: 1000,
+                    change: function ($form) {
+                        console.log("change:", $form);
+                    },
+                    errorTip: ".my-error-tip",		//jQuery selector for error msg
+                    errorCss: "my-error"			//class to mark invalid controls
+                },
+                id: "en.AllControls",
+
+                // Init function
+                init: function ($form, form) {
+
+                    //localforage.getItem("ListDatas", function(data) {
+                    //     // Saved?
+                    //       var ls = localforage,
+                    //           old = data;
+                    //       if (old) Object.merge(form.data, JSON.parse(old));
+                    //       // localStorage saver
+                    //       $form.then(function () {
+                    //           $form.on("change", function () {
+                    //               ls.setItem("ListDatas", JSON.stringify($form.my("data")));
+                    //           }.debounce(20));
+                    //       });
+                    //});
+
+
+                    var ls = localStorage,
+                        old = localStorage.getItem("ListDatas");
+                    if (old) Object.merge(form.data, JSON.parse(old));
+                    // localStorage saver
+                    $form.then(function () {
+                        $form.on("change", function () {
+                            ls.setItem("ListDatas", JSON.stringify($form.my("data")));
+                        }.debounce(200));
+                    });
+
+                    var that = this, ui = form.ui, $ctrl, $mod;
+
+                    // Gen HTML
+                    that.html($form);     // Draw HTML
+
+                    $form.css({ opacity: 0.1 });
+
+                    $form.then(function () {              // Fade when start succeds
+                        $form.animate({ opacity: 1 }, 1500);
+                    });
+                    // Write init functions code
+                    // into rightmost column
+
+                    for (var i in ui) {
+                        $ctrl = $form.find(i).parents(".my-row:eq(0)").find(".my-label");
+                        if (i != "#all" && ui[i].init) {
+                            $ctrl.data("init", ui[i].init.toString()
+                                .split("\n").from(1).to(-1)
+                                .join("\n"))
+                        } else {
+                            $ctrl.removeClass("pseudolink");
+                        }
+                    }
+
+                },
+
+                // UI bindings
+                NumCheck: /^\d+$/,
+                ForbiddenPasswords: ["123", "qwerty"],
+                ui: {
+
+                    "#Name": {
+                        bind: "Name",
+                        recalc: "#IsHighlight",
+                        css: {
+                            "orange": /^.{10}$/
+                        },
+                        check: function (data, value, $control) {
+                            if (value.length < 3) return "3+ chars";
+                            if (value.length > 100) return "Too long name";
+                            //if (!/^[a-z]+$/.test(value)) return "Only letters allowed";
+                            //if (!/^[a-z\s]+$/i.test(value)) return "Latins, please";
+                        },
+                        error: "3+ chars please"
+                    },
+
+                    "#ShortDescription": {
+                        bind: "ShortDescription",
+                        init: function ($ctrl) {
+                            $ctrl.redactor({
+                                minHeight: 100,
+                                buttons: [
+                                    'html', '|',
+                                    'bold', 'italic', 'fontcolor', '|',
+                                    'link'
+                                ],
+                                focus: false
+                            });
+                        }
+                    },
+
+                    "#IsHighlight": {
+                        bind: "IsHighlight",
+                        css: {
+                            ":disabled": function (data, value) {
+                                return data.Name.length == 0;
+                            }
+                        }
+                    },
+                    "#MetaTitle": {
+                        bind: "MetaTitle",
+                        css: {
+                            "orange": /^.{10}$/
+                        },
+                        check: function (data, value, $control) {
+                            //if (value.length < 3) return "3+ chars";
+                            if (value.length > 70) return "Too long Title";
+                        },
+                        error: "3+ chars please"
+                    },
+                    "#MetaKeyword": {
+                        bind: "MetaKeyword",
+                        css: {
+                            "orange": /^.{10}$/
+                        },
+                        check: function (data, value, $control) {
+                            //if (value.length < 3) return "3+ chars";
+                            if (value.length > 200) return "Too long Keyword";
+                        },
+                        error: "3+ chars please"
+                    },
+                    "#MetaDescription": {
+                        bind: "MetaDescription",
+                        css: {
+                            "orange": /^.{10}$/
+                        },
+                        check: function (data, value, $control) {
+                            //if (value.length < 3) return "3+ chars";
+                            if (value.length > 300) return "Too long Description";
+                        },
+                        error: "3+ chars please"
+                    },
+                    "#ListAuthors": {                            // Color selector section
+                        init: function ($control) {
+
+                            var promise = $.ajax({          // Load data, $.ajax is promise
+                                url: "/assets/html/colors.html?_=1593608994780",
+                                cache: false,
+                                dataType: "html",
+                                async: true
+                            })
+                                .then(function (html) {          // Loaded, then
+                                    $control.html(html);            // – insert HTML
+                                    $control.select2({              // – apply plugin
+                                        placeholder: "Select from list []"
+                                    });
+                                });
+                            return promise;                    // Return promise
+                        },
+                        bind: "ListAuthors"
+                    },
+
+                    "#ListAuthorsDisplay": {                              // Preview colors
+                        bind: function (data) {
+                            return data.ListAuthors.reduce(function (a, b) {
+                                return a + '<span style="background:' + b + '">' + b + '</span> ';
+                            }, "");
+                        },
+                        watch: "#ListAuthors"
+                    },
+
+                    "#ListSpecificationAttributes": {
+                        bind: "ListSpecificationAttributes",
+                        manifest: "propertyForm",
+                        list: '>div.row',
+                        init: function ($control) {
+                            $control.sortable({ handle: ".fi-list" });
+                        }
+                    },
+                    "#AdminComment": {
+                        bind: "AdminComment",
+                        init: function ($ctrl) {
+                            $ctrl.redactor({
+                                minHeight: 100,
+                                buttons: [
+                                    'html', '|',
+                                    'bold', 'italic', 'fontcolor', '|',
+                                    'link'
+                                ],
+                                focus: false
+                            });
+                        }
+                    },
+                    "#btn-add": function (data, val) {
+                        if (null != val) this.my.insert("#ListSpecificationAttributes", {});
+                    },
+                    "#btn-submit": function (d, v) {
+                        if (null != v) {
+
+                            if ($form.my("valid") == false) {
+                                var ERROR = $form.my("errors");
+
+                                alertify.set('notifier', 'position', 'top-center');
+                                alertify.warning('Error: ' + JSON.stringify(ERROR));
+                            }
+                            else {
+                                alertify.confirm()
+                                    .setting({
+                                        'defaultFocus': 'cancel',
+                                        transition: 'zoom',
+                                        'reverseButtons': true,
+                                        'message': 'Are you sure post new item?',
+                                        'onok': function () {
+                                            $('body').loadingModal({ text: 'Posting...' });
+
+                                            var delay = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }) };
+                                            var time = 2000;
+
+                                            delay(time)
+                                                .then(function () { $('body').loadingModal('animation', 'rotatingPlane').loadingModal('backgroundColor', 'red'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'wave'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'wanderingCubes').loadingModal('backgroundColor', 'green'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'spinner'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'chasingDots').loadingModal('backgroundColor', 'blue'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'threeBounce'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'circle').loadingModal('backgroundColor', 'black'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'cubeGrid'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'fadingCircle').loadingModal('backgroundColor', 'gray'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('animation', 'foldingCube'); return delay(time); })
+                                                .then(function () { $('body').loadingModal('color', 'black').loadingModal('text', 'Wait done :-)').loadingModal('backgroundColor', 'yellow'); return delay(time); })
+                                            var DATAPOST = $form.my("data");
+                                            // Cates:
+                                            var selNodes = $.ui.fancytree.getTree("#treegrid").getSelectedNodes();
+                                            DATAPOST["ListCategories"] = $.map(selNodes, function (n) {
+                                                return n.toDict()["data"]["id"];
+                                            });
+
+                                            // Tags:
+                                            DATAPOST["ListTags"] = $("#ListTags").val() == "" ? [] : $.map(JSON.parse($("#ListTags").val()), function (n) {
+                                                return n["value"];
+                                            });
+
+                                            // Pics:
+                                            DATAPOST["PrimaryPicture"] = { url: $("#Avatar").val(), title: $("#Avatar").attr("title") };
+                                            DATAPOST["ListPictures"] = [];
+                                            for (var i = 0; i < window.picturesUpDATA.length; i++) {
+                                                if (window.picturesUpDATA[i]["previewUrl"] != "") {
+                                                    DATAPOST["ListPictures"].push({ title: window.picturesUpDATA[i]["name"], url: window.picturesUpDATA[i]["previewUrl"] });
+                                                }
+
+                                            }
+                                            // Files:
+                                            DATAPOST["ListFiles"] = [];
+                                            for (var i = 0; i < window.filesUpDATA.length; i++) {
+                                                if (window.filesUpDATA[i]["name"] != "") {
+                                                    DATAPOST["ListFiles"].push({ FileName: window.filesUpDATA[i]["name"], ContentLength: window.filesUpDATA[i]["size"], FileData: window.filesUpDATA[i]["data"] });
+                                                }
+
+                                            }
+                                           
+                                            DATAPOST["FullDescription"] = $('#FullDescription').summernote('code');
+                                            var authorSubmit = $(".author-subtitle").text();
+                                            if (DATAPOST["ListAuthors"].indexOf(authorSubmit) == -1) {
+                                                DATAPOST["ListAuthors"].push(authorSubmit);
+                                            }
+                                            console.log(DATAPOST["IsHighlight"] );
+                                            if (DATAPOST["IsHighlight"] != undefined && DATAPOST["IsHighlight"].indexOf('on') == 0) {
+                                                 DATAPOST["IsHighlight"] = true;
+                                             }
+                                            
+                                            //var DATADEF = { StoreAppliedId: 6, ProductTypeId: 3, ProductTemplateId: 3, DbConnectString: "NBContext_SelectGo" };
+                                            var DATADEF = { StoreAppliedId: 6,  ProductTypeId: 3, ProductTemplateId: 3 };
+                                            $.each(DATADEF, function (k, v) {
+                                                DATAPOST[k] = v;
+                                            });
+
+                                            $.ajax({
+                                                //url: "http://admin.selectgo.vn/external/api/item/post",
+                                                url: "/api/item/post",
+                                                type: 'POST',
+                                                data: DATAPOST,
+                                                // Disable caching of AJAX responses
+                                                cache: false,
+                                                // Fetch the stored token from localStorage and set in the header
+                                                error: function (err) {
+                                                    console.log('Error!', err)
+                                                    alertify.error('Error: ' + (err));
+                                                },
+                                                success: function (data) {
+                                                    $('body').loadingModal('destroy');
+                                                    console.log(data, '=> Success!')
+                                                    if (data < 0) {
+                                                        alertify.set('notifier', 'position', 'top-center');
+                                                        alertify.warning('Item with name is ready existed, please check and try again!');
+                                                    }
+                                                    else if (data == 0) {
+                                                        alertify.set('notifier', 'position', 'top-center');
+                                                        alertify.error('Post not successfully, please check and try again!');
+                                                    }
+                                                    else {
+                                                        alertify.set('notifier', 'position', 'top-center');
+                                                        var duration = 7;
+                                                        var msg = alertify.success('Post successfully with new ID tracking:[' + data + '] (Auto-reload in ' + duration + ' seconds)', duration, function () { clearInterval(interval); });
+                                                        var interval = setInterval(function () {
+                                                            msg.setContent('Post successfully with new ID tracking:[' + data + '] (Auto-reload in ' + (--duration) + ' seconds)');
+                                                        }, 1000);
+
+                                                        setTimeout(function () {
+                                                            window.localStorage.removeItem("ListDatas");
+                                                            window.localStorage.removeItem("ListTags");
+                                                            window.deleteAllData();
+                                                            window.location.reload();
+                                                        }, duration * 1000)
+                                                    }
+
+                                                }
+                                            });
+                                        }
+                                    }).set('labels', { ok: 'Agree', cancel: 'No, later' }).setHeader('<b> Post confirm </b> ').show();
+
+                            }
+                        }
+
+                    },
+                    "#btn-undo": function (d, v) {
+                        if (null != v) this.my.undo();
+                    }
+
+                },
+                propertyForm: {
+                    ui: {
+                        ".SpecificationAttributeId": "SpecificationAttributeId",
+                        ".CustomValue": "CustomValue",
+                        ".fi-x": {
+                            bind: function (data, val) {
+                                if (null != val) this.my.remove();
+                            },
+                            events: "click.my"
+                        }
+                    }
+                },
+                html: function ($form) {
+
+                    $form.removeClass("fs80").addClass("fs90");
+                },
+
+                // Style section
+
+                style: {
+                    "": "padding-bottom:30px",
+                    " #ListSpecificationAttributes>div": "width:100%; border-bottom:1px dotted #aaa;padding:5px 0 10px 0;margin:5px 0;",
+                    " label": "font-size:85%;margin: 0 20px 0 0;",
+                    " input[type=radio],input[type=checkbox]": "width:14px; margin-right:5px!important",
+                    " .redactor_editor": "font-size:12pt; padding:0.3em; color:#444",
+                }
+            }, {});
+
+            //$.my.locale(null or string);
+            //$.ajax({
+            //    url: "http://www.selectgo.vn/api/token/get?username=1&password=1",
+            //    type: 'GET',
+            //    // Fetch the stored token from localStorage and set in the header
+            //    error: function (err) {
+            //        console.log('Error!', err)
+            //    },
+            //    success: function (data) {
+            //        console.log(data, 'Success!')
+
+            //    }
+            //});
+
+
+            //$.ajax({
+            //    url: "http://www.selectgo.vn/api/authenticate/token",
+            //    type: 'POST',
+            //    data: { ClientId: 'pGU6RJ8ELcVRZmN', ClientSecret:'tiIfdZ3vh5IwGVm'},
+            //    // Fetch the stored token from localStorage and set in the header
+            //    error: function (err) {
+            //        console.log('Error!', err)
+            //    },
+            //    success: function (data, textStatus, request) {
+            //        console.log(data, 'Success=> Token:: ' + request.getResponseHeader('token'))
+
+            //    }
+            //});
+            $.ajax({
+                url: "/api/item/get/2199",
+                type: 'GET',
+                // Disable caching of AJAX responses
+                cache: false,
+                // Fetch the stored token from localStorage and set in the header
+                error: function (err) {
+                    console.log('Error!', err)
+                    window.localStorage.removeItem("token");
+                },
+                success: function (data) {
+                    console.log(data, '=> Success!')
+
+                }
+            });
+
+            //$.ajax({
+            //    url: "http://www.selectgo.vn/api/item/post",
+            //    type: 'POST',
+            //    data: { name: 'Item name', description:'Item des'},
+            //     Disable caching of AJAX responses
+            //    cache: false,
+            //     Fetch the stored token from localStorage and set in the header
+            //    headers: {
+            //        "token": 'qeMqwE+St7a0v5fKQHAYhCLZ+Bmxg1UoHO85Mwvpxx72blqeST5sbgR77KO9RtxRjkPpI9/CDif2rNxf1SNJZA=='
+            //    },
+            //    error: function (err) {
+            //        console.log('Error!', err)
+            //    },
+            //    success: function (data) {
+            //        console.log(data, '=> Success!')
+
+            //    }
+            //});
+
+            //$.ajax({
+            //    url: "http://www.selectgo.vn/api/item/put/2199",
+            //    type: 'PUT',
+            //    data: { name: 'Item name', description: 'Item des' },
+            //    // Disable caching of AJAX responses
+            //    cache: false,
+            //    // Fetch the stored token from localStorage and set in the header
+            //    headers: {
+            //        "token": 'qeMqwE+St7a0v5fKQHAYhCLZ+Bmxg1UoHO85Mwvpxx72blqeST5sbgR77KO9RtxRjkPpI9/CDif2rNxf1SNJZA=='
+            //    },
+            //    error: function (err) {
+            //        console.log('Error!', err)
+            //    },
+            //    success: function (data) {
+            //        console.log(data, '=> Success!')
+
+            //    }
+            //});
+
+            //$.ajax({
+            //    url: "http://www.selectgo.vn/api/item/delete/2199",
+            //    type: 'DELETE',
+
+            //    // Disable caching of AJAX responses
+            //    cache: false,
+            //    // Fetch the stored token from localStorage and set in the header
+            //    headers: {
+            //        "token": 'qeMqwE+St7a0v5fKQHAYhCLZ+Bmxg1UoHO85Mwvpxx72blqeST5sbgR77KO9RtxRjkPpI9/CDif2rNxf1SNJZA=='
+            //    },
+            //    error: function (err) {
+            //        console.log('Error!', err)
+            //    },
+            //    success: function (data) {
+            //        console.log(data, '=> Success!')
+
+            //    }
+            //});
+        });
+    </script>
+}

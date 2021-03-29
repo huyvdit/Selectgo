@@ -1,0 +1,29 @@
+﻿
+@media (max-width: 767px) {
+    .content-our-services .services-inner {
+        width: 100%;
+        float: left;
+        height: auto;
+    }
+    .content-our-services .service-list .col-lg-7 {
+        padding-left:15px!important;
+    }
+    .content-our-services .container-fluid {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .content-our-services .core-value .service-list {
+        border-bottom: 5px solid red;
+    }
+        .content-our-services .core-value .service-list .col-lg-5 {
+            padding-left: 15px !important;
+        }
+        .content-our-services .core-value .service-list .col-lg-6 {
+            padding-top: 25px !important;
+            padding-left: 25px !important;
+        }
+            .content-our-services .core-value .service-list .col-lg-6 .project-box__title {
+                width: 90% !important;
+            }
+}

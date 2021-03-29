@@ -1,0 +1,442 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using global::Web.Helpers
+@using PagedList.Mvc
+@model PagedList.IPagedList<Web.Model.Models.ProductCategoryMapping>
+    <input id="found-item-total" type="hidden" value="@FormatHelper.StandardNumber(Model.TotalItemCount)" />
+    <input id="page-number" type="hidden" value="@(Model.PageNumber)" />
+    <input id="page-size" type="hidden" value="@(Model.PageSize)" />
+    <input id="item-count" type="hidden" value="@(Model.Count)" />
+
+    @if (ViewBag.viewCurrent == "grid")
+    {
+        <div class="row product-list product">
+            @if (Model.Count > 0)
+            {
+                foreach (var innerItem in Model.Where(e=>e.Product != null).ToList())
+                {
+                    var url = @SlugHelper.Product(innerItem.ProductId);
+                    var primaryCategory = innerItem.Category; // DataWhereHelper.ExtractPrimaryCategory(product.ProductCategoryMappings);
+                    <div class="col-md-4">
+                        <!-- edit in partials -->
+                        <div class="card item-card h-100 border-0">
+                            <div class="item-card__image rounded">
+                                <a href="@url" class="swap-link">
+                                    <div class="focuspoint" data-focus-x="-0.01" data-focus-y="0.10" data-image-w="600" data-image-h="400">
+                                        <img src="@ImageHelper.GetResize(innerItem.Product.Avatar)" class="img-fluid rounded" alt="@innerItem.Product.Name">
+                                    </div>
+                                </a>
+                                <div class="hover-icons">
+                                    <ul class="list-unstyled">
+                                        <li><a href="@url"><i class="las la-desktop"></i></a></li>
+                                        <li><a class="sign-in" href="#"><i class="lar la-bookmark"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- end: Item card image -->
+                            <div class="card-body px-0 pt-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="item-title">
+                                        <a href="@url" title="@innerItem.Product.Name">
+                                            <h3 class="h5 mb-0 text-truncate">@innerItem.Product.Name</h3>
+                                        </a>
+                                        <span class="as-rate">
+                                            @for (var i = 1; i <= 5; i++)
+                                            {
+                                                <i class="@(innerItem.Product.RatingValue >= i ? "rated" : "")">★</i>
+                                            }
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <!-- end: Card info -->
+                                <div class="d-flex justify-content-start align-items-center item-meta">
+                                    <div class="short-description mb-0">
+                                        <p class="mb-0 extension-text"><span class="mr-1">in</span>  <a href="@SlugHelper.Category(primaryCategory.Id)">@primaryCategory.Name</a></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- edn:Card body -->
+                        </div>
+                        <!-- end: Card -->
+                    </div>
+                    <!-- end: col -->
+
+                }
+            }
+            else
+            {
+
+                <div class="not-found">
+                    <div class="med card-section">
+                        <p style="padding-top: .33em">
+                            No data was found <em></em> under conditions.
+                        </p>
+                        <b style="margin-top: 1em">Proposal:</b>
+                        <ul style="margin-left: 1.3em; margin-bottom: 2em">
+                            <li>Please make sure all words are spelled correctly.</li>
+                            <li>Try other keywords.</li>
+                            <li>Try more general keywords.</li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    { <div class="product-grid product">
+
+
+            @if (Model.Count > 0)
+            {
+                foreach (var innerItem in Model.Where(e=>e.Product != null).ToList())
+                {
+                    var url = SlugHelper.Product(innerItem.ProductId);
+                    var title = "";
+                    var avatar = "";
+                    if(innerItem.Product.Picture!= null)
+                    {
+                        avatar = innerItem.Product.Picture.Url;
+
+                        title = innerItem.Product.Picture.Title;
+                    }
+                    if (avatar == null || avatar == "")
+                    {
+                        avatar = "/as-images/shared/no-avatar.png";
+                    }
+                    <article class="card card-product-list product-item" data-id="@innerItem.ProductId">
+                        @if (innerItem.Product.IsHighlight)
+                        {
+                            <span class="products-discount">
+                                <span>
+                                    HOT
+                                </span>
+                            </span>
+                        }
+                        <div class="row no-gutters">
+                            <aside class="col-sm-12 col-lg-4">
+
+                                <div class="products-image focuspoint"  data-focus-x="-0.01" data-focus-y="0.10" data-image-w="600" data-image-h="400">
+                                    <img class="bg-image hover-image" src="@ImageHelper.GetResize(avatar, 600, 400)" alt="@title">
+                                </div>
+                                @if (innerItem.Product.IsPromotion)
+                                {
+                                    <a href="#" class="stretched-link swap-link"> <span class="badge badge-dark"> @LanguageHelper.Translate("Sale_Text") </span> </a>
+                                }
+
+                            </aside>
+                            <!-- col.// -->
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="info-main p-2">
+
+                                    <a href="@url" title="@innerItem.Product.Name" class="h4 title">@innerItem.Product.Name</a>
+                                    <div class="d-flex justify-content-start align-items-center item-meta">
+                                        <div class="short-description mb-0" style="max-height: 96px; overflow: hidden;">
+                                            @{
+                                                var primaryCategory = innerItem.Category; // DataWhereHelper.ExtractPrimaryCategory(product.ProductCategoryMappings);
+                                            }
+                                            <p class="mb-0 extension-text text-small">
+                                                <span>in</span>
+                                                <a href="@SlugHelper.Category(primaryCategory.Id)">@primaryCategory.Name</a>
+                                            </p>
+
+                                            <p class="except-2">@Html.Raw(innerItem.Product.getShortDescription())</p>
+                                        </div>
+                                    </div>
+                                    <div class="item-property">
+                                        <b style="float:left">Ratings [@innerItem.Product.RatingValue]:</b>
+                                        <div style="float:left; margin: -4px 8px;">
+                                            @if (innerItem.Product.RatingCount > 0)
+                                            {
+                                                for (var i = 1; i <= 5; i++)
+                                                {
+                                                    if (innerItem.Product.RatingValue >= i)
+                                                    {
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.753 16" style="width: @(10)px;fill: #c90000;" preserveAspectRatio="xMidYMin meet"><path d="M16.72 6.063a.672.672 0 0 0-.542-.457l-4.975-.722L8.979.375a.672.672 0 0 0-1.205 0L5.549 4.883l-4.974.722a.672.672 0 0 0-.372 1.146l3.6 3.508-.85 4.954a.673.673 0 0 0 .973.709l4.45-2.338 4.45 2.339a.671.671 0 0 0 .974-.707l-.85-4.954 3.6-3.508a.677.677 0 0 0 .17-.691z" /></svg>
+                                                    }
+                                                    else
+                                                    {
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.753 16" style="width: @(10)px;fill: #9E9E9E;" preserveAspectRatio="xMidYMin meet"><path d="M16.72 6.063a.672.672 0 0 0-.542-.457l-4.975-.722L8.979.375a.672.672 0 0 0-1.205 0L5.55 4.883l-4.975.722a.672.672 0 0 0-.372 1.146l3.6 3.508-.85 4.954a.673.673 0 0 0 .973.709l4.45-2.338 4.45 2.339a.67.67 0 0 0 .975-.708l-.85-4.954 3.6-3.508a.677.677 0 0 0 .169-.69zm-5.165 2.766l-.753.734.178 1.036.395 2.3-2.067-1.086-.93-.489-.93.489L5.379 12.9l.395-2.302.178-1.036-.754-.735-1.671-1.629 2.31-.335 1.041-.151.465-.943 1.033-2.094L9.41 5.769l.465.943 1.041.151 2.311.336-1.672 1.63z" /></svg>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="ml-1"> <i class="las la-eject mr-2 text-danger"></i>No rating </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    @{
+                                        var listTaggeds = innerItem.Product.ProductProductTagMappings.Where(e => e.ProductTag.IsActive == true).Take(3);
+                                    }
+                                    @if (listTaggeds.Any())
+                                    {
+                                        <div class="item-property">
+                                            <b>Tagged:</b>
+                                            <ul class="list-unstyled">
+                                                @foreach (var itemTag in listTaggeds)
+                                                {
+                                                    <li style="float: left; margin-right: 10px;">
+                                                        <i class="las la-check mr-2 text-success"></i>
+                                                        <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" style="font-size: 13px;margin-bottom:0px">@itemTag.ProductTag.Name</a>
+                                                    </li>
+
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
+
+
+                                </div>
+                                <!-- info-main.// -->
+                            </div>
+                            <!-- col.// -->
+                            <aside class="col-lg-3 col-sm-12">
+
+
+                                <div class="info-aside d-flex align-items-start flex-column p-4">
+                                    <div class="price-wrap">
+                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+
+                                    </div>
+                                    <!-- info-price-detail // -->
+                                    <p class="text-success fs-13" style="font-size:13px">Updated Time: <time class="time-ago" datetime="@innerItem.Product.UpdatedTimeAgo"></time></p>
+                                    <br>
+                                    <div class="btn-group btn-block">
+                                        <a href="@SlugHelper.Product(innerItem.Product.Id)" class="btn btn-select-go">
+                                            @LanguageHelper.Translate("See more_Text")  <svg tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.9 7.8" role="img" aria-label="Arrow right" style="width: 24px;stroke: transparent;fill: #fff;">
+                                                <path d="M25 3.2H.7c-.4 0-.7.3-.7.7 0 .4.3.7.7.7H25c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7z"></path>
+                                                <path d="M24.4 4.7V.4c0-.4.3-.6.6-.3l1.2 1.1c.3.3.9.8 1.2 1.1l1.2 1.1c.3.3.3.8 0 1.1l-1.2 1.1c-.3.3-.9.8-1.2 1.1l-1.2.9c-.3.3-.6.2-.6-.3V4.7z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <br />
+                                    <div class="oKU4K">
+                                        <a role="button" href="#" class="sign-in" rel="nofollow">
+                                            <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 11 9" class="_3lCzm -Vcje" style="vertical-align: middle;"><title>Add to Collection</title><g stroke="none" stroke-width="1" fill-rule="evenodd" transform="translate(-3.000000, -4.000000)"><g transform="translate(3.000000, 4.500000)"><polygon points="0 1.18461536 9.05384614 1.18461536 9.05384614 0 0 0"></polygon><polygon points="0 6.26153844 4.52692307 6.26153844 4.52692307 5.07692308 0 5.07692308"></polygon><polygon points="5.92307692 6.26153844 11 6.26153844 11 5.07692308 5.92307692 5.07692308"></polygon><polygon transform="translate(8.461538, 5.669231) rotate(-270.000000) translate(-8.461538, -5.669231) " points="5.92307692 6.26153844 11 6.26153844 11 5.07692308 5.92307692 5.07692308"></polygon><polygon points="0 3.7230769 6.76923077 3.7230769 6.76923077 2.53846154 0 2.53846154"></polygon></g></g></svg>
+                                        </a>
+                                        <a role="button" href="#" class="sign-in" rel="nofollow">
+                                            <svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 512 512" class="_1UJnU _255P_" style="vertical-align: middle;"><title>Add to Favorites</title><g><path d="M256 475.8c-4.9 0-9.1-1.7-12.5-5.1l-176.7-170.5c-1.9-1.5-4.5-4-7.8-7.4-3.3-3.4-8.5-9.6-15.7-18.6-7.2-9-13.6-18.2-19.3-27.6-5.7-9.4-10.7-20.9-15.2-34.3-4.3-13.3-6.5-26.3-6.5-38.9 0-41.5 12-74 36-97.4 24-23.4 57.1-35.1 99.4-35.1 11.7 0 23.6 2 35.8 6.1 12.2 4.1 23.5 9.5 34 16.4 10.5 6.9 19.5 13.4 27 19.4 7.5 6 14.7 12.5 21.5 19.3 6.8-6.8 14-13.2 21.5-19.3 7.5-6 16.6-12.5 27-19.4 10.5-6.9 21.8-12.4 34-16.4 12.2-4.1 24.1-6.1 35.8-6.1 42.3 0 75.4 11.7 99.4 35.1 24 23.4 36 55.9 36 97.4 0 41.7-21.6 84.2-64.9 127.4l-176.3 169.9c-3.4 3.4-7.6 5.1-12.5 5.1z"></path></g></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- info-aside.// -->
+                            </aside>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </article>
+                }
+
+                if (Request["request-demo"] == "yes")
+                {
+                    <article class="card card-product-list">
+                        <div class="row no-gutters">
+                            <aside class="col-sm-12 col-lg-4">
+                                <img alt="bg image" class="bg-image" src="/as-images/sample/5_1576156789870.png">
+                                <a href="single-product.html" class="stretched-link swap-link"></a>
+                            </aside>
+                            <!-- col.// -->
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="info-main p-4">
+                                    <a href="#" class="h4 title"> Noonic - Brand Identity & Style Guide </a>
+                                    <div class="d-flex justify-content-start align-items-center item-meta mt-2">
+                                        <div class="short-description mb-0">
+                                            <p class="mb-0 extension-text text-small"><a href="#">UI Kit</a><span class="ml-1">in</span> <a href="#">PSD</a> </p>
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled mt-3">
+                                        <li> <i class="las la-check mr-2 text-success"></i>25 Illustrations </li>
+                                        <li> <i class="las la-check mr-2 text-success"></i>Bright &amp; Modern Style </li>
+                                        <li><i class="las la-check mr-2 text-success"></i>Fully Vector</li>
+                                    </ul>
+                                </div>
+                                <!-- info-main.// -->
+                            </div>
+                            <!-- col.// -->
+                            <aside class="col-lg-3 col-sm-12">
+                                <div class="info-aside text-center d-flex align-items-start flex-column p-4">
+                                    <div class="price-wrap"> <span class="price h4"> $49 </span> </div>
+                                    <!-- info-price-detail // -->
+                                    <p class="text-success">12 Months support</p>
+                                    <br> <a href="#" class="btn btn-primary btn-block"> Preview </a>
+                                    <div class="btn-group btn-block">
+                                        <a href="#" class="btn btn-white" title="Save to favorite"><svg fill="currentColor" preserveAspectRatio="xMidYMid meet" height="1em" width="1em" viewBox="0 0 512 512" class="_1UJnU _255P_" style="vertical-align: middle;"><title>Add to Favorites</title><g><path d="M256 475.8c-4.9 0-9.1-1.7-12.5-5.1l-176.7-170.5c-1.9-1.5-4.5-4-7.8-7.4-3.3-3.4-8.5-9.6-15.7-18.6-7.2-9-13.6-18.2-19.3-27.6-5.7-9.4-10.7-20.9-15.2-34.3-4.3-13.3-6.5-26.3-6.5-38.9 0-41.5 12-74 36-97.4 24-23.4 57.1-35.1 99.4-35.1 11.7 0 23.6 2 35.8 6.1 12.2 4.1 23.5 9.5 34 16.4 10.5 6.9 19.5 13.4 27 19.4 7.5 6 14.7 12.5 21.5 19.3 6.8-6.8 14-13.2 21.5-19.3 7.5-6 16.6-12.5 27-19.4 10.5-6.9 21.8-12.4 34-16.4 12.2-4.1 24.1-6.1 35.8-6.1 42.3 0 75.4 11.7 99.4 35.1 24 23.4 36 55.9 36 97.4 0 41.7-21.6 84.2-64.9 127.4l-176.3 169.9c-3.4 3.4-7.6 5.1-12.5 5.1z"></path></g></svg></a>
+                                        <a href="#" class="btn btn-white" title="Buy item">
+
+                                            <svg aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 1024 1024"><path d="M192 192v128h-64v-256h-128v-64h192v128h806.558l-108 576h-890.558v-64h837.442l84-448h-729.442zM64 576v-64h256v64h-256zM128 448v-64h256v64h-256zM896 1024c-70.692 0-128-57.308-128-128s57.308-128 128-128c70.692 0 128 57.308 128 128s-57.308 128-128 128zM896 960c35.346 0 64-28.654 64-64s-28.654-64-64-64c-35.346 0-64 28.654-64 64s28.654 64 64 64zM224 1024c-70.692 0-128-57.308-128-128s57.308-128 128-128c70.692 0 128 57.308 128 128s-57.308 128-128 128zM224 960c35.346 0 64-28.654 64-64s-28.654-64-64-64c-35.346 0-64 28.654-64 64s28.654 64 64 64z"></path></svg>
+
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- info-aside.// -->
+                            </aside>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </article>
+                    <article class="card card-product-list">
+                        <div class="row no-gutters">
+                            <aside class="col-sm-12 col-lg-4">
+                                <img alt="bg image" class="bg-image" src="/as-images/sample/featured-image-1_1576013144470.png">
+                                <a href="single-product.html" class="stretched-link swap-link"></a>
+                            </aside>
+                            <!-- col.// -->
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="info-main p-4">
+                                    <a href="#" class="h4 title"> Noonic - Brand Identity & Style Guide </a>
+                                    <div class="d-flex justify-content-start align-items-center item-meta mt-2">
+                                        <div class="short-description mb-0">
+                                            <p class="mb-0 extension-text text-small"><a href="#">UI Kit</a><span class="ml-1">in</span> <a href="#">PSD</a> </p>
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled mt-3">
+                                        <li> <i class="las la-check mr-2 text-success"></i>25 Illustrations </li>
+                                        <li> <i class="las la-check mr-2 text-success"></i>Bright &amp; Modern Style </li>
+                                        <li><i class="las la-check mr-2 text-success"></i>Fully Vector</li>
+                                    </ul>
+                                </div>
+                                <!-- info-main.// -->
+                            </div>
+                            <!-- col.// -->
+                            <aside class="col-lg-3 col-sm-12">
+                                <div class="info-aside text-center d-flex align-items-start flex-column p-4">
+                                    <div class="price-wrap"> <span class="price h4"> $19 </span></div>
+                                    <!-- info-price-detail // -->
+                                    <p class="text-success">12 Months support</p>
+                                    <br> <a href="#" class="btn btn-primary btn-block"> Preview </a>
+                                    <div class="btn-group btn-block">
+                                        <a href="#" class="btn btn-white" title="Save to favorite"> <i class="lar la-heart"></i></a>
+                                        <a href="#" class="btn btn-white" title="Buy item"> <i class="las la-shopping-cart"></i></a>
+                                    </div>
+                                </div>
+                                <!-- info-aside.// -->
+                            </aside>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </article>
+                    <article class="card card-product-list">
+                        <div class="row no-gutters">
+                            <aside class="col-sm-12 col-lg-4">
+                                <img alt="bg image" class="bg-image" src="/as-images/sample/6_1576156774871.png">
+                                <a href="single-product.html" class="stretched-link swap-link"></a>
+                            </aside>
+                            <!-- col.// -->
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="info-main p-4">
+                                    <a href="#" class="h4 title"> Noonic - Brand Identity & Style Guide </a>
+                                    <div class="d-flex justify-content-start align-items-center item-meta mt-2">
+                                        <div class="short-description mb-0">
+                                            <p class="mb-0 extension-text text-small"><a href="#">UI Kit</a><span class="ml-1">in</span> <a href="#">PSD</a> </p>
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled mt-3">
+                                        <li> <i class="las la-check mr-2 text-success"></i>25 Illustrations </li>
+                                        <li> <i class="las la-check mr-2 text-success"></i>Bright &amp; Modern Style </li>
+                                        <li><i class="las la-check mr-2 text-success"></i>Fully Vector</li>
+                                    </ul>
+                                </div>
+                                <!-- info-main.// -->
+                            </div>
+                            <!-- col.// -->
+                            <aside class="col-lg-3 col-sm-12">
+                                <div class="info-aside text-center d-flex align-items-start flex-column p-4">
+                                    <div class="price-wrap"> <span class="price h4"> $19 </span> <del class="price-old text-muted"> $16</del> </div>
+                                    <!-- info-price-detail // -->
+                                    <p class="text-success">12 Months support</p>
+                                    <br> <a href="#" class="btn btn-primary btn-block"> Preview </a>
+                                    <div class="btn-group btn-block">
+                                        <a href="#" class="btn btn-white" title="Save to favorite"> <i class="lar la-heart"></i></a>
+                                        <a href="#" class="btn btn-white" title="Buy item"> <i class="las la-shopping-cart"></i></a>
+                                    </div>
+                                </div>
+                                <!-- info-aside.// -->
+                            </aside>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </article>
+                    <article class="card card-product-list">
+                        <div class="row no-gutters">
+                            <aside class="col-sm-12 col-lg-4">
+                                <img alt="bg image" class="bg-image" src="/as-images/sample/ui8-main-08_1574773317348.jpg">
+                                <a href="single-product.html" class="stretched-link swap-link"></a>
+                            </aside>
+                            <!-- col.// -->
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="info-main p-4">
+                                    <a href="#" class="h4 title"> Noonic - Brand Identity & Style Guide </a>
+                                    <div class="d-flex justify-content-start align-items-center item-meta mt-2">
+                                        <div class="short-description mb-0">
+                                            <p class="mb-0 extension-text text-small"><a href="#">UI Kit</a><span class="ml-1">in</span> <a href="#">PSD</a> </p>
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled mt-3">
+                                        <li> <i class="las la-check mr-2 text-success"></i>25 Illustrations </li>
+                                        <li> <i class="las la-check mr-2 text-success"></i>Bright &amp; Modern Style </li>
+                                        <li><i class="las la-check mr-2 text-success"></i>Fully Vector</li>
+                                    </ul>
+                                </div>
+                                <!-- info-main.// -->
+                            </div>
+                            <!-- col.// -->
+                            <aside class="col-lg-3 col-sm-12">
+                                <div class="info-aside text-center d-flex align-items-start flex-column p-4">
+                                    <div class="price-wrap"> <span class="price h4"> $19 </span></div>
+                                    <!-- info-price-detail // -->
+                                    <p class="text-success">12 Months support</p>
+                                    <br> <a href="#" class="btn btn-primary btn-block"> Preview </a>
+                                    <div class="btn-group btn-block">
+                                        <a href="#" class="btn btn-white" title="Save to favorite"> <i class="lar la-heart"></i></a>
+                                        <a href="#" class="btn btn-white" title="Buy item"> <i class="las la-shopping-cart"></i></a>
+                                    </div>
+                                </div>
+                                <!-- info-aside.// -->
+                            </aside>
+                            <!-- col.// -->
+                        </div>
+                        <!-- row.// -->
+                    </article>
+                }
+
+
+
+            }
+            else
+            {
+                <div class="not-found">
+                    <div class="med card-section">
+                        <p style="padding-top: .33em">
+                            No data was found <em></em> under conditions.
+                        </p>
+                        <p style="margin-top: 1em">Proposal:</p>
+                        <ul style="margin-left: 1.3em; margin-bottom: 2em">
+                            <li>Please make sure all words are spelled correctly.</li>
+                            <li>Try other keywords.</li>
+                            <li>Try more general keywords.</li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    @if (Model.PageCount > 1)
+    {
+        <div class="pagination-wrap">
+            @Html.PagedListPager(Model, page => Url.Action("ListProductsByCategoryId", "CategoryPlus", new { id = ViewBag.idCurrent, type = ViewBag.typeCurrent, sortOrder = ViewBag.sortOrderCurrent, filterBy = ViewBag.filterByCurrent, searchBy = ViewBag.searchByCurrent, view = ViewBag.viewCurrent, page, pageSize = Model.PageSize }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions { LinkToFirstPageFormat = "<i class='fa fa-angle-left'></i> <i class='fa fa-angle-left'></i> ", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i> Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = " <i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i>", MaximumPageNumbersToDisplay = 3 }, new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "list-products-by-category",
+                    LoadingElementId = "list-products-by-category-loader",
+                    OnComplete = "PagedOnComplete_List",
+                    OnBegin = "PageOnStart_List"
+                }))
+
+        </div>
+    }
+

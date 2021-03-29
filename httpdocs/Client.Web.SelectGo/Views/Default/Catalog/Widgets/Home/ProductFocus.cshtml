@@ -1,0 +1,45 @@
+﻿@model List<Product>
+    @{
+        var idx = 0;
+    }
+    @foreach (var item in Model.OrderByDescending(e => e.DisplayOrder).Take(3))
+    {
+        idx++;
+        <div class="project-box wow fadeIn" data-bg="#faf8ed">
+            <figure>
+                <a href="@ImageHelper.GetResize(item.Picture.Url)" data-fancybox class=" image-link"><img src="@ImageHelper.GetResize(item.Picture.Url)" alt="@(item.Picture.Title)"></a>
+            </figure>
+            <div class="content-box">
+                <div class="inner">
+                    <u style="color: #009688; font-size: 50%;">#@idx</u>
+                    @foreach (var itemTag in item.ProductCategoryMappings.Where(e => !e.Category.CategoryChildren.Any()).Take(1))
+                    {
+
+                        <small>@itemTag.Category.Name.ToUpper()</small>
+                    }
+                    @*<small>AMAZING USER INTERFACE & SMOOTH INTERACTION</small>*@
+                    <h3>
+                        <span>@item.Name</span>
+                        @foreach (var itemTag in item.ProductProductTagMappings.Take(1))
+                        {
+                            @itemTag.ProductTag.Name
+                        }
+                    </h3>
+                    <div class="custom-link">
+                        <a href="@SlugHelper.Product(item.Id)">
+                            <div class="lines"> <span></span> <span></span> </div>
+                            <!-- end lines -->
+                            <b>DISCOVER MORE</b>
+                        </a>
+                    </div>
+                    <!-- end custom-link -->
+                </div>
+                <!-- end inner -->
+            </div>
+            <!-- end content-box -->
+        </div>
+
+        
+    }
+
+

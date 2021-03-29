@@ -1,0 +1,89 @@
+﻿<link href="~/Content/Default/default/account/login-ajax/css/1.0-jquery.tabs.css" rel="stylesheet" />
+<link href="~/Content/Default/default/account/login-ajax/css/1.0-style.transfer.css" rel="stylesheet" />
+<a class="sign-in" href="#" title="Sign in">Sign in</a>
+@using (Html.BeginScripts())
+{
+   <script src="~/Content/Default/default/account/login-ajax/js/1.0-jquery.tabs.js"></script>
+    <script>
+        HvHelpers.loadJs("/Scripts/jquery.validate.js", $.validator, function () {
+            HvHelpers.loadJs("/Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function () {
+                HvHelpers.loadJs("/Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+            });
+        }, 'asyn');
+    </script>
+    <script>
+        for (var i = 0; i < document.getElementsByClassName("sign-in").length; i++) {
+            $(document.getElementsByClassName("sign-in")[i]).attr("href","#");
+            document.getElementsByClassName("sign-in")[i].addEventListener('click', function (event) {
+                event.preventDefault();
+                $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("Login", "Account", new { culture = "en" })',
+                        data: { },
+                        success: function (data) {
+                            $.colorbox({ html: data });
+                            // Example of using an event listener and public method to build a primitive slideshow:
+                            $(document).bind('cbox_complete', function(){
+                                function togglePassword($element) {
+                                    var newtype = $element.prop('type') == 'password' ? 'text' : 'password';
+                                    $element.prop('type', newtype);
+                                }
+                                $('.pwd-toggle').on("click",function () {
+                                    $(this).toggleClass("fa-eye-slash fa-eye");
+                                    togglePassword($('input[name=password]'));
+                                });
+                            });
+                            $(document).ready(function() {
+			                    $('[data-tabs-role="tabs"]').tabs();
+
+			                    $(window).on('change.tabs', function(event) {
+                                    event.preventDefault();
+                                    if ($("#authencation-fb").attr("src") == undefined) {
+                                         $("#authencation-fb").attr("src", "/assets/authencation/index.html?mode=select#recaptcha=invisible&emailSignInMethod=emailLink");
+                                    }
+                                    window.loginToken = function (token, fn) {
+                                       
+                                        new Services("Account/TokenLogin", {}, function (ret) {
+                                               
+                                            if (ret.status == "redirect") {
+                                                fn();
+                                                window.location.href = "/" + "?fr=auth-" + Date.now();
+                                                //window.location.reload(true);
+                                            }
+
+                                            }, 'no-api').post({ token: token });
+                                    }
+				                    console.log('change');
+			                    });
+		                    });
+                        },
+                 error: function (e) {
+                     console.error(e);
+                        }
+             });
+                return false;
+            });
+        }
+       
+        PagedOnBegin_Login = function () {
+            
+        };
+        PagedOnComplete_Login = function (data, status, xhr) {
+            if (data && data.status == "success") {
+                if (window.location.pathname == "/account/register" || window.location.pathname == "/account/forgot-pass") {
+                    window.location.href = data.returnUrl;
+                }
+                else window.location.reload(true);
+
+            } else if (data && data.status == "redirect") {
+                if (window.location.pathname == "/en/checkout/") window.location.reload(true);
+                else {
+                    var q = data.returnUrl.indexOf("?") ? "&" : "?";
+                    window.location.href = data.returnUrl + q + "fr=auth-" + Date.now();
+                }
+
+            }
+        };
+        $(document).ready(function () { PagedOnComplete_Login(); });
+    </script>
+}

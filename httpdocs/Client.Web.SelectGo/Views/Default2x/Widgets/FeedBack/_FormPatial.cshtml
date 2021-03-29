@@ -1,0 +1,20 @@
+﻿@model FeedBack
+@Styles.Render("~/bundles/css/feedback")
+<div id="@("add-feedback" + Model.CustomView)" class="add-feedback js">
+@Html.Action("Feedback", "Widgets", new
+{
+    type = Model.Type,
+    annoFullName = String.Join("|", Model.AnnoFullName),
+    annoEmail = String.Join("|", Model.AnnoEmail),
+    annoPhone = String.Join("|", Model.AnnoPhone),
+    annoMessage = (Model.AnnoMessage[0] + "|" + Model.AnnoMessage[1]),
+    annoButton = (Model.AnnoButton[0] + "|" + Model.AnnoButton[1]),
+    Model.CustomView,
+    customData = ViewBag.dataCustom,
+    area = ""
+})
+</div>
+@using (Html.BeginScripts())
+{
+   @Scripts.Render("~/bundles/jqueryval","~/bundles/js/feedback")
+}

@@ -1,0 +1,1038 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@model Product
+@{
+    var isAjaxRequest = Request.IsAjaxRequest();
+    var isPreview = Request["view"] == "pre";
+    Layout = isAjaxRequest == false ? "~/Views/Default/Shared/_Layout.cshtml" : "~/Views/Default/Shared/_LayoutAjax.cshtml";
+    ViewBag.SelfHeader = true;
+    var category = DataWhereHelper.ExtractPrimaryCategory(Model.ProductCategoryMappings);
+    var categoryIds = Model.ProductCategoryMappings.OrderByDescending(e => e.DisplayOrder).Aggregate("", (current, itemSame) => current + itemSame.CategoryId + ",");
+    var slug = SlugHelper.Product(Model.Id);
+}
+@if (isAjaxRequest)
+{
+
+}
+else
+{
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/product/" + (isPreview ? "preview" : "template") + "/css", "~/bundles/content/default/cart-inline/css")
+    }
+}
+
+@if (isAjaxRequest)
+{
+    <div class="wrapper">
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-lg-9">
+                        <div class="product-info">
+
+                            <!-- Item Img Slider -->
+                            <div class="swiper-container  border">
+                                <div class="swiper-wrapper">
+                                    @foreach (var itemImg in Model.ProductPictureMappings.OrderBy(e => e.DisplayOrder).ToList())
+                                    {
+
+                                        <div class="swiper-slide">
+
+                                            <div class="_img">
+                                                <img style="  width: 100%; height: auto" src="@itemImg.Picture.Url" alt="@itemImg.Picture.Title">
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <!-- Add Pagination -->
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                        <div class="demo-bar card  mt-3 card px-3 text-sm-center">
+                            <div class="row d-flex justify-content-between justify-content-md-center align-items-center my-3">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                    <a href="#" class="btn btn-success-alt btn-block">Live Preview<i class="las la-desktop ml-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-description-text pr-lg-2">
+                            <h1 class="mt-4 mb-4">
+                                @Model.Name
+                            </h1>
+                            <p class="lead">
+                                @Html.Raw(Model.getShortDescription())
+                            </p>
+                            <div class="as-content">
+                                @Html.Raw(Model.getFullDescription())
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="sidebar-widget bg-light-soft">
+                                        <div class="row">
+                                            <div class="col-12">
+
+                                                <span class="sidebar-widget-title--sm">Features</span>
+
+                                                <ul class="list-unstyled mb-0 ">
+                                                    <li>
+                                                        25 Illustrations
+                                                    </li>
+                                                    <li>
+                                                        Bright &amp; Modern Style
+                                                    </li>
+                                                    <li>Fully Vector</li>
+                                                    <li>
+                                                        AI, SVG, PNG Sources
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+                                    <h6 class="mb-2">Frequently asked questions</h6>
+                                    <p>
+                                        Catilina, patientia nostra? Quam diu etiam furor iste tuus nos
+                                        eludet? (How long, O Catiline, will you abuse our patience?
+                                    </p>
+                                    <p>
+                                        And for
+                                        how long will that madness of yours mock us?)
+                                    </p>
+                                    <h6 class="mb-2">Frequently asked questions</h6>
+                                    <p>
+                                        Cicero's version of
+                                        Liber Primus (first Book), sections 1.10.32–3 (fragments included in
+                                        most Lorem Ipsum variants in red):
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- edn: Col 9 -->
+                    <div class="col-md-5 col-lg-3">
+                        <div class="sidebar sticky-lg-top sticky-md-top">
+                            <div class="sidebar-widget">
+                               
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+}
+else
+{
+    if (isPreview)
+    {
+        Html.RenderPartial("~/Views/Default/Catalog/Product/Embed_Preview.cshtml");
+    }
+    else
+    {
+        string listSpecificationAttributePropetites = "High Resolution,Columns,Layout,Documentation,Released,Last Update,";
+        var linkLicenses = @DataWhereHelper.ProductSpecificationAttribute("Licenses", @from: Model.ProductSpecificationAttributeMappings);
+        var linkTarget = @DataWhereHelper.ProductSpecificationAttribute("Link Target", @from: Model.ProductSpecificationAttributeMappings);
+        var LinkAffiliate = @DataWhereHelper.ProductSpecificationAttribute("Link Affiliate", @from: Model.ProductSpecificationAttributeMappings);
+        var authors = @DataWhereHelper.ProductSpecificationAttribute("Authors", @from: Model.ProductSpecificationAttributeMappings);
+        var released = @DataWhereHelper.ProductSpecificationAttribute("Released", @from: Model.ProductSpecificationAttributeMappings);
+        //var fileSize = @DataWhereHelper.ProductSpecificationAttribute("File Size", @from: Model.ProductSpecificationAttributeMappings);
+
+        var compatibleBrowsers = @DataWhereHelper.ProductSpecificationAttributes("Compatible Browsers", @from: Model.ProductSpecificationAttributeMappings, @refDefaut: "");
+        var themeForestFilesIncluded = @DataWhereHelper.ProductSpecificationAttributes("ThemeForest Files Included", @from: Model.ProductSpecificationAttributeMappings, @refDefaut: "");
+        var compatibleWith = @DataWhereHelper.ProductSpecificationAttributes("Compatible With", @from: Model.ProductSpecificationAttributeMappings, @refDefaut: "");
+
+        <div class="wrapper">
+
+            <div class="breadcrumb-wrap">
+                <div class="container py-3" style="padding-bottom: 0px!important;">
+                    <div class="row d-flex justify-content-md-between justify-content-sm-center">
+                        <div class="col-md-9">
+                            <nav aria-label="breadcrumb">
+                                @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(category.Id), Title = category.Name }, new BreadcrumbModel { Link = "#", Title = Model.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+
+                            </nav>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-ghost grey-dark font-weight-bold">
+                                <i class="las la-share-alt"></i>
+                                <span>Share</span>
+                            </button>
+                            <button class="btn btn-ghost grey-dark font-weight-bold sign-in">
+                                <i class="las la-bookmark"></i>
+                                <span><span>Save for Later</span></span>
+                            </button>
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-7 col-lg-9">
+                            <div class="product-info">
+
+                                <!-- Item Img Slider -->
+                                <div id="template-cover" class="swiper-container border">
+                                    @if (Request["request-demo"] == "yes")
+                                    {
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+
+                                                <img src="/as-images/sample/5_1576156789870.png" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="/as-images/sample/4_1561960992838.png" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="hero-video-wrapper">
+
+                                                    <video poster="" preload="auto" loop>
+                                                        <source src="../assets/video/danceroom.mp4" type="video/mp4">
+                                                        <source src="../assets/video/danceroom.webm">
+                                                    </video>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="/as-images/sample/ui8-main-08_1574773317348.jpg" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="/as-images/sample/details_image_01_1572857795349.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="swiper-wrapper" style="min-height: 248px;background: gainsboro;">
+                                            @foreach (var itemImg in Model.ProductPictureMappings.Where(e => e.PictureId != Model.PictureId).OrderBy(e => e.DisplayOrder).ToList())
+                                            {
+
+                                                <div class="swiper-slide">
+                                                    <div class="swiper-slide">
+                                                        <img src="@ImageHelper.GetResize(itemImg.Picture.Url,1180,600)" alt="@itemImg.Picture.Title" style="width:100%">
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+
+                                    <!-- Add Pagination -->
+                                    <div>
+
+
+                                        <div class="swiper-pagination disable-drag"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="demo-bar card  mt-3 card px-3 text-sm-center">
+                                <div class="row d-flex justify-content-between justify-content-md-center align-items-center my-3">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                        <a href="@slug?view=pre" class="btn btn-success-alt btn-block"><i class="las la-desktop ml-2"></i> Live Preview</a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+                                        <div class="media-box">
+                                            <a href="#" class="btn btn-success-alt btn-block">
+                                                <i class="pw-icon-gallery"></i>All Screenshot(s) <sup style="color: #f61;opacity: 0.5;">[@(Model.ProductPictureMappings.Count()-1) +]</sup>
+                                            </a>
+                                            @foreach (var itemImg in Model.ProductPictureMappings.OrderBy(e => e.DisplayOrder).ToList())
+                                            {
+                                                <a href="@itemImg.Picture.Url" data-title="@itemImg.Picture.Title" class="lightbox"></a>
+                                            }
+                                        </div>
+
+                                        <div class="media-cell media format-gallery hentry">
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <section>
+                                <div class="tabs tabs-style-linetriangle">
+                                    <nav>
+                                        <ul>
+                                            <li><a href="#overview"><span>Overview</span></a></li>
+                                            <li><a href="#reviews"><span><i class="far fa-star"></i> Reviews</span></a></li>
+                                            <li><a href="#changelog"><span><i class="fa fa-history"></i> Changelog</span></a></li>
+                                            <li><a href="#install-theme-process"><span><i class="far fa-question-circle"></i> How to Install theme</span></a></li>
+                                        </ul>
+                                    </nav>
+                                    <div class="content-wrap">
+                                        <section id="overview">
+                                            <div class="product-description-text pr-lg-2">
+                                                <h3 class="mt-4 mb-4">
+                                                    @Model.Name
+                                                    <input type="hidden" id="model-id" value="@Model.Id" />
+                                                </h3>
+                                                <p class="lead">
+                                                    @Html.Raw(Model.getShortDescription())
+                                                </p>
+                                                <div class="page-layout-gallery">
+                                                    @{
+                                                        var idx = 0;
+                                                    }
+                                                    @foreach (var itemInside in DataWhereHelper.InsideByProductId(Model.Id, 15).OrderBy(e => e.ChapterId))
+                                                    {
+                                                        foreach (var pic in DataWhereHelper.ImagesByProductInsideId(0, itemInside._ContentImages))
+                                                        {
+                                                            idx++;
+                                                            <a class="page-layout-gallery__img--main screen @(idx==1? "main-screen":"secondary-screen")" data-duration="@(idx==1? "1000":"500")" href="@pic.Src" data-href="@SlugHelper.ProductInside(itemInside.ChapterId, slug)" data-size="1600x1068" data-author="@itemInside.Title">
+                                                                <img src="@ImageHelper.GetResize(pic.Src)" alt="@pic.Alt" />
+                                                                <figure>@pic.Alt - Last updated: <time class="time-ago" datetime="@itemInside.PublishedTime"></time></figure>
+                                                            </a>
+                                                        }
+                                                    }
+
+                                                    @if (idx == 0)
+                                                    {
+                                                        <a class="page-layout-gallery__img--main main-screen more-screen" data-duration="500" href="/as-images/product/more-icon.jpg" data-size="1600x1068" data-author="Page 01">
+                                                            <img src="/as-images/product/more-icon.jpg" alt="" style="    bottom: -40%;" />
+                                                            <figure>This is dummy caption. It has been placed here solely to demonstrate the look and feel of finished, typeset text.</figure>
+                                                        </a>
+                                                    }
+                                                    @for (var idj = idx; idj < 6; idj++)
+                                                    {
+                                                        <a class="screen secondary-screen more-screen" data-duration="500" href="/as-images/product/more-icon.jpg" data-size="1600x1068" data-author="Page @idj">
+                                                            <img src="/as-images/product/more-icon.jpg" alt="" style="    bottom: -40%;" />
+                                                            <figure>This is dummy caption. It has been placed here solely to demonstrate the look and feel of finished, typeset text.</figure>
+                                                        </a>
+                                                    }
+
+                                                </div>
+                                                <hr />
+                                                <div class="as-content">
+                                                    @Html.Raw(Model.getFullDescription())
+                                                </div>
+
+                                                <section id="votes" class="tab-cnt">
+
+                                                    <div class="tab-tr" id="vote-@Model.Id">
+                                                        <div class="like-btn like-h" data-toggle="tooltip" data-placement="top" title="" data-original-title="I like this">Like</div>
+                                                        <div class="dislike-btn dislike-h" data-toggle="tooltip" data-placement="top" title="" data-original-title="I dislike this"></div>
+                                                        <div class="share-btn">Share it</div>
+                                                        <div class="stat-cnt">
+                                                            <div class="rate-count">@Model.VotesCount</div>
+                                                            <div class="stat-bar">
+                                                                @if (Model.VotesCount == 0)
+                                                                {
+                                                                    <div class="bg-gray" style="width: 100%;background-color: gray;"></div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="bg-green" style="width:@((int)Math.Round((double)(100 * (int)Model.LikeCount) / (int)Model.VotesCount))%;"></div>
+                                                                    <div class="bg-red" style="width:@((int)Math.Round((double)(100 * (int)Model.DislikeCount) / (int)Model.VotesCount))%"></div>
+                                                                }
+
+                                                            </div>
+                                                            <div class="dislike-count">@Model.DislikeCount</div>
+                                                            <div class="like-count">@Model.LikeCount</div>
+                                                        </div>
+                                                        <div class="share-cnt">
+                                                            <ul class="social-share social-share__with-bg unstyled">
+                                                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" data-description="@Model.ShortDescription" class="share-button facebook-share"><i class="fab fa-facebook-f"></i></a></li>
+                                                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-name="@Model.Name" class="share-button twitter-share"><i class="fab fa-twitter"></i></a></li>
+                                                                <li><a href="javascript:" data-url="@SlugHelper.Product(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Name" class="share-button pin-share"><i class="fab fa-pinterest"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+                                                <div class="cuisine-recipe-card" itemscope="" itemtype="http://schema.org/Recipe">
+                                                    <meta itemprop="url" content="@slug">
+
+                                                    <div class="cuisine-recipe-details">
+
+                                                        <div class="row">
+
+                                                            <div class="col-lg-4 col-medium-5 pull-right recipe-card-print-hidden">
+
+                                                                <div class="recipe-card-image" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                                                                    <meta itemprop="url" content="@Model.Avatar" /><img itemprop="image" src="@Model.Avatar" class="image">
+                                                                    <meta itemprop="height" content="" /><meta itemprop="width" content="" />
+                                                                </div>
+                                                                <div id="recipe-card-print-options">
+
+                                                                    <ul class="recipe-card-list font-opensans-reg">
+                                                                        <li id="print-description-hide">Description</li>
+                                                                        <li id="print-image-hide">Image</li>
+                                                                        <li id="print-ingredients-hide">Used Frameworks</li>
+                                                                        <li id="print-method-hide">Javascript Libraries and.</li>
+                                                                        <li id="print-notes-hide">Notes</li>
+                                                                    </ul>
+
+                                                                    <div class="recipe-card-print primary-button font-opensans-reg hov-bk">View Print Layout</div>
+
+                                                                </div>
+
+                                                                <div class="recipe-card-print-options primary-button font-opensans-reg hov-bk" data-print-recipe-title="@Model.Name">
+
+                                                                    <div class="recipe-card-print-options-open"><i class="fa fa-print" aria-hidden="true"></i> Print Report</div>
+
+                                                                    <div class="recipe-card-print-options-close"><i class="fa fa-times" aria-hidden="true"></i> Close Print</div>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-lg-8 col-medium-7 recipe-card-print-full">
+
+                                                                <div class="row">
+                                                                    <div class="col-12 recipe-card-print-col-8">
+                                                                        <h2 class="font-libre-reg" itemprop="name"><a href="@SlugHelper.Product(Model.Id)" title="@Model.Name">@Model.Name</a></h2>
+
+                                                                        <div class="cuisine-recipe-meta font-lato-reg">
+                                                                            <span itemprop="datePublished">@released</span>
+                                                                            <span itemprop="author">@authors</span>
+
+                                                                            <div class="recipe-card-description page-content" itemprop="description">
+                                                                                <p>@Html.Raw(Model.getShortDescription())</p>
+                                                                            </div>
+
+                                                                            <div class="cuisine-recipe-ingredients">
+                                                                                <h3 class="recipe-card-section-heading font-lato-reg">Used Frameworks</h3>
+                                                                                <ul class="recipe-card-ingredients recipe-card-list font-opensans-reg">
+                                                                                    @{
+                                                                                        var productAssociateMappings = Model.ProductAssociateMappings.Where(e=>e.ProductAssociated.Price == 0);
+                                                                                    }
+                                                                                    @if (!productAssociateMappings.Any())
+                                                                                    {
+                                                                                        <li itemprop="recipeIngredient"><b>U</b>pdating...</li>
+                                                                                        <li itemprop="recipeIngredient"><b>U</b>pdating...</li>
+                                                                                        <li itemprop="recipeIngredient"><b>U</b>pdating...</li>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        foreach (var item in productAssociateMappings)
+                                                                                        {
+                                                                                            <li itemprop="recipeIngredient">@item.ProductAssociated.Name - Price: @FormatHelper.FormatCurrency(item.ProductAssociated.Price) (<a href="@SlugHelper.Product(item.ProductAssociatedId)">see more</a>)</li>
+                                                                                        }
+                                                                                    }
+
+                                                                                </ul>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-medium-5 recipe-card-print-image-col">
+
+                                                                        <div class="recipe-card-image">
+                                                                            <img itemprop="image" src="@Model.Avatar" class="image">
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="cuisine-recipe-instructions">
+
+                                                            <h3 class="recipe-card-section-heading font-lato-reg">Related themes in the same category.</h3>
+                                                            @{
+                                                                List<Product> listRelationships = DataWhereHelper.ProductByIds(Model.RelatedProducts, 10);
+                                                                if (!listRelationships.Any())
+                                                                {
+                                                                    listRelationships = DataWhereHelper.ProductByIds(Model.CrossSells, 10);
+                                                                }
+                                                            }
+
+                                                            <ul class="recipe-card-instructions recipe-card-list font-opensans-reg ">
+                                                                @if (!listRelationships.Any())
+                                                                {
+                                                                    <li itemprop="recipeInstructions" class="clearfix">
+                                                                        <span class="recipe-instruction-num">1)</span><div class="page-content">
+                                                                            <p><b>U</b>pdating...</p>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li itemprop="recipeInstructions" class="clearfix">
+                                                                        <span class="recipe-instruction-num">2)</span><div class="page-content">
+                                                                            <p><b>U</b>pdating...</p>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li itemprop="recipeInstructions" class="clearfix">
+                                                                        <span class="recipe-instruction-num">3)</span><div class="page-content">
+                                                                            <p><b>U</b>pdating...</p>
+                                                                        </div>
+                                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    var no = 1;
+                                                                    foreach (Product item in listRelationships.AsQueryable())
+                                                                    {
+                                                                        var url = SlugHelper.Product(item.Id);
+                                                                        <li itemprop="recipeInstructions" class="clearfix">
+                                                                            <span class="recipe-instruction-num">@(no++))</span><div class="page-content">
+                                                                                <p>@item.Name (<a href="@url">See more</a>)</p>
+                                                                            </div>
+                                                                        </li>
+
+                                                                    }
+                                                                    if (no < 3)
+                                                                    {
+
+                                                                        <li itemprop="recipeInstructions" class="clearfix">
+                                                                            <span class="recipe-instruction-num">2)</span><div class="page-content">
+                                                                                <p><b>U</b>pdating...</p>
+                                                                            </div>
+                                                                        </li>
+                                                                    }
+                                                                    if (no < 4)
+                                                                    {
+
+                                                                        <li itemprop="recipeInstructions" class="clearfix">
+                                                                            <span class="recipe-instruction-num">3)</span><div class="page-content">
+                                                                                <p><b>U</b>pdating...</p>
+                                                                            </div>
+                                                                        </li>
+                                                                    }
+                                                                }
+                                                            </ul>
+
+                                                        </div>
+
+                                                        <div class="cuisine-recipe-card-notes">
+                                                            <h3 class="recipe-card-section-heading font-lato-reg">Notes</h3><div class="page-content">
+                                                                <p>
+                                                                    Images in the demo are not included in the purchased package.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                @if (Request["request-demo"] == "yes")
+                                                {
+                                                    <section class="py-0 overflow-hidden bg-white padding-75" style=" float: left;  width: 100%; height: 600px;">
+                                                        <div class="container">
+                                                            <div class="devices-wrapper" style="left: -25px;width: 100%; top: 25px;height: 1000px;">
+
+                                                                <div class="macbook-1" data-zanim-xs="{&quot;delay&quot;:0.5,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="3" src="/as-images/sample/macbook-1.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+
+                                                                <div class="ipad--l-1" data-zanim-xs="{&quot;delay&quot;:0.5,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="3.8" src="/as-images/sample/ipad--l-1.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="iphone-1" data-zanim-xs="{&quot;delay&quot;:0.4,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="4.8" src="/as-images/sample/iphone-1.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="ipad--l-2" data-zanim-xs="{&quot;delay&quot;:0.3,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="3.4" src="/as-images/sample/ipad--l-2.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="iphone-2" data-zanim-xs="{&quot;delay&quot;:0.2,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="4" src="/as-images/sample/iphone-2.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="macbook-2" data-zanim-xs="{&quot;delay&quot;:0.4,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="5" src="/as-images/sample/macbook-2.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="ipad--l-3" data-zanim-xs="{&quot;delay&quot;:0.5,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="3.7" src="/as-images/sample/ipad--l-3.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="ipad--p-1" data-zanim-xs="{&quot;delay&quot;:0.5,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="4.8" src="/as-images/sample/ipad--p-1.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="iphone-3" data-zanim-xs="{&quot;delay&quot;:0.3,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="3" src="/as-images/sample/iphone-3.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="iphone-4" data-zanim-xs="{&quot;delay&quot;:0.2,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="3" src="/as-images/sample/iphone-2.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                                <div class="iphone--l-1" data-zanim-xs="{&quot;delay&quot;:0.5,&quot;animation&quot;:&quot;slide-left&quot;,&quot;duration&quot;:1.5}" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">
+                                                                    <img class="device parallax" data-rellax-speed="2" src="/as-images/sample/iphone--l-1.jpg" alt="" style="transform: translate3d(0px, 0px, 0px);">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                }
+                                                <!-- Accordions-->
+                                                @{
+                                                    var frequentlyAskedQuestions = DataWhereHelper.ProductMetaAttribute("AADN-ALAA-AAc", @from: Model.ProductMetaAttributeMappings);
+                                                }
+                                                @if (frequentlyAskedQuestions != "")
+                                                {
+                                                    @Html.Raw(frequentlyAskedQuestions)
+                                                }
+                                                <!--/ end: accordion -->
+                                            </div>
+
+                                        </section>
+
+                                        <section id="reviews">
+                                            <section id="rate-reviews">
+                                                @if (Model.AllowCustomerReviews == true)
+                                                {
+                                                    <datalist id="TitleSuggest">
+                                                        <option selected value="Item:: @Model.Name" />
+                                                    </datalist>
+                                                    <div>
+                                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_AddPartial.cshtml"); }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <p style="border-bottom: 1px dotted rgb(188, 188, 188); padding-bottom: 10px; text-align: center;">@LanguageHelper.Translate("Disabled_Review_Text")</p>
+                                                }
+                                                <div>
+                                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_ListPartial.cshtml"); }
+                                                </div>
+                                            </section>
+
+                                            <!-- ============================================-->
+                                            <!-- <section> begin ============================-->
+                                            <section class="border-bottom border-top border-300 text-center" id="default-progressbar">
+                                                <div class="container">
+                                                    <div class="row justify-content-center" style="padding-top: 15px;">
+                                                        <div class="col-md-6">
+                                                            <h2 class="fs-3 fs-sm-4 text-underline mb-3">performance?</h2>
+                                                            <p class="text-500 font-italic">Be surprised seeing the final outcome of your creation with sparrow and want more, no matter the task.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center mt-6 text-center">
+                                                        <div class="col-md-6">
+                                                            <div class="progress-circle mb-4" data-options="{&quot;progress&quot;:88,&quot;text&quot;:&quot;<span class='text-700 pt-2'>More Power behind<br/>every pixel</span>&quot;}"><svg viewBox="0 0 100 100" style="stroke-linecap: round; display: block; width: 100%;"><path d="M 50,50 m 0,-49 a 49,49 0 1 1 0,98 a 49,49 0 1 1 0,-98" stroke="#eee" stroke-width="2" fill-opacity="0"></path><path d="M 50,50 m 0,-49 a 49,49 0 1 1 0,98 a 49,49 0 1 1 0,-98" stroke="rgb(51,51,51)" stroke-width="2" fill-opacity="0" style="stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 36.9503;"></path></svg><div class="progressbar-text" style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(170, 170, 170);"><span class="value">88<b>%</b></span> <span><span class="text-700 pt-2">More Power behind<br>every pixel</span></span></div></div>
+                                                            <h4>Record Breaking in History</h4>
+                                                            <p class="">Creating with sparrow is an easier, faster way to get things done. And it makes development even more effortless.</p>
+                                                        </div>
+                                                        <div class="col-md-6 pl-md-7 text-left mt-8 mt-md-0">
+                                                            <div class="progress-line mr-4" data-options="{&quot;progress&quot;:93,&quot;text&quot;:&quot;Google Page Speed&quot;}"><svg viewBox="0 0 100 1" preserveAspectRatio="none" style="width: 100%; height: 0.25rem; stroke-linecap: round; border-radius: 0.125rem;"><path d="M 0,0.5 L 100,0.5" stroke="#eee" stroke-width="1" fill-opacity="0"></path><path d="M 0,0.5 L 100,0.5" stroke="#333" stroke-width="1" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 7;"></path></svg><div class="progressbar-text" style="color: rgb(51, 51, 51);"><span class="value">93<b>%</b></span> <span>Google Page Speed</span></div></div>
+                                                            <div class="progress-line mr-4 mt-4" data-options="{&quot;progress&quot;:96,&quot;text&quot;:&quot;Pingdom Page Speed&quot;}"><svg viewBox="0 0 100 1" preserveAspectRatio="none" style="width: 100%; height: 0.25rem; stroke-linecap: round; border-radius: 0.125rem;"><path d="M 0,0.5 L 100,0.5" stroke="#eee" stroke-width="1" fill-opacity="0"></path><path d="M 0,0.5 L 100,0.5" stroke="#333" stroke-width="1" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 4;"></path></svg><div class="progressbar-text" style="color: rgb(51, 51, 51);"><span class="value">96<b>%</b></span> <span>Pingdom Page Speed</span></div></div>
+                                                            <div class="progress-line mr-4 mt-4" data-options="{&quot;progress&quot;:90,&quot;text&quot;:&quot;Sparrow Performance Matrix&quot;}"><svg viewBox="0 0 100 1" preserveAspectRatio="none" style="width: 100%; height: 0.25rem; stroke-linecap: round; border-radius: 0.125rem;"><path d="M 0,0.5 L 100,0.5" stroke="#eee" stroke-width="1" fill-opacity="0"></path><path d="M 0,0.5 L 100,0.5" stroke="#333" stroke-width="1" fill-opacity="0" style="stroke-dasharray: 100, 100; stroke-dashoffset: 10;"></path></svg><div class="progressbar-text" style="color: rgb(51, 51, 51);"><span class="value">90<b>%</b></span> <span>Sparrow Performance Matrix</span></div></div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end of .container-->
+                                            </section>
+                                            <!-- <section> close ============================-->
+                                            <!-- ============================================-->
+                                        </section>
+                                        <section id="changelog"><p>---Change log</p></section>
+                                        <section id="install-theme-process">
+                                            <!-- <section> begin ============================-->
+                                            @{
+                                                var installThemeProcess = DataWhereHelper.ProductMetaAttribute("AABJ-KVPE-AEAA", @from: Model.ProductMetaAttributeMappings);
+                                            }
+                                            @if (installThemeProcess != "")
+                                            {
+                                                @Html.Raw(installThemeProcess)
+                                            }
+                                            <!-- <section> close ============================-->
+
+                                        </section>
+                                    </div><!-- /content -->
+                                </div><!-- /tabs -->
+                            </section>
+
+                            <hr />
+                            <section class="my-5">
+                                <div class="row mb-4 d-flex justify-content-between">
+                                    <div class="col-md-8">
+                                        <h6 class="mb-2">More items latest added</h6>
+                                        <p>See our latest themes, templates, plugins on the site.</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="/plugins-snippets" class="btn btn-link float-right">See more <svg tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.9 7.8" role="img" aria-label="Arrow right"><path d="M25 3.2H.7c-.4 0-.7.3-.7.7 0 .4.3.7.7.7H25c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7z"></path><path d="M24.4 4.7V.4c0-.4.3-.6.6-.3l1.2 1.1c.3.3.9.8 1.2 1.1l1.2 1.1c.3.3.3.8 0 1.1l-1.2 1.1c-.3.3-.9.8-1.2 1.1l-1.2.9c-.3.3-.6.2-.6-.3V4.7z"></path></svg> </a>
+                                    </div>
+                                </div>
+                                @Html.Action("ProductNew", "Catalog", new { take = 3, pathView = "Widgets/Shop/ProductMostviewed", area = "" })
+
+                            </section>
+                        </div>
+                        <!-- edn: Col 9 -->
+                        <div class="col-md-5 col-lg-3">
+                            <div class="sidebar sticky-lg-top sticky-md-top">
+                                <form id="FORM-ITEM-SELECT" class="sidebar-widget product-item" data-id="@Model.Id">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h6 class="fs-20 mb-0">License Options</h6>
+                                        <span class="fs-13 ml-auto">
+                                            <a href="https://@(linkLicenses == ""?"themes.getbootstrap.com":linkLicenses)/licenses" style="color: #0056b3;font-size:13px;">References details →</a>
+                                        </span>
+                                    </div>
+                                    @foreach (var item in Model.ProductTierPrices.OrderBy(e => e.LevelUnit).ToList())
+                                    {
+                                        if (item.Price > 0 && item.TypePrice == ASP.Web.Model.Generic.TypePrice.Exactly)
+                                        {
+                                            <p style="display:none">
+                                                <label class="font-weight-semibold text-dark mb-0" style="width:50%">@item.LevelUnit Month(s)</label>
+                                                <span class="text-danger font-weight-semibold font-size-md ml-auto">@FormatHelper.FormatCurrency(item.Price)</span>
+                                            </p>
+                                        }
+
+                                    }
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link dropdown-toggle pl-0 btn-sm" id="change-plan" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change plan</button>
+                                                    <div class="dropdown-menu py-3" aria-labelledby="change-plan" style="min-width: 15rem; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 28px, 0px);" x-placement="bottom-start">
+                                                        <div class="dropdown-item px-3 py-2">
+                                                            <span class="d-flex justify-content-between fs--1 text-black"><span class="font-weight-semi-bold">Standard License</span><span>@FormatHelper.FormatCurrency(Model.Price)</span></span>
+                                                            <ul class="list-unstyled pl-1 my-2 fs--1">
+                                                                <li>
+                                                                    <svg class="svg-inline--fa fa-circle fa-w-16" data-fa-transform="shrink-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.5em 0.5em;">
+                                                                        <g transform="translate(256 256)">
+                                                                            <g transform="translate(0, 0)  scale(0.3125, 0.3125)  rotate(0 0 0)">
+                                                                                <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z" transform="translate(-256 -256)"></path>
+                                                                            </g>
+                                                                        </g>
+                                                                    </svg>
+                                                                    <span class="ml-1">Use for a single product</span>
+                                                                </li>
+                                                                <li>
+                                                                    <svg class="svg-inline--fa fa-circle fa-w-16" data-fa-transform="shrink-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.5em 0.5em;">
+                                                                        <g transform="translate(256 256)">
+                                                                            <g transform="translate(0, 0)  scale(0.3125, 0.3125)  rotate(0 0 0)">
+                                                                                <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z" transform="translate(-256 -256)"></path>
+                                                                            </g>
+                                                                        </g>
+                                                                    </svg>
+                                                                    <span class="ml-1">Non-paying users only</span>
+                                                                </li>
+                                                            </ul>
+                                                            <p class="fs--2 mb-0">Read the full <a href="#!">Standard License </a></p>
+                                                        </div>
+                                                        <div class="dropdown-divider my-0"></div>
+                                                        <div class="dropdown-item px-3 py-2">
+                                                            <span class="d-flex justify-content-between fs--1 text-black"><span class="font-weight-semi-bold">Extended License</span><span>Updating...</span></span>
+                                                            <ul class="list-unstyled pl-1 my-2 fs--1">
+                                                                <li>
+                                                                    <svg class="svg-inline--fa fa-circle fa-w-16" data-fa-transform="shrink-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.5em 0.5em;">
+                                                                        <g transform="translate(256 256)">
+                                                                            <g transform="translate(0, 0)  scale(0.3125, 0.3125)  rotate(0 0 0)">
+                                                                                <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z" transform="translate(-256 -256)"></path>
+                                                                            </g>
+                                                                        </g>
+                                                                    </svg>
+                                                                    <span class="ml-1">Unlimited websites</span>
+                                                                </li>
+                                                                <li>
+                                                                    <svg class="svg-inline--fa fa-circle fa-w-16" data-fa-transform="shrink-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="" style="transform-origin: 0.5em 0.5em;">
+                                                                        <g transform="translate(256 256)">
+                                                                            <g transform="translate(0, 0)  scale(0.3125, 0.3125)  rotate(0 0 0)">
+                                                                                <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z" transform="translate(-256 -256)"></path>
+                                                                            </g>
+                                                                        </g>
+                                                                    </svg>
+                                                                    <span class="ml-1">Paying users allowed</span>
+                                                                </li>
+                                                            </ul>
+                                                            <p class="fs--2 mb-0">Read the full <a href="#!">Extended License</a></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group text-md-right text-sm-center">
+                                                <h2 class="item-widget-price"><span class="jic price" data-jic-value="@Model.Price" data-jic-currency="usd" data-jic-convert-to="eur, rub, jpy">@FormatHelper.FormatCurrency(Model.Price)</span></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <input type="checkbox" checked style="display:none" value="@Model.Price" />
+                                        <div class="col-12">
+                                            @{
+                                                var productAssociateMappingsOrder = Model.ProductAssociateMappings.Where(e => e.ProductAssociated.Price > 0).OrderBy(d=>d.ProductAssociated.Price);
+                                            }
+                                            @if (!productAssociateMappingsOrder.Any())
+                                            {
+                                                <div class="custom-control custom-checkbox mt-3 mb-2 d-flex justify-content-between align-items-center">
+                                                    <input type="checkbox" id="order-addvalued-1" name="order-addvalued" data-id="0" class="custom-control-input" disabled value="50" />
+                                                    <label class="custom-control-label" for="order-addvalued-1">
+                                                        Install Theme
+                                                    </label>
+                                                    <div class="label-price">+ @FormatHelper.FormatCurrency(50)</div>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mt-3 mb-2 d-flex justify-content-between align-items-center">
+                                                    <input type="checkbox" id="order-addvalued-2" name="order-addvalued" class="custom-control-input" disabled value="75" />
+                                                    <label class="custom-control-label" for="order-addvalued-2">
+                                                        Add 6 month(s) support
+                                                    </label>
+                                                    <div class="label-price">+ @FormatHelper.FormatCurrency(75)</div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in productAssociateMappingsOrder)
+                                                {
+                                                    <div class="custom-control custom-checkbox mt-3 mb-2 d-flex justify-content-between align-items-center">
+                                                        <input type="checkbox" id="order-addvalued-@item.ProductAssociated.Id" data-id="@item.ProductAssociated.Id" name="order-addvalued" class="custom-control-input" value="@item.ProductAssociated.Price" />
+                                                        <label class="custom-control-label" for="order-addvalued-@item.ProductAssociated.Id">@item.ProductAssociated.Name</label>
+                                                        <div class="label-price">+ @FormatHelper.FormatCurrency(item.ProductAssociated.Price)</div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-success btn-block buybtn add-cart available-shopping add-to-cart" style="color: #fff;" data-title="@Model.Name" title="@LanguageHelper.Translate("Add_to_cart_Text")">
+                                        <b class="btn_text">Buy it for me</b> → <span class="price">@FormatHelper.FormatCurrency(Model.Price)</span>
+                                    </a>
+                                    @if (LinkAffiliate != "")
+                                    {
+                                        <a href="@LinkAffiliate" target="_blank" class="btn btn-primary btn-block buybtn" style="color: #fff;" data-title="@Model.Name" title="@LanguageHelper.Translate("Go to link target_Text")">
+                                            Purchase theme direct →
+                                        </a>
+                                    }
+
+                                </form>
+
+                                <div class="sidebar-widget">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="sidebar-widget-title--sm">Compatible Browsers</span>
+                                            <!-- FULL COMPATIBILITY -->
+                                            <div class="compatibility d-flex">
+                                                @foreach (var item in compatibleBrowsers as List<string>)
+                                                {
+                                                    <div class="col-1 p-0 text-center" style="margin-right:5px">
+                                                        <img src="/as-images/attr/@item-icon.svg" alt="@item" title="@item Browsers" />
+                                                    </div>
+                                                }
+                                            </div>
+                                            <hr />
+                                            <span class="sidebar-widget-title--sm">Features</span>
+                                            <ul class="list-unstyled features">
+                                                <li>
+                                                    <span class="is-visually-hidden">Included:</span>Quality checked by Selectgo
+                                                </li>
+                                                <li>
+                                                    <span class="is-visually-hidden">Included:</span>Future updates
+                                                </li>
+                                                <li>
+                                                    <span class="is-visually-hidden">Included:</span>One-time payment, No renewals
+                                                </li>
+
+                                            </ul>
+                                            <hr />
+                                            <span class="sidebar-widget-title--sm">Propetites</span>
+                                            <ul class="list-unstyled features">
+                                                @foreach (var item in DataWhereHelper.ExtractListProductSpecificationAttribute(Model.ProductSpecificationAttributeMappings).Where(e => e.SpecificationAttributeOption != null && listSpecificationAttributePropetites.Contains(e.SpecificationAttributeOption.SpecificationAttribute.Name + ",")).ToList())
+                                                {
+                                                    var text = item.SpecificationAttributeOption.Name.ToLower().Contains(LanguageHelper.Translate("Declared # Value").ToLower()) ? item.CustomValue : item.SpecificationAttributeOption.Name;
+                                                    if (!string.IsNullOrEmpty(text) && !text.StartsWith("Select"))
+                                                    {
+                                                        <li>
+                                                            <span class="is-visually-hidden">Included:</span>@LanguageHelper.Translate(item.SpecificationAttributeOption.SpecificationAttribute.Name + "_Text")
+                                                            <b>:</b>
+                                                            @if (text.Contains("Yes") || text.Contains("Validated") || text.Contains("Responsive"))
+                                                            {
+                                                                <i class="las la-check mr-2 text-success"></i>
+                                                            }
+                                                            else
+                                                            {
+
+                                                            }
+                                                            @Html.Raw(text)
+                                                        </li>
+                                                    }
+
+                                                }
+                                            </ul>
+                                            <hr />
+
+                                            <span class="sidebar-widget-title--sm">Compatible With</span>
+                                            <ul class="list-unstyled">
+                                                @foreach (var item in compatibleWith as List<string>)
+                                                {
+                                                    <li><i class="las la-check mr-2 text-success"></i>@item</li>
+                                                }
+
+                                            </ul>
+                                            @if (themeForestFilesIncluded.Any())
+                                            {
+                                                <span class="sidebar-widget-title--sm">ThemeForest Files Included</span>
+                                                <ul class="list-unstyled">
+                                                    @foreach (var item in themeForestFilesIncluded as List<string>)
+                                                    {
+                                                        <li><i class="las la-check mr-2 text-success"></i>@item</li>
+                                                    }
+                                                </ul>
+                                                <hr />
+
+                                            }
+
+                                            <span class="sidebar-widget-title--sm">Tags</span>
+                                            <div class="tags">
+                                                <span class="meta-attributes__attr-tags">
+                                                    @foreach (var itemTag in Model.ProductProductTagMappings.Where(e => e.ProductTag != null && e.ProductTag.IsActive == true).Take(5))
+                                                    {
+                                                        <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" title="@itemTag.ProductTag.Name">@itemTag.ProductTag.Name</a>
+                                                    }
+                                                </span>
+                                            </div>
+                                            <hr />
+
+                                            <div class="col-12 p-0">
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <span class="small">File size</span>
+                                                    <strong class="small text-dark">Esimating... (mb)</strong>
+                                                </div>
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <span class="small">Update</span>
+                                                    <strong class="small text-dark">@Model.LastModified.Value.ToString("MMM dd, yyyy")</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Sticky Cart-->
+            <div class="stickyCart">
+                <div class="container">
+                    <div id="sticky-cart" class="product-item" data-id="@Model.Id">
+                        <div class="img"><img src="@Model.Avatar" class="product-featured-img" alt=""></div>
+                        <div class="sticky-title">@Model.Name</div>
+                        <div class="stickyOptions-wrapper">
+                            <div class="stickyOptions">
+                                <div class="selectedOpt">
+                                    Only Theme
+                                    <span class="money">+ $0</span>
+                                </div>
+                                <ul>
+                                    @if (!productAssociateMappingsOrder.Any())
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in productAssociateMappingsOrder)
+                                        {
+                                            <li class="soldout">@item.ProductAssociated.Name <span class="money">+ @FormatHelper.FormatCurrency(item.ProductAssociated.Price)</span></li>
+                                        }
+                                    }
+
+                                </ul>
+                            </div>
+                            <div class="wrapQtyBtn" title="Quantity">
+                                <div class="qtyField">
+                                    <a class="qtyBtn minus" href="javascript:void(0);"><i class="las la-minus" aria-hidden="true"></i></a>
+                                    <input type="text" name="quantity" disabled value="1" class="product-form__input qty">
+                                    <a class="qtyBtn plus" href="javascript:void(0);"><i class="las la-plus" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <a class="btn product-form__cart-submit add-cart available-shopping add-to-cart" style="color: #fff;" data-title="@Model.Name" title="@LanguageHelper.Translate("Add_to_cart_Text")">
+                                <span><i class="las la-cart-plus"></i>Buy it for me</span> → <span class="price"> @Model.Price</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--End Sticky Cart-->
+            <div class="cart-block"></div>
+            <div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="pswp__bg"></div>
+
+                <div class="pswp__scroll-wrap">
+
+                    <div class="pswp__container">
+                        <div class="pswp__item"></div>
+                        <div class="pswp__item"></div>
+                        <div class="pswp__item"></div>
+                    </div>
+
+                    <div class="pswp__ui pswp__ui--hidden">
+
+                        <div class="pswp__top-bar">
+
+                            <div class="pswp__counter"></div>
+
+                            <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                            <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                            <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                            <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                            <div class="pswp__preloader">
+                                <div class="pswp__preloader__icn">
+                                    <div class="pswp__preloader__cut">
+                                        <div class="pswp__preloader__donut"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="pswp__loading-indicator"><div class="pswp__loading-indicator__line"></div></div> -->
+
+                        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                            <div class="pswp__share-tooltip">
+                                <!-- <a href="#" class="pswp__share--facebook"></a>
+                                <a href="#" class="pswp__share--twitter"></a>
+                                <a href="#" class="pswp__share--pinterest"></a>
+                                <a href="#" download class="pswp__share--download"></a> -->
+                            </div>
+                        </div>
+
+                        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                        <div class="pswp__caption">
+                            <div class="pswp__caption__center">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    }
+
+    Html.RenderPartial("~/Views/Default/Shared/Schema/_Product.cshtml");
+}
+
+
+@if (isAjaxRequest)
+{
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/catalog/product/" + (isPreview ? "preview" : "template") + "/js")
+    }
+}
+else
+{
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/catalog/product/" + (isPreview ? "preview" : "template") + "/js", "~/bundles/content/default/cart-inline/js")
+        <script>
+        $(document).ready(function() {
+
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "web-themes-templates")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+        </script>
+        <script>
+           function loadPartialView()  {
+               $(".cart-block").load('@(Url.Action("CartPopup", "ShoppingCart", new {  culture = DataCurrentHelper.UniqueSeoCode }, Request.Url.Scheme))?time=' + new Date().getTime());
+            }
+            $(function () {
+                loadPartialView();
+                window.CartUpdate = loadPartialView;
+            });
+        </script>
+    }
+}

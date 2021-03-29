@@ -1,0 +1,27 @@
+﻿@using ASP.Web.Model.Models
+@using global::Web.Helpers
+@{ var listCulture = (List<LanguageInstance>)ViewBag.Culture;
+    if (listCulture == null)
+    {
+        listCulture = new List<LanguageInstance>() { new LanguageInstance() { LanguageCulture = "un-DF", UniqueSeoCode = "un" } };
+    }
+}
+@{
+    var current = listCulture.FirstOrDefault(e => e.LanguageCulture == DataCurrentHelper.LanguageCulture);
+    if (current == null)
+    {
+        <a class="nav-link" href="#"> </a>
+        <ul>
+            <li class="_selected" data-lang="vi"><a href="/select-language/vi-vn" title="Vietnameses">@LanguageHelper.Translate("Language_Text"): {{@DataCurrentHelper.LanguageCulture}}</a></li>
+        </ul>
+    }
+    else
+    {
+        <ul>
+            <li class="@("en" == current.UniqueSeoCode ? "_selected" : "")" data-lang="eng"> <a href="/select-language/en-us" title="Enlish">eng</a></li>
+            <li class="@("vi" == current.UniqueSeoCode ? "_selected" : "")" data-lang="vi"><a href="/select-language/vi-vn" title="Vietnameses">vi</a></li>
+        </ul>
+
+    }
+
+}

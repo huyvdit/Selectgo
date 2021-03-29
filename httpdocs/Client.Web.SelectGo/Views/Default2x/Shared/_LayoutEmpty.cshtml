@@ -1,0 +1,88 @@
+﻿@using global::Web.Helpers
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode">
+<head>
+    <title>..:: @DataCurrentHelper.Title(ViewBag.Title ?? ViewData["og:title"]) ::..</title>
+    @{
+        var gt = DataConfigsHelper.Get("GoogleWebmasterToolCode");
+        if (gt != null)
+        {
+            @Html.Raw(gt)
+        }
+        var url = HttpContext.Current.Request.Url;
+    }
+    <link rel="icon" type="image/png" sizes="32x32" href="@DisplayHelper.Favicon">
+    <link rel="manifest" href="~/assets/faviconsite.webmanifest">
+
+    <link rel='shortlink' href='@DataConfigsHelper.LinksFrontEnd' />
+    <link rel="canonical" href="@(DataConfigsHelper.LinksFrontEnd + "/" + DataCurrentHelper.UniqueSeoCode + url.AbsolutePath)" />
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_MetaHead.cshtml");
+    }
+    @Styles.Render("~/bundles/css/core")
+</head>
+<body>
+    <!-- Page Loader -->
+    <div class="preloader-wrapper preloader-it">
+        <div class="preloader">
+            <img src="~/images/shared/all/loading.svg?t=192" />
+            <p>@LanguageHelper.Translate("Loading to Insight_Text")... </p>
+        </div>
+    </div>
+<!-- main start -->
+<main>
+    @RenderSection("banners", false)
+    @RenderBody()
+</main>
+
+<section type="text/html" id="notify-template">
+    @Html.Raw(DataCurrentHelper.NotifyText)
+</section>
+
+<link rel='dns-prefetch' href='//fonts.googleapis.com'/>
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700|Josefin+Sans:300,700;subset=latin-ext,vietnamese" rel="stylesheet">
+<link href="~/content/bootstrap.min.css" rel="stylesheet" media="all" />
+<!-- start: MAIN JAVASCRIPTS -->
+@RenderSection("scriptsInited", false)
+@Scripts.Render("~/bundles/js/core")
+<script src="@("/Scripts/global-resources/" + DataCurrentHelper.LanguageCulture + ".js")"></script>
+@Scripts.Render("~/bundles/js/shared") @Scripts.Render("~/bundles/js/utils")
+@Styles.Render("~/bundles/css/shared") @Styles.Render("~/bundles/css/utils")
+@RenderSection("styles", false)
+@RenderSection("stylesInjected", false)
+<script>
+    AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+    AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+    AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+    AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+    AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+    AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+    AppConfigs.OriginalBody = $("body");
+    AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function() {
+
+        $(this).remove();
+
+    });
+    setTimeout(function() {
+        AppConfigs.OriginalBody.find(".site").css("opacity", "1");
+    }, 300);
+</script>
+@RenderSection("scriptsdefault", false)
+@RenderSection("scripts", false)
+@RenderSection("scriptsInjected", false)
+@Html.PageScripts()
+@{
+    var ga = DataConfigsHelper.Get("GoogleAnalyticCode");
+    if (ga != null)
+    {
+        @Html.Raw(ga)
+    }
+    var lv = DataConfigsHelper.Get("ShowLiveChat");
+    if (lv == "True")
+    {
+        @Html.Raw(DataConfigsHelper.Get("LiveChatCode"))
+    }
+}
+
+</body>
+</html>

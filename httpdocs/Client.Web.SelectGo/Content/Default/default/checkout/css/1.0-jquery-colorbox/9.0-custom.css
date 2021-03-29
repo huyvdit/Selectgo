@@ -1,0 +1,21 @@
+﻿#cboxClose {
+       top: 10px;
+}
+#cboxContent {
+    margin-top: 0px;
+    background: #000;
+}
+#cboxLoadedContent {
+    margin-top: 36px;
+    border: 5px solid #999;
+}
+#cboxTitle {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    color: #fff;
+    background: #999;
+    width: 100%;
+    padding: 8px 0px 12px 8px;
+    text-transform: uppercase;
+}

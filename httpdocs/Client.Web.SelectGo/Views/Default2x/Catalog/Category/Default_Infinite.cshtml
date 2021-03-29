@@ -1,0 +1,131 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@using Web.Model.Models
+@model PagedList.IPagedList<ProductCategoryMapping>
+    @{
+        Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+        ViewBag.filterByCurrent = Request["filterby"] ?? "";
+        ViewBag.typeCurrent = Request["type"] ?? "all";
+        ViewBag.sortOrderCurrent = Request["sortorder"];
+        ViewBag.searchByCurrent = Request["searchby"];
+        ViewBag.idCurrent = Request["id"] ?? (category.Id + "");
+        ViewBag.pageCurrent = Request["page"] ?? ("1");
+        List<FilterOptionView> listFilterOptionCurrent = DataWhereHelper.ParseFilters(ViewBag.ListFilters);
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/category/css/default", "~/bundles/content/default/catalog/category/css/infinite", "~/bundles/content/default/pagelist/css")
+    }
+    <div class="project-box">
+        <div class="project-box__title">
+            <div class="project-box__title-left">
+                <div class="title-general">
+                    <p>Tempe</p>
+                    <p>@LanguageHelper.Translate("Dự Án_Text")</p>
+                    <span></span>
+                </div>
+            </div>
+            <div class="project-box__title-right">
+                <div class="project-box__title-right--text">
+                    <p>@Html.Raw(category.Description)</p>
+                    <h3><a href="">@LanguageHelper.Translate("lĩnh vực hoạt động_Text") <span><i class="fa fa-angle-down" aria-hidden="true"></i></span></a></h3>
+                    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "our-project", take = 1, pathView = "Widgets/Shop/CategoriesMenuAll", area = "" })
+                </div>
+            </div>
+        </div>
+        <div class="list-product-wrapper">
+            @{
+                Html.RenderPartial("~/Views/Default/Catalog/Category/Default_Infinite_Partial.cshtml");
+            }
+        </div>
+        <!-- status elements -->
+        <div class="scroller-status">
+            <div class="timeline-wrapper infinite-scroll-request">
+                <div class="timeline-item">
+                    <div class="animated-background">
+                        <div class="background-masker header-top"></div>
+                        <div class="background-masker header-left"></div>
+                        <div class="background-masker header-right"></div>
+                        <div class="background-masker header-bottom"></div>
+                        <div class="background-masker subheader-left"></div>
+                        <div class="background-masker subheader-right"></div>
+                        <div class="background-masker subheader-bottom"></div>
+                        <div class="background-masker content-top"></div>
+                        <div class="background-masker content-first-end"></div>
+                        <div class="background-masker content-second-line"></div>
+                        <div class="background-masker content-second-end"></div>
+                        <div class="background-masker content-third-line"></div>
+                        <div class="background-masker content-third-end"></div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="animated-background">
+                        <div class="background-masker header-top"></div>
+                        <div class="background-masker header-left"></div>
+                        <div class="background-masker header-right"></div>
+                        <div class="background-masker header-bottom"></div>
+                        <div class="background-masker subheader-left"></div>
+                        <div class="background-masker subheader-right"></div>
+                        <div class="background-masker subheader-bottom"></div>
+                        <div class="background-masker content-top"></div>
+                        <div class="background-masker content-first-end"></div>
+                        <div class="background-masker content-second-line"></div>
+                        <div class="background-masker content-second-end"></div>
+                        <div class="background-masker content-third-line"></div>
+                        <div class="background-masker content-third-end"></div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="animated-background">
+                        <div class="background-masker header-top"></div>
+                        <div class="background-masker header-left"></div>
+                        <div class="background-masker header-right"></div>
+                        <div class="background-masker header-bottom"></div>
+                        <div class="background-masker subheader-left"></div>
+                        <div class="background-masker subheader-right"></div>
+                        <div class="background-masker subheader-bottom"></div>
+                        <div class="background-masker content-top"></div>
+                        <div class="background-masker content-first-end"></div>
+                        <div class="background-masker content-second-line"></div>
+                        <div class="background-masker content-second-end"></div>
+                        <div class="background-masker content-third-line"></div>
+                        <div class="background-masker content-third-end"></div>
+                    </div>
+                </div>
+                                          
+            </div>
+            <p class="infinite-scroll-last">@LanguageHelper.Translate("Congratulations, you have reached the end of the category_Text")</p>
+            <p class="infinite-scroll-error">@LanguageHelper.Translate("No more pages to load_Text")</p>
+
+        </div>
+        @if (Model.PageCount > 1)
+        {
+            <div class="load-more">                        
+                <button class="button view-more-button"> <img src="/as-images/project/more.png" alt="load more"> </button>
+            </div>
+        }
+    </div>
+    <!-- Shop Area end -->
+    @section scripts
+    {
+        @Scripts.Render("~/bundles/content/default/catalog/category/js/default", "~/bundles/content/default/catalog/category/js/infinite")
+        <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-project")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+             var currentLinkTab = $($(".menu-item a[href='@SlugHelper.Category(grouped: category.Grouped)']"));
+            if (currentLinkTab != null) {
+                currentLinkTab.parent().addClass('active');
+            }
+            
+
+            jQuery(document).ready(function() {
+                Category.init();
+            });
+        });
+        </script>
+    }

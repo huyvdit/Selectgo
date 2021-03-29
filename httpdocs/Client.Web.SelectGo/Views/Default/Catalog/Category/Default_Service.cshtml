@@ -1,0 +1,1096 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@using Web.Core.Models
+@using Web.Model.Models
+@{
+    ViewBag.SelfHeader = true;
+    Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+    ViewBag.filterByCurrent = Request["filterby"] ?? "";
+    ViewBag.typeCurrent = Request["type"] ?? "all";
+    ViewBag.sortOrderCurrent = Request["sortorder"];
+    ViewBag.searchByCurrent = Request["searchby"];
+    ViewBag.idCurrent = Request["id"] ?? (category.Id + "");
+    ViewBag.pageCurrent = Request["page"] ?? ("1");
+    List<FilterOptionView> listFilterOptionCurrent = DataWhereHelper.ParseFilters(ViewBag.ListFilters);
+
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/catalog/category/css/grid")
+}
+    <div id="main">
+        @if (category.ParentCategoryId == 1)
+        {
+        <div class="wrapper">
+            <div class="content-wrapper">
+
+
+                <!-- Case Items -->
+
+                <section class="medium-padding10">
+                    <div class="container">
+                        <div class="row mb60">
+                            <div class="row crumina-module">
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="crumina-module crumina-heading">
+                                        <h6 class="heading-sup-title">What we can do</h6>
+                                        <h2 class="heading-title">We mix the beautiful with the usable. Have a look at our work!</h2>
+                                        <div class="content-scroller">
+
+                                            <div id="content-scroller" class="dragdealer">
+                                                <div class="handle" style="perspective: 1000px; backface-visibility: hidden; transform: translateY(0px);">
+                                                    <span class="text">scroll</span>
+                                                </div><!-- handle -->
+
+                                            </div><!-- dragdealer -->
+
+                                            <div class="content-mask">
+                                                <div class="content-body" style="margin-top: 0px;">
+
+                                                    <p>
+                                                        Fusce commodo tincidunt convallis. Nunc at purus vitae nisl sagittis gravida ut
+                                                        sit amet diam. Curabitur sed tincidunt lacus. Fusce volutpat eget leo ac eleifend.
+                                                        Praesent odio quam gravida.
+                                                    </p>
+
+                                                    <p>
+                                                        Morbi magna sapien, hendrerit eget nunc id, mattis pretium elit. Nam dolor risus,
+                                                        porta et rutrum nec, egestas eget odio. In vitae risus cursus, accumsan mauris eget,
+                                                        imperdiet risus vulputate elit.
+                                                    </p>
+
+                                                    <p>
+                                                        Cras tincidunt bibendum finibus. In facilisis, ligula eu porta consequat, nisl
+                                                        urna egestas purus, sit amet eleifend ante sem vel tortor. Proin condimentum libero
+                                                        non lacinia ultricies. Nam placerat nibh et risus semper tincidunt erat.
+                                                    </p>
+
+                                                    <p>
+                                                        Morbi consectetur varius ex vitae pulvinar. Interdum et malesuada fames ac ante
+                                                        ipsum primis in faucibus. Morbi venenatis lectus a dolor elementum imperdiet. Vivamus
+                                                        id luctus lacus. Phasellus porttitor ultricies enim, eget tristique risus vehicula.
+                                                        Praesent sit amet neque metus.
+                                                    </p>
+
+                                                    <p>
+                                                        Morbi consectetur varius ex vitae pulvinar. Interdum et malesuada fames ac ante
+                                                        ipsum primis in faucibus. Morbi venenatis lectus a dolor elementum imperdiet. Vivamus
+                                                        id luctus lacus. Phasellus porttitor ultricies enim, eget tristique risus vehicula.
+                                                        Praesent sit amet neque metus.
+                                                    </p>
+
+                                                    <p>
+                                                        Morbi consectetur varius ex vitae pulvinar. Interdum et malesuada fames ac ante
+                                                        ipsum primis in faucibus. Morbi venenatis lectus a dolor elementum imperdiet. Vivamus
+                                                        id luctus lacus. Phasellus porttitor ultricies enim, eget tristique risus vehicula.
+                                                        Praesent sit amet neque metus.
+                                                    </p>
+
+                                                    <p>
+                                                        Morbi consectetur varius ex vitae pulvinar. Interdum et malesuada fames ac ante
+                                                        ipsum primis in faucibus. Morbi venenatis lectus a dolor elementum imperdiet. Vivamus
+                                                        id luctus lacus. Phasellus porttitor ultricies enim, eget tristique risus vehicula.
+                                                        Praesent sit amet neque metus.
+                                                    </p>
+
+                                                    <p>
+                                                        Morbi consectetur varius ex vitae pulvinar. Interdum et malesuada fames ac ante
+                                                        ipsum primis in faucibus. Morbi venenatis lectus a dolor elementum imperdiet. Vivamus
+                                                        id luctus lacus. Phasellus porttitor ultricies enim, eget tristique risus vehicula.
+                                                        Praesent sit amet neque metus.
+                                                    </p>
+
+                                                </div><!-- content-body -->
+                                            </div><!-- content-mask -->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5 col-lg-offset-1 col-md-5 col-sm-4 col-sm-offset-0 col-xs-12">
+                                    <!-- Start Contact Form -->
+                                    <div class="contact-form-wrapper">
+                                        <div class="axil-contact-form contact-form-style-1">
+                                            <h3 class="title">Get a free Keystroke quote now</h3>
+                                            <form action="#">
+                                                <div class="form-group">
+                                                    <input type="text">
+                                                    <label>Name</label>
+                                                    <span class="focus-border"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="email">
+                                                    <label>Email</label>
+                                                    <span class="focus-border"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text">
+                                                    <label>Phone</label>
+                                                    <span class="focus-border"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text">
+                                                    <label>Company</label>
+                                                    <span class="focus-border"></span>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <button class="axil-button btn-large btn-transparent w-100">
+                                                        <span class="button-text">Get Pricing Now</span><span class="button-icon"></span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <div class="callto-action-wrapper text-center">
+                                                <span class="text">Or call us now</span>
+                                                <span><i class="fa fa-phone"></i> <a href="#">(123) 456 7890</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Contact Form -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Start Our Service Area  -->
+                        <div class="row axil-service-area ax-section-gap bg-color-white">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-lg-8 col-xl-8">
+                                        <div class="section-title text-left">
+                                            <span class="sub-title extra04-color wow" data-splitting>process</span>
+                                            <h2 class="title wow" data-splitting>This is our way</h2>
+                                            <p class="subtitle-2">
+                                                In vel varius turpis, non dictum sem. Aenean in efficitur ipsum,
+                                                in
+                                                egestas ipsum. Mauris in mi ac tellus.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Start Single Service  -->
+                                    <div class="col-lg-4 col-md-6 col-12 mt--50 mt_md--40 mt_sm--30 move-up wow">
+                                        <div class="axil-service-style--3">
+                                            <div class="icon">
+                                                <img src="/as-images/sample/layer.svg" alt="Icon Images">
+                                                <div class="text">1</div>
+                                            </div>
+                                            <div class="content">
+                                                <h4 class="title"><a href="single-service.html">1. Discuss</a></h4>
+                                                <p>
+                                                    Donec metus lorem, vulputate at sapien sit amet, auctor iaculis lorem. In vel
+                                                    hendrerit nisi. Vestibulum eget risus velit.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Service  -->
+                                    <!-- Start Single Service  -->
+                                    <div class="col-lg-4 col-md-6 col-12 mt--50 mt_md--40 mt_sm--30 move-up wow">
+                                        <div class="axil-service-style--3 color-var--2">
+                                            <div class="icon">
+                                                <img src="/as-images/sample/layer.svg" alt="Icon Images">
+                                                <div class="text">2</div>
+                                            </div>
+                                            <div class="content">
+                                                <h4 class="title"><a href="single-service.html">2. Mapping</a></h4>
+                                                <p>
+                                                    Donec metus lorem, vulputate at sapien sit amet, auctor iaculis lorem. In vel
+                                                    hendrerit nisi. Vestibulum eget risus velit.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Service  -->
+                                    <!-- Start Single Service  -->
+                                    <div class="col-lg-4 col-md-6 col-12 mt--50 mt_md--40 mt_sm--30 move-up wow">
+                                        <div class="axil-service-style--3 color-var--3">
+                                            <div class="icon">
+                                                <img src="/as-images/sample/layer.svg" alt="Icon Images">
+                                                <div class="text">3</div>
+                                            </div>
+                                            <div class="content">
+                                                <h4 class="title"><a href="single-service.html">3. Execution</a></h4>
+                                                <p>
+                                                    Donec metus lorem, vulputate at sapien sit amet, auctor iaculis lorem. In vel
+                                                    hendrerit nisi. Vestibulum eget risus velit.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Service  -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Our Service Area  -->
+
+                        <!-- Start Portfolio Area -->
+                        <div class="row axil-portfolio-area ax-section-gap">
+                            <div class="axil-masonary-wrapper">
+                                <div class="row align-items-end">
+                                    <div class="col-lg-5 col-md-12">
+                                        <div class="section-title mb_md--20 mb_sm--20">
+                                            <span class="sub-title extra07-color wow" data-splitting>our projects</span>
+                                            <h2 class="title wow mb--0" data-splitting>Some of our finest work.</h2>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="case-item-wrap">
+                                            <div class="row" id="items-grid">
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="crumina-module crumina-case-item" data-mh="case-item">
+                                                        <a href="/as-images/sample/case1.jpg" class="case-item__thumb js-zoom-image">
+                                                            <img src="/as-images/sample/case1.jpg" alt="case">
+                                                        </a>
+
+                                                        <div class="square-colored bg-product-blue"></div>
+                                                        <div class="case-item-content">
+                                                            <h5 class="title">Investigationes demonstraverunt lectores legere me legunt saepius</h5>
+                                                            <a href="/services/web-design-development" class="more-arrow white">
+                                                                <span>View Case</span>
+                                                                <div class="btn-next">
+                                                                    <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right-1"></use></svg>
+                                                                    <svg class="utouch-icon utouch-icon-arrow-right1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right1"></use></svg>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="crumina-module crumina-case-item" data-mh="case-item">
+                                                        <a href="/as-images/sample/case3.jpg" class="case-item__thumb js-zoom-image">
+                                                            <img src="/as-images/sample/case3.jpg" alt="case">
+                                                        </a>
+
+                                                        <div class="square-colored bg-product-green"></div>
+                                                        <div class="case-item-content">
+                                                            <h5 class="title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</h5>
+                                                            <a href="/services/web-design-development" class="more-arrow white">
+                                                                <span>View Case</span>
+                                                                <div class="btn-next">
+                                                                    <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right-1"></use></svg>
+                                                                    <svg class="utouch-icon utouch-icon-arrow-right1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right1"></use></svg>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="crumina-module crumina-case-item" data-mh="case-item">
+                                                        <a href="/as-images/sample/case5.jpg" class="case-item__thumb js-zoom-image">
+                                                            <img src="/as-images/sample/case5.jpg" alt="case">
+                                                        </a>
+
+                                                        <div class="square-colored bg-product-blue-dark"></div>
+                                                        <div class="case-item-content">
+                                                            <h5 class="title">Eodem modo typi, qui nunc nobis videntur parum</h5>
+                                                            <a href="/services/web-design-development" class="more-arrow white">
+                                                                <span>View Case</span>
+                                                                <div class="btn-next">
+                                                                    <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right-1"></use></svg>
+                                                                    <svg class="utouch-icon utouch-icon-arrow-right1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right1"></use></svg>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                    <div class="crumina-module crumina-case-item" data-mh="case-item">
+                                                        <a href="/as-images/sample/case7.jpg" class="case-item__thumb js-zoom-image">
+                                                            <img src="/as-images/sample/case7.jpg" alt="case">
+                                                        </a>
+
+                                                        <div class="square-colored bg-product-red"></div>
+                                                        <div class="case-item-content">
+                                                            <h5 class="title">Mirum est notare quam littera gothica, quam nunc putamus parum</h5>
+                                                            <a href="/services/web-design-development" class="more-arrow white">
+                                                                <span>View Case</span>
+                                                                <div class="btn-next">
+                                                                    <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right-1"></use></svg>
+                                                                    <svg class="utouch-icon utouch-icon-arrow-right1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right1"></use></svg>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="align-center">
+                                                    <a href="#" class="btn btn-border btn--with-shadow btn-more c-primary" id="load-more-button" data-load-link="#" data-container="items-grid">
+                                                        <svg class="olymp-plus-icon" style="height:24px; width:48px;"><use xlink:href="/as-images/shared/icons.svg#olymp-plus-icon"></use></svg>
+                                                        Load More
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Portfolio Area -->
+
+
+                    </div>
+                </section>
+
+                <!-- ... end Case Items -->
+            </div>
+
+            <!-- Curriculum Events -->
+
+            <section class="crumina-module crumina-module-slider">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h3>You May Also Like</h3>
+
+                            <div class="swiper-container top-navigation" data-show-items="3">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="curriculum-event c-green">
+                                            <div class="curriculum-event-thumb">
+                                                <img src="/as-images/sample/curriculum1.jpg" alt="image">
+                                                <div class="category-link c-lime-light">Course</div>
+                                                <div class="curriculum-event-content">
+                                                    <div class="author-block inline-items">
+                                                        <div class="author-avatar">
+                                                            <img src="/as-images/sample/author1.jpg" alt="author">
+                                                        </div>
+                                                        <div class="author-info">
+                                                            <div class="author-prof">Speaker</div>
+                                                            <a href="#" class="h6 author-name">Frank Doe</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="overlay-standard overlay--green"></div>
+                                            </div>
+                                            <div class="curriculum-event-content">
+                                                <div class="icon-text-item display-flex">
+                                                    <svg class="utouch-icon utouch-icon-calendar-2"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-icon-1"></use></svg>
+                                                    <div class="text">January 3-6, Kiev</div>
+                                                </div>
+                                                <a href="09_events_details_conference_workshops.html" class="h5 title">Lorem ipsum dolor sit amet</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="curriculum-event c-primary">
+                                            <div class="curriculum-event-thumb">
+                                                <img src="/as-images/sample/curriculum2.jpg" alt="image">
+                                                <div class="category-link c-primary">Presentation</div>
+                                                <div class="curriculum-event-content">
+                                                    <div class="author-block inline-items">
+                                                        <div class="author-avatar">
+                                                            <img src="/as-images/sample/author1.jpg" alt="author">
+                                                        </div>
+                                                        <div class="author-info">
+                                                            <div class="author-prof">Speaker</div>
+                                                            <a href="#" class="h6 author-name">Frank Doe</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="overlay-standard overlay--blue"></div>
+                                            </div>
+                                            <div class="curriculum-event-content">
+                                                <div class="icon-text-item display-flex">
+                                                    <svg class="utouch-icon utouch-icon-calendar-2"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-icon-1"></use></svg>
+                                                    <div class="text">April 10-13, Berlin</div>
+                                                </div>
+                                                <a href="09_events_details_conference_workshops.html" class="h5 title">Nam liber tempor cum soluta nobis est</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="curriculum-event c-yellow">
+                                            <div class="curriculum-event-thumb">
+                                                <img src="/as-images/sample/curriculum3.jpg" alt="image">
+                                                <div class="category-link c-yellow-light">Training</div>
+                                                <div class="curriculum-event-content">
+                                                    <div class="author-block inline-items">
+                                                        <div class="author-avatar">
+                                                            <img src="/as-images/sample/author1.jpg" alt="author">
+                                                        </div>
+                                                        <div class="author-info">
+                                                            <div class="author-prof">Speaker</div>
+                                                            <a href="#" class="h6 author-name">Frank Doe</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="overlay-standard overlay--yellow"></div>
+                                            </div>
+                                            <div class="curriculum-event-content">
+                                                <div class="icon-text-item display-flex">
+                                                    <svg class="utouch-icon utouch-icon-calendar-2"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-icon-1"></use></svg>
+                                                    <div class="text">May 17-19, California</div>
+                                                </div>
+                                                <a href="09_events_details_conference_workshops.html" class="h5 title">Nam liber tempor cum soluta nobis est</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-slider-wrap navigation-top-right">
+
+                                    <div class="btn-prev">
+                                        <svg class="utouch-icon icon-hover utouch-icon-arrow-left-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-left-1"></use></svg>
+                                        <svg class="utouch-icon utouch-icon-arrow-left1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-left1"></use></svg>
+                                    </div>
+
+                                    <div class="btn-next">
+                                        <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right-1"></use></svg>
+                                        <svg class="utouch-icon utouch-icon-arrow-right1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right1"></use></svg>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ... end Curriculum Events -->
+
+        </div>
+        }
+        else
+        {
+            <style>
+                .header-desktop-fluid.cd-main-header {
+                    background-color: transparent!important;
+                }
+                .wrapper {
+                    margin-top: 0px!important;
+                }
+                .crumina-stunning-header{
+                        padding-top: 70px;
+                }
+            </style>
+        <div class="wrapper">
+        <!-- Stunning Header -->
+             <div class="crumina-stunning-header stunning-header--bg-photo stunning-header--breadcrumbs-bottom-left stunning-header--content-padding100 custom-color c-white fill-white" style="background-image: url(/as-images/sample/stunning-bg2.jpg);">
+            <div class="container">
+                <div class="stunning-header-content">
+                    <h6 class="category-link c-yellow-light">Training</h6>
+                    <h4 class="stunning-header-title">Nam liber tempor cum soluta nobis est</h4>
+                    <div class="icon-text-item display-flex">
+                        <svg class="utouch-icon utouch-icon-calendar-2"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-calendar-2"></use></svg>
+                        <div class="text">June 25-27, Melbourne</div>
+                    </div>
+                    @*<nav aria-label="breadcrumb">
+                        @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(Convert.ToInt32(category.ParentCategoryId)), Title = category.CategoryParent.Name }, new BreadcrumbModel { Link = "#", Title = category.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+                    </nav>*@
+                    <div class="breadcrumbs-wrap inline-items">
+                        <a href="#" class="btn btn--black btn--round breadcrumbs-custom" style="border-radius: 50%!important;">
+                            <svg class="utouch-icon utouch-icon-home-icon-silhouette breadcrumbs-custom"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-home-icon-silhouette"></use></svg>
+                        </a>
+
+                        <ul class="breadcrumbs breadcrumbs--rounded" style="margin-top: 15px;">
+                            <li class="breadcrumbs-item">
+                                <a href="#" class="breadcrumbs-custom">Events</a>
+                                <svg class="utouch-icon utouch-icon-media-play-symbol breadcrumbs-custom"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-media-play-symbol"></use></svg>
+                            </li>
+                            <li class="breadcrumbs-item active">
+                                <span class="breadcrumbs-custom">Nam liber tempor cum soluta nobis est</span>
+                                <svg class="utouch-icon utouch-icon-media-play-symbol breadcrumbs-custom"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-media-play-symbol"></use></svg>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay-standard overlay--dark"></div>
+        </div>
+
+        <!-- ... end Stunning Header -->
+       
+        <!-- Widget Contacts -->
+        <section class="medium-padding100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+                        <h2>Description of presentation</h2>
+                        <p>
+                            Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam
+                            processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera
+                            gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula
+                            quarta decima.
+                        </p>
+                        <p>Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum putamus parum claram.</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                        <div class="widget w-contacts w-contacts--style2 ">
+                            <div class="contact-item display-flex">
+                                <svg class="utouch-icon utouch-icon-calendar-2"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-calendar-2"></use></svg>
+                                <span class="info">September 25-27</span>
+                            </div>
+                            <div class="contact-item display-flex">
+                                <svg class="utouch-icon utouch-icon-placeholder-3"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-placeholder-3"></use></svg>
+                                <span class="info">795 South Park Avenue, Melbourne, Australia</span>
+                            </div>
+                            <div class="contact-item display-flex">
+                                <a href="#" class="btn btn--green btn--with-shadow">
+                                    Buy a Ticket Now!
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Widget Contacts -->
+        <!-- Block Info -->
+
+        <section class="bg-blue-lighteen medium-padding100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <img src="/as-images/sample/image5.png" alt="image">
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="crumina-module crumina-heading">
+                            <h3 class="heading-title">How the <span class="c-primary">Utouch</span> works</h3>
+                            <div class="heading-text">
+                                Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
+                                lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit
+                                litterarum formas humanitatis per.
+                            </div>
+                        </div>
+
+                        <ul class="list list--standard">
+                            <li>
+                                <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                <a href="#">Claritas est etiam processus dynamicus</a>
+                            </li>
+                            <li>
+                                <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                <a href="#">Ypi non habent claritatem insitam</a>
+                            </li>
+                            <li>
+                                <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                <a href="#">Ut wisi enim ad minim veniam, quis nostrud</a>
+                            </li>
+                            <li>
+                                <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                <a href="#">Mirum est notare quam</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Block Info -->
+
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="crumina-module crumina-module-img-bottom">
+
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 medium-padding100">
+                            <div class="crumina-module-img-content">
+                                <div class="crumina-module crumina-heading">
+                                    <h3 class="heading-title">Quam nunc putamus parum claram, anteposuerit litterarum formas per.</h3>
+                                    <div class="heading-text">
+                                        Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes
+                                        in futurum. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium
+                                        lectorum eleifend option congue nihil imperdiet est notare quam littera gothica, quam nunc
+                                        putamus parum claram, anteposuerit litterarum formas humanitatis per.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <ul class="list list--standard">
+                                        <li>
+                                            <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                            <a href="#">Gectores legere me quod</a>
+                                        </li>
+                                        <li>
+                                            <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                            <a href="#">Mirum est notare quam</a>
+                                        </li>
+                                        <li>
+                                            <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                            <a href="#">Zril delenit augue duis</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6">
+                                    <ul class="list list--standard">
+                                        <li>
+                                            <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                            <a href="#">Zril delenit augue duis</a>
+                                        </li>
+                                        <li>
+                                            <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                            <a href="#">Gectores legere me lius quod</a>
+                                        </li>
+                                        <li>
+                                            <svg class="utouch-icon utouch-icon-correct-symbol-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-correct-symbol-1"></use></svg>
+                                            <a href="#">Mirum est notare quam</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 medium-padding100">
+                            <img class="img-bottom" src="/as-images/sample/man3.png" alt="man">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Tables -->
+
+        <section class="background-contain bg-15 bg-blue-lighteen medium-padding120 crumina-pricings">
+            <div class="container">
+                <div class="row mb60">
+                    <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 align-center">
+                        <div class="crumina-module crumina-heading">
+                            <h6 class="heading-sup-title">Our Pricing Plans</h6>
+                            <h2 class="heading-title">Choose the product that you really need!</h2>
+                        </div>
+                        <label class="tgl">
+                            <input type="checkbox" checked />
+                            <span class="js-pricing-switcher" data-on="Annually" data-off="Monthly"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="pricing-wrap">
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                            <div class="crumina-module crumina-pricing-tables-item pricing-tables-item-standard">
+                                <div class="main-pricing-content">
+                                    <h2 class="h1 rate">$<span class="price" data-annually="0" data-monthly="0">0</span></h2>
+                                    <h5 class="pricing-title">Freebie Plan</h5>
+
+                                    <div class="pricing-line bg-green"></div>
+
+                                    <p class="pricing-description">Mirum est notare quam littera gothica, quam nunc putamus parum.</p>
+
+                                    <p class="sub-description">Ut wisi enim ad minim veniam, nostrud ullamcorper.</p>
+
+                                </div>
+
+                                <div class="bg-pricing-content bg-green">
+                                    <a href="15_pricing_tables.html" class="h6 title">Get trial version</a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                            <div class="crumina-module crumina-pricing-tables-item pricing-tables-item-standard main-plan">
+                                <div class="main-pricing-content">
+                                    <h2 class="h1 rate">$<span class="price" data-annually="399" data-monthly="49">49</span></h2>
+                                    <h5 class="pricing-title">Premium Plan</h5>
+
+                                    <div class="pricing-line bg-pamaranch"></div>
+
+                                    <p class="pricing-description">Claritas est etiam processus dynamicus, qui sequitur legere me lius quod.</p>
+
+                                    <ul class="pricing-tables-position">
+                                        <li class="position-item">
+                                            Unlimited Free Update
+                                        </li>
+                                        <li class="position-item">
+                                            Unlimited Disk Dreator
+                                        </li>
+                                        <li class="position-item">
+                                            Unlimited User Support
+                                        </li>
+                                        <li class="position-item">
+                                            Money Transfer System
+                                        </li>
+                                        <li class="position-item">
+                                            Unlimited Support
+                                        </li>
+                                    </ul>
+
+                                    <p class="sub-description">Ut wisi enim ad minim veniam, nostrud ullamcorper.</p>
+                                </div>
+
+                                <div class="bg-pricing-content bg-pamaranch">
+                                    <a href="#" class="h6 title">Become a member</a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                            <div class="crumina-module crumina-pricing-tables-item pricing-tables-item-standard">
+                                <div class="main-pricing-content">
+                                    <h2 class="h1 rate">$<span class="price" data-annually="299" data-monthly="29">29</span></h2>
+                                    <h5 class="pricing-title">Business Plan</h5>
+
+                                    <div class="pricing-line bg-red"></div>
+
+                                    <p class="pricing-description">Investigationes demonstraverunt lectores legere.</p>
+
+                                    <ul class="pricing-tables-position">
+                                        <li class="position-item del">
+                                            Unlimited Free Update
+                                        </li>
+                                        <li class="position-item">
+                                            Unlimited Disk Dreator
+                                        </li>
+                                        <li class="position-item">
+                                            Unlimited User Support
+                                        </li>
+                                        <li class="position-item del">
+                                            Money Transfer System
+                                        </li>
+                                        <li class="position-item">
+                                            Unlimited Support
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <div class="bg-pricing-content bg-red">
+                                    <a href="#" class="h6 title">Buy It Now!</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Pricing Tables -->
+        <!-- Teammembers -->
+
+        <section class="crumina-module crumina-module-slider medium-padding100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="crumina-module-img-content">
+                            <div class="crumina-module crumina-heading">
+                                <h3 class="heading-title">Our proffesional instructors</h3>
+                                <div class="heading-text">Claritas est etiam processus dynamicus.</div>
+                            </div>
+                        </div>
+                        <div class="slider-slides with-thumbs align-left">
+                            <a href="#" class="slides-item slide-active">
+                                <div class="testimonial-img-author">
+                                    <img src="/as-images/sample/author7.png" alt="author">
+                                </div>
+                            </a>
+
+                            <a href="#" class="slides-item">
+                                <div class="testimonial-img-author">
+                                    <img src="/as-images/sample/author8.png" alt="author">
+                                </div>
+                            </a>
+
+                            <a href="#" class="slides-item">
+                                <div class="testimonial-img-author">
+                                    <img src="/as-images/sample/author9.png" alt="author">
+                                </div>
+                            </a>
+
+                            <a href="#" class="slides-item">
+                                <div class="testimonial-img-author">
+                                    <img src="/as-images/sample/author10.png" alt="author">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-7 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12">
+                        <div class="swiper-container" data-effect="fade">
+
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="crumina-module crumina-teammembers-item teammember-item--author-in-round thumb--big">
+
+                                        <div class="teammembers-thumb" data-swiper-parallax="-100">
+                                            <img src="/as-images/sample/teammember9.jpg" alt="team member">
+                                        </div>
+
+                                        <div class="teammember-content" data-swiper-parallax="-300">
+
+                                            <div class="teammembers-item-prof">Professor</div>
+
+                                            <a href="#" class="h5 teammembers-item-name">Jonathan Miller</a>
+
+                                            <p>
+                                                Sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                                                est etiam est etiam processus dynamicus, qui sequitur.
+                                            </p>
+
+                                            <ul class="socials socials--round">
+                                                <li>
+                                                    <a href="" class="social__item facebook">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item twitter">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item googlePlus">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8.16 6.857V9.6h4.537c-.183 1.177-1.37 3.45-4.537 3.45-2.73 0-4.96-2.26-4.96-5.05s2.23-5.05 4.96-5.05c1.554 0 2.594.66 3.19 1.233l2.17-2.092C12.126.79 10.32 0 8.16 0c-4.423 0-8 3.577-8 8s3.577 8 8 8c4.617 0 7.68-3.246 7.68-7.817 0-.526-.057-.926-.126-1.326H8.16z"></path></svg>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="crumina-module crumina-teammembers-item teammember-item--author-in-round thumb--big">
+
+                                        <div class="teammembers-thumb" data-swiper-parallax="-100">
+                                            <img src="/as-images/sample/teammember9.jpg" alt="team member">
+                                        </div>
+
+                                        <div class="teammember-content" data-swiper-parallax="-300">
+
+                                            <div class="teammembers-item-prof">Manager</div>
+
+                                            <a href="#" class="h5 teammembers-item-name">Britney Simpson</a>
+
+                                            <p>
+                                                Sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                                                est etiam est etiam processus dynamicus, qui sequitur.
+                                            </p>
+
+                                            <ul class="socials socials--round">
+                                                <li>
+                                                    <a href="" class="social__item facebook">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item twitter">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item googlePlus">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8.16 6.857V9.6h4.537c-.183 1.177-1.37 3.45-4.537 3.45-2.73 0-4.96-2.26-4.96-5.05s2.23-5.05 4.96-5.05c1.554 0 2.594.66 3.19 1.233l2.17-2.092C12.126.79 10.32 0 8.16 0c-4.423 0-8 3.577-8 8s3.577 8 8 8c4.617 0 7.68-3.246 7.68-7.817 0-.526-.057-.926-.126-1.326H8.16z"></path></svg>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="crumina-module crumina-teammembers-item teammember-item--author-in-round thumb--big">
+
+                                        <div class="teammembers-thumb" data-swiper-parallax="-100">
+                                            <img src="/as-images/sample/teammember9.jpg" alt="team member">
+                                        </div>
+
+                                        <div class="teammember-content" data-swiper-parallax="-300">
+
+                                            <div class="teammembers-item-prof">JS Developer</div>
+
+                                            <a href="#" class="h5 teammembers-item-name">Christian Bush</a>
+
+                                            <p>
+                                                Sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                                                est etiam est etiam processus dynamicus, qui sequitur.
+                                            </p>
+
+                                            <ul class="socials socials--round">
+                                                <li>
+                                                    <a href="" class="social__item facebook">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item twitter">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item googlePlus">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8.16 6.857V9.6h4.537c-.183 1.177-1.37 3.45-4.537 3.45-2.73 0-4.96-2.26-4.96-5.05s2.23-5.05 4.96-5.05c1.554 0 2.594.66 3.19 1.233l2.17-2.092C12.126.79 10.32 0 8.16 0c-4.423 0-8 3.577-8 8s3.577 8 8 8c4.617 0 7.68-3.246 7.68-7.817 0-.526-.057-.926-.126-1.326H8.16z"></path></svg>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="crumina-module crumina-teammembers-item teammember-item--author-in-round thumb--big">
+
+                                        <div class="teammembers-thumb" data-swiper-parallax="-100">
+                                            <img src="/as-images/sample/teammember9.jpg" alt="team member">
+                                        </div>
+
+                                        <div class="teammember-content" data-swiper-parallax="-300">
+
+                                            <div class="teammembers-item-prof">Copyrighter</div>
+
+                                            <a href="#" class="h5 teammembers-item-name">Jane Nguyen</a>
+
+                                            <p>
+                                                Sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                                                est etiam est etiam processus dynamicus, qui sequitur.
+                                            </p>
+
+                                            <ul class="socials socials--round">
+                                                <li>
+                                                    <a href="" class="social__item facebook">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.48-1.195 1.18v1.54h2.39l-.31 2.42h-2.08V16h4.077c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item twitter">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" fill-rule="nonzero"></path></svg>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="social__item googlePlus">
+                                                        <svg class="utouch-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8.16 6.857V9.6h4.537c-.183 1.177-1.37 3.45-4.537 3.45-2.73 0-4.96-2.26-4.96-5.05s2.23-5.05 4.96-5.05c1.554 0 2.594.66 3.19 1.233l2.17-2.092C12.126.79 10.32 0 8.16 0c-4.423 0-8 3.577-8 8s3.577 8 8 8c4.617 0 7.68-3.246 7.68-7.817 0-.526-.057-.926-.126-1.326H8.16z"></path></svg>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Teammembers -->
+        <!-- Contact Forms -->
+
+        <section class="medium-padding100 bg-blue-lighteen">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="crumina-module crumina-heading">
+                            <h3 class="heading-title">Create your free account now and get immediate access to our webinar.</h3>
+                            <div class="heading-text">
+                                Qui sequitur mutationem consuetudium lectorum. Mirum est notare quam
+                                littera gothica, quam nunc putamus parum claram.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12">
+                        <form class="form-validate contact-form" method="post">
+                            <input name="name" placeholder="Your Name" type="text">
+                            <input name="email" placeholder="Email Address" type="text">
+                            <button class="btn btn--primary btn--with-shadow full-width">
+                                Get it Now!
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Contact Forms -->
+        <!-- Dotted Map -->
+
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="dotted-map">
+                            <img src="/as-images/sample/map-dotted.png" alt="map">
+                            <div class="dotted-map-content">
+                                <h2 class="title"><span>$</span>39</h2>
+                                <a href="#" class="btn btn--green btn--with-shadow">Buy a Ticket Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Dotted Map -->
+        <!-- Pagination -->
+
+        <section class="bg-blue-lighteen">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="pagination-arrow">
+
+                            <a href="#" class="btn-prev-wrap">
+                                <div class="btn-prev">
+                                    <svg class="utouch-icon icon-hover utouch-icon-arrow-left-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-left-1"></use></svg>
+                                    <svg class="utouch-icon utouch-icon-arrow-left1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-left1"></use></svg>
+                                </div>
+                                <div class="btn-content">
+                                    <div class="btn-content-title">Next Post</div>
+                                    <p class="btn-content-subtitle">Standard Post Format...</p>
+                                </div>
+                            </a>
+
+                            <a class="list-post" href="#">
+                                <svg class="utouch-icon utouch-icon-menu-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-menu-1"></use></svg>
+                            </a>
+
+                            <a href="#" class="btn-next-wrap">
+                                <div class="btn-content">
+                                    <div class="btn-content-title">Previous Post</div>
+                                    <p class="btn-content-subtitle">Video Post Format...</p>
+                                </div>
+                                <div class="btn-next">
+                                    <svg class="utouch-icon icon-hover utouch-icon-arrow-right-1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right-1"></use></svg>
+                                    <svg class="utouch-icon utouch-icon-arrow-right1"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-arrow-right1"></use></svg>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... end Pagination -->
+
+    </div>
+     
+        }
+      
+    </div>
+<!-- Shop Area end -->
+@section scripts
+    {
+    @Scripts.Render("~/bundles/content/default/catalog/category/js/grid")
+    <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-services")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+
+        });
+    </script>
+}

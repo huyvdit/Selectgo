@@ -1,0 +1,245 @@
+﻿@{
+    ViewBag.Title = LanguageHelper.Translate("Checkout Completed_Text");
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Core.Models.Ecommerce.View.CheckOutViewModel
+
+
+    <section class="js windows chrome desktop page--banner page--logo-banner page--show  svg opacity placeholder no-touchevents displaytable display-table generatedcontent cssanimations flexbox no-flexboxtweener anyflexbox no-shopemoji floating-labels">
+        <a href="#main-header" class="skip-to-content">
+            Skip to content
+        </a>
+       
+        <header class="banner" data-header="" role="banner" aria-hidden="false">
+            <div class="wrap">
+                <a class="logo logo--left" href="https://geeks.selectgo.vn" title="「Sg.」"><svg width="200px" height="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-5 15 250 25" version="1.1" style="    margin-top: -5px; border-left: 1px solid #fff;padding-left: 15px;"><title>Logo</title><desc>Created with love.</desc><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-315.000000, -38.000000)"><g transform="translate(315.000000, 38.000000)"><text id="Symbols" font-family="Quattrocento Sans,sans-serif" font-size="26" font-weight="500" fill="#fff"><tspan x="75" y="24">Select &amp; go</tspan><tspan x="189.14" y="24.5001221" font-weight="normal" fill="#e83f43" font-size="48">.</tspan><tspan x="75.16" y="46.5001221" font-family="" font-size="12" fill="#c90000" font-weight="normal"> checkout done.</tspan></text><g id="Favicon"><circle fill="#fff" cx="20" cy="19.9917" r="4"></circle><path fill="#fff" d="M20,0.0073c-11.0469,0-20,8.9551-20,20c0,5.5762,2.2891,10.6094,5.9688,14.2344L20,48.2729l5.6602-5.6602L12.0938,28.9526C9.6035,26.7534,8,23.5737,8,19.9917c0-6.6289,5.375-12.002,12-12.002s12,5.373,12,12.002c0,4.7734-2.8125,8.8633-6.8516,10.7969l6.168,6.168l2.7148-2.7148C37.7109,30.6167,40,25.5835,40,20.0073C40,8.9624,31.0469,0.0073,20,0.0073z"></path></g></g></g></g></svg></a>
+                <h1 class="visually-hidden">
+                    Information
+                </h1>
+            </div>
+        </header>
+
+        <div class="content checkout" data-content="" aria-hidden="false">
+            <div class="wrap">
+                <div class="main">
+                    <header class="main__header" role="banner">
+
+                        <nav aria-label="Breadcrumb">
+                            <ul class="breadcrumb ">
+                                <li class="breadcrumb__item breadcrumb__item--completed">
+                                    <a class="breadcrumb__link" href="/en/checkout">Checkout</a>
+                                    <svg class="icon-svg icon-svg--color-adaptive-light icon-svg--size-10 breadcrumb__chevron-icon" aria-hidden="true" focusable="false"> <use xlink:href="#chevron-right"></use> </svg>
+                                </li>
+
+                                <li class="breadcrumb__item step-4">
+                                    <a class="breadcrumb__link" href="/en/checkout/?step=4">Order Confirmed</a>
+                                </li>
+                            </ul>
+                        </nav>
+
+
+
+                    </header>
+                    <main class="main__content checkout__form" role="main">
+                        <section>
+                            <div class="container">
+                                <table class="order-mark">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div style="text-transform: uppercase; font-size: 11px; letter-spacing: 1px; font-weight: bold; color: #B8B8B8; margin-bottom: 5px;">Receipt #@Model.Order.Code</div>
+                                                <div style="font-size: 12px; color: #111; font-weight: bold; margin-bottom: 20px;">@Model.Order.CreatedTime</div>
+                                                <div style="background-color: #fffae9; padding: 20px; font-size: 12px;">
+                                                    <h4 style="margin: 0px 0px 10px;">Changed your mind?</h4>
+                                                    <div style="color: #aaa;">You can request a cancellation within 24 hours by <a href="#" style="text-decoration: underline; color: #4B72FA;">clicking here</a></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="section-inner">
+                                    <div class="section-body">
+                                        <div class="thankyou">
+                                           
+                                            <div class="section-title">Thank you for shopping</div>
+                                            <p class="section-p">We have sent you an email <span style="color: #026f56;text-decoration: underline;">@Model.Order.Customer.Email</span> to confirm the order</p>
+                                            <div class="line sm"></div>
+                                            <div class="thankyou-inner text-left">
+                                                <div class="thankyou-description">
+                                                    <p>
+                                                        <span class="text-bold">Hello @Model.Order.Customer.FriendlyName</span>, <br>
+                                                        Thank you for shopping with us.
+                                                    </p>
+                                                    <p>Your order has been placed on our system, we will process your order with total: <span class="numeric" style="color: #026f56;font-weight: 700;">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</span> and use <b>@Model.Order.UsePoints</b> points. Please keep contact to delivery early. you can review again order any time by signed and go to page account!</p>
+                                                    <p>
+                                                        <b>Note:</b>
+                                                        @foreach (var item in Model.Order.OrderNotes)
+                                                        {
+                                                            <div>@item.Note</div>
+                                                        }
+                                                    </p>
+                                                </div> <!-- /.thankyou-description -->
+                                                <div class="section-subtitle">How to pay?</div>
+                                                <div class="row thankyou-steps">
+                                                    <div class="payment-method-form" style="display:block;">
+                                                        <div class="payment-method-form-inner">
+                                                            <div class="f">
+                                                                @Html.Raw(Model.Order.PaymentMethod.Instructions)
+                                                            </div>
+
+                                                        </div> <!-- /.payment-method-form-inner -->
+                                                    </div>
+                                                </div> <!-- /.row -->
+                                                <div class="section-subtitle">Order Details</div>
+                                                <div class="items">
+                                                    @foreach (var item in Model.Order.OrderItems.Where(e => e.ProductGroupId == null))
+                                                    {
+                                                        <div class="item">
+                                                            <div class="item-inner">
+                                                                <figure>
+                                                                    <a href="#">
+                                                                        <img src="@item.Product.Avatar" alt="@item.Product.Name">
+                                                                    </a>
+                                                                </figure>
+                                                                <div class="item-details">
+                                                                    <div class="item-title"><a href="@SlugHelper.Product(item.ProductId)">@item.Product.Name</a></div>
+                                                                    <div class="item-description">SKU: @item.Product.Sku</div>
+                                                                    <div class="item-price">Price: @FormatHelper.FormatCurrency(item.Price)</div>
+                                                                    <div class="item-variants">
+                                                                        <ul>
+                                                                            <li><div class="variant-label">Size</div><div class="variant-value">L</div></li>
+                                                                            <li><div class="variant-label">Color</div><div class="variant-value"><div class="circle-color" style="background-color: #1abc9c;"></div></div></li>
+                                                                        </ul>
+                                                                    </div> <!-- /.item-variants -->
+                                                                </div> <!-- /.item-details -->
+                                                                <div class="item-price">
+                                                                    <div class="">
+                                                                        <div class="">x<span>@item.Quantity</span></div>
+                                                                    </div> <!-- /.quantity -->
+                                                                    <div class="value">@FormatHelper.FormatCurrency(item.Price * item.Quantity)</div>
+                                                                </div> <!-- /.item-price -->
+                                                            </div> <!-- /.item-inner -->
+                                                        </div>
+                                                        foreach (var item2x in Model.Order.OrderItems.Where(e => e.ProductGroupId == item.ProductId))
+                                                        {
+                                                            <div class="item" style=" background: #9e9e9e1f; margin-top: -22px;">
+                                                                <div class="item-inner">
+                                                                    <figure>
+                                                                        <a href="#">
+                                                                            <img src="@item.Product.Avatar" alt="@item.Product.Name">
+                                                                        </a>
+                                                                    </figure>
+                                                                    <div class="item-details">
+                                                                        <div class="item-title"><a href="@SlugHelper.Product(item2x.ProductId)">@item2x.Product.Name</a></div>
+                                                                        <div class="item-description">SKU: @item2x.Product.Sku</div>
+                                                                        <div class="item-price">Price: @FormatHelper.FormatCurrency(item2x.Price)</div>
+                                                                    </div> <!-- /.item-details -->
+                                                                    <div class="item-price">
+                                                                        <div class="">
+                                                                            <div class="">x<span>@item2x.Quantity</span></div>
+                                                                        </div> <!-- /.quantity -->
+                                                                        <div class="value">@FormatHelper.FormatCurrency(item2x.Price * item2x.Quantity)</div>
+                                                                    </div> <!-- /.item-price -->
+                                                                </div> <!-- /.item-inner -->
+                                                            </div>
+                                                        }
+                                                    }
+                                                    <!-- /.item -->
+                                                </div> <!-- /.items -->
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="section-subtitle">Shipping To</div>
+                                                        <div class="shipping-to">
+                                                            <div class="shipping-inner">
+                                                                <div class="name">@Model.Order.Customer.MainAddress.FullName</div>
+                                                                <div class="address">
+                                                                    @Model.Order.Customer.MainAddress.Address1 @Html.Raw(Model.Order.Customer.MainAddress.Address2 == null ? "" : "<span style='color: dimgray;font-size: 89%;'>(" + Model.Order.Customer.MainAddress.Address2 + ")</span>") ,
+                                                                    @if (@Model.Order.Customer.MainAddress.District != null)
+                                                                    {
+                                                                        <span>
+                                                                            @Model.Order.Customer.MainAddress.District.Name,
+                                                                            @Model.Order.Customer.MainAddress.StateProvince.Name
+                                                                        </span>
+                                                                    }
+                                                                </div>
+                                                                <div class="contact">Phone <span>@Model.Order.Customer.MainAddress.PhoneNumber</span> </div>
+                                                                <div class="etd"><span>ETD</span> @Model.Order.ShippingMethod.Description</div>
+                                                            </div> <!-- /.shopping-inner -->
+                                                        </div> <!-- /.shipping-to -->
+                                                    </div> <!-- /.col-md-6 -->
+                                                    <div class="col-md-6 col-sm-6">
+                                                        <div class="section-subtitle">Order Totals</div>
+                                                        <div class="total-info">
+
+                                                            <div class="total-item">
+                                                                <div class="total-name">SubTotal</div>
+                                                                <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.SubTotal)</div>
+                                                            </div> <!-- /.total-item -->
+
+                                                            <div class="total-item">
+                                                                <div class="total-name">Shipping & Handling</div>
+                                                                <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.OrderTransportFee)</div>
+                                                            </div> <!-- /.total-item -->
+
+                                                            <!--<div class="total-item" data-calculate-min="true">
+                                                                <div class="total-name">Reward Points</div>
+                                                                <div class="total-value" id="total-discount">@FormatHelper.FormatCurrency(Model.Order.UsePoints * 1000)</div>
+                                                            </div>--> <!-- /.total-item -->
+
+                                                            <div class="total-item" data-calculate-min="true">
+                                                                <div class="total-name">Discount</div>
+                                                                <div class="total-value" id="total-discount">@FormatHelper.FormatCurrency(Model.Order.OrderDiscount)</div>
+                                                            </div> <!-- /.total-item -->
+
+                                                            <div class="total-item">
+
+                                                                <div class="total-name">Total Due <span style="font-size: 10px;color: dimgray;">(Included Shipping fee & Money points)</span></div>
+                                                                <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</div>
+                                                            </div> <!-- /.total-item -->
+                                                        </div> <!-- /.total-info -->
+                                                    </div> <!-- /.col-md-6 -->
+                                                </div> <!-- /.row -->
+                                                <div class="thankyou-cta">
+                                                    <a href="@SlugHelper.Category(grouped:"web-themes-templates")" class="btn btn-primary btn-outline"><i class="ion-android-arrow-back"></i> Back to Shop</a>
+                                                </div> <!-- /.thankyou-cta -->
+                                            </div> <!-- /.thankyou-inner -->
+                                        </div> <!-- /.thankyou -->
+                                    </div>  <!-- /.section-body -->
+                                </div> <!-- /.section-inner -->
+
+                            </div>
+                        </section>
+
+                    </main>
+                    <footer class="main__footer" role="contentinfo">
+                        <ul class="policy-list">
+                            <li class="policy-list__item ">
+                                <a aria-haspopup="dialog" data-modal="policy-refund-policy" data-title-text="Refund policy" data-close-text="Close" data-iframe="true" href="/policies/refund-policy.html">Refund policy</a>
+                            </li>
+                            <li class="policy-list__item ">
+                                <a aria-haspopup="dialog" data-modal="policy-privacy-policy" data-title-text="Privacy policy" data-close-text="Close" data-iframe="true" href="/policies/privacy-policy.html">Privacy policy</a>
+                            </li>
+                            <li class="policy-list__item ">
+                                <a aria-haspopup="dialog" data-modal="policy-terms-of-service" data-title-text="Terms of service" data-close-text="Close" data-iframe="true" href="/policies/terms-of-service.html">Terms of service</a>
+                            </li>
+                        </ul>
+                    </footer>
+                </div>
+                <div id="partial-icon-symbols" class="icon-symbols" data-tg-refresh="partial-icon-symbols" data-tg-refresh-always="true">
+                    <svg xmlns="http://www.w3.org/2000/svg">
+                        <symbol id="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 11h1v7h-2v-5c-.552 0-1-.448-1-1s.448-1 1-1h1zm0 13C5.373 24 0 18.627 0 12S5.373 0 12 0s12 5.373 12 12-5.373 12-12 12zm0-2c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM10.5 7.5c0-.828.666-1.5 1.5-1.5.828 0 1.5.666 1.5 1.5 0 .828-.666 1.5-1.5 1.5-.828 0-1.5-.666-1.5-1.5z"></path></svg></symbol>
+                        <symbol id="caret-down"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M0 3h10L5 8" fill-rule="nonzero"></path></svg></symbol>
+                        <symbol id="chevron-right"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M2 1l1-1 4 4 1 1-1 1-4 4-1-1 4-4"></path></svg></symbol>
+                        <symbol id="down-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path d="M10.817 7.624l-4.375 4.2c-.245.235-.64.235-.884 0l-4.375-4.2c-.244-.234-.244-.614 0-.848.245-.235.64-.235.884 0L5.375 9.95V.6c0-.332.28-.6.625-.6s.625.268.625.6v9.35l3.308-3.174c.122-.117.282-.176.442-.176.16 0 .32.06.442.176.244.234.244.614 0 .848"></path></svg></symbol>
+                        <symbol id="arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M16 8.1l-8.1 8.1-1.1-1.1L13 8.9H0V7.3h13L6.8 1.1 7.9 0 16 8.1z"></path></svg></symbol>
+
+                    </svg>
+
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+ <!-- /.section -->

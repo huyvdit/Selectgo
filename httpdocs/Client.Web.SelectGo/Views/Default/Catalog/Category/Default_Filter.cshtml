@@ -1,0 +1,496 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@using Web.Core.Models
+@using Web.Model.Models
+@{
+    ViewBag.SelfHeader = true;
+    Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+
+    ViewBag.filterByCurrent = Request["filterby"] ?? "";
+    ViewBag.typeCurrent = Request["type"] ?? "all";
+    ViewBag.sortOrderCurrent = Request["sortorder"] ?? "modified_desc";
+    ViewBag.searchByCurrent = Request["searchby"] == "all" ? "": Request["searchby"] ;
+    ViewBag.idCurrent = Request["id"] ?? (category.Id + "");
+    ViewBag.pageCurrent = Request["page"] ?? ("1");
+    ViewBag.pageSizeCurrent = Request["pageSize"] ?? ("8");
+    ViewBag.viewCurrent = Request["view"] ?? "list";
+    List<FilterOptionView> listFilterOptionCurrent = DataWhereHelper.ParseFilters(ViewBag.ListFilters);
+
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/catalog/category/css/filter", "~/bundles/content/default/pagelist/css")
+}
+    <div id="main">
+        <div class="wrapper">
+            <div class="breadcrumb-wrap">
+                <div class="container py-3">
+                    <div class="row d-flex justify-content-md-between justify-content-sm-center">
+                        <div class="col-md-6">
+                            <nav aria-label="breadcrumb">
+                                @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(Convert.ToInt32(category.ParentCategoryId)), Title = category.CategoryParent.Name }, new BreadcrumbModel { Link = "#", Title = category.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+                            </nav>
+                        </div>
+                        <div class="header-actions">
+
+                            <button class="btn btn-ghost grey-dark font-weight-bold sign-in">
+                                <i class="las la-bookmark"></i>
+                                <span><span>Save for Later</span></span>
+                            </button>
+
+                            <div class="c-share">
+                                <input class="c-share__input" type="checkbox" id="checkbox">
+                                <label class="c-share__toggler" for="checkbox">
+                                    <span class="c-share__icon"></span>
+                                    <span class="font-weight-bold"> Share </span>
+                                </label>
+                                <ul class="c-share_options" data-title="Share page with:">
+                                    <li><a href="javascript:" data-url="@SlugHelper.Category(category.Id, isShortLink: true)" data-pic="@category.Avatar" data-name="@category.Name" data-description="@category.Description" class="share-button facebook-share"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                                    <li><a href="javascript:" data-url="@SlugHelper.Category(category.Id, isShortLink: true)" data-name="@category.Name" class="share-button twitter-share"><i class="fab fa-twitter"></i> Twitter</a></li>
+                                    <li><a href="javascript:" data-url="@SlugHelper.Category(category.Id, isShortLink: true)" data-pic="@category.Avatar" data-name="@category.Name" class="share-button pin-share"><i class="fab fa-pinterest"></i> Pinterest</a></li>
+                                </ul>
+                            </div>
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container shop-list-filters">
+                <div class="row">
+                    <div class="col-md-5 col-lg-3">
+                        <!-- Shop Filters -->
+                        <div class="filter-action accordion accordion-caret accordion-sidebar d-none d-md-block">
+                            <svg style="width: 26px; fill: #2d3657;margin-right:5px;" tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 86.38 61.31" role="img" aria-label="Refine"><path d="M0 0h86.38v13.42H0zM25.73 23.94h60.65v13.42H25.73zM52.99 47.89h33.38v13.42H52.99z"></path></svg>
+                            @LanguageHelper.Translate("Filter & Refine by_Text")
+                            <div class="card">
+                                <div class="card-header">
+                                    <a href="#filter-categories" data-toggle="collapse" aria-expanded="true" aria-controls="filter-categories" role="button" class="h6">
+                                        @LanguageHelper.Translate("Categories_Text").ToUpper()
+                                    </a>
+                                </div>
+                                <div id="filter-categories" class="panel-collapse collapse" style="margin-left: -24px;background: #e5e6ec21;">
+                                    <div class="card-body">
+                                        @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "plugins-resources", take = 1, pathView = "Widgets/Shop/CategoriesMenuAll", area = "" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            @using (Ajax.BeginForm("ListProductsByCategoryId", "BaseCategory", new AjaxOptions
+                            {
+                                UpdateTargetId = "list-products-by-category",
+                                HttpMethod = "GET",
+                                LoadingElementId = "list-products-by-category-loader",
+                                OnComplete = "PagedOnComplete_List",
+                                OnBegin = "PageOnStart_List"
+                            }))
+                            {
+
+                                <input id="filterby" type="hidden" name="filterby" value="@ViewBag.filterByCurrent" />
+                                <input id="searchby" type="hidden" name="searchby" value="@ViewBag.searchByCurrent" />
+                                <input type="hidden" name="id" value="@ViewBag.idCurrent" />
+                                <input type="hidden" name="view" value="@ViewBag.viewCurrent">
+                                <input type="hidden" name="pagesize" value="12">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="#filter-keyword" data-toggle="collapse" aria-expanded="true" aria-controls="filter-price" role="button" class="h6">
+                                            @LanguageHelper.Translate("Search by_Text")
+                                        </a>
+                                    </div>
+                                    <div id="filter-keyword" class="panel-collapse collapse">
+                                        <div class="card-body">
+                                            <div class="navbar_search">
+                                                <div class="map_autocomplete">
+                                                    <div id="help">
+                                                        <div class="help-1">Now press <kbd>enter</kbd></div>
+                                                        <div class="help-2">.. and now press the <kbd>up</kbd> key to back</div>
+                                                    </div>
+                                                    <input id="keyword" type="text" placeholder="Type any key..." class="ant-input ant-input-lg pac-target-input" value="@ViewBag.searchByCurrent" autocomplete="off">
+                                                </div>
+                                                <button id="searchby-btn" class="btn-search" type="button">
+                                                    <svg class="search-icon" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M0 8C0 3.582 3.582 0 8 0C12.418 0 16 3.582 16 8C16 12.418 12.418 16 8 16C3.582 16 0 12.418 0 8ZM8 14C4.692 14 2 11.309 2 8C2 4.692 4.692 2 8 2C11.308 2 14 4.692 14 8C14 11.309 11.308 14 8 14ZM18.586 20L20 18.586L15.757 14.343L14.343 15.758L18.586 20Z" fill="#989BA2" fill-rule="evenodd" stroke="none"></path></svg>
+                                                </button>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="#filter-price" data-toggle="collapse" aria-expanded="true" aria-controls="filter-price" role="button" class="h6">
+                                            @LanguageHelper.Translate("Price ranges_Text")
+                                        </a>
+                                    </div>
+                                    <div id="filter-price" class="panel-collapse collapse">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between mb-3">
+                                                @{
+                                                    var min = 0;
+                                                    var max = DataCurrentHelper.UniqueSeoCode == "vi" ? 1000000 : 50;
+                                                    var rangePrices = DataWhereHelper.ParseRangePrices(min, max, ViewBag.filterByCurrent);
+                                                }
+                                                <input type="text" value="@rangePrices[0]" data-val="@rangePrices[0]" data-min="@min" class="form-control form-control-sm text-center  bg-light mr-2 minw-0" id="price-slider-min">
+                                                <input type="text" value="@rangePrices[1]" data-val="@rangePrices[1]" data-max="@max" class="form-control form-control-sm text-center  bg-light ml-2 minw-0" id="price-slider-max">
+                                            </div>
+                                            <div id="price-slider"></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                foreach (var item in listFilterOptionCurrent)
+                                {
+                                    if (item.Flags == "{{product::attributes}}")
+                                    {
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a href="#filter-pa-@item.Id" style="color:dimgray" data-toggle="collapse" aria-expanded="true" aria-controls="filter-@item.Id" role="button" class="h6">
+                                                    @item.Name
+                                                </a>
+                                            </div>
+                                            <div id="filter-pa-@item.Id" class="panel-collapse collapse">
+                                                <div class="card-body myFilters" data-option-type="filterby" data-option-group="pa">
+                                                    @{
+                                                        if (item.Name == "Colors" || item.Name == "Màu sắc")
+                                                        {
+                                                            <div class="color-options">
+                                                                @foreach (var innerItem in item.FilterOptionValueViews)
+                                                                {
+                                                                    var idComplex = (item.Id + "-" + innerItem.Id);
+                                                                    <div data-option-value="pa-@idComplex" data-title="@(item.Name + "-" + innerItem.Name)" class="custom-control custom-checkbox custom-radio-color custom-control-inline radio-checkbox isotopeFilter" data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                        <input type="checkbox" data-link="pa-@idComplex" id="pa-@idComplex" class="custom-control-input" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                                        <label class="custom-control-label" for="pa-@idComplex" style="background-color: @innerItem.Value"> @innerItem.Name </label>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            foreach (var innerItem in item.FilterOptionValueViews)
+                                                            {
+                                                                var idComplex = (item.Id + "-" + innerItem.Id);
+                                                                <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="pa-@idComplex" data-title="@(item.Name + "-" + innerItem.Name)" data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                    <input type="checkbox" class="custom-control-input" data-link="pa-@idComplex" id="pa-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                                    <label class="custom-control-label " for="pa-@idComplex">@innerItem.Name</label>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (item.Flags == "{{product::specificationattributes}}")
+                                    {
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a href="#filter-sa-@item.Id" style="color:dimgray" data-toggle="collapse" aria-expanded="true" aria-controls="filter-@item.Id" role="button" class="h6">
+                                                    @item.Name
+                                                </a>
+                                            </div>
+                                            <div id="filter-sa-@item.Id" class="panel-collapse collapse">
+                                                <div class="card-body myFilters" data-option-type="filterby" data-option-group="sa">
+                                                    @{
+                                                        foreach (var innerItem in item.FilterOptionValueViews)
+                                                        {
+                                                            var idComplex = (item.Id + "-" + innerItem.Id);
+                                                            <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="sa-@idComplex" data-title="@(item.Name + "-" + innerItem.Name)" data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                <input type="checkbox" class="custom-control-input" data-link="sa-@idComplex" id="sa-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                                <label class="custom-control-label " for="sa-@idComplex">@innerItem.Name</label>
+                                                            </div>
+
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    else if (item.Flags == "{{product::manufacturers}}")
+                                    {
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a href="#filter-confirmed-by" data-toggle="collapse" aria-expanded="true" aria-controls="filter-confirmed-by" role="button" class="h6">
+                                                    @LanguageHelper.Translate("Confirmed by_Text")
+                                                </a>
+                                            </div>
+                                            <div id="filter-confirmed-by" class="panel-collapse collapse">
+                                                <div class="card-body myFilters" data-option-type="filterby" data-option-group="ma">
+                                                    <div class="input-group input-group-sm input-group-search mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-light" type="button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" stroke-width="1.1" cx="9" cy="9" r="7"></circle><path fill="none" stroke="#000" stroke-width="1.1" d="M14,14 L18,18 L14,14 Z"></path></svg></button>
+                                                        </div>
+                                                        <input type="text" class="form-control border-0" id="search-confirmed-by" placeholder="Search...">
+                                                    </div>
+                                                    <div class="confirmed-by-list">
+                                                        @{
+                                                            foreach (var innerItem in item.FilterOptionValueViews)
+                                                            {
+                                                                var idComplex = (9 + "-" + innerItem.Id);
+                                                                <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="ma-@idComplex" data-title="@(LanguageHelper.Translate("confirmed-by_Text") + "-" + innerItem.Name)">
+                                                                    <input type="checkbox" class="custom-control-input" data-link="ma-@idComplex" id="ma-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "") data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                    <label class="custom-control-label " for="ma-@idComplex">@innerItem.Name <small class="counter">@innerItem.Count</small></label>
+                                                                </div>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="#filter-ratings" data-toggle="collapse" aria-expanded="true" role="button" class="h6">
+                                            @LanguageHelper.Translate("Ratings_Text").ToUpper()
+                                            <svg tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.9 7.8" role="img" aria-label="Arrow right" style="width: 36px;">
+                                                <path d="M25 3.2H.7c-.4 0-.7.3-.7.7 0 .4.3.7.7.7H25c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7z"></path>
+                                                <path d="M24.4 4.7V.4c0-.4.3-.6.6-.3l1.2 1.1c.3.3.9.8 1.2 1.1l1.2 1.1c.3.3.3.8 0 1.1l-1.2 1.1c-.3.3-.9.8-1.2 1.1l-1.2.9c-.3.3-.6.2-.6-.3V4.7z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div id="filter-ratings" class="panel-collapse collapse">
+                                        <div class="card-body" data-option-type="filterby" data-option-group="ra">
+                                            @{
+                                                for (var raId = 1; raId <= 5; raId++)
+                                                {
+                                                    var idComplex = ("0" + "-" + raId);
+                                                    <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="ra-@idComplex" data-title="@("Ratings:" + "from " + (raId -1) + " - " + (raId) + " stars")" data-toggle="tooltip" data-placement="right" title="">
+                                                        <input type="checkbox" class="custom-control-input" data-link="ra-@idComplex" id="ra-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                        <label class="custom-control-label " for="ra-@idComplex">
+                                                            @for (var i = 1; i <= raId; i++)
+                                                            {
+                                                                <i class="las la-star"></i>
+                                                            }
+                                                        </label>
+                                                    </div>
+
+                                                }
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <a href="#filter-tagspopular" data-toggle="collapse" aria-expanded="true" role="button" class="h6">
+                                        @LanguageHelper.Translate("Favorite_Tags_Text").ToUpper()
+                                        <svg tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.9 7.8" role="img" aria-label="Arrow right" style="width: 36px;">
+                                            <path d="M25 3.2H.7c-.4 0-.7.3-.7.7 0 .4.3.7.7.7H25c.4 0 .7-.3.7-.7 0-.4-.3-.7-.7-.7z"></path>
+                                            <path d="M24.4 4.7V.4c0-.4.3-.6.6-.3l1.2 1.1c.3.3.9.8 1.2 1.1l1.2 1.1c.3.3.3.8 0 1.1l-1.2 1.1c-.3.3-.9.8-1.2 1.1l-1.2.9c-.3.3-.6.2-.6-.3V4.7z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div id="filter-tagspopular" class="panel-collapse collapse">
+                                    <div class="card-body">
+                                        <div class="tagcloud">
+                                            @Html.Action("TagsPopular", "Catalog", new { pathView = "Widgets/Shop/TagLeft" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Shop Filters -->
+                    </div>
+                    <!-- end: left column -->
+                    <div class="col-md-7 col-lg-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <header>
+                                    <!-- Shop Toolbar -->
+                                    <div class="card mb-3">
+                                        <div class="card-body d-flex justify-content-end align-items-center py-2" style="padding-right: 0px;">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill d-block d-md-none mr-auto" id="filterButton" data-toggle="modal" data-target="#filterModal">
+                                                <svg style="width: 10px;fill: #fff" tabindex="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 86.38 61.31" role="img" aria-label="Refine"><path d="M0 0h86.38v13.42H0zM25.73 23.94h60.65v13.42H25.73zM52.99 47.89h33.38v13.42H52.99z"></path></svg> @LanguageHelper.Translate("FILTER & REFINE_Text")</button>
+                                                <ul class="d-none d-md-flex p-0 mb-0 mr-auto">
+                                                    <li class="result-count">
+                                                        @*@Html.Action("QuicklyStatistics", "BaseCategory", new { id = ViewBag.idCurrent, filterBy = ViewBag.filterByCurrent, sortOrder=ViewBag.sortOrderCurrent, searchBy = ViewBag.searchByCurrent, pageSize = ViewBag.pageSizeCurrent, area = "" })*@
+                                                        <a>
+                                                            @LanguageHelper.Translate("Showing_Text") <ins id="found-item"> 0 - 0</ins> @LanguageHelper.Translate("of_Text") <b id="total-item"> 0 </b>   @LanguageHelper.Translate("results_Text")
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            <div class="dropdown dropdown-hover">
+                                                @using (Ajax.BeginForm("ListProductsByCategoryId", "BaseCategory", new AjaxOptions
+                                                {
+                                                    UpdateTargetId = "list-products-by-category",
+                                                    HttpMethod = "GET",
+                                                    LoadingElementId = "list-products-by-category-loader",
+                                                    OnComplete = "PagedOnComplete_List",
+                                                    OnBegin = "PageOnStart_List"
+                                                }))
+                                                {
+                                                    <input id="id" type="hidden" name="id" value="@ViewBag.idCurrent" />
+                                                    <input id="type" type="hidden" name="type" value="@(ViewBag.typeCurrent ?? "all")" />
+                                                    <input type="hidden" name="filterby" value="@ViewBag.filterByCurrent" />
+                                                    <input type="hidden" name="searchBy" value="@ViewBag.searchByCurrent">
+                                                    <input type="hidden" name="pagesize" value="@ViewBag.pageSizeCurrent">
+                                                    <input type="hidden" name="view" value="@ViewBag.viewCurrent">
+                                                    var listSortOrders = new List<SelectListItem>();
+
+                                                    foreach(var so in new Dictionary<string, string>
+                                                             {
+                                                                 {"modified_desc", LanguageHelper.Translate("Sort by Recently Updated_Text")},
+                                                                 {"new", LanguageHelper.Translate("Sort by Newness_Text")},
+                                                                 {"price", LanguageHelper.Translate("Sort by price: Low to High_Text")},
+                                                                 {"price_desc", LanguageHelper.Translate("Sort by price: High to Low_Text")},
+                                                                 {"featured", LanguageHelper.Translate("Sort by Featured_Text")},
+                                                                 {"rate", LanguageHelper.Translate("Sort by rate: Top rate_Text")},
+
+                                                                 {"name", LanguageHelper.Translate("Sort by name: A to Z_Text")},
+                                                                 {"name_desc", LanguageHelper.Translate("Sort by name: Z back A_Text")},
+
+                                                                 {"top_day", LanguageHelper.Translate("Sort by viewed: Top day_Text")},
+                                                                 {"top_week", LanguageHelper.Translate("Sort by viewed: Top week_Text")},
+                                                                 {"top_month", LanguageHelper.Translate("Sort by viewed: Top month_Text")},
+                                                                 {"top_year", LanguageHelper.Translate("Sort by viewed: Top year_Text")}
+
+                                                             })
+                                                    {
+                                                        if(so.Key == ViewBag.sortOrderCurrent)
+                                                        {
+                                                            listSortOrders.Add(new SelectListItem() {
+                                                                Text = so.Value + " [*]",
+                                                                Value = so.Key,
+                                                                Selected = true,
+                                                                // Put all sorts of business logic in here
+
+                                                            });
+                                                        }
+                                                        else
+                                                        {
+                                                            listSortOrders.Add(new SelectListItem() {
+                                                                Text = so.Value,
+                                                                Value = so.Key
+
+                                                            });
+                                                        }
+                                                    }
+                                                    @Html.DropDownList("sortorder_select", listSortOrders ,new { id="sortorder", @name="sortorder" , @class = "btn btn-light btn-sm border rounded-pill" })
+                                                }
+
+                                            </div>
+
+
+                                            <a href="?@Request.QueryString.ToString().Replace("view=list","").Replace("view=grid","").Replace("&&","&")&view=grid" class="btn btn-icon rounded-pill btn-sm  btn@(Request.QueryString["view"] != "grid"? "-outline":"")-primary ml-3" data-toggle="tooltip" title="Show Grid"><svg width="16px" height="16px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"><path class="navigation-item--icon" d="M9 9L0 9L0 0L9 0L9 9ZM20 9L11 9L11 0L20 0L20 9ZM2 7L7 7L7 2L2 2L2 7ZM13 7L18 7L18 2L13 2L13 7ZM9 20L0 20L0 11L9 11L9 20ZM20 20L11 20L11 11L20 11L20 20ZM2 18L7 18L7 13L2 13L2 18ZM13 18L18 18L18 13L13 13L13 18Z" fill-rule="evenodd" stroke="none"></path></svg></a>
+                                            <a href="?@Request.QueryString.ToString().Replace("view=list","").Replace("view=grid","").Replace("&&","&")&view=list" class="btn btn-icon rounded-pill btn-sm btn@(Request.QueryString["view"] == "grid"? "-outline":"")-primary mr-3" data-toggle="tooltip" title="Show List"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2D3657" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></a>
+                                        </div>
+                                    </div>
+                                    <!-- /Shop Toolbar -->
+                                </header>
+                            </div>
+                        </div>
+                        <!-- Shop Grid -->
+                        <div class="with-sidebar">
+                            <div class="filters-active element-emphasis-strong" style="display:none;">
+                                <h3 class="strong-header element-header" style="display:none;">
+                                    @LanguageHelper.Translate("You've selected_Text") :
+                                </h3>
+                                <!-- dynamic added selected filters -->
+                                <ul class="filters-list list-unstyled">
+                                    <li></li>
+                                </ul>
+                                <button type="button" class="filters-clear btn btn-small btn-block">
+                                    @LanguageHelper.Translate("FILTER & REFINE reset_Text")
+                                </button>
+                            </div>
+                            <button type="button" class="btn btn-default btn-small visible-xs" data-texthidden="Hide Filters" data-textvisible="Show Filters" id="toggleListFilters"></button>
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Category/ByAjax/_ListPartial.cshtml"); }
+                        </div>
+                        <!-- /Shop Grid -->
+
+
+                    </div>
+                    <!-- end: Right column -->
+                </div>
+                <!-- end:row -->
+            </div>
+            <!-- Filter Modal start -->
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header border-bottom-0">
+                            <h5 class="modal-title">@LanguageHelper.Translate("FILTER & REFINE_Text")</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body p-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Filter Modal end-->
+            <!-- CATEGORIES-1
+    ============================================= -->
+            <section class="bg-whitesmoke categories-section division">
+                <div class="container">
+                    
+                    <!-- SECTION TITLE -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="section-title">
+                                <!-- Title 	-->
+                                <h4 class="h4-xs">
+                                    Web Themes & Templates / Site Templates
+                                </h4>
+                                <!-- Text -->
+                                <p class="p-md">Discover hundreds of online Themes from the best experts</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "web-themes-templates", take = 1, pathView = "Widgets/Shop/CategoriesDiscoverAll", area = "" })
+
+                        <!-- End row -->
+                </div>	   <!-- End container -->
+            </section>	<!-- End CATEGORIES-1 -->
+
+
+            <!-- End of .viewed-products -->
+            <section class="related-post p-b-xs-30">
+                <div class="container">
+                    <div class="section-title">
+                        <h5 class="axil-title">@LanguageHelper.Translate("Your_Recently_Viewed_Text")  <a href="#" class="btn-link ml-auto">All @LanguageHelper.Translate("Product_Text")</a></h5>
+                    </div>
+                    <!-- End of .section-title -->
+                    <div class="grid-wrapper">
+
+                        @Html.Action("ProductViewed", "Catalog", new { pathView = "Widgets/Shop/ProductViewed", area = "" })
+                    </div>
+                    <!-- End of .grid-wrapper -->
+                </div>
+                <!-- End of .container -->
+            </section>
+            <!-- End of .viewed-products -->
+        </div>
+    </div>
+<!-- Shop Area end -->
+@section scripts
+    {
+    @Scripts.Render("~/bundles/content/default/catalog/category/js/filter")
+    <script>
+        $(document).ready(function () {
+          
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "plugins-resources")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+
+            var currentTreeLink = $($(".list-tree a[href='@SlugHelper.Category(category.Id)']"));
+            if (currentTreeLink != null) {
+                currentTreeLink.parent().addClass('active');
+
+            }
+           
+        });
+    </script>
+}

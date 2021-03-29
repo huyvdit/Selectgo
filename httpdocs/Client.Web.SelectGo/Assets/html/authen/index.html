@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Phone Authentication</title>
+
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+  
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBam42gf2cdDEDMZOON0ZFz-H9d5R7AXrs",
+    authDomain: "selectgo-b70cb.firebaseapp.com",
+    databaseURL: "https://selectgo-b70cb.firebaseio.com",
+    projectId: "selectgo-b70cb",
+    storageBucket: "selectgo-b70cb.appspot.com",
+    messagingSenderId: "367404033006",
+    appId: "1:367404033006:web:33a83b198f72e1f140e4ff",
+    measurementId: "G-QBEM6DC3MF"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+</script>
+  
+  <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+
+</head>
+<body>
+    <div id="container">
+      <h3>Firebase Phone Number Auth. Demo</h3>
+      <div id="loading">Loading...</div>
+      <div id="loaded" class="hidden">
+        <div id="main">
+          <div id="user-signed-in" class="hidden">
+            <div id="user-info">
+              <div id="photo-container">
+                <img id="photo">
+              </div>
+              <div id="name"></div>
+              <div id="email"></div>
+              <div id="phone"></div>
+              <div class="clearfix"></div>
+            </div>
+            <p>
+              <button id="sign-out">Sign Out</button>
+              <button id="delete-account">Delete account</button>
+            </p>
+          </div>
+          <div id="user-signed-out" class="hidden">
+            <h4>You are signed out.</h4>
+            <div id="firebaseui-spa">
+              <h3>Single Page App mode:</h3>
+              <div id="firebaseui-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

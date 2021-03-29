@@ -1,0 +1,27 @@
+﻿@using global::Web.Helpers
+@model Web.Model.Models.ProductReview
+@{ 
+    var histogramData =  ViewBag.Histogram as IDictionary<string, int>;
+}
+    <div class="row rating">
+        <div class="col-sm-12">
+            <div class="product-rating">
+                <div class="rating-box">
+                    <div class="score-container">
+                        <div class="score"></div>
+                        <div class="score-container-star-rating">
+                            <div class="current-rating"></div>
+                        </div>
+                        <div class="reviews-stats"><span class="reviewers-small">Rates:</span><span class="reviews-num"></span></div>
+                    </div>
+                    <div class="rating-histogram">
+                        <div class="rating-bar-container five" valuenow="@histogramData.First(e=>e.Key == "5").Value"><span class="bar-label">5</span><span class="bar"></span><span class="bar-number"></span></div>
+                        <div class="rating-bar-container four" valuenow="@histogramData.First(e=>e.Key == "4").Value"><span class="bar-label">4</span><span class="bar"></span><span class="bar-number"></span></div>
+                        <div class="rating-bar-container three" valuenow="@histogramData.First(e=>e.Key == "3").Value"><span class="bar-label">3</span><span class="bar"></span><span class="bar-number"></span></div>
+                        <div class="rating-bar-container two" valuenow="@histogramData.First(e=>e.Key == "2").Value"><span class="bar-label">2</span><span class="bar"></span><span class="bar-number"></span></div>
+                        <div class="rating-bar-container one" valuenow="@histogramData.First(e=>e.Key == "1").Value"><span class="bar-label">1</span><span class="bar"></span><span class="bar-number"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

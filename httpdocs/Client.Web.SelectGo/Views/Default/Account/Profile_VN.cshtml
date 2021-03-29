@@ -1,0 +1,440 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using Web.Repositories.Entity.Infrastructure
+@model Web.Model.Models.Customer
+@{
+    ViewBag.SelfHeader = true;
+    ViewBag.Title = Model.MainAddress.FullName + "'s Profile";
+    var scope = Request.QueryString["scope"] ?? "all";
+    var segment = Request.QueryString["segment"] ?? "profile";
+    if (scope == "quotes")
+    {
+        Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    }
+}
+@{
+    var categoryDefined = new NbContext().Categories.AsNoTracking().FirstOrDefault(e => e.Grouped == "quotes") ?? new Category();
+    var listQuotes = categoryDefined.CategoryChildren.Where(e => e.IsActive).OrderByDescending(e => e.DisplayOrder).Take(3).ToList();
+}
+@if (scope == "all")
+{
+    @section styles{
+
+        @Styles.Render("~/bundles/content/default/account/base/css", "~/bundles/content/default/account/profile/css")
+
+        <style>
+            .table th, .table td {
+                padding: 3px 15px;
+                vertical-align: bottom;
+                border-top: 1px dotted #f1eeea;
+            }
+
+                .table td.key {
+                    text-align: right;
+                    font-weight: 500;
+                    color: #026f56;
+                }
+
+                .table td.value {
+                }
+
+            .form-control {
+                border: 1px solid #f1eeea;
+            }
+        </style>
+    }
+
+    {
+
+        Html.RenderPartial("~/Views/Default/Account/_Partial/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Profile.cshtml");
+
+        <div id="wrapper">
+            <div id="content">
+                <ul>
+                    <li>Menu</li>
+                    <li>
+                        <div class="list-group">
+                            <a href="@Url.Action("Profile", "Account", new {segment = "profile"})" class=" @(segment == "profile" ? "active" : "")"><svg viewBox="0 0 20 20" style="height: 16px;fill: #fff;margin-right: 25px;"><g><path id="account_path0_fill" fill-rule="evenodd" d="M0 10C0 4.477 4.477 0 10 0c5.524 0 10 4.477 10 10a9.97 9.97 0 0 1-2.882 7.022.5.5 0 0 1-.642.059c-.478-.337-1.19-.651-2.07-.992a78.115 78.115 0 0 0-1.59-.587c-.437-.158-.887-.32-1.34-.49a.5.5 0 0 1-.324-.469v-2.065a.5.5 0 0 1 .334-.471l.013-.006a1.117 1.117 0 0 0 .393-.313c.225-.263.5-.764.5-1.688a.5.5 0 0 1 .444-.497l.001-.002a.725.725 0 0 0 .066-.327.725.725 0 0 0-.066-.327l-.001-.002a.5.5 0 0 1-.445-.497c0-.106.034-.22.048-.27l.002-.005.073-.236.006-.018c.06-.19.135-.422.2-.685.135-.537.211-1.108.1-1.556-.049-.192-.238-.41-.665-.59-.435-.187-.957-.272-1.535-.27-.579-.002-1.1.083-1.536.27-.427.18-.616.398-.664.59a.5.5 0 0 1-.583.369c-.406-.081-.487.027-.503.049v.001c-.06.078-.112.267-.088.612.022.33.103.676.185.984l.077.281a23.846 23.846 0 0 1 .075.28.89.89 0 0 1 .026.194.5.5 0 0 1-.446.5.725.725 0 0 0-.066.326.725.725 0 0 0 .067.33.5.5 0 0 1 .445.496c0 .924.274 1.425.499 1.688a1.115 1.115 0 0 0 .406.319l-.003-.001-.002-.001h-.002s-.001-.001-.16.473h.5v2.066a.5.5 0 0 1-.322.467c-.41.155-.835.31-1.26.463-.532.193-1.063.386-1.563.58-.898.348-1.662.683-2.17 1.038a.5.5 0 0 1-.64-.06A9.971 9.971 0 0 1 0 10zm7.848 2.779a2.61 2.61 0 0 1-.5-.44c-.351-.41-.664-1.043-.728-1.985a1.06 1.06 0 0 1-.333-.37 1.706 1.706 0 0 1-.19-.81c0-.265.053-.56.19-.81.057-.103.136-.208.237-.296-.019-.067-.04-.14-.06-.219a6.727 6.727 0 0 1-.215-1.17c-.028-.396-.003-.903.287-1.286.258-.34.64-.484 1.087-.474.242-.4.651-.675 1.073-.853.545-.226 1.263-.347 1.924-.349.66.002 1.378.123 1.923.35.555.233 1.088.634 1.247 1.268.174.699.044 1.472-.1 2.043-.067.269-.143.513-.203.7.096.085.17.187.226.287.137.248.19.544.19.809s-.053.56-.19.81a1.06 1.06 0 0 1-.333.37c-.064.942-.377 1.575-.729 1.985a2.61 2.61 0 0 1-.499.44v1.417c.336.124.671.245 1.001.365.561.202 1.106.4 1.613.596.722.279 1.39.569 1.915.872A9 9 0 0 0 10 1a9 9 0 0 0-6.673 15.04c.557-.322 1.268-.63 2.012-.918.513-.2 1.052-.395 1.587-.589.31-.112.62-.224.92-.336v-1.418zm-1.236-4.38v-.004.003zm1.903 3.608z"></path></g><g transform="translate(2.89 16.32)"><path id="account_path1_fill" fill-rule="evenodd" d="M14.226.702A9.966 9.966 0 0 1 7.11 3.68 9.971 9.971 0 0 1 0 .713L.71.009A8.971 8.971 0 0 0 7.11 2.68 8.966 8.966 0 0 0 13.514 0l.712.702z"></path></g></svg> Profile</a>
+                            <a href="@Url.Action("Profile", "Account", new {segment = "order"})" class=" @(segment.Contains("order") ? "active" : "")"><svg viewBox="0 0 20 20" style="height: 16px;fill: #fff;margin-right: 25px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.309.038a.5.5 0 0 1 .545.108l1.298 1.3 1.299-1.3a.5.5 0 0 1 .707 0l1.299 1.3 1.298-1.3a.5.5 0 0 1 .707 0l1.299 1.3 1.299-1.3a.5.5 0 0 1 .707 0l1.298 1.3 1.299-1.3a.5.5 0 0 1 .853.354v19a.5.5 0 0 1-.853.354l-1.299-1.3-1.298 1.3a.5.5 0 0 1-.708 0l-1.298-1.3-1.299 1.3a.5.5 0 0 1-.707 0l-1.298-1.3-1.3 1.3a.5.5 0 0 1-.706 0l-1.299-1.3-1.298 1.3A.5.5 0 0 1 3 19.5V.5a.5.5 0 0 1 .309-.462zm6.8 1.17L8.81 2.505a.5.5 0 0 1-.707 0L6.804 1.207 5.506 2.506a.5.5 0 0 1-.707 0L4 1.707v16.586l.799-.799a.5.5 0 0 1 .707 0l1.298 1.299 1.299-1.299a.5.5 0 0 1 .707 0l1.299 1.299 1.298-1.299a.5.5 0 0 1 .707 0l1.299 1.299 1.299-1.299a.5.5 0 0 1 .707 0l.798.799V1.707l-.798.799a.5.5 0 0 1-.707 0l-1.299-1.299-1.299 1.299a.5.5 0 0 1-.707 0L10.11 1.207z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.478 5.457a.5.5 0 0 1 .5-.5h4.957a.5.5 0 0 1 0 1H5.978a.5.5 0 0 1-.5-.5zM5.478 7.935a.5.5 0 0 1 .5-.5h3.305a.5.5 0 0 1 0 1H5.978a.5.5 0 0 1-.5-.5zM5.478 10.413a.5.5 0 0 1 .5-.5h4.13a.5.5 0 1 1 0 1h-4.13a.5.5 0 0 1-.5-.5zM5.478 12.891a.5.5 0 0 1 .5-.5h2.479a.5.5 0 0 1 0 1H5.978a.5.5 0 0 1-.5-.5zM12.913 5.457a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5zM12.913 7.935a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5zM12.913 10.413a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5zM12.913 12.891a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5z"></path></svg> Order history</a>
+                            <a href="@Url.Action("Profile", "Account", new {segment = "wishlist"})" class="@(segment == "wishlist" ? "active" : "")"><svg viewBox="0 0 20 20" style="height: 16px;fill: #fff;margin-right: 25px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M17.884 3.302a.5.5 0 0 1 .158.365v15.041a.5.5 0 0 1-.47.5l-12.666.79a.5.5 0 0 1-.062-.997l12.198-.763V4.198l-12.136.76a.5.5 0 0 1-.062-.999l12.666-.792a.5.5 0 0 1 .374.135z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.208 3.26a.5.5 0 0 1 .45-.068l2.375.792a.5.5 0 0 1 .342.474V19.5a.5.5 0 0 1-.658.474l-2.375-.791A.5.5 0 0 1 2 18.707V3.667a.5.5 0 0 1 .208-.406zM3 4.36v13.988l1.375.458V4.82L3 4.36zM9.625 1c-.598 0-1.083.485-1.083 1.083v1.584a.5.5 0 0 1-1 0V2.083C7.542.933 8.475 0 9.625 0H12c1.15 0 2.083.933 2.083 2.083v1.584a.5.5 0 0 1-1 0V2.083C13.083 1.485 12.598 1 12 1H9.625z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.77 1.614c-.252.425-.395.932-.395 1.261v1.583a.5.5 0 0 1-1 0V2.875c0-.545.212-1.226.534-1.77.163-.276.37-.542.617-.744C5.775.158 6.091 0 6.458 0h.792a.5.5 0 0 1 0 1h-.792c-.07 0-.17.03-.3.136a1.81 1.81 0 0 0-.389.478z"></path></svg> Wishlist  <span class="badge badge-primary">0</span></a>
+                            <a href="@Url.Action("Profile", "Account", new {segment = "rewardpoints"})" class=" @(segment == "rewardpoints" ? "active" : "")"><svg viewBox="0 0 20 20" style="height: 16px;fill: #fff;margin-right: 25px;"><g><path id="cashback_path0_fill" d="M19.99 8.158a1.033 1.033 0 0 0-.201-.763L14.694.682a.988.988 0 0 0-1.391-.188l-.414.32-.32-.419a.986.986 0 0 0-1.39-.19L.397 8.55a1.027 1.027 0 0 0-.39.687c-.034.276.039.547.206.766l3.359 4.375v2.904C3.573 18.783 6.45 20 10 20c3.549 0 6.426-1.217 6.426-2.718v-4.74c0-.282-.101-.553-.29-.809-.03-.042-.07-.082-.107-.124l3.574-2.766c.215-.167.354-.41.389-.685zM1 9.368l10.78-8.343 5.095 6.71-3.295 2.55c-1.024-.291-2.255-.461-3.581-.461a14.357 14.357 0 0 0-1.91.122c-.403.053-.789.122-1.153.206-1.093.251-1.994.632-2.587 1.094-.495.385-.776.827-.776 1.296v.177L1 9.37zm14.425 5.855c-.874.732-2.857 1.47-5.433 1.47-2.571 0-4.554-.746-5.419-1.483v-1.217c1.14.76 3.14 1.267 5.426 1.267 2.285 0 4.286-.506 5.426-1.267v1.23zm0-2.681c0 .491-1.902 1.692-5.426 1.692-3.525 0-5.426-1.201-5.426-1.692 0-.491 1.901-1.693 5.426-1.693 3.524 0 5.426 1.202 5.426 1.693zm-5.426 6.432c-3.525 0-5.426-1.2-5.426-1.692v-.83c1.307.783 3.296 1.266 5.419 1.266 2.095 0 4.117-.49 5.433-1.262v.826c0 .491-1.902 1.692-5.426 1.692zm5.212-8.018a5.526 5.526 0 0 0-.503-.259l2.77-2.143c.215-.168.353-.41.388-.683a1.04 1.04 0 0 0-.202-.767l-4.16-5.48.401-.312L19 8.024l-3.79 2.932z"></path></g></svg> Reward points</a>
+                            <a href="@Url.Action("Profile", "Account", new {segment = "address"})" class=" @(segment == "address" ? "active" : "")"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="margin-right: 25px;fill: #fff;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>Addresses <span class="badge badge-primary">@Model.CustomerAddressMappings.Count()</span></a>
+                            <a href="@Url.Action("Logoff", "Account")" class=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="margin-right: 25px;fill: #fff;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sign out</a>
+                        </div>
+                    </li>
+                  
+                </ul>
+            </div>
+            <div class="water-drop"></div>
+            <div class="button button-floating"></div>
+            <div class="button-floating-shadow">
+
+            </div>
+            <div class="button button-sub" data-color="purple">
+                =
+            </div>
+            <div class="button button-sub" data-color="green">
+                ?
+            </div>
+            <div class="button button-sub" data-color="pink"></div>
+            <div class="button button-sub" data-color="indigo"></div>
+
+
+        </div>
+    }
+
+    @section scripts
+    {
+       
+        @Scripts.Render("~/bundles/content/default/account/base/js", "~/bundles/content/default/account/profile/js")
+        <script>
+             $('input.tapatar').tapatar({
+                   image_url_prefix: '/content/default/default/account/profile/css/tapatar-master/img/',
+                   default_image: '@Model.Avatar'
+
+               });
+
+               function avatarObserverChanged(selector, callback) {
+                   var input = $(selector);
+                   var oldvalue = input.val();
+                   setInterval(function () {
+                       if (input.val() != oldvalue) {
+                           oldvalue = input.val(); callback(oldvalue);
+                       }
+                   }, 3000);
+               }
+               avatarObserverChanged('.tapatar.tptr-file-input', function (data) {
+                   $.post("/account/update-profile", { name: "avatar", value: data })
+                       .done(function (ref) {
+                           $(".tptr-inner").css("background", "#5fbd74");
+                       });
+               });
+                if ($(".list-group.list-group-flush:hidden").length == 1) {
+                    $("#wrapper").addClass("center button-floating-clicked button-floating-clicked-out button-sub-purple-clicked")
+                }
+            
+        </script>
+        @if (segment == "profile")
+        {
+            <script>
+           $(document).ready(function () {
+
+
+               //editables
+               $.fn.editable.defaults.mode = 'popup';
+
+               $('#UserName').editable({
+                   url: '/account/update-profile',
+                   name: 'username',
+                   title: 'Enter username'
+               });
+
+               $('#Gender').editable({
+                   url: '/account/update-profile',
+                   name: 'gender',
+                   pk: '@Model.AddressId',
+                   prepend: "--",showbuttons: false,
+                   source: [
+                       { value: '1', text: 'Male' },
+                       { value: '2', text: 'Female' }, { value: '0', text: 'Other' }
+                   ],
+                   display: function (value, sourceData) {
+                       var colors = { "0": "gray", '1': "brown", '2': "blue", '': "green" },
+                           elem = $.grep(sourceData, function (o) { return o.value == value; });
+
+                       if (elem.length) {
+                           $(this).text(elem[0].text).css("color", colors[value]);
+                       } else {
+                           $(this).empty();
+                       }
+                   }
+               });
+
+               $('#FullName').editable({
+                   url: '/account/update-profile',
+                   pk: '@Model.AddressId',
+                   name: 'fullname',
+                   title: 'Enter FullName',
+                   validate: function (value) {
+                       if ($.trim(value) == '') return 'This field is required';
+                       return false;
+                   }
+               });
+
+               $('#DateOfBirth').editable(
+                   {
+                       url: '/account/update-profile',
+                       pk: '@Model.AddressId',
+                       combodate: {
+                           minYear: 1945,
+                           maxYear: 2019,
+                           minuteStep: 1
+                       },
+                       name: 'dateofbirth',
+                       title: 'Select Day/Month/Year'
+
+                });
+               $('#Email').editable({
+                   url: '/account/update-profile',
+                   name: 'email',
+                   title: 'Enter your email',
+                   validate: function (value) {
+                       if (HvHelpers.IsEmail(value) == false) return 'This field is not email';
+                       if ($.trim(value) == '') return 'This field is required';
+                   }
+               });
+
+               $('#Phone').editable({
+                   url: '/account/update-profile',
+                   pk: '@Model.AddressId',
+                   name: 'phone',
+                   title: 'Enter your phone',
+                   validate: function (value) {
+                       if ($.trim(value) == '') return 'This field is required';
+
+                   }
+               });
+               //modify buttons style
+               $.fn.editableform.buttons =
+                   '<button type="submit" class="btn btn-success editable-submit btn-mini"><i class="icon-ok icon-white"></i>' + Resources._("Save Instance") + '</button>' +
+                   '<button type="button" class="btn editable-cancel btn-mini"><i class="icon-remove"></i>' + Resources._("Cancel") + '</button>';
+
+               $('#user .editable').on('hidden', function (e, reason) {
+                   if (reason === 'save' || reason === 'nochange') {
+                       var $next = $(this).closest('tr').next().find('.editable');
+                       if ($('#autoopen').is(':checked')) {
+                           setTimeout(function () {
+                               $next.editable('show');
+                           }, 300);
+                       } else {
+                           $next.focus();
+                       }
+                   }
+               });
+
+
+
+            });
+            </script>
+        }
+        else if (segment == "order" || segment == "orderdetails")
+        {
+            <script>
+                $(document).ready(function () {
+
+                    $(".order-print").click(function (e) {
+                        e.preventDefault();
+                        $.print(".invoice-form"); ({
+
+                        });
+                        return false;
+                    });
+
+
+                    $('.order-repeat').jConfirm({
+                        question: 'Bạn re-order lại đơn hoàn này?',
+                        confirm_text: 'Vâng!',
+                        deny_text: ' Thôi.',
+
+                    }).on('confirm', function (e) {
+                        var btn = $(this);
+                        swal({
+                            title: "Ghi chú của bạn:",
+                            text: "Sau khi nhập ghi chú (có thể để trắng) và chọn đồng ý đơn hàng này của bạn sẽ được khởi tạo lại",
+                            type: "input",
+                            confirmButtonText: "Đồng ý",
+                            cancelButtonText: "Thôi",
+                            showCancelButton: true,
+                            closeOnConfirm: true,
+                            inputPlaceholder: ""
+                        }, function (inputValue) {
+                            if (inputValue === false) return false;
+                            $.post("/account/order-repeat", { orderId: btn.attr("id").split("-")[1], noteText: inputValue })
+                                .done(function (data) {
+                                    if (data == 'True') {
+
+                                        swal({
+                                            title: "Hoàn tất",
+                                            text: "Chúc mừng, bạn đã đặt hàng lại thành công, hệ thống sẽ tự reload lại!",
+                                            type: "success",
+                                            confirmButtonText: "Đồng ý"
+                                        });
+                                        setTimeout(function () {
+
+                                            window.location.href = "?segment=order";
+                                        }, 1200)
+                                    }
+                                    else {
+                                        swal({
+                                            title: "Ồ, có lỗi xảy ra",
+                                            text: "Không thể đặt hàng lúc này, bạn vui lòng thử lại!",
+                                            type: "error",
+                                            confirmButtonText: "Thử lại"
+                                        });
+                                        // That’s all we know.
+                                    }
+                                });
+
+                        });
+
+                        //do something on confirm
+                    });
+
+                    $('.order-cancel').jConfirm({
+                        question: 'Bạn muốn hủy đơn hoàn này?',
+                        confirm_text: 'Vâng!',
+                        deny_text: ' Thôi.',
+
+                    }).on('confirm', function (e) {
+                        var self = this;
+                        $.post("/account/order-cancel", { orderId: self.id.split("-")[1] })
+                            .done(function (data) {
+                                if (data == 'True') {
+                                    swal({
+                                        title: "Hoàn tất",
+                                        text: "Bạn đã hủy đơn hàng thành công, cảm ơn bạn!",
+                                        type: "success",
+                                        confirmButtonText: "Đồng ý"
+                                    });
+
+                                    $(self).remove();
+                                    $(self).parent().remove();
+                                    $(self).parent().parent().remove();
+                                }
+                                else swal({
+                                    title: "Ồ, có lỗi xảy ra",
+                                    text: "Không thể hủy đơn hàng lúc này, bạn vui lòng thử lại!",
+                                    type: "error",
+                                    confirmButtonText: "Thử lại"
+                                });
+                            });
+
+
+                    });
+
+                   
+
+                });
+
+            </script>
+            }
+            else if (segment == "orderdetails")
+            {
+              <script>
+                     $(document).ready(function(){
+                          $(".order-print").bind("click", function () {
+                                    $('.invoice-form').printThis({
+                                           debug: true,                   // show the iframe for debugging
+                                           importCSS: true,                // import parent page css
+                                           importStyle: false,             // import style tags
+                                           printContainer: false,           // grab outer container as well as the contents of the selector
+                                           loadCSS: "/Content/Default/default/account/profile/css/print-this/1.0-all.css",      // path to additional css file - use an array [] for multiple
+                                    });
+                                })
+                });
+        
+             </script>
+        }
+        else if (segment == "address")
+        {
+            <script>
+                                 // Trigger element to fadeIn or fadeOut
+              $("[data-fade]").each(function() {
+  	            $(this).click(function() {
+                                        var $sel = $(this).data("fade"),
+  				            $in = $sel.split(",")[0],
+  				            $out = $sel.split(",")[1];
+
+                                        if($in) {
+		  	            $($in).fadeIn();
+                        }
+                        if($out) {
+		  	            $($out).fadeOut();
+                        }
+                        return false;
+                    });
+                });
+              
+               $.ajax({
+                url: '@Url.Action("UpdateAddress", "Account")',
+                    type: 'GET',
+                    cache: false,
+                }).done(function(result){
+                    $('.addresses-entries').html(result);
+                    $(".addresses-entries .edit").click(function (e) {
+                        e.preventDefault();
+                        $('.addresses-entries .addresses-Edit').hide();
+                         $.ajax({
+                        type: 'GET',
+                            url: $(this).attr("data-url"),
+                             success: function (response) {
+                                
+                                 $('.addresses-entries .addresses-Edit').html(response);
+                                window.ssdCascadingDropDownRegEvent([".AdditionalAddress-CountryId"]); $('.addresses-entries .addresses-Edit').show();
+                                //$("#secondTab").html(response);
+                                //$('ul.nav.nav-tabs a:eq(1)').html('Edit');
+                                //$('ul.nav.nav-tabs a:eq(1)').tab('show');
+                            }
+                        });
+                        return false;
+                    });
+                    $('.addresses-entries .delete').jConfirm({
+                    question: 'Do you want remove this address?',
+                        confirm_text: 'Yes',
+                        deny_text: ' No. latter',
+
+                    }).on('confirm', function(e){
+                        
+                                        
+                               $.post($(this).attr("data-url"), { })
+                                  .done(function (data) {
+                            if (data.success == true) {
+                                swal({
+                                title: "Completed",
+                                                  text: "Remove successfull!",
+                                                  type: "success",
+                                                  confirmButtonText: "Yes"
+                                          });
+                                var self = this;
+                                          $("." + $(self).attr("data-parentid")).remove();
+                            }
+                            else swal({
+                            title: "Error occuss",
+                                                    text: "Can't remove at time, please try again latter!",
+                                                    type: "error",
+                                                    confirmButtonText: "Try again"
+                                                });
+                        });
+
+
+                    });
+
+                });
+            </script>
+        }
+        else if (segment == "rewardpoints")
+        {
+            <script>
+                $.ajax({
+            url: '/api/general/get-point-conversion-rate?type=-1&point=' + $("#current-points").text(),
+                    type: 'GET',
+                    cache: false,
+                }).done(function (result) {
+                console.log(result);
+                    $("#points-to-money").text(HvHelpers.formatNumber(result[0].Value));
+            });
+
+                $.ajax({
+            url: '/api/general/get-point-conversion-rules',
+                    type: 'GET',
+                    cache: false,
+                }).done(function (result) {
+                console.log(result);
+
+            });
+                            //
+            </script>
+        }
+
+    }
+}

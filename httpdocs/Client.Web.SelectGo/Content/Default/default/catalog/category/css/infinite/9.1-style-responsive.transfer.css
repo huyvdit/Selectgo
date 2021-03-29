@@ -1,0 +1,16 @@
+﻿/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 991px){
+    .section {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .wrapper .container {
+        padding: 0px 15px;
+    }
+    .slider .parallax-slider .caption h1 {
+        font-size: 40px!important;
+    }
+    .slide-controls .swiper-button-next, .slide-controls .swiper-button-prev{
+        display:none;
+    }
+}

@@ -1,0 +1,32 @@
+﻿@using global::Web.Helpers
+@{
+    ViewBag.Title = LanguageHelper.Translate("VNPay payment returned_Text");
+
+}
+@section styles{
+
+}
+<div class="wrapper">
+    <!-- payment completed -->
+    <div class="py-10">
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6 col-md-12 col-12 text-center">
+                    <svg class="mb-4 css-i6dzq1" viewBox="0 0 24 24" width="104" height="104" stroke="#f44336" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <h2>Your payment is uncompleted!</h2>
+                    <p class="mb-4">Thank you for your payment. but unlucky hower you can recharge any time by click link below:</p>
+                    <a href="/account/profile/?segment=subscriptions" class="btn btn-info ml-2">View all Subscriptions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+
+    </script>
+}
+

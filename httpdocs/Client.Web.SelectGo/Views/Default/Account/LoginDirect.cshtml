@@ -1,0 +1,57 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@model Web.Core.Models.LoginModel
+@{
+    ViewBag.Title = LanguageHelper.Translate("Sign in | _Text") + Data.Domain;
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+    var segment = Request.QueryString["segment"] ?? "default";
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/account/login/css")
+}
+<style>
+    .validation-summary-errors ul {
+            background: #ffebcd05 !important;
+            padding: 18px;
+    }
+
+        .validation-summary-errors ul li {
+            list-style: none;
+        }
+</style>
+<!-- Start Preloader -->
+<div id="preload-block">
+    <div class="square-block"></div>
+</div>
+<!-- Preloader End -->
+
+
+<div class="authfy-login-wrapper">
+    <div class="cmt-top-bg"></div>
+    <svg class="cmt-top-rounded" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="50 20 50 80" preserveAspectRatio="none">
+        <path d="M0,100 C15,100 35,50 50,50 L50,50 C65,50 85,100 100,100 Z"></path>
+    </svg>
+    @{
+        Html.RenderPartial("~/Views/Default/Account/_Partial/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_LoginDirect.cshtml");
+
+    } <!-- ./container -->
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/account/login/js")
+    <script>
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".authfy-login-wrapper").css("opacity", "1");
+        }, 300);
+
+    </script>
+
+}

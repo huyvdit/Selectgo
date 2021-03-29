@@ -1,0 +1,57 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models;
+@model List<Category>
+    @{
+        var category = new Category();
+        var categoryChildrenTab = new List<Category>();
+    }
+    @foreach (var item in Model)
+    {
+        category = item;
+        categoryChildrenTab = category.CategoryChildren.Where(e => e.IsActive).ToList();
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="consoles_header">
+                <div class="consoles_product_title">
+                    <h3>MostViewed items <b>in</b> @category.Name</h3>
+                </div>
+                <div class="product_tab_button">
+                    <ul class="nav" role="tablist">
+                        @foreach (var item in categoryChildrenTab)
+                        {
+                            <li>
+                                <a class="@(item == categoryChildrenTab.FirstOrDefault() ? "active":"")" data-toggle="tab" href="#@item.Grouped" role="tab" aria-selected="true"> @item.Name</a>
+                            </li>
+                        }
+                        <li>
+                            <a href="@SlugHelper.Category(category.Id)?sortorder=featured" style="margin-right: -24px;">@LanguageHelper.Translate("Explore all_Text") <svg viewBox="0 0 24 24" width="24" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" style="float: right;margin-top: 8px;color: #f46f1b;"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="tab-content">
+                @foreach (var item in categoryChildrenTab)
+                {
+                    if (item == categoryChildrenTab.FirstOrDefault())
+                    {
+                        <div class="tab-pane fade show active" id="@item.Grouped" role="tabpanel">
+                            @{ Html.RenderAction("ProductTab", "Catalog", new { groupOf = item.Grouped + ",", pathView = "Widgets/Home/ProductTab", itemTake = 4, sortBy="topViewed", area = "" }); }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tab-pane fade" id="@item.Grouped" role="tabpanel">
+                            <!-- render after call ajax-->
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+
+    </div>

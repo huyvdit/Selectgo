@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Platform",
+    "id": 38
+  },
+  {
+    "title": "Themes & Templates",
+    "expanded": true,
+    "id": 26,
+    "folder": true,
+    "children": [
+
+      {
+        "title": "Site Templates",
+        "type": "book",
+        "author": "Antoine de Saint-Exupery",
+        "id": 35,
+        "folder": true,
+        "children": [
+          {
+            "title": "Corporate",
+            "type": "book",
+            "id": 28
+          },
+          {
+            "title": "Creative",
+            "type": "book",
+            "id": 33
+          }
+
+        ]
+      },
+      {
+        "title": "Site Wordpress",
+        "type": "book",
+        "id": -1
+      }
+
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+﻿@model Album
+@{
+    List<AlbumPictureMapping> items = Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder).ToList();
+    int len = items.Count();
+}
+<div class="swiper-container slide-section-1" id="home-banner-slider">
+    <div class="swiper-wrapper">
+        @for (int i = 0; i <= len - 1; i++)
+        {
+        <div class="swiper-slide" style="background-image: url('');">
+            <div class="title-s1">
+                @Html.Raw(items[i].Caption)
+                <a href="@items[i].Link" class="read--more">Xem thêm</a>
+            </div>
+            <div class="photo-bg" data-aos="fade-left" data-aos-duration="2000" style="background-image:url('@ImageHelper.GetResize(items[i].Picture.Url)')"></div>
+        </div>
+        }
+    </div>
+</div>
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+

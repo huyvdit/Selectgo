@@ -1,0 +1,180 @@
+
+@media (max-width: 599px) {
+
+    section.call-to-action .center {
+        padding: 30px 0;
+    }
+
+    section.call-to-action .left {
+        background: #fdfdfd;
+        position: relative;
+        z-index: 200;
+    }
+    .button.button-navy-blue{
+        width:100%;
+    }
+    section.call-to-action .left .form input {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    section.call-to-action .right .circles {
+        left: 50%;
+        margin: -75px 0 -125px -225px;
+    }
+}
+@media (max-width: 1199px) {
+    .under-construction-inner-content {
+        height: calc(100vh - 7rem);
+        padding: 10vw;
+        background: #fff;
+    }
+
+        .under-construction-inner-content .brand-logo {
+            max-height: 5rem;
+            max-width: 18rem;
+        }
+}
+
+@media (max-width: 767px) {
+    .as-content {
+        margin-top: 72px;
+    }
+    .crumina-module-img-content .btn--with-shadow.btn.c-primary {
+        float: left;
+        width: 46%;
+        padding: 10px;
+    }
+    .crumina-module-img-content .btn--with-shadow.btn {
+        float: left;
+        width: 46%;
+        padding: 12px;
+    }
+    #notfound {
+        display: none;
+    }
+    .under-construction-inner-content {
+        height: auto;
+        padding: 0px;
+        background: #fff;
+        float: left;
+        width: 100%;
+        overflow: hidden;
+    }
+
+        .under-construction-inner-content .brand-logo-container {
+            margin-bottom: 3rem;
+        }
+
+        .under-construction-inner-content .brand-logo {
+            max-height: 5rem;
+            max-width: 18rem;
+        }
+
+        .under-construction-inner-content .axil-title {
+            margin-bottom: 2rem;
+        }
+        .under-construction-inner-content .axil-title {
+            margin-bottom: 2rem;
+            float: left;
+            width: 100%;
+        }
+        .under-construction-inner-content .newsletter-content {
+            margin: 0;
+            float: left;
+            width: 100%;
+        }
+        .under-construction-inner-content h1 {
+            font-size: 2.4rem;
+        }
+
+        .under-construction-inner-content .btn {
+            margin-left: 0;
+        }
+}
+
+
+
+@media (max-width: 767px) {
+    .under-construction-banner {
+        padding: 0px;
+    }
+        .under-construction-banner .col-xl-7{
+        padding: 8%;
+        background: #fff;
+        margin-left: 15px;
+    }
+}
+@media only screen and (max-width: 991px), only screen and (max-device-width: 991px) {
+    body {
+        cursor: inherit !important;
+    }
+    .content-section {
+        padding-top: 30px !important;
+    }
+    .column-reverse {
+        display: flex !important;
+        flex-direction: column-reverse !important;
+    }
+    .btn-contact {
+        background: gainsboro;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .btn.btn-outline {
+        width: 100%;
+        margin-top: 15px;
+    }
+    textarea, input {
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+    .cd-main-search input[type=search] {
+        border-bottom: 1px solid #9E9E9E !important;
+        text-align: left !important;
+        padding-left: 30px !important;
+        background: #9e9e9e17 !important;
+    }
+    .content-section {
+        padding: 100px 0;
+    }
+    .section-titles h2 {
+        width: 100%;
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 0;
+        padding-right: 10%;
+        line-height: 1.2;
+        z-index: 2;
+    }
+    .content-section .subscribe-block {
+       
+        width: 100%;
+        margin-left: 0px;
+    }
+    .custom-cursor {
+        display: none;
+    }
+
+    .spacing-50 {
+        display: none;
+    }
+
+    .spacing-100 {
+        display: none;
+    }
+
+    .btn.btn-link {
+        width: 100%;
+        text-align: center;
+    }
+    .content-section .subscribe-block {
+        padding: 16px 25px;
+    }
+        .side-address {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 30px;
+    }
+
+}

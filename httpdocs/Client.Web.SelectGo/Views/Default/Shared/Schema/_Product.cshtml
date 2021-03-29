@@ -1,0 +1,34 @@
+﻿@using ASP.Web.Core.Helpers
+@using ASP.Web.Repositories.Entity
+@model Product
+@using (Html.BeginScripts())
+{
+    var storeLink = AppConfigs.Get("StoreLink");
+<script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Product",
+      "aggregateRating": {
+        "@@type": "AggregateRating",
+        "ratingValue": "@Model.RatingValue",
+        "reviewCount": "@(Model.RatingCount)",
+        "bestRating": "5"
+      },
+
+      "description": "@Html.Raw(Model.getShortDescription())",
+      "sku":"@Model.Sku",
+      "name": "@Model.Name",
+      "brand":"SeGo",
+      "image": "@Model.Avatar",
+      "offers": {
+        "@@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "price": "@Model.Price",
+        "priceCurrency": "VNĐ",
+        "priceValidUntil":"2040/01/01",
+        "url":"@storeLink@SlugHelper.Product(Model.Id)"
+      }
+    }
+</script>
+
+}

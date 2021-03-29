@@ -1,0 +1,20 @@
+﻿.cart-wrapper .wrapQtyBtn {
+    
+    float: right !important;
+    width: 100%;
+    text-align: right;
+    margin-right: 8px !important;
+    margin-top: -50px !important;
+    font-size: 11px;
+}
+    .cart-wrapper .wrapQtyBtn input {
+        width: 36px;
+        text-align: right;
+    }
+.priceRow {
+    float: right;
+    margin-right: 10px;
+}
+    .priceRow .money {
+        font-weight: 700;
+    }

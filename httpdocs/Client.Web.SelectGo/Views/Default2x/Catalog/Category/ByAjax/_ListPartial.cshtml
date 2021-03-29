@@ -1,0 +1,93 @@
+﻿@using global::Web.Helpers
+<div id="list-products-by-category-loader" class="loading">@LanguageHelper.Translate("Please wait, loading..._Text")</div>
+<div id="list-products-by-category">
+    @Html.Action("ListProductsByCategoryId", "CategoryPlus", new { id = ViewBag.idCurrent, type = ViewBag.typeCurrent, sortOrder = ViewBag.sortOrderCurrent, filterBy = ViewBag.filterByCurrent, searchBy = ViewBag.searchByCurrent, page = ViewBag.pageCurrent, pageSize = 9, area = "" })
+</div>
+@using (Html.BeginScripts())
+{
+    <script>
+        HvHelpers.loadJs("Scripts/jquery.validate.js", $.validator, function () {
+            HvHelpers.loadJs("Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function () {
+                HvHelpers.loadJs("Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+            });
+        }, 'asyn');
+    </script>
+    <script>
+        PagedOnComplete_List = function () {
+            $(".result-count").addClass("item-update");
+            $(".result-count #found-item").text("1-" + $(".product .product-item").length);
+            $(".result-count #total-item").text($(".product #found-item-total").val());
+            setTimeout(function () {
+                $(".result-count").removeClass("item-update");
+                
+                //HvHelpers.scrollTo('#list-products-by-category', 141);
+            }, 1200);
+            
+            var sortorder = HvHelpers.modifyUrlParameter("sortorder", $("#sortorder").val(), HvHelpers.modifyUrlParameter("type", $("#type").val(), HvHelpers.modifyUrlParameter("searchby", $("#searchby").val(), HvHelpers.modifyUrlParameter("filterby", $("#filterby").val()))));
+            history.pushState(null, null, HvHelpers.modifyUrlParameter("page", $(".pagination li.active a").text(), sortorder));
+            setTimeout(function () {
+                $(window).trigger('hashchange');
+            }, 1200);
+            if (window.productAction != undefined) window.productAction();
+            if (window.fnCallback != undefined) window.fnCallback();
+        };
+        $(document).ready(function () {
+
+            var waitSubmit;
+            var updateSortOrderTitle = function () {
+                var e = $("#sortorder"),
+                    n = $(".sort-select span"),
+                    t = e.find("option:selected").text();
+                n.text(t);
+
+
+            };
+            var submitAgent = function (e) {
+                if (ASPlus != undefined) ASPlus.loading.show();
+                clearTimeout(waitSubmit);
+                waitSubmit = setTimeout(function () {
+                    var form = $(e).parents("form"); if (ASPlus != undefined) ASPlus.loading.hide();
+                    form.submit();
+                }, 3000);
+
+            }
+
+            $("#sortorder, #type").change(function () {
+                updateSortOrderTitle();
+                submitAgent(this);
+            });
+
+
+            var filterAction = function (fnCallback) {
+                $("#searchby-btn").bind("click", function (event) {
+
+                $("#searchby").val(($("#searchby").val() || "all"));
+                submitAgent(this);
+                });
+
+                $("#price-slider-min, #price-slider-max").bind('change', function () {
+                    var filter = HvHelpers.getUrlParams()["filterby"] || "";
+                    filter = filter.split(",pr")[0];
+                    $("#filterby").val(filter + ",pr-" + $("#price-slider-min").attr("data-val") + "-" + $("#price-slider-max").attr("data-val"));
+                    submitAgent(this);
+                });
+
+                $(".radio-checkbox").click(function (event) {
+                    var filterBy = $("input:checkbox:checked").map(function () {
+                        return $(this).attr("data-link");
+                    }).get();
+
+                    $("#filterby").val((filterBy.length === 0 ? "all" : filterBy));
+                    submitAgent(this);
+                });
+
+               
+                window.fnCallback = fnCallback;
+            }
+            filterAction(); 
+            window.filterAction = filterAction;
+
+            updateSortOrderTitle();
+        });
+    </script>
+}

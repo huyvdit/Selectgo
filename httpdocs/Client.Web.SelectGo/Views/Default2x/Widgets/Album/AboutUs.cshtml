@@ -1,0 +1,11 @@
+﻿@using ASP.Web.Model.Models
+@model ASP.Web.Model.Models.Album
+@{
+    List<AlbumPictureMapping> items = Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder).ToList();
+}
+@for (int i = 0; i <= items.Count - 1; i++)
+{
+    <a data-rel="prettyPhoto[gallery]" href="@items[i].Picture.Url">
+        <img alt="@items[i].Picture.Title" src="@items[i].Picture.Url">
+    </a>
+}

@@ -1,0 +1,33 @@
+﻿@model ASP.Web.Model.Models.Page
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <section class="as-content">
+        @section banners{
+            @{
+                var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+                var paramArrs = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("banner-title", picture.Title),
+                    new KeyValuePair<string, string>("banner-img", picture.Url )
+                };
+            }
+            @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+        }
+        <div class="section section-error pt-12 pb-12"><div class="container"><div class="row"><div class="col-sm-12"><div class="text-center"><img alt="page 404" class="mb-6 img-responsive" src="~/assets/organik/images/404.png"><h3 class="error-title uppercase">Oops! This page is not available</h3><span class="error-content uppercase"> Please go back to <a href="/">Homepage</a> </span></div></div></div></div></div>
+    </section>
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

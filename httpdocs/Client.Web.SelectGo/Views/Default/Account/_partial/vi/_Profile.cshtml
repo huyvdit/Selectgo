@@ -1,0 +1,938 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using Web.Repositories.Entity.Infrastructure
+@model Web.Model.Models.Customer
+@{
+
+    var scope = Request.QueryString["scope"] ?? "all";
+    var segment = Request.QueryString["segment"] ?? "profile";
+    if(Model.CurrentPoints == null)
+    {
+        Model.CurrentPoints = 0;
+    }
+}
+
+<!-- Main Content -->
+<div class="header-profile card-body">
+    <div class="container my-3">
+        <ol class="breadcrumb d-flex justify-content-start" style="background: #dee2e6;">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item "><a href="#">Thành viên</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@LanguageHelper.Translate(segment + "_Text")</li>
+        </ol>
+    </div>
+
+</div>
+<div class="body-profile container my-3">
+
+    <div class="row">
+
+        <div class="col-md-4 col-lg-3 mt-3">
+            <div class="card left">
+                <div class="card-body text-center" style="background:#fff">
+                    <img src="@Model.Avatar" width="100" height="100" alt="Member Image" style="display:none" class="avatar mb-3">
+                    <div class="spaced-big">
+                        <input type="hidden" class="tapatar avatar mb-3">
+                    </div>
+
+                    <h5 class="bold mb-0">@Model.MainAddress.FullName</h5>
+                    <small class="counter">Gia nhập @Model.CreatedTime.ToString("dd/MM") <i style="color: #5cb85c;">(khoảng @((DateTime.Now.Date - Model.CreatedTime.Date).TotalDays) ngày trước đó)</i></small>
+                    <hr>
+                    <div class="roboto-condensed bold" data-toggle="tooltip" Danh xưng="You currently have @Model.CurrentPoints Points to spend.">
+                        <i data-feather="award" class="text-warning"></i> Điểm hiện tại: @Model.CurrentPoints
+                    </div>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="@Url.Action("Profile", "Account", new {segment = "profile"})" class="list-group-item list-group-item-action @(segment == "profile" ? "active" : "")"><svg viewbox="0 0 20 20" style="height: 16px;fill: #000;margin-right: 25px;"><g><path id="account_path0_fill" fill-rule="evenodd" d="M0 10C0 4.477 4.477 0 10 0c5.524 0 10 4.477 10 10a9.97 9.97 0 0 1-2.882 7.022.5.5 0 0 1-.642.059c-.478-.337-1.19-.651-2.07-.992a78.115 78.115 0 0 0-1.59-.587c-.437-.158-.887-.32-1.34-.49a.5.5 0 0 1-.324-.469v-2.065a.5.5 0 0 1 .334-.471l.013-.006a1.117 1.117 0 0 0 .393-.313c.225-.263.5-.764.5-1.688a.5.5 0 0 1 .444-.497l.001-.002a.725.725 0 0 0 .066-.327.725.725 0 0 0-.066-.327l-.001-.002a.5.5 0 0 1-.445-.497c0-.106.034-.22.048-.27l.002-.005.073-.236.006-.018c.06-.19.135-.422.2-.685.135-.537.211-1.108.1-1.556-.049-.192-.238-.41-.665-.59-.435-.187-.957-.272-1.535-.27-.579-.002-1.1.083-1.536.27-.427.18-.616.398-.664.59a.5.5 0 0 1-.583.369c-.406-.081-.487.027-.503.049v.001c-.06.078-.112.267-.088.612.022.33.103.676.185.984l.077.281a23.846 23.846 0 0 1 .075.28.89.89 0 0 1 .026.194.5.5 0 0 1-.446.5.725.725 0 0 0-.066.326.725.725 0 0 0 .067.33.5.5 0 0 1 .445.496c0 .924.274 1.425.499 1.688a1.115 1.115 0 0 0 .406.319l-.003-.001-.002-.001h-.002s-.001-.001-.16.473h.5v2.066a.5.5 0 0 1-.322.467c-.41.155-.835.31-1.26.463-.532.193-1.063.386-1.563.58-.898.348-1.662.683-2.17 1.038a.5.5 0 0 1-.64-.06A9.971 9.971 0 0 1 0 10zm7.848 2.779a2.61 2.61 0 0 1-.5-.44c-.351-.41-.664-1.043-.728-1.985a1.06 1.06 0 0 1-.333-.37 1.706 1.706 0 0 1-.19-.81c0-.265.053-.56.19-.81.057-.103.136-.208.237-.296-.019-.067-.04-.14-.06-.219a6.727 6.727 0 0 1-.215-1.17c-.028-.396-.003-.903.287-1.286.258-.34.64-.484 1.087-.474.242-.4.651-.675 1.073-.853.545-.226 1.263-.347 1.924-.349.66.002 1.378.123 1.923.35.555.233 1.088.634 1.247 1.268.174.699.044 1.472-.1 2.043-.067.269-.143.513-.203.7.096.085.17.187.226.287.137.248.19.544.19.809s-.053.56-.19.81a1.06 1.06 0 0 1-.333.37c-.064.942-.377 1.575-.729 1.985a2.61 2.61 0 0 1-.499.44v1.417c.336.124.671.245 1.001.365.561.202 1.106.4 1.613.596.722.279 1.39.569 1.915.872A9 9 0 0 0 10 1a9 9 0 0 0-6.673 15.04c.557-.322 1.268-.63 2.012-.918.513-.2 1.052-.395 1.587-.589.31-.112.62-.224.92-.336v-1.418zm-1.236-4.38v-.004.003zm1.903 3.608z"></path></g><g transform="translate(2.89 16.32)"><path id="account_path1_fill" fill-rule="evenodd" d="M14.226.702A9.966 9.966 0 0 1 7.11 3.68 9.971 9.971 0 0 1 0 .713L.71.009A8.971 8.971 0 0 0 7.11 2.68 8.966 8.966 0 0 0 13.514 0l.712.702z"></path></g></svg> Thông tin</a>
+                    <a href="@Url.Action("Profile", "Account", new {segment = "order"})" class="list-group-item list-group-item-action @(segment.Contains("order") ? "active" : "")"><svg viewbox="0 0 20 20" style="height: 16px;fill: #026f56;margin-right: 25px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.309.038a.5.5 0 0 1 .545.108l1.298 1.3 1.299-1.3a.5.5 0 0 1 .707 0l1.299 1.3 1.298-1.3a.5.5 0 0 1 .707 0l1.299 1.3 1.299-1.3a.5.5 0 0 1 .707 0l1.298 1.3 1.299-1.3a.5.5 0 0 1 .853.354v19a.5.5 0 0 1-.853.354l-1.299-1.3-1.298 1.3a.5.5 0 0 1-.708 0l-1.298-1.3-1.299 1.3a.5.5 0 0 1-.707 0l-1.298-1.3-1.3 1.3a.5.5 0 0 1-.706 0l-1.299-1.3-1.298 1.3A.5.5 0 0 1 3 19.5V.5a.5.5 0 0 1 .309-.462zm6.8 1.17L8.81 2.505a.5.5 0 0 1-.707 0L6.804 1.207 5.506 2.506a.5.5 0 0 1-.707 0L4 1.707v16.586l.799-.799a.5.5 0 0 1 .707 0l1.298 1.299 1.299-1.299a.5.5 0 0 1 .707 0l1.299 1.299 1.298-1.299a.5.5 0 0 1 .707 0l1.299 1.299 1.299-1.299a.5.5 0 0 1 .707 0l.798.799V1.707l-.798.799a.5.5 0 0 1-.707 0l-1.299-1.299-1.299 1.299a.5.5 0 0 1-.707 0L10.11 1.207z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.478 5.457a.5.5 0 0 1 .5-.5h4.957a.5.5 0 0 1 0 1H5.978a.5.5 0 0 1-.5-.5zM5.478 7.935a.5.5 0 0 1 .5-.5h3.305a.5.5 0 0 1 0 1H5.978a.5.5 0 0 1-.5-.5zM5.478 10.413a.5.5 0 0 1 .5-.5h4.13a.5.5 0 1 1 0 1h-4.13a.5.5 0 0 1-.5-.5zM5.478 12.891a.5.5 0 0 1 .5-.5h2.479a.5.5 0 0 1 0 1H5.978a.5.5 0 0 1-.5-.5zM12.913 5.457a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5zM12.913 7.935a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5zM12.913 10.413a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5zM12.913 12.891a.5.5 0 0 1 .5-.5h.826a.5.5 0 0 1 0 1h-.826a.5.5 0 0 1-.5-.5z"></path></svg> Lịch sử đơn hàng</a>
+                    <a href="@Url.Action("Profile", "Account", new {segment = "wishlist"})" class="list-group-item has-badge list-group-item-action @(segment == "wishlist" ? "active" : "")"><svg viewbox="0 0 20 20" style="height: 16px;fill: #c204c2;margin-right: 25px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M17.884 3.302a.5.5 0 0 1 .158.365v15.041a.5.5 0 0 1-.47.5l-12.666.79a.5.5 0 0 1-.062-.997l12.198-.763V4.198l-12.136.76a.5.5 0 0 1-.062-.999l12.666-.792a.5.5 0 0 1 .374.135z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M2.208 3.26a.5.5 0 0 1 .45-.068l2.375.792a.5.5 0 0 1 .342.474V19.5a.5.5 0 0 1-.658.474l-2.375-.791A.5.5 0 0 1 2 18.707V3.667a.5.5 0 0 1 .208-.406zM3 4.36v13.988l1.375.458V4.82L3 4.36zM9.625 1c-.598 0-1.083.485-1.083 1.083v1.584a.5.5 0 0 1-1 0V2.083C7.542.933 8.475 0 9.625 0H12c1.15 0 2.083.933 2.083 2.083v1.584a.5.5 0 0 1-1 0V2.083C13.083 1.485 12.598 1 12 1H9.625z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M5.77 1.614c-.252.425-.395.932-.395 1.261v1.583a.5.5 0 0 1-1 0V2.875c0-.545.212-1.226.534-1.77.163-.276.37-.542.617-.744C5.775.158 6.091 0 6.458 0h.792a.5.5 0 0 1 0 1h-.792c-.07 0-.17.03-.3.136a1.81 1.81 0 0 0-.389.478z"></path></svg> Danh sách yêu thích  <span class="badge badge-primary">0</span></a>
+                    <a href="@Url.Action("Profile", "Account", new {segment = "rewardpoints"})" class="list-group-item list-group-item-action @(segment == "rewardpoints" ? "active" : "")"><svg viewbox="0 0 20 20" style="height: 16px;fill: #f40;margin-right: 25px;"><g><path id="cashback_path0_fill" d="M19.99 8.158a1.033 1.033 0 0 0-.201-.763L14.694.682a.988.988 0 0 0-1.391-.188l-.414.32-.32-.419a.986.986 0 0 0-1.39-.19L.397 8.55a1.027 1.027 0 0 0-.39.687c-.034.276.039.547.206.766l3.359 4.375v2.904C3.573 18.783 6.45 20 10 20c3.549 0 6.426-1.217 6.426-2.718v-4.74c0-.282-.101-.553-.29-.809-.03-.042-.07-.082-.107-.124l3.574-2.766c.215-.167.354-.41.389-.685zM1 9.368l10.78-8.343 5.095 6.71-3.295 2.55c-1.024-.291-2.255-.461-3.581-.461a14.357 14.357 0 0 0-1.91.122c-.403.053-.789.122-1.153.206-1.093.251-1.994.632-2.587 1.094-.495.385-.776.827-.776 1.296v.177L1 9.37zm14.425 5.855c-.874.732-2.857 1.47-5.433 1.47-2.571 0-4.554-.746-5.419-1.483v-1.217c1.14.76 3.14 1.267 5.426 1.267 2.285 0 4.286-.506 5.426-1.267v1.23zm0-2.681c0 .491-1.902 1.692-5.426 1.692-3.525 0-5.426-1.201-5.426-1.692 0-.491 1.901-1.693 5.426-1.693 3.524 0 5.426 1.202 5.426 1.693zm-5.426 6.432c-3.525 0-5.426-1.2-5.426-1.692v-.83c1.307.783 3.296 1.266 5.419 1.266 2.095 0 4.117-.49 5.433-1.262v.826c0 .491-1.902 1.692-5.426 1.692zm5.212-8.018a5.526 5.526 0 0 0-.503-.259l2.77-2.143c.215-.168.353-.41.388-.683a1.04 1.04 0 0 0-.202-.767l-4.16-5.48.401-.312L19 8.024l-3.79 2.932z"></path></g></svg> Điểm thưởng</a>
+                    <a href="@Url.Action("Profile", "Account", new {segment = "address"})" class="list-group-item list-group-item-action @(segment == "address" ? "active" : "")"><i style="color: #4caf50;" data-feather="map" class="mr-3"></i>Sổ địa chỉ</a>
+                    <a href="@Url.Action("Logoff", "Account")" class="list-group-item list-group-item-action"><i data-feather="log-out" class="mr-3"></i>Thoát</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col mt-3 mt-md-0">
+            <div class="card right">
+                @if (segment == "dashboard")
+                {
+                    
+                }
+                else if (segment == "profile")
+                {
+                    <div class="card-body profile" style="min-height:600px">
+                        <h3>Thông tin chung</h3><hr>
+                        @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { @class = "form-horizontal form-style-1" }))
+                        {
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.BillingAddressId)
+
+                            <table id="user" class="table">
+                                <thead></thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="key">#ID</td>
+                                        <td class="value">
+                                            <a href="#" id="customer-guid" data-type="text" style="font-weight: 700">@String.Format("{0:00000}", Model.Id)</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Tên đăng nhập</td>
+                                        <td class="value" style="font-weight: 700">
+                                            <a href="#" id="UserName" data-type="text" data-placement="right" data-placeholder="Required" data-title="Tên đăng nhập của bạn" class="editable editable-click editable-empty" data-original-title="" title="">@Model.Username</a>
+                                            <a target="_blank" href="/@SessionManager.UniqueSeoCode/account/change-pass"><span style="font-size: 10px;color: #5cb85c;margin-left: 11px;text-transform: uppercase;">(Thay đổi mật khẩu)</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Giới tính</td>
+                                        <td class="value">
+                                            <a href="#" id="Gender" data-type="select" data-value="@((int)Model.MainAddress.Gender)" data-title="Danh xưng">--</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Họ và tên</td>
+                                        <td class="value">
+                                            <a href="#" id="FullName" data-type="text" data-title="Nhập họ và tên" class="editable editable-click">@Model.MainAddress.FirstName @Model.MainAddress.LastName</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Ngày sinh</td>
+                                        <td class="value"><a href="#" id="DateOfBirth" data-type="combodate" data-value="@(!Model.MainAddress.DateOfBirth.HasValue ? "01/01/2001" : Model.MainAddress.DateOfBirth.Value.ToString("yyyy-MM-dd"))" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-title="Chọn ngày sinh của bạn"></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Địa chỉ e-mail chính</td>
+                                        <td class="value">
+                                            <a href="#" id="Email" data-type="text" data-placement="right" data-placeholder="Required" data-title="Địa chỉ e-mail của bạn" class="editable editable-click editable-empty" data-original-title="" >@Model.Email</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Số điện thoại</td>
+                                        <td class="value">
+                                            <a href="#" id="Phone" data-type="text" data-placement="right" data-placeholder="Required" data-title="Nhập số điện thoại của bạn." class="editable editable-click editable-empty" data-original-title="" title="">@Model.MainAddress.PhoneNumber</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">Ngày đăng ký</td>
+                                        <td class="value">
+                                            <a>@Model.CreatedTime.ToString("dd/MM/yyyy") <i style="color: #5cb85c;">(khoảng @((DateTime.Now.Date - Model.CreatedTime.Date).TotalDays) ngày trước đó)</i></a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        }
+                    </div>
+                }
+                else if (segment.Contains("order"))
+                {
+                    if (segment == "order")
+                    {
+                        <div class="card-body">
+                            <h3>Lịch sử đơn hàng</h3><hr>
+
+                            @if (!Model.Orders.Any())
+                            {
+                                <div class="is-empty">
+                                    <p>
+                                        <img src="~/assets/images/cart/empty.png" alt="cart is empty" style="width: 10%;">
+                                    </p>
+                                    <p>
+
+                                        Bạn không có bất kỳ mục nào trong đơn đặt hàng của bạn
+                                    </p>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Dưới đây là danh sách tất cả các đơn đặt hàng bạn đã hoàn thành trên trang web của chúng tôi.</p>
+                                <div class="table-responsive">
+                                    <table class="table table-hover order-history " id="order-history-@(Model.Orders.Count() > 10 ? "large":"small")" data-addclass-on-xs="table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" style="width:120px;">Giao dịch #</th>
+                                                <th scope="col">Ngày đặt</th>
+                                                <th scope="col" class="text-center">Trạng thái</th>
+                                                <th scope="col" class="text-center" style="width: 100px;"><b>Trạng thái</b> Thanh toán</th>
+                                                <th scope="col" class="text-center" style="width: 120px;"><b>Ngày</b> Vận chuyển</th>
+                                                <th scope="col" class="text-right"><b>Tổng</b> đơn hàng</th>
+                                                <th scope="col" colspan="2" class="text-center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ var i = 0;}
+                                            @foreach (var item in Model.Orders.OrderByDescending(e => e.CreatedTime))
+                                            {
+                                                i++;
+                                                <tr style="@(i> 11 ? "display:none":"")">
+                                                    <th scope="row"><a href="javascript:void(0)">#@(@String.Format("{0:00000}", item.Id))</a></th>
+                                                    <td>
+                                                        @{
+                                                            var last = (DateTime.Now.Date - item.CreatedTime.Date).TotalDays;
+                                                        }
+
+                                                        <span>@item.CreatedTime.ToString("MMM dd,yyyy") <i style="font-size: 10px; color: gray;display: flex;">@(last == 0 ? "Vừa mới (trong ngày)" : last + " days ago (from today)")</i></span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @switch (item.OrderStatusId)
+                                                        {
+                                                            case OrderStatus.Completed:
+                                                                <span class="badge badge-success">Hoàn tất</span>
+                                                                break;
+                                                            case OrderStatus.Cancelled:
+                                                                <span class="badge badge-danger">Hủy</span>
+
+                                                                break;
+                                                            default:
+                                                                <span class="badge">Đang xử lý</span>
+                                                                break;
+                                                        }
+
+
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @switch (item.PaymentStatusId)
+                                                        {
+                                                            case PaymentStatus.Paid:
+                                                                <span class="badge badge-success">Đã thanh toán</span>
+                                                                break;
+                                                            case PaymentStatus.Unknown:
+                                                                <span class="badge badge-danger">Hủy</span>
+
+                                                                break;
+                                                            case PaymentStatus.Pending:
+                                                                <span class="badge">Đang đợi</span>
+                                                                break;
+
+                                                            default:
+                                                                <span class="badge badge-warning">Không rõ</span>
+                                                                break;
+                                                        }
+                                                        <span class="badge badge-danger"></span>
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <time>@(item.DeliveredDate == null ? "" : item.DeliveredDate.Value.ToString("MMM dd,yyyy"))</time>
+                                                    </td>
+                                                    <td class="text-right bold">@FormatHelper.FormatCurrency(item.OrderTotal)</td>
+
+                                                    <td class="text-center">
+                                                        <a class="btn btn-outline-primary" href="?segment=orderdetails&id=@item.Id"><i class="fa fa-eye"></i></a>
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <a class="btn btn-outline-success order-repeat" id="order-@item.Id" data-backdrop="black" href="#"><i class="fa fa-history"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+                            }
+
+
+                        </div>
+                    }
+                    else
+                    {
+                        var id = int.Parse(Request["id"]);
+
+                        var order = Model.Orders.FirstOrDefault(e => e.Id == id);
+                        if (order == null)
+                        {
+                            order = new Order();
+                        }
+
+                        <div class="card-body">
+                            <h3>Thông tin đơn hàng chi tiết </h3>
+                            <p><a href="?segment=order" class="btn text-secondary bold" style="background: #e9ecef;font-size: 11px;text-transform: uppercase;"><span><i class="fa fa-long-arrow-left"></i> Quay lại danh sách</span></a> <a href="#" id="order-@Request["id"]" class="btn text-secondary order-repeat"><span><i class="fa fa-history"></i> Đặt lại</span></a> | <a href="#" class="btn text-secondary order-print"><span><i class="fa fa-print"></i> In</span></a></p>
+
+                            <hr />
+                            @if (order.OrderStatusId != OrderStatus.Completed && order.OrderStatusId != OrderStatus.Cancelled)
+                            {
+                                <p style="background: #fefedd;padding: 4px 12px;font-size: 12px;border-bottom: 12px solid #f1eeea;padding-bottom: 8px;">Order is on hold until <b>@DateTime.Now.AddMonths(1).ToString("MMM,dd yyyy") </b> <a href="#" id="order-@Request["id"]" class="btn text-secondary order-cancel" data-backdrop="blurred" style="background: #f44336;float: right;height: 24px;line-height: 12px;color: #fff!important;font-size: 11px;"><span><i class="fa fa-times"></i> Hủy</span></a> </p>
+
+                            }
+
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <section class="hk-sec-wrapper hk-invoice-wrap pa-15 invoice-form" style="margin-top: -12px;">
+                                        <div class="invoice-from-wrap">
+                                            <div class="row">
+                                                <div class="col-md-7 mb-20">
+                                                    <img class="img-fluid invoice-brand-img d-block mb-30" src="@DisplayHelper.Logo" style="    max-height: 48px;width: auto;" alt="brand" />
+                                                    <h6 class="mb-5 bold">@DisplayHelper.StoreName.Trim() Inc</h6>
+                                                    <address>
+                                                        <span class="d-block">4747, Pearl Street</span>
+                                                        <span class="d-block">Rainy Day Drive, Washington</span>
+                                                        <span class="d-block">Mintos@hencework.com</span>
+                                                    </address>
+                                                </div>
+                                                <div class="col-md-5 mb-20">
+                                                    <h4 class="mb-50 font-weight-600">Invoice / Receipt</h4>
+                                                    <span class="d-block">Date:<span class="pl-10 text-dark"> @order.CreatedTime.ToString("MMM,dd yyyy HH:mm:ss") </span></span>
+                                                    <span class="d-block">Invoice / Receipt #<span class="pl-10 text-dark invoice-no">IOD-@String.Format("{0:00000}", order.Id)</span></span>
+                                                    <span class="d-block">Customer #<span class="pl-10 text-dark">@String.Format("{0:00000}", Model.Id)</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="mt-0">
+                                        <div class="invoice-to-wrap pb-20">
+                                            <div class="row">
+                                                <div class="col-md-7 mb-30">
+                                                    <span class="d-block text-uppercase mb-5 font-13">billing to</span>
+                                                    <h6 class="mb-5">@order.Customer.BillingAddress.FullName.</h6>
+                                                    <address>
+                                                        <span class="d-block">Sycamore Street</span>
+                                                        <span class="d-block">San Antonio Valley, CA 34668</span>
+                                                        <span class="d-block">thompson_peter@super.co</span>
+                                                        <span class="d-block">ABC:325487</span>
+                                                    </address>
+                                                </div>
+                                                <div class="col-md-5 mb-30">
+                                                    <span class="d-block text-uppercase mb-5 font-13">Payment info</span>
+                                                    <span class="d-block">@order.PaymentMethod.Name</span>
+                                                    <span class="d-block">@order.PaymentMethod.Description</span>
+                                                    <span class="d-block">Customer #<span class="text-dark">@String.Format("{0:00000}", Model.Id)</span></span>
+                                                    <span class="d-block text-uppercase mt-30 mb-5 font-13">amount due</span>
+                                                    <span class="d-block text-dark font-18 font-weight-600">@FormatHelper.FormatCurrency(order.OrderTotal)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5 style="margin-left: 15px;">Items</h5>
+
+                                        <div class="invoice-details">
+                                            <div class="table-wrap">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-border mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="w-70 bold">Product Name</th>
+                                                                <th class="text-right">Number</th>
+                                                                <th class="text-right">Unit Cost</th>
+                                                                <th class="text-right">Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{ decimal subTotal = 0;}
+                                                            @foreach (var item in order.OrderItems)
+                                                            {
+                                                                subTotal += Convert.ToDecimal(item.Quantity * item.Price);
+                                                                <tr>
+                                                                    <td class="w-70">@item.Product.Name</td>
+                                                                    <td class="text-right">@item.Quantity</td>
+                                                                    <td class="text-right">@FormatHelper.FormatCurrency(item.Price)</td>
+                                                                    <td class="text-right">@FormatHelper.FormatCurrency(item.Quantity * item.Price)</td>
+                                                                </tr>
+                                                            }
+                                                            <tr class="bg-transparent-null">
+                                                                <td colspan="4"></td>
+                                                            </tr>
+                                                            <tr class="bg-transparent-null">
+                                                                <td colspan="4"></td>
+                                                            </tr>
+                                                            <tr class="bg-transparent-null">
+                                                                <td colspan="4"></td>
+                                                            </tr>
+                                                            <tr class="bg-transparent-null">
+                                                                <td colspan="4"></td>
+                                                            </tr>
+                                                            <tr class="bg-transparent">
+                                                                <td colspan="3" class="text-right text-light">Subtotals</td>
+                                                                <td class="text-right">@FormatHelper.FormatCurrency(subTotal)</td>
+                                                            </tr>
+                                                            <tr class="bg-transparent">
+                                                                <td colspan="3" class="text-right text-light border-top-0">Ship fee</td>
+                                                                <td class="text-right border-top-0">@FormatHelper.FormatCurrency(order.OrderTransportFee)</td>
+                                                            </tr>
+                                                            <tr class="bg-transparent">
+                                                                <td colspan="3" class="text-right text-light border-top-0">Money points</td>
+                                                                <td class="text-right border-top-0">@FormatHelper.FormatCurrency(order.OrderUsePoints)</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot class="border-bottom border-1">
+                                                            <tr>
+                                                                <th colspan="3" class="text-right font-weight-600">total</th>
+                                                                <th class="text-right font-weight-600">@FormatHelper.FormatCurrency(order.OrderTotal)</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-sign-wrap text-right py-60">
+                                                <img class="img-fluid d-inline-block" style="width:100px" src="https://hencework.com/theme/mintos/dist/img/signature.png" alt="Signature" />
+                                                <span class="d-block text-light font-14">Digital Signature</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <ul class="invoice-terms-wrap font-14 list-ul">
+                                            @*<li>A buyer must settle his or her account within 30 days of the date listed on the invoice.</li>
+                                                <li>The conditions under which a seller will complete a sale. Typically, these terms specify the period allowed to a buyer to pay off the amount due.</li>*@
+                                            @foreach (var item in order.OrderNotes)
+                                            {
+                                                <li>@Html.Raw(item.Note)</li>
+                                            }
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                            <!-- /Row -->
+                        </div>
+                    }
+
+
+                }
+                else if (segment == "wishlist")
+                {
+                    <div class="card-body">
+                        <h3>Danh sách yêu thích</h3><hr>
+
+                        <div class="is-empty">
+                            <p>
+                                <img src="~/assets/images/cart/wishlist-is-empty.jpg" alt="wishlist is empty" style="width: 10%;">
+                            </p>
+                            <p>
+
+                                Bạn không có bất kỳ mục nào trong danh sách yêu thích của bạn | <a href="#" style="color:green"> click vào đây </a> để khám phá thêm sản phẩm yêu thích./
+                            </p>
+                        </div>
+
+                        <div class="custom-control custom-checkbox mt-3">
+                            <input type="checkbox" class="custom-control-input" id="informCheck" checked>
+                            <label class="custom-control-label" for="informCheck">Nhận thông báo khi có sản phẩm mới</label>
+                        </div>
+                    </div>
+
+                }
+                else if (segment == "rewardpoints")
+                {
+                    <div class="card-body">
+                        <h3>Điểm thưởng</h3>
+                        <hr>
+                        <p>Bạn đang có <b id="current-points">@Model.CurrentPoints</b> điểm(s) tương đương với <b id="points-to-money">$</b> có thể sử dụng cho việc mua hàng.</p>
+                        <div>
+                            <p>TỔNG QUAN</p>
+                            <ul class="card-number-wrapper">
+                                <li class="card-number">
+                                    <div class="card-number__flipper">
+                                        <div class="card-number__front">
+                                            <p class="card-number__name"><span>Điểm</span><br>Hiện tại</p>
+                                            <p class="card-number__num">@Model.CurrentPoints</p>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <li class="card-number">
+                                    <div class="card-number__flipper">
+                                        <div class="card-number__front">
+                                            <p class="card-number__name"><span>Điểm</span><br>Tích lũy</p>
+                                            <p class="card-number__num">@Model.LichSuDiems.Where(e => e.SoDiemPhatSinh > 0).Sum(e => e.SoDiemPhatSinh)</p>
+                                        </div>
+
+                                    </div>
+                                </li>
+                                <li class="card-number">
+                                    <div class="card-number__flipper">
+                                        <div class="card-number__front">
+                                            <p class="card-number__name"><span>Điểm</span><br>Sử dụng</p>
+                                            <p class="card-number__num">@(Model.LichSuDiems.Where(e => e.SoDiemPhatSinh < 0).Sum(e => e.SoDiemPhatSinh) * -1)</p>
+                                        </div>
+
+                                    </div>
+                                </li>
+
+                            </ul>
+                            <hr />
+                            <p><h4 class="title">Giao dịch (s) gần đây</h4></p>
+                            @if (!Model.LichSuDiems.Any())
+                            {
+                                <div class="is-empty">
+                                    <p>
+                                        <img src="~/assets/images/cart/wishlist-is-empty.jpg" alt="wishlist is empty" style="width: 10%;">
+                                    </p>
+                                    <p>
+
+                                        Bạn chưa có bất kỳ Giao dịch nào trong trang web của chúng tôi./
+                                    </p>
+                                </div>
+                                <hr />
+                            }
+                            else
+                            {
+                                <div class="table-responsive">
+                                    <table class="table table-hover order-history " id="order-history-@(Model.Orders.Count() > 10 ? "large":"small")" data-addclass-on-xs="table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" style="width:120px;">Giao dịch #</th>
+                                                <th scope="col" class="text-left">Lý do</th>
+                                                <th scope="col" class="text-right">Điểm <b>trước</b></th>
+                                                <th scope="col" class="text-right">Điểm <b>phát sinh</b></th>
+                                                <th scope="col" class="text-right">Điểm <b>sau</b></th>
+                                                <th scope="col">Ngày thực hiện</th>
+                                                <th scope="col" colspan="2" class="text-center"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @{ var i = 0;}
+                                            @foreach (var item in Model.LichSuDiems.OrderByDescending(e => e.Id))
+                                            {
+                                                i++;
+                                                <tr style="@(i> 11 ? "display:none":"")">
+                                                    <th scope="row"><a href="javascript:void(0)" class="bold">#@(@String.Format("{0:00000}", item.Id))</a></th>
+
+                                                    <td class="text-left">
+                                                        @Html.Raw(item.LyDo)
+                                                    </td>
+                                                    <td class="text-right bold" style="color: #606975;">@(item.SoDiemTruoc)</td>
+                                                    <td class="text-right bold">@Html.Raw(item.SoDiemPhatSinh > 0 ? "<span style='color:green'>" + item.SoDiemPhatSinh + "</span>" : "<span style='color:red'>(" + (item.SoDiemPhatSinh * -1) + ")</span>")</td>
+                                                    <td class="text-right bold" style="color: #026f56;">@(item.SoDiemSau)</td>
+                                                    <td>
+                                                        @{
+                                                            DateTime ngayPhatSinh = Convert.ToDateTime(item.NgayPhatSinh);
+                                                            if (ngayPhatSinh == null)
+                                                            {
+                                                                ngayPhatSinh = DateTime.Now;
+                                                            }
+                                                            var last = (DateTime.Now.Date - ngayPhatSinh.Date).TotalDays;
+                                                        }
+
+                                                        <span>@ngayPhatSinh.ToString("MMM dd,yyyy") <i style="font-size: 10px; color: gray;display: flex;">@(last == 0 ? "Vừa mới (trong ngày)" : last + " days ago (from today)")</i></span>
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <a class="btn btn-outline-success asking-for" id="asking-@item.Id" data-backdrop="black" href="#">?</a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+                            }
+
+
+
+                        </div>
+                        <p><h4 class="title">Quy tắc</h4></p>
+
+                        <ul class="rewards-notification-block">
+                            <li>
+                                <h5>Tích điểm</h5>
+
+                                <p id="rules-earn">Cứ thanh toán đơn hàng được quy đổi<strong>&nbsp;100.0000 ₫</strong> bạn có <strong>1 </strong> điểm thưởng, ngay khi đơn hàng hoàn tất!</p>
+                                
+                                <hr />
+                                <h5>Tiêu điểm</h5>
+                                <p id="rules-spent">Với <strong id="spending-rules-points">1</strong> điểm bạn có thể quy đổi ra <strong id="spending-rules-money">10.0000 ₫</strong> khi thực hiện thanh toán.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                }
+                else if (segment == "address")
+                {
+                    <div class="card-body address-book">
+                        <h3 class="title">Sổ địa chỉ</h3>
+                        <p>Dưới đây là danh sách các địa chỉ mà bạn có trong cuốn sách của bạn. Đây là danh sách các địa chỉ bạn đã sử dụng để gửi đơn đặt hàng đến ngoài địa chỉ chính của bạn.</p>
+                        <hr />
+
+                        <div id="billing-address-display">
+                            <h4 class="title">Địa chỉ thanh toán <button class="btn btn-sm float-right" data-fade="#billing-address-update,#billing-address-display" style="text-decoration: underline;"><i class="fa fa-pencil"></i> Sửa</button></h4>
+
+
+                            <table class="table mb-3 table-sm billing-address-display">
+
+                                <tbody>
+                                    <tr>
+                                        <td class="border-top-0">
+                                            <strong>Danh xưng:</strong>
+                                            <div>@Model.BillingAddress.Gender</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-top-0">
+                                            <strong>Họ và tên:</strong>
+                                            <div>@Model.BillingAddress.FullName</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-top-0">
+                                            <strong>Thông tin liên hệ:</strong>
+                                            <div style="border: 1px dotted #dee2e6;padding-top: 12px;padding-left: 12px;margin-bottom: 12px;">
+                                                <span><u>Điện thoại</u>: @Model.BillingAddress.PhoneNumber</span> <br />
+                                                <span><u>Địa chỉ e-mail</u>: @Model.BillingAddress.Email</span>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-top-0">
+                                            <strong>Địa chỉ</strong>
+                                            <div>@Model.BillingAddress.Address1 <br /> <span>@Model.BillingAddress.Address2</span></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>Quận / Huyện:</strong>
+                                            <div>@(Model.BillingAddress.District == null ? "": Model.BillingAddress.District.Name)</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Tỉnh / Thành phố: </strong>
+                                            <div>@(Model.BillingAddress.StateProvince == null ? "" : Model.BillingAddress.StateProvince.Name)</div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                Công ty / Tổ chức:
+                                            </strong>
+                                            <div>@Model.BillingAddress.CompanyName</div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div id="billing-address-update" style="display:none">
+                            <h4 class="title">Cập nhật địa chỉ thanh toán <button class="btn btn-sm float-right" data-fade="#billing-address-display,#billing-address-update"><i class="fa fa-long-arrow-left"></i> Back</button></h4>
+                            <hr />
+                            @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { @class = "form-horizontal mb-2 billing-address", id = "billing-address" }))
+                            {
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.Id)
+                                @Html.HiddenFor(model => model.AddressId)
+                                @Html.HiddenFor(model => model.BillingAddressId)
+                                @Html.HiddenFor(model => model.ShippingAddressId)
+
+
+                                <input type="hidden" name="segment" value="address" />
+                                <div style="display:none">
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.BillingAddress.DateOfBirth, "Ngày sinh")
+                                        @{
+                                            var dob = Model.BillingAddress.DateOfBirth.HasValue ? Model.BillingAddress.DateOfBirth.Value : new DateTime(0001, 1, 1);
+                                        }
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="">
+                                                    <select id="day" name="BillingAddress.Day" class="selectpicker_x form-control">
+                                                        <option selected value="01">-Day-</option>
+                                                        @for (int d = 1; d <= 31; d++)
+                                                        {
+                                                            <option value="@d" @(dob.Day == d ? "selected" : "")>@(d < 10 ? ("0" + d) : ("" + d))</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="">
+                                                    <select id="month" name="BillingAddress.Month" class="selectpicker_x form-control">
+                                                        <option value="01">-Month-</option>
+                                                        @for (int m = 1; m <= 12; m++)
+                                                        {
+                                                            <option value="@m" @(dob.Month == m ? "selected" : "")>@(m < 10 ? ("0" + m) : ("" + m))</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="">
+                                                    <select id="year" name="BillingAddress.Year" class="selectpicker_x form-control">
+                                                        <option value="0001">--Year--</option>
+                                                        @for (int y = 1929; y <= 2019; y++)
+                                                        {
+                                                            <option value="@y" @(dob.Year == y ? "selected" : "")>@(y)</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.form-control -->
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.BillingAddress.Gender, "Danh xưng")
+                                        <select class="form-control " name="BillingAddress.Gender">
+                                            <optgroup label="Danh xưng">
+                                                <option @(Model.BillingAddress.Gender == Gender.Male ? "selected" : "") value="1">Ông</option>
+                                                <option @(Model.BillingAddress.Gender == Gender.Female ? "selected" : "") value="2">Bà</option>
+                                            </optgroup>
+                                            <optgroup label="Gọi bằng">
+                                                <option @(Model.BillingAddress.Gender == Gender.Other ? "selected" : "") value="0">Bạn</option>
+                                            </optgroup>
+                                        </select> <!-- /.form-control -->
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.BillingAddress.FirstName, "Họ đệm")
+                                        @Html.TextBoxFor(model => model.BillingAddress.FirstName, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.BillingAddress.LastName, "Tên")
+                                        @Html.TextBoxFor(model => model.BillingAddress.LastName, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.BillingAddress.Email, "Địa chỉ e-mail")
+                                        @Html.TextBoxFor(model => model.BillingAddress.Email, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.BillingAddress.PhoneNumber, "Số điện thoại.")
+                                        @Html.TextBoxFor(model => model.BillingAddress.PhoneNumber, new { placeholder = "", @class = "form-control phone" })
+                                    </div>
+
+                                    <div class="form-group col-6 col-sm-6">
+                                        <div style="display:none">
+                                            <label for="BillingAddress_CountryId">Country</label>
+                                            <select id='BillingAddress_CountryId' name="BillingAddress.CountryId" class="custom-select cascadingDropDown form-control BillingAddress-CountryId"
+                                                    data-group="BillingAddress"
+                                                    data-target="StateProvinceId"
+                                                    data-id="countryId"
+                                                    data-val="@Model.BillingAddress.CountryId"
+                                                    data-url="/api/general/get-state-province-by"
+                                                    data-default-label="[-Select Country-]"
+                                                    data-replacement="container1">
+                                                <option value="1" selected="">Viet Nam</option>
+                                            </select>
+                                        </div>
+                                        <label for="BillingAddress_StateProvinceId">Tỉnh / Thành phố</label>
+                                        <select id='BillingAddress_StateProvinceId' name="BillingAddress.StateProvinceId" class="custom-select cascadingDropDown form-control BillingAddress-StateProvinceId"
+                                                data-group="BillingAddress"
+                                                data-id="StateProvinceId"
+                                                data-val="@Model.BillingAddress.StateProvinceId"
+                                                data-target="DistrictId"
+                                                data-url="/api/general/get-district-by"
+                                                data-replacement="container1"
+                                                data-default-label="[-Select Tỉnh / Thành phố-]"
+                                                disabled></select>
+                                    </div>
+                                    <div class="form-group col-3 col-sm-6">
+                                        <label for="BillingAddress_DistrictId">Quận / Huyện</label>
+                                        <select id="BillingAddress_DistrictId" name="BillingAddress.DistrictId"
+                                                class="custom-select cascadingDropDown form-control BillingAddress-DistrictId"
+                                                data-group="BillingAddress"
+                                                data-id="DistrictId"
+                                                data-target="WardId"
+                                                data-url="/api/general/get-district-by"
+                                                data-val="@Model.BillingAddress.DistrictId"
+                                                data-final
+                                                data-replacement="container1"
+                                                data-default-label="[-Select District-]"
+                                                disabled></select>
+                                        <div class="help-block">
+                                            <div class="panel cascadingContainer" style="display:none"
+                                                 data-replacement-container="container1"
+                                                 data-default-content="Please select {{StateProvince}} First./"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        @Html.LabelFor(model => model.BillingAddress.Address1, "Địa chỉ (dòng 1)")
+                                        @Html.TextBoxFor(model => model.BillingAddress.Address1, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        @Html.LabelFor(model => model.BillingAddress.Address2, "Địa chỉ (bổ xung)")
+                                        @Html.TextBoxFor(model => model.BillingAddress.Address2, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        @Html.LabelFor(model => model.BillingAddress.CompanyName, "Tên công ty, tổ chức của bạn")
+                                        @Html.TextAreaFor(model => model.BillingAddress.CompanyName, new { placeholder = "", @class = "form-control", rows = 1 })
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>  LƯU LẠI & QUAY VỀ DANH SÁCH</button>
+                                </div>
+                            }
+                        </div>
+                        <h4 class="title">Địa chỉ nhận hàng</h4>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="shipping-address-check" checked="checked">
+                            <label class="custom-control-label" for="shipping-address-check">
+                                <span role="button" data-toggle="collapse" data-target="#shipping-address" aria-expanded="false" aria-controls="shipping-address" style="color: #026f56;font-size: 12px;">Thông tin giống như [Địa chỉ thanh toán]</span>
+                            </label>
+                        </div>
+                        <div class="shipping-other-address">
+                            @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { @class = "form-horizontal mt-2 collapse shipping-address", id = "shipping-address" }))
+                            {
+                                @Html.ValidationSummary(true)
+                                @Html.HiddenFor(model => model.Id)
+                                @Html.HiddenFor(model => model.ShippingAddressId)
+                                <input type="hidden" name="segment" value="address" />
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.ShippingAddress.Gender, "Danh xưng")
+                                        <select class="form-control " name="ShippingAddress.Gender">
+                                            <optgroup label="Danh xưng">
+                                                <option @(Model.ShippingAddress.Gender == Gender.Male ? "selected" : "") value="1">Ông</option>
+                                                <option @(Model.ShippingAddress.Gender == Gender.Female ? "selected" : "") value="2">Bà</option>
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option @(Model.ShippingAddress.Gender == Gender.Other ? "selected" : "") value="0">Bạn</option>
+                                            </optgroup>
+                                        </select> <!-- /.form-control -->
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.ShippingAddress.FirstName, "Họ đệm")
+                                        @Html.TextBoxFor(model => model.ShippingAddress.FirstName, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.ShippingAddress.LastName, "Tên")
+                                        @Html.TextBoxFor(model => model.ShippingAddress.LastName, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.ShippingAddress.Email, "Địa chỉ e-mail")
+                                        @Html.TextBoxFor(model => model.ShippingAddress.Email, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+
+                                    <div class="form-group col-6">
+                                        @Html.LabelFor(model => model.ShippingAddress.PhoneNumber, "Số điện thoại.")
+                                        @Html.TextBoxFor(model => model.ShippingAddress.PhoneNumber, new { placeholder = "", @class = "form-control phone" })
+                                    </div>
+
+                                    <div class="form-group col-6 col-sm-6">
+                                        <div style="display:none">
+                                            <label for="ShippingAddress_CountryId">Country</label>
+                                            <select id='ShippingAddress_CountryId' name="ShippingAddress.CountryId" class="custom-select cascadingDropDown form-control ShippingAddress-CountryId"
+                                                    data-group="ShippingAddress"
+                                                    data-target="StateProvinceId"
+                                                    data-id="countryId"
+                                                    data-val="@Model.ShippingAddress.CountryId"
+                                                    data-url="/api/general/get-state-province-by"
+                                                    data-default-label="[-Select Country-]"
+                                                    data-replacement="container1">
+                                                <option value="1" selected="">Viet Nam</option>
+                                            </select>
+                                        </div>
+                                        <label for="ShippingAddress_StateProvinceId">Tỉnh / Thành phố</label>
+                                        <select id='ShippingAddress_StateProvinceId' name="ShippingAddress.StateProvinceId" class="custom-select cascadingDropDown form-control ShippingAddress-StateProvinceId"
+                                                data-group="ShippingAddress"
+                                                data-id="StateProvinceId"
+                                                data-val="@Model.ShippingAddress.StateProvinceId"
+                                                data-target="DistrictId"
+                                                data-url="/api/general/get-district-by"
+                                                data-replacement="container1"
+                                                data-default-label="[-Select Tỉnh / Thành phố-]"
+                                                disabled></select>
+                                    </div>
+                                    <div class="form-group col-3 col-sm-6">
+                                        <label for="ShippingAddress_DistrictId">Quận / Huyện</label>
+                                        <select id="ShippingAddress_DistrictId" name="ShippingAddress.DistrictId"
+                                                class="custom-select cascadingDropDown form-control ShippingAddress-DistrictId"
+                                                data-group="ShippingAddress"
+                                                data-id="DistrictId"
+                                                data-target="WardId"
+                                                data-url="/api/general/get-district-by"
+                                                data-val="@Model.ShippingAddress.DistrictId"
+                                                data-final
+                                                data-replacement="container1"
+                                                data-default-label="[-Select District-]"
+                                                disabled></select>
+                                        <div class="help-block">
+                                            <div class="panel cascadingContainer" style="display:none"
+                                                 data-replacement-container="container1"
+                                                 data-default-content="Please select {{StateProvince}} First./"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        @Html.LabelFor(model => model.ShippingAddress.Address1, "Địa chỉ (dòng 1)")
+                                        @Html.TextBoxFor(model => model.ShippingAddress.Address1, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        @Html.LabelFor(model => model.ShippingAddress.Address2, "Địa chỉ (bổ xung)")
+                                        @Html.TextBoxFor(model => model.ShippingAddress.Address2, new { placeholder = "", @class = "form-control" })
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        @Html.LabelFor(model => model.ShippingAddress.CompanyName, "Tên công ty, tổ chức của bạn")
+                                        @Html.TextAreaFor(model => model.ShippingAddress.CompanyName, new { placeholder = "", @class = "form-control", rows = 1 })
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>  LƯU LẠI & QUAY VỀ DANH SÁCH</button>
+                                </div>
+                            }
+
+
+                        </div>
+
+                        <hr />
+                        <div class="block-addresses-list">
+                            <h4 class="title">Các địa chỉ bổ sung <span></span></h4>
+                            <div class="addresses-entries">
+                                <div>
+                                    <ol class="items addresses">
+                                        <li class="item" style="min-height: 138px;">
+
+                                        </li>
+                                        <li class="item" style="min-height: 138px;">
+
+                                        </li>
+                                        <li class="item" style="min-height: 138px;">
+
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+                else
+                {
+                    <div class="card-body text-center">
+                        <h1>
+                            <span class="text-danger">Ồ!</span> Lỗi không tìm thấy trang
+                        </h1>
+                        <p>
+                            Trang bạn đang tìm kiếm không tồn tại..
+                        </p>
+                        <a href="javascript:history.back()" class="btn btn-danger"><i data-feather="arrow-left"></i> Quay lại trang trước</a>
+
+                    </div>
+                }
+
+            </div>
+
+            <div>
+                <div class="alert alert-primary" role="alert">
+
+                    Thông tin chính xác ? <a href="javascript:void(0)" class="alert-link"> Đúng </a> / <a href="en/contact.html" class="alert-link">Không đúng, Tôi muốn liên hệ với bộ phận hỗ trợ</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

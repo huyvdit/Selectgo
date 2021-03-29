@@ -1,0 +1,6 @@
+﻿@using global::Web.Helpers
+@using (Html.BeginForm("NewsLetterSubscription", "Widgets", FormMethod.Post, new { @class = "newsletter", @id= "subscribe_form" }))
+{
+    <input type="email" name="email" autocomplete="off" required="" placeholder="@LanguageHelper.Translate("Your email address_Text")" required="" />
+    <button type="submit"><i class="fa fa-paper-plane"></i></button>
+}

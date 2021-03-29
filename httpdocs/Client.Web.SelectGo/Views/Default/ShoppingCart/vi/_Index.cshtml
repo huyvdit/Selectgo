@@ -1,0 +1,234 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using Web.Core.Models.Ecommerce
+@using Web.Repositories.Entity.General
+@model ASP.Web.Core.Models.Ecommerce.View.ShoppingCartViewModel
+@{
+    var shippingMethods = ViewBag.ShippingMethods as List<ShippingMethod>;
+}
+<div id="main" class="product-cart">
+
+    <div class="section border-bottom pt-2 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = "#", Title = LanguageHelper.Translate("Your cart_Text") } }, homeIncluded = true, headingIncluded = false, area = "" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-wrapper">
+        @if (!Model.CartItems.Any())
+        {
+            <div class="shop-cart-empty">
+                <div>
+                    <h3 class="strong-header">
+                        Giỏ hàng<br>
+                        Hiện tại đang trống
+                    </h3>
+                    <p>
+                        Hiện tại đang không có sản phẩm nào trong giỏ.
+                    </p>
+                    <a href="@SlugHelper.Category(grouped:"our-product")" title="Back to our store" class="btn view button-main">
+                        <i class="flaticon-arrows" style="float: left;margin-right: 12px;"></i> Tiếp tục mua sắm
+                    </a>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="container">
+                <div class="cart-section">
+                    <div class="cart-form">
+                        <div id="update-message"></div>
+                        <form action="@Url.Action("Update","ShoppingCart")" method="post">
+                            <input type="hidden" name="goout" value="" />
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+
+                                            <th class="product" colspan="2">Tên mặt hàng</th>
+                                            <th class="price">Đơn giá (₫)</th>
+                                            <th class="qty">Số lượng</th>
+                                            <th class="price total">Thành tiền (₫)</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @{ var no = 1;}
+                                        @foreach (var item in Model.CartItems)
+                                        {
+
+                                            <tr id="row-@item.Id">
+
+                                                <td class="image">
+                                                    <div class="product-image">
+                                                        <input type="hidden" value="@item.Id" name="CartItems[@(no-1)].Id" />
+                                                        <a href="@SlugHelper.Product(item.Product.Id)"><img src="@item.Product.Avatar" alt="@item.Product.Title"></a>
+                                                    </div>
+                                                </td>
+                                                <td class="image-info">
+                                                    <div class="product-name">
+                                                        @(no).
+                                                        <a href="@SlugHelper.Product(item.Product.Id)" class="title">
+                                                            @item.Product.Name
+                                                        </a>
+
+                                                        <br>
+
+                                                        <a href="#" class="cart move-to-wishlist"
+                                                           data-id="@item.Id">
+                                                            - Thêm vào yêu thích
+                                                        </a>
+                                                        <br>
+                                                        <a href="#" class="cart remove" data-id="@item.Id">
+                                                            - Bỏ
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td class="price">
+                                                    <span class="money">@FormatHelper.FormatCurrency(item.Product.Price)</span>
+                                                </td>
+                                                <td class="qty">
+                                                    <div class="quantity-wrapper clearfix">
+                                                        <div class="wrapper d-flex">
+                                                            <div class="qty-btn-vertical">
+                                                                <span class="qty-up cs-icon icon-ion-ios-arrow-up" title="Increase">
+                                                                </span>
+                                                                <input type="text" id="item-count-@item.Id" data-value="@item.Count" name="CartItems[@(no-1)].Count" value="@item.Count" maxlength="5" size="5" class="qty">
+
+                                                                <span class="qty-down cs-icon icon-ion-ios-arrow-down" title="Decrease">
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="total price title-1">
+                                                    <span class="money" id="item-total-@item.Id">@FormatHelper.FormatCurrency(item.Product.Price * item.Count)</span>
+                                                </td>
+
+
+                                            </tr>
+                                            no = no + 1;
+                                        }
+                                        <tr class="cart-actions">
+                                            <td colspan="3" class="back-to-shop text-left">
+                                                <span>
+
+                                                </span>
+                                            </td>
+                                            <td colspan="2" class="cart-process text-right">
+                                                <a href="@SlugHelper.Category(grouped:"our-product")" title="Back to our store" style="background: transparent;color: #026f56!important;" class="btn view button-main">
+                                                    <i class="flaticon-arrows"></i> Quay lại trang sản phẩm
+                                                </a>
+                                                <span id="update-cart" class="update-cart btn view button-main">
+                                                    <i class="fa fa-refresh"></i>
+                                                    <button type="submit">CẬP NHẬT</button>
+                                                </span>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-5 col-md-12">
+                                    <div class="coupon-wrap">
+                                        <div class="coupon text-left">
+                                            <h4 class="woocommerce-block-title">SỬ DỤNG ĐIỂM TÍCH LŨY <span class="question" title="Click to express" onclick="window.open('/helps/points-policy.html', '_blank')">?</span></h4>
+                                            <div class="coupon-content">
+                                                @if (UserManager.User.CurrentPoints > 0)
+                                                {
+                                                    
+                                                    <p class="description">Nhập vào số điểm muốn mà bạn sử dụng hiện tại số dư khả dụng của bạn: <b id="current-points">@UserManager.User.CurrentPoints</b> điểm và đơn hàng cần tiêu <b id="money-to-points">0</b> điểm để thanh toán đủ./</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="description"> Bạn phải là thành viên đã đăng nhập & có số dư điểm khả dụng</p>
+                                                }
+
+                                                <input type="number" id="spent-to-points" name="UsePoints" class="input-code spr-form-input" min="0" max="@UserManager.User.CurrentPoints" value="@Model.UsePoints" @(UserManager.User.CurrentPoints > 0 ? "" : "disabled") placeholder="Points">
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-7 col-md-12 cart-collaterals mg-top-50">
+                                    <div class="layout-cart-right">
+                                        <div class="cart-totals clearfix">
+                                            <div>
+                                                <table class="shop-table" style="    margin-top: -45px;">
+                                                    <thead style="visibility: hidden;">
+                                                        <tr>
+                                                            <th style="width: 25%;">{{1}}</th>
+                                                            <th style="width: 60%;">{{2}}</th>
+                                                            <th style="width: 15%;">{{3}}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="cart-subtotal">
+                                                            <th>Thành tiền <span class="no-item">[1]</span> </th>
+                                                            <th></th>
+                                                            <td class="price total-item" data-title="Subtotal">
+                                                                <span class="amount total-value" id="cart-subtotal">
+                                                                    @FormatHelper.FormatCurrency(Model.CartTotal)
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr class="cart-subtotal cart-item">
+                                                            <th>Phí vận chuyển  <span class="no-item">[2]</span> </th>
+                                                            <td data-title="Subtotal">
+                                                                @foreach (var sm in shippingMethods.OrderBy(e => e.Fees))
+                                                                {
+                                                                    <div class="check-box">
+                                                                        <label class="check @(Model.PreferShippingMethodId == sm.Id ? "active" : "")" data-shipping-method>
+                                                                            <input type="radio" name="PreferShippingMethodId" @(Model.PreferShippingMethodId == sm.Id ? "checked" : "") data-val="@sm.Fees" value="@sm.Id">
+                                                                            <span class="checkmark"></span>
+                                                                            <span>@sm.Name</span> <span class="amount" id="cart-shipfee-@sm.Id">@(sm.Fees == 0 ? "- Miễn phí" : @FormatHelper.FormatCurrency(sm.Fees))</span>
+                                                                        </label>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                            <td class="price total-item" data-title="Subtotal">
+                                                                <i style="float: right;width: 100%;font-size: 10px;">(Tạm tính)</i>
+                                                                <span class="amount total-value" id="cart-shipfee">
+                                                                    @FormatHelper.FormatCurrency(0)
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr class="order-total">
+                                                            <th>Tổng tiền <span class="no-item">[3]</span> = [1] + [2]</th>
+                                                            <th></th>
+                                                            <td class="price" data-title="Total">
+                                                                <span class="amount" id="cart-total" style="font-size: 17px;color: #000;">
+                                                                    @FormatHelper.FormatCurrency(Model.CartTotal)
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <div class="to-checkout">
+                                                    <button type="submit" id="checkout-btn" class="checkout-button  btn view button-main">Đặt hàng ngay<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>

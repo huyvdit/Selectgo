@@ -1,0 +1,263 @@
+#map {
+    width: 100%;
+    padding-top: 0px;
+    display: block;
+}
+#map .gmap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+#map > #infowindow {
+    display: none;
+}
+#infowindow .info {
+    border: 1px solid #026f56;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 20px 15px;
+    border-radius: 0px;
+    outline: 7px solid #fff;
+}
+    #infowindow .info h1 {
+        font-size: 12px;
+        color: #026f56;
+    }
+#infowindow .address {
+    font-size: 12px;
+    color: #000;
+}
+#result .distance {
+    font-size:10px;
+    color:#f58220; display:none;
+}
+#result .distributor-item .selected a.name, #result .distributor-item .selected span.index{
+    color:#f58220;
+}
+
+
+/* He thong phan phoi */
+#distributor-items::-webkit-scrollbar {
+    width: 5px;
+}
+
+#distributor-items::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 0px;
+}
+
+#distributor-items::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    color: #a7501d;
+}
+
+#distributor-province {
+    height: 30px;
+    line-height: 30px;
+    margin-left: -3px;
+    width: 270px;
+}
+
+#distributor-district {
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+    width: 270px;
+}
+
+.main-content.dealership-content {
+    /*display: flex !important;*/
+    padding-top: 50px;
+}
+.dealership-table {
+    margin-bottom: 50px;
+    background: #fff;
+}
+.dealership-table .site-group-form {
+    display: -webkit-inline-box;
+    border: 1px solid #f1eeea;
+    width: 100%;
+    float: left;
+    padding: 12px;
+    margin-bottom: 0px;
+    border-bottom: none;
+}
+
+    .dealership-table .site-group-form .padding-filter {
+        margin-right: 29px;
+    }
+
+.site-group-form .filter-item > label {
+    font-family: 'HelveticaNeue-Regular';
+    font-size: 15px;
+    color: #212121;
+}
+
+.dealership-table tr td:nth-child(1) {
+    width: 75%; float:left;
+}
+.dealership-table tr td:nth-child(2) {
+    width: 25%; float:right;
+}
+.dealership-table tr:nth-child(2) td:nth-child(2) {
+    vertical-align: top;
+}
+
+.dealership-table #pp-btn {
+  
+    height: 30px;
+    line-height: 30px;
+    width: 50px;
+    text-align: center;
+    display: block;
+    border: none;
+    padding-top: 2px;
+}
+.dealership-table #my-location-btn {
+    background: #f58220;
+    height: 30px;
+    line-height: 30px;
+    width: 38px;
+    text-align: center;
+    display: block;
+    margin-left: 5px;
+    outline: 0;
+    border: none;
+    right: 0;
+    color: #fff;
+}
+    .dealership-table #pp-btn i {
+        color: #fff;
+        font-size: 18px;
+    }
+
+#distributor-items {
+    min-height: 528px;
+    height: 545px;
+}
+
+@media (min-width: 1024px) {
+    #map {
+        height: 569px;
+    }
+}
+
+#distributor-items {
+    padding: 0px 2px;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-top: -5px;
+   
+}
+
+    #distributor-items .distributor-item {
+
+        padding: 12px;
+    }
+
+        #distributor-items .distributor-item h4 {
+            font-size: 13px;
+            color: #5e5a54;
+            border-bottom: 1px solid;
+            font-weight: 700;
+        }
+
+        #distributor-items .distributor-item > .dis-text > p {
+            font-family: inherit;
+            font-size: 12px;
+            color: #392a25;
+            line-height: 18px;
+        }
+
+            #distributor-items .distributor-item > .dis-text > p > a {
+                display: block;
+                line-height: 15px;
+                color: darkblue;
+                font-size: 12px;
+            }
+
+            #distributor-items .distributor-item > .dis-text > p:last-child {
+                padding-left: 25px;
+                margin-top: -10px;
+            }
+
+        #distributor-items .distributor-item .dis-text p i {
+            padding-right: 10px !important;
+        }
+
+        #distributor-items .distributor-item > .dis-text > p#colored-p a {
+            color: #117ec2;
+        }
+
+    #distributor-items > .distributor-item:last-child {
+        border-bottom: 0px;
+    }
+.dealership-table .site-group-form .filter-item select, .dealership-table .site-group-form .padding-filter select {
+    border: none !important;
+    border-bottom: 1px solid #026f56 !important;
+}
+@media (max-width: 480px) {
+    .main-content.dealership-content {
+       
+      
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    #distributor-items {
+        background: #f8f9fa;
+        margin-top: -15px;
+        background: #f8f9fa;
+        min-height: auto;
+        height: auto;
+    }
+    #distributor-province {
+        width: 100% !important;
+    }
+    .dealership-table .site-group-form .padding-filter {
+        margin-right: 0px;
+    }
+    .dealership-table #my-location-btn {
+        width: 50%;
+        float: right;
+        margin-left: 0px;
+        margin-right: 3px;
+    }
+    .dealership-table #pp-btn {
+        width: 50%;
+        float: left;
+        margin-left: -5px;
+    }
+    .dealership-table .site-group-form {
+        display: block !important;
+        padding-right: 4px;
+        border: none;
+        background: #fff;
+    }
+
+    #distributor-district {
+        width: 100% !important;
+        margin-left: -5px;
+        margin-bottom: 25px;
+    }
+    .site-group-form .filter-item > label {
+      
+        display: none;
+    }
+    .dealership-table .site-group-form .padding-filter {
+        margin-bottom: 10px;
+    }
+       
+        .dealership-table tr td:nth-child(1) {
+            width: 100%;
+            float: left;
+        }
+    .dealership-table tr td:nth-child(2) {
+        width: 100%;
+        float: left;
+    }
+
+    .dealership-table table tbody tr {
+        display: block !important;
+    }
+}

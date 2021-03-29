@@ -1,0 +1,198 @@
+[role="table-card"] [role="table"] [role="column-header"],
+[role="table-card"] [role="table"] [role="cell"] {
+    /* Minimum single cell width (cell padding and border deducted) */
+    /* 100% means that only one column is displayed in a row (100% / 1 = 100%) */
+    flex: 1 1 100%;
+    -webkit-flex: 1 1 100%;
+    padding: 8px 10px;
+}
+
+span[data-header="More"] {
+    text-align: right;
+    max-width: 100%;
+}
+
+[role="table-card"] [role="table"] [role="cell"] {
+    border-bottom: 0;
+}
+[role="table-card"] [role="table"] div.filter-panel ul {
+    display: none;
+    position: absolute;
+    top: 26px;
+    left: 0;
+    z-index: 10;
+    min-width: 160px;
+    white-space: normal;
+    list-style-type: none;
+    border: 1px solid #DDE5F0;
+    border-radius: 0px;
+    margin: 0;
+    padding: 15px 25px 15px 20px;
+    background: #FFF;
+    box-shadow: none;
+    /* -webkit-box-shadow: 0px 15px 25px rgba(0,0,0,0.1); */
+    -moz-box-shadow: 0px 15px 25px rgba(0,0,0,0.1);
+}
+[role="table-card"] [role="table"] [role="row"] > [role="cell"]:last-of-type {
+    padding-bottom: 15px;
+}
+
+[role="table-card"] [role="table"] [role="row"] > [role="cell"]:not(.expandable):first-of-type {
+    padding-top: 14px;
+}
+
+[role="table-card"] [role="table"] [role="row-group"] + [role="row-group"] > [role="row"] {
+    border-right: 1px solid #DDE5F0;
+    width: 33.33333%;
+}
+
+[role="table-card"] [role="table"] [role="cell"] a.button {
+    padding: 6px 12px 7px 12px;
+}
+
+[role="table-card"] [role="table"] [role="cell"],
+[role="table-card"] [role="table"] [role="cell"] span {
+    text-align: right;
+    justify-content: space-between;
+    display: initial;
+}
+
+[role="table-card"] [role="table"] [role="row"] label {
+    float: right;
+    width: 32px;
+    min-width: 32px;
+    margin: -4px 0px -8px 10px;
+    line-height: 32px;
+    height: 32px;
+}
+
+[role="table-card"] [role="table"] [role="row-group"] + [role="row-group"].accordion [role="row"] label {
+    margin: -9px 0;
+}
+
+[role="table-card"] [role="table"] [role="cell"]::before {
+    content: attr(data-header);
+    float: left;
+    text-align: left;
+    font-weight: 700;
+    margin-right: 20px;
+}
+
+[role="table-card"] [role="table"] [role="cell"] [status-bar]::before {
+    right: 10px;
+}
+
+/* New */
+/* Confirmed */
+[role="table-card"] [role="table"] [role="cell"] [status-bar="id-1"]::before,
+[role="table-card"] [role="table"] [role="cell"] [status-bar="id-2"]::before {
+    width: 10%;
+}
+
+/* In Progress */
+[role="table-card"] [role="table"] [role="cell"] [status-bar="id-3"]::before {
+    width: 25%;
+}
+
+/* Completed */
+/* Cancelled */
+[role="table-card"] [role="table"] [role="cell"] [status-bar="id-4"]::before,
+[role="table-card"] [role="table"] [role="cell"] [status-bar="id-5"]::before {
+    width: calc(50% - 20px);
+}
+
+[role="table-card"] [role="table"] div.table-desc + [role="row-group"] {
+    display: none;
+}
+
+[role="table-card"] [role="table"] div.table-desc ~ [role="row-group"] {
+    border-top: 1px solid #DDE5F0;
+}
+
+[role="table-card"] [role="table"] [role="subheader"]:first-child {
+    border-radius: 4px 4px 0 0;
+}
+
+[role="table-card"] [role="table"] div.table-desc {
+    flex-direction: column;
+}
+
+    [role="table-card"] [role="table"] div.table-desc > span {
+        width: 100%;
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+
+[role="table-card"] [role="table"] div.filter-panel label[for="wrap-text"], [role="table-card"] [role="table"] div.filter-panel label[for="filter-column"] {
+    margin: 0px !important;
+    float: left;
+}
+
+[role="table-card"] [role="table"] [role="row-group"] + [role="row-group"]:not(.accordion) > [role="row"] {
+    border-top: 1px solid #DDE5F0;
+    border-bottom: 1px solid #DDE5F0;
+    margin-bottom: 20px;
+}
+
+[role="table-card"] [role="table"] [role="row-group"] + [role="row-group"].accordion [role="row"] {
+    border-top: 0;
+    border-bottom: 1px solid #DDE5F0;
+    margin-bottom: 0;
+}
+
+[role="table-card"] [role="table"] [role="row-group"] + [role="row-group"] > [role="row"]:first-child {
+    border-top: 0;
+}
+
+[role="table-card"] [role="table"] > [role="row-group"]:last-child,
+[role="table-card"] [role="table"] [role="row-group"]:last-child [role="row"] div.expandable:not([role="cell"]) [role="row"]:last-child,
+[role="table-card"] [role="table"] [role="row-group"]:last-child [role="row"] [role="cell"].expandable {
+    border-bottom: 0;
+}
+
+[role="table-card"] [role="table"] div.expandable [role="row"] {
+    border-top: 1px solid #DDE5F0;
+}
+
+[role="table-card"] [role="table"] [role="row-group"]:last-child [role="row"]:last-child [role="cell"].expandable {
+    border-bottom: 0;
+}
+
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-20,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-25,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-33,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-50,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-66,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-75,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-80,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-20:first-of-type,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-25:first-of-type,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-33:first-of-type,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-50:first-of-type,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-66:first-of-type,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-75:first-of-type,
+[role="table-card"] [role="table"] [role="row"] div.expandable [role="row"] div.column-80:first-of-type {
+    width: 100%;
+    margin-left: 0;
+}
+
+[role="table-card"] [role="table"] [role="row"] div.expandable img {
+    min-width: 100%;
+    margin-bottom: 15px;
+}
+
+
+@media only screen and (max-width: 769px) {
+    .header-profile .breadcrumb {
+        background: none !important;
+        border-radius: 0px !important;
+    }
+    .tptr-inner {
+        margin: auto 34%;
+        margin-bottom: 25px;
+        padding-left: 0px !important;
+    }
+    [role="table-card"] [role="table"] [role="row-group"] + [role="row-group"] > [role="row"] {
+        width: 100%;
+    }
+}

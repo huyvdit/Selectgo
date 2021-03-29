@@ -1,0 +1,31 @@
+﻿@model List<Product>
+    @{ 
+        var idx = 0;
+    }
+    @foreach (var item in Model.OrderByDescending(e => e.DisplayOrder).Take(6))
+    {
+        idx++;
+               <div class="_1item">
+                   @if (idx == 1)
+                   {
+                       <div class="photo-bg" style="background-image:url('@ImageHelper.GetResize(item.Picture.Url)')"></div>
+                   }
+                   else
+                   {
+                       <div class="photo-bg" style="background-image:url('@ImageHelper.GetResize(item.Picture.Url)')"></div>
+                   }
+
+                   <a href="@SlugHelper.Product(item.Id)" title="@item.Name" class="text">
+                       <h3>@item.Name</h3>
+
+                       @foreach (var itemTag in item.ProductProductTagMappings.Take(2))
+                       {
+                           @*<a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" title="@itemTag.ProductTag.Name" rel="tag"><p>@itemTag.ProductTag.Name</p></a>*@
+                           <p>@itemTag.ProductTag.Name</p>
+                       }
+
+                   </a>
+               </div>
+    }
+
+

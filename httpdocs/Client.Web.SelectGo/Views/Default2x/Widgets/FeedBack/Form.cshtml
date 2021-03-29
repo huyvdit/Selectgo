@@ -1,0 +1,112 @@
+﻿@using global::Web.Helpers
+@model FeedBack
+@{
+    var id = "add-feedback" + Model.CustomView;
+    //var data = JsonConvert.DeserializeObject<FeebackConfigsAnnoField>(Model.AnnoField);
+}
+@using (Ajax.BeginForm("FeedBack", "Widgets",
+    new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "add-feedback", LoadingElementId = "add-feedback-loader", OnComplete = "PagedFeedBackLoaded" },
+    new { id = (id + "-form"), @class = "form site-form cd-form floating-labels" }
+
+    ))
+{
+    @Html.HiddenFor(model => model.Type)
+    <input value="@ViewBag.annoField" type="hidden" name="annoField" id="annoField" />
+    <input value="" type="hidden" name="Custom" id="Custom" />
+    <input value="@Model.CustomView" type="hidden" name="CustomView" id="CustomView" />
+    if (ViewBag.NotifyText != null)
+    {
+        @Html.Raw(ViewBag.NotifyText)
+    }
+    if (Model.Type == "status-disabled" || Model.Type == "type-incorrect")
+    {
+    }
+    else
+    {
+        <style>
+            div.tooltiptext {
+                position: absolute !important;
+                margin: 0px !important;
+                margin-top: -64px !important;
+            }
+
+            div.message-wrrapper .tooltiptext {
+                margin-top: -224px !important;
+            }
+        </style>
+        <input type="hidden" name="DataCustom" id="DataCustom" data-scope="Custom" value="@ViewBag.dataCustom" />
+        <input type="hidden" id="ReferrerURL" name="ReferrerURL" data-scope="Custom" value="@Request.Url.AbsoluteUri">
+        <fieldset>
+            <legend>@LanguageHelper.Translate("How can we contact you_Text") ?</legend>
+
+            <div class="icon">
+                <label class="cd-label" for="cd-name">@Model.AnnoFullName[0]</label>
+                <input class="user" type="text" name="FullName" id="cd-name" @(Model.AnnoFullName[2] == "required" ? "required" : "") value="@Model.FullName">
+            </div>
+
+            <div class="icon">
+                <label class="cd-label" for="cd-phone">@Model.AnnoPhone[0]</label>
+                <input class="phone" id="cd-phone" type="text" data-val="true" data-val-regex="@LanguageHelper.Translate("Invalid phone number, must start with zero and include 10 or 11 digits_Text")" data-val-regex-pattern="^[0]?[- .]?(\([0-9]\d{2}\)|[0-9]\d{2})[- .]?\d{3}[- .]?\d{4}$" name="Phone" @(Model.AnnoPhone[2] == "required" ? "required" : "") value="@Model.Phone" placeholder="">
+                <span class="field-validation-valid" data-valmsg-for="Phone" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="icon">
+                <label class="cd-label" for="cd-email">@Model.AnnoEmail[0]</label>
+                <input class="email" type="email" name="Email" id="cd-email" @(Model.AnnoEmail[2] == "required" ? "required" : "") value="@Model.Email">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>@LanguageHelper.Translate("Drop Us A Message_Text")</legend>
+            <div>
+                <h4 style="display:none;">@LanguageHelper.Translate("Could you tell us why you've contacting us_Text")?</h4>
+
+                <p class="cd-select icon">
+                    <select class="budget"  id="Title" name="Title" data-scope="Custom">
+                        <option value="I have a  question/comment about a service">@LanguageHelper.Translate("I have a  question/comment about a service_Text")</option>
+                        <option value="Say's Hi">- @LanguageHelper.Translate("Say's Hi_Text")</option>
+                        <option value="Get a quotes">- @LanguageHelper.Translate("Get a quotes_Text")</option>
+                        <option value="Other">- @LanguageHelper.Translate("Other reason_Text")</option>
+                    </select>
+                </p>
+            </div>
+            <div>
+                <h4>@LanguageHelper.Translate("When is the best time of day to reach you_Text")?</h4>
+                                <ul class="cd-form-list">
+                                    <li>
+                                        <input type="radio" name="ContactPreference" value="Any time" data-scope="Custom" id="cd-radio-1" checked>
+                                        <label for="cd-radio-1">@LanguageHelper.Translate("Any time_Text")</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="ContactPreference" value="Morning" data-scope="Custom" id="cd-radio-2">
+                                        <label for="cd-radio-2">@LanguageHelper.Translate("Morning_Text")</label>
+                                    </li>
+
+                                    <li>
+                                        <input type="radio" name="ContactPreference" value="Evening" data-scope="Custom" id="cd-radio-3">
+                                        <label for="cd-radio-3">@LanguageHelper.Translate("Evening_Text")</label>
+                                    </li>
+
+                                </ul>
+</div>
+
+            <div class="icon">
+                <div class="message-wrrapper">
+                    <textarea class="message" name="Message" id="cd-textarea" placeholder="@Model.AnnoMessage[1]" required>@Model.Message</textarea>
+                </div>
+
+                <ul class="cd-form-list">
+                    <li>
+                        <input type="checkbox" id="cd-checkbox-1" name="SendCopyToMail" value="Yes" data-scope="Custom">
+                        <label for="cd-checkbox-1">@LanguageHelper.Translate("Send copy to my-email_Text")</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <button class="submit btn btn-main-color" type="submit"> <span id="add-feedback-loader" style="display:none;"> @Html.DisplayTextFor(model => model.AnnoButton[1]) </span> <i class="fa fa-paper-plane"></i> @Html.DisplayTextFor(model => model.AnnoButton[0])</button> <span> @LanguageHelper.Translate("or press_Text") 'Enter'</span>
+            </div>
+        </fieldset>
+
+    }
+}

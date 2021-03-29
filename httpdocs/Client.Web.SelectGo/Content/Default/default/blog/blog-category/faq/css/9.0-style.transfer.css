@@ -1,0 +1,152 @@
+.navbar, .wrapper .container, .footer .container, .footer .center {
+    position: relative;
+    max-width: 1234px;
+}
+
+.header-desktop-fluid.cd-main-header {
+}
+
+.wrapper {
+    margin-top: 70px;
+}
+
+.navbar {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+    .navbar .left {
+        display: none;
+    }
+
+    .navbar .logo {
+        margin: 0px;
+    }
+.navbar, .wrapper .container, .footer .container, .footer .center {
+}
+
+
+.dx-separator {
+}
+
+.articles h4.title {
+    line-height: 20px;
+    font-weight: 400;
+    font-style: normal;
+    color: #6e6e6e;
+    font-size: 14px;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.24s ease-in-out;
+    -moz-transition: opacity 0.24s ease-in-out;
+    transition: opacity 0.24s ease-in-out;
+}
+
+.articles .hentry {
+    min-height: 80px;
+    margin: 20px 0 0 0;
+    padding-right: 20px;
+}
+
+    .articles .hentry .thumb {
+        float: left;
+        width: 50px;
+        margin-right: 10px;
+    }
+
+    .articles .hentry.third {
+        padding-right: 0
+    }
+
+    .articles .hentry .categories {
+        float: left;
+        clear: both;
+        width: 100%;
+        font: 11px Arial, Tahoma, sans-serif;
+        line-height: 15px;
+        margin: 0;
+    }
+
+        .articles .hentry .categories span {
+            display: block;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+.single .hentry {
+    margin: 0 0 10px
+}
+
+.hentry .entry {
+    line-height: 25px
+}
+
+.hentry .title a {
+    font-weight: bold
+}
+
+.uk-list {
+    padding: 15px;
+}
+
+.uk-width-3-4\@m {
+    width: 75%;
+    padding-top: 15px;
+}
+
+    .uk-width-3-4\@m h1 {
+        font-size: 19px;
+        margin-top: 11px;
+    }
+
+    .uk-width-3-4\@m h2 {
+        font-size: 13px;
+        text-transform: uppercase;
+    }
+
+.uk-text-lead {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+    font-weight: 100;
+    margin-bottom: 25px;
+}
+
+.list-faq li {
+    padding: 15px 0px 15px 0px;
+    margin: 0 !important;
+}
+
+.uk-width-3-4\@m h3 {
+    color: #0064f0;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.uk-accordion-content {
+    margin-bottom: 20px;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.uk-sticky h3 {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-left: 13px;
+}
+
+.uk-list-large > li:nth-child(n+2), .uk-list-large > li > ul {
+    margin-top: 10px;
+}
+
+.uk-section-small {
+    padding-top: 0px;
+}
+
+.block-header__breadcrumb {
+    padding-top: 30px !important;
+}

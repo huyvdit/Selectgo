@@ -1,0 +1,201 @@
+﻿@using global::Web.Helpers
+@using PagedList.Mvc
+@model PagedList.IPagedList<SearchModel>
+    @{
+        var tagsText = LanguageHelper.Translate("Search_Results_Text");
+        ViewBag.SelfHeader = true;
+        ViewBag.Title = tagsText + ": " + ViewBag.key;
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/search/css", "~/bundles/content/default/pagelist/css")
+    }
+
+                               <div class="wrapper">
+                                   <div class="border-bottom pt-2 pb-2">
+                                       <div class="container">
+                                           <div class="row">
+                                               <div class="col-sm-12">
+                                                   <ul class="breadcrumbs">
+                                                       @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = "#", Title = tagsText }, new BreadcrumbModel { Link = "#", Title = ViewBag.key } }, homeIncluded = true, headingIncluded = false, area = "" })
+                                                   </ul>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <!-- search result area end -->
+                                   <div class="container" style="margin-bottom: 0px;">
+                                       <div class="row">
+
+                                           <h1 class="page-header-title">
+                                               Search Results <small>Has <b>@Model.TotalItemCount</b> items tagged with this keyword!</small>
+                                           </h1>
+                                           <div class="col-lg-12 col-md-12">
+                                               <!-- BEGIN search-result -->
+                                               <div class="search-result">
+                                                   <!-- BEGIN search-input -->
+                                                   <div class="search-input">
+
+                                                       @Html.Action("Box", "Search", new { area = "", viewPath = "search/boxindex", ViewBag.scope, ViewBag.key })
+                                                       @Html.Action("Trends", "Search", new { area = "" })
+
+                                                   </div>
+
+                                                   <!-- END search-input -->
+                                                   @if (Model.Count == 0)
+                                                   {
+                                                       <div style="text-align: left; background: #9e9e9e21; padding: 25px;  color: red;">
+                                                           <div class="not-found">
+                                                               <div class="page-placeholder" style="text-align: center;">
+                                                                   <div class="placeholder-content">
+                                                                       <img class="light-image" src="/as-images/shared/search-empty-dark.svg" alt="Search empty" style="height: 300px;">
+
+                                                                       <h3>We couldn't find any matching results.</h3>
+                                                                       <p class="is-larger">
+                                                                           Too bad. Looks like we couldn't find any matching results for the
+                                                                           search terms you've entered. Please try different search terms or criteria.
+                                                                       </p>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                   }
+                                                   else
+                                                   {
+
+                                                       <!-- BEGIN search-tab -->
+                                               <div class="search-tab">
+                                                   <div class="search-tab-item" data-src="result-All"><a href="#" class="search-tab-link active">@LanguageHelper.Translate("All_Text") [...]</a></div>
+
+                                                   @if (Model.Any(e => e.EntityName == EntityName.Page))
+                                                   {
+                                                       <div class="search-tab-item" data-src="result-Page"><a href="#" class="search-tab-link">@LanguageHelper.Translate("Pages_Text")</a></div>
+                                                   }
+                                                   @if (Model.Any(e => e.EntityName == EntityName.Category))
+                                                   {
+                                                       <div class="search-tab-item" data-src="result-Category"><a href="#" class="search-tab-link">@LanguageHelper.Translate("Categories_Text")</a></div>
+                                                   }
+                                                   @if (Model.Any(e => e.EntityName == EntityName.Product))
+                                                   {
+                                                       <div class="search-tab-item" data-src="result-Product"><a href="#" class="search-tab-link">@LanguageHelper.Translate("Products_Text")</a></div>
+                                                   }
+                                                   @if (Model.Any(e => e.EntityName == EntityName.BlogCategory))
+                                                   {
+                                                       <div class="search-tab-item" data-src="result-BlogCategory"><a href="#" class="search-tab-link">@LanguageHelper.Translate("BlogCategories_Text")</a></div>
+                                                   }
+
+                                                   @if (Model.Any(e => e.EntityName == EntityName.BlogPost))
+                                                   {
+                                                       <div class="search-tab-item" data-src="result-BlogPost"><a href="#" class="search-tab-link">@LanguageHelper.Translate("BlogPosts_Text")</a></div>
+                                                   }
+
+
+                                               </div>
+                                                       <!-- END search-tab -->
+                                                       <div class="result-search">
+                                                           <h3 class="search-result-title">@LanguageHelper.Translate("Showing_Text") <b>@Model.Count/@Model.TotalItemCount</b> @LanguageHelper.Translate("Items_For_Keyword_Text").ToLower() <b>'@ViewBag.key'</b> <span style="color: #9E9E9E; font-size: 12px;">(Taken time: @(ViewBag.timeTaken) ms)</span></h3>
+                                                       </div>
+                                                       <!-- BEGIN search-result -->
+                                                       <div class="search-result">
+                                                           <!-- BEGIN search-result-list -->
+                                                           <div class="search-result-list">
+
+
+                                                               @{ var idx = 0; }
+                                                               @foreach (SearchModel item in Model)
+                                                               {
+                                                                   idx++;
+                                                                   if (idx == 1)
+                                                                   {
+                                                                       <div class="search-result-item result-@item.EntityName.ToString()">
+                                                                           <div class="search-result-media">
+                                                                               <a href="@item.Link" title="@item.Title"> <img src="@ImageHelper.GetResize(item.Avatar, 500)" alt="@item.Title" height="100" /></a>
+                                                                           </div>
+                                                                           <div class="search-result-content">
+                                                                               <h3><a href="@item.Link" title="@item.Title">@item.Title</a></h3>      <span class="publish-time"><i class="pe-7s-clock" style="font-size: 14px"></i> <time class="time-ago" datetime="@item.LastUpdated"></time> </span>
+                                                                               <p class="except-3">
+                                                                                   @Html.Raw(item.Description ?? "No description")
+                                                                               </p>
+                                                                               <a href="#" class="mr-4 types">@item.Types</a>
+                                                                               <a href="@item.Link">@item.Link</a>
+                                                                           </div>
+
+                                                                       </div>
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                       <div class="search-result-item result-@item.EntityName.ToString()">
+                                                                           <div class="search-result-content">
+                                                                               <h3><a href="@item.Link" title="@item.Title">@item.Title</a></h3>  <span class="publish-time"><i class="pe-7s-clock" style="font-size: 14px"></i> <time class="time-ago" datetime="@item.LastUpdated"></time> </span>
+                                                                               <p class="except-3">
+                                                                                   @Html.Raw(item.Description ?? "No description")
+                                                                               </p>
+                                                                               <a href="#" class="mr-4 types">@item.Types</a>
+                                                                               <a href="@item.Link">@item.Link</a>
+
+                                                                           </div>
+
+                                                                       </div>
+                                                                   }
+
+                                                               }
+                                                           </div>
+                                                           <!-- END search-result-list -->
+
+                                                       </div>
+                                                   }
+
+                                               </div>
+                                               <div class="pagination-wrap" style=" padding: 60px 0px; text-align: center;">
+                                                   @Html.PagedListPager(Model, page => Url.Action("Index", "Search", new { key = ViewBag.key, sortorder = ViewBag.sortOrder, ViewBag.scope, pagesize = ViewBag.pageSize, page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<i class='fa fa-angle-left'></i> <i class='fa fa-angle-left'></i> ", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i> Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = " <i class='fa fa-angle-right'></i><i class='fa fa-angle-right'></i>", MaximumPageNumbersToDisplay = 3 })
+                                               </div>
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                                   <!-- search result area end -->
+                               </div>
+   
+          
+
+            @section scripts {
+               
+                <script>
+                    $(".time-ago").timeago();
+                    $(".menu-search").addClass("active");
+
+                    $(".search-tab .search-tab-item").each(function () {
+
+                        $(this).on("click", function (e) {
+                            e.preventDefault();
+                            var filter = $(this).attr('data-src');
+
+                            if ($(this).attr('data-src') == 'result-All') {
+                                $('.search-result-item').show('fast');
+                                $(".search-tab .search-tab-item").find("a").removeClass('active');
+                                $(this).find("a").addClass('active');
+                                $(".search-tab .search-tab-item").attr("disabled", false);
+                                $(this).attr("disabled", true);
+                            }
+                            else {
+                                $('.search-result-item').show('slow');
+                                $('.search-result-item:not(.' + filter + ')').hide('fast');
+                                $(".search-tab .search-tab-item").find("a").removeClass('active');
+                                $(this).find("a").addClass('active');
+                                $(".search-tab .search-tab-item").attr("disabled", false);
+                                $(this).attr("disabled", true);
+                            };
+
+
+                            return false;
+                        });
+
+                    });
+                </script>
+                @if (Model.Count > 5)
+                {
+                    <script>
+                        new Services("search/update-search-terms", { keyword: '@ViewBag.key' }, function() {}, 'no-api').post();
+                    </script>
+                }
+            }

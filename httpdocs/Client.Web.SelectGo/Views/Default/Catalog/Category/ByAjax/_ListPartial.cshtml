@@ -1,0 +1,160 @@
+﻿@using global::Web.Helpers
+<div id="list-products-by-category-loader" class="loading">@LanguageHelper.Translate("Please wait, loading..._Text")</div>
+<div id="list-products-by-category">
+    @Html.Action("ListProductsByCategoryId", "CategoryPlus", new { id = ViewBag.idCurrent, type = ViewBag.typeCurrent, sortOrder = ViewBag.sortOrderCurrent, filterBy = ViewBag.filterByCurrent, searchBy = ViewBag.searchByCurrent, page = ViewBag.pageCurrent,pageSize = ViewBag.pageSizeCurrent, view=ViewBag.viewCurrent, area = "" })
+</div>
+@using (Html.BeginScripts())
+{
+    <script>
+        HvHelpers.loadJs("Scripts/jquery.validate.js", $.validator, function () {
+            HvHelpers.loadJs("Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function () {
+                HvHelpers.loadJs("Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+            });
+        }, 'asyn');
+    </script>
+    <script>
+       var FilterCount = function () {
+                var pageSize = parseInt($("#page-size").val());
+           
+                var pageNum = parseInt($("#page-number").val() || 1);
+                   var total = parseInt($(".shop-list-filters #found-item-total").val());
+           var showing = (pageSize) * (pageNum - 1);
+
+           $(".result-count").addClass("item-update");
+           if (0 == total) {
+                   $(".result-count #found-item").text((0) + "-" + total);
+               }
+               else if (pageSize * pageNum > total) {
+                   $(".result-count #found-item").text((showing == 0 ? 1 : showing) + "-" + total);
+               }
+                else {
+                     $(".result-count #found-item").text( (showing == 0 ? 1: showing) + "-" + ((pageSize) * pageNum));
+                }
+           
+                $(".result-count #total-item").text(total);
+                setTimeout(function () {
+                    $(".result-count").removeClass("item-update");
+                }, 1200);
+        }
+
+        PageOnStart_List = function () {
+            setTimeout(function () {
+                HvHelpers.scrollTo('#list-products-by-category', 141);
+            }, 1);
+        }
+
+        PagedOnComplete_List = function () {
+            
+            FilterCount();
+           
+            var sortorder = HvHelpers.modifyUrlParameter("sortorder", $("#sortorder").val(), HvHelpers.modifyUrlParameter("type", $("#type").val(), HvHelpers.modifyUrlParameter("searchby", $("#searchby").val(), HvHelpers.modifyUrlParameter("filterby", $("#filterby").val()))));
+            history.pushState(null, null, HvHelpers.modifyUrlParameter("page", $(".pagination li.active a").text(), sortorder));
+            setTimeout(function () {
+                $(window).trigger('hashchange');
+                HvHelpers.JqueryAgo();
+            }, 1200);
+            if (window.productAction != undefined) window.productAction();
+            if (window.fnCallback != undefined) window.fnCallback();
+
+            //if (ASPlus != undefined) ASPlus.loading.hide();
+        };
+        $(document).ready(function () {
+
+            $("#sortorder").attr("name", "sortorder");
+            
+
+            var waitSubmit;
+            var UpdateSortOrderTitle = function () {
+                var e = $("#sortorder"),
+                    n = $(".sort-select span"),
+                    t = e.find("option:selected").text();
+                n.text(t);
+
+
+            };
+            var notyInstance;
+            var submitAgent = function (e) {
+                PageOnStart_List();
+                if (notyInstance == undefined) {
+                    notyInstance = new Noty({
+                        type: 'alert',
+                        layout: 'bottomRight',
+
+                        text: '<div class="media">\
+                                    <i class="fa fa-bell" style="font-size: 26px;color: #000;"></i>\
+                                    <div class="media-body ml-3">\
+                                      <strong>You can pick more while time Wait me...</strong>\
+                                    </div>\
+                                  </div>',
+                        timeout: 1500,
+                        callbacks: {
+                       
+                            afterClose: function () {
+
+                                delete notyInstance;
+                                notyInstance = undefined;
+                                     HvHelpers.scrollTo('#list-products-by-category', 141);
+                                     var form = $(e).parents("form");
+                                     form.submit();
+                            },
+                       
+                    }
+                    }).show();
+
+                }
+
+            }
+
+            $("#sortorder, #type").change(function () {
+                UpdateSortOrderTitle();
+                submitAgent(this);
+            });
+
+            var FilterAction = function (fnCallback) {
+
+                $(".filter-action #keyword").unbind("keyup");
+                $(".filter-action #keyword").bind("keyup", function (event) {
+                    if (event.keyCode === 13) {
+                        // Cancel the default action, if needed
+                        event.preventDefault();
+                        // Trigger the button element with a click
+                        $(".filter-action #searchby-btn").trigger("click");
+                  }
+                });
+
+                $(".filter-action #searchby-btn").unbind("click");
+                $(".filter-action #searchby-btn").bind("click", function (event) {
+
+                    $(".filter-action #searchby").val(($("#keyword").val() || "all"));
+                    submitAgent(this);
+                    return false;
+                });
+                
+                $(".filter-action #price-slider-min, .filter-action #price-slider-max").unbind('change');
+                $(".filter-action #price-slider-min, .filter-action #price-slider-max").bind('change', function () {
+                    var filter = HvHelpers.getUrlParams()["filterby"] || "";
+                    filter = filter.split(",pr")[0];
+                    $(".filter-action #filterby").val(filter + ",pr-" + $(".filter-action #price-slider-min").attr("data-val") + "-" + $(".filter-action #price-slider-max").attr("data-val"));
+                    submitAgent(this);
+                });
+                $(".filter-action .radio-checkbox").unbind("click");
+                $(".filter-action .radio-checkbox").bind("click",function (event) {
+                    var filterBy = $("input:checkbox:checked").map(function () {
+                        return $(this).attr("data-link");
+                    }).get();
+
+                    $(".filter-action #filterby").val((filterBy.length === 0 ? "all" : filterBy));
+                    submitAgent(this);
+                });
+
+                window.fnCallback = fnCallback;
+            }
+            FilterAction(); 
+            FilterCount();
+            UpdateSortOrderTitle();
+            //
+            window.filterAction = FilterAction;
+            window.filterCount = FilterCount;
+        });
+    </script>
+}

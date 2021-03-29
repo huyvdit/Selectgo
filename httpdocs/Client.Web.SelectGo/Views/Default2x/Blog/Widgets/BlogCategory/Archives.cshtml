@@ -1,0 +1,12 @@
+﻿@using global::Web.Helpers
+@model List<ASP.Web.Model.Models.BlogCategory>
+<ul class="product-categories">
+    @foreach (var item in Model)
+    {
+        <li><a class="bold" style="font-weight: bold" href="@SlugHelper.BlogCategory(item.Id)">@item.Name</a> <span class="count">@item.BlogPostCategoryMappings.Count</span></li>
+        foreach (var itemInner in item.ChildCategories)
+        {
+            <li><a href="@SlugHelper.BlogCategory(itemInner.Id)">@itemInner.Name</a> <span class="count">@itemInner.BlogPostCategoryMappings.Count</span></li>
+        }
+    }
+</ul>

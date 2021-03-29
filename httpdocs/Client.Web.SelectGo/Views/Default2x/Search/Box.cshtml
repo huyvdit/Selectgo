@@ -1,0 +1,32 @@
+﻿@using global::Web.Helpers
+@{
+    string suggestSearch = DataConfigsHelper.Get("ShowSuggestSearch");
+}
+@using (Html.BeginForm("Index", "Search", new { @id = string.Empty, culture = DataCurrentHelper.UniqueSeoCode }, FormMethod.Get, new { @name = "search-form", @class = "form-inline", @id = "header-search-form" }))
+{
+    <input name="key" style="transition-duration: .8s;" type="search" data-scope="@ViewBag.scope" required role="search" class="top-search-input" placeholder="@LanguageHelper.Translate("What are you looking for_Text")?">
+    <input type="hidden" value="@ViewBag.scope" name="scope"/>
+}
+@if (suggestSearch == "True")
+{
+    using (Html.BeginScripts())
+    {
+        <script>
+            var submitSession = undefined;
+            $('input[name=key]').autocomplete({
+                serviceUrl: '/search/get-suggest',
+                groupBy: 'category',
+                onSelect: function() {
+
+                },
+                minChars: 1,
+                showNoSuggestionNotice: true,
+                noSuggestionNotice: '@LanguageHelper.Translate("NoSuggestionNotice_Text")'
+            }).keyup(function(e) {
+                if (e.which === 13) {
+                    $(this).parent().parent().parent().find('button').trigger('click');
+                }
+            });
+        </script>
+    }
+}

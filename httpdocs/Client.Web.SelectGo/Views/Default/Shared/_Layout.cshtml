@@ -1,0 +1,915 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode" class="sound-effects" data-click-ripple-animation="yes" data-audio-tick="/as-images/audio/tick.mp3">
+<head>
+    <title>..:: @DataCurrentHelper.Title(ViewBag.Title ?? ViewData["og:title"]) ::..</title>
+    @{
+        var gt = DataConfigsHelper.Get("GoogleWebmasterToolCode");
+        if (gt != null)
+        {
+            @Html.Raw(gt)
+        }
+        var url = HttpContext.Current.Request.Url;
+        GlobalVariables.OrderActive = false;
+    }
+    <link rel="dns-prefetch" href="//cdn.selectgo.vn">
+    <link rel="icon" type="image/png" sizes="32x32" href="@DisplayHelper.Favicon">
+    <link rel="manifest" href="~/assets/faviconsite.webmanifest">
+    <link rel='shortlink' href='@DataConfigsHelper.LinksFrontEnd' />
+    <link rel="canonical" href="@(DataConfigsHelper.LinksFrontEnd + "/" + DataCurrentHelper.UniqueSeoCode + url.AbsolutePath)" />
+
+    @*<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">*@
+    <meta content="telephone=no" name="format-detection">
+    <meta name="HandheldFriendly" content="true">
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_MetaHead.cshtml");
+    }
+    @Styles.Render("~/bundles/css/core")
+
+</head>
+<body class="alt-bg">
+    <main id="main-scrollbar" data-scrollbar>
+        @*<a href="@Url.ActionEnc("mySecret",  "Encrypt", "System",new {id=7, a = 1, b = "asd" })" data-href-seo="@Url.ActionEnc(new ASP.Web.Core.App_Start.EncDecSEOBull(), "EncryptSEO",  "System", new {id=7, a = 1, b = "asd" })"></a>*@
+        <!-- Page Loader -->
+        <div class="preloader-wrapper preloader-it">
+
+            <div class="preloader" style="text-align:center;line-height:1.71429;">
+                @*<img src="@Url.ContentCdn("~/images/shared/all/loading-insight.gif")" width="128" />*@
+                <!-- Preloader -->
+                <div class="cws_loader">
+                    <span>Waiting</span>
+                    <div class="hex"></div>
+                    <div class="hex"></div>
+                    <div class="hex"></div>
+                    <div class="hex"></div>
+                    <div class="hex"></div>
+                    <div class="hex"></div>
+                    <div class="hex"></div>
+                </div>
+                <p class="sm-text-center" style="margin-top:-15px;font-family: sans-serif;">
+                    @LanguageHelper.Translate("Loading to Insight_Text")...
+                </p>
+                <em style="font-family: sans-serif;top:0px!important; opacity:0; margin-top:0px!important; line-height: 1.71429!important;font-size: 9px!important;background: #dee2e6;padding: 8px 24px;border-radius: 0px 0px 5px 5px;color: #4caf50;font-style: normal;">Loading depends on your connection speed!</em>
+
+            </div>
+        </div>
+
+        <!-- main start -->
+        <section class="site all" style="display:none; opacity: 0;">
+
+            <div class="preloader">
+                <div class="inner" data-tilt data-tilt-perspective="2000">
+                    <span class="typewriter" id="typewriter"></span>
+                </div>
+                <!-- end inner -->
+            </div>
+            <!-- end preloader -->
+            <div class="transition-overlay">
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+                <div class="layer"></div>
+            </div>
+            <!-- end transition-overlay -->
+            <div class="navigation-menu">
+                <div class="bg-layers"> <span></span> <span></span> <span></span> <span></span> </div>
+                <!-- end bg-layers -->
+                <div class="inner" data-tilt data-tilt-perspective="2000">
+                    <div class="menu">
+                        <ul class="main-menu">
+                            <li>
+                                <a href="/" title="HOME">HOME <div class="subtitle">Home pages</div></a>
+                                <ul>
+                                    <li><a href="/#start">Start</a></li>
+                                    <li><a href="/#recent-blog">Blog</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/en/information.html" title="ABOUT US">ABOUT US <div class="subtitle">Infomation pages</div></a></li>
+                            @if (Data.IsInRoleOrAuthenticated("services"))
+                            {
+                                <li><a href="/en/services" title="SERVICES">SERVICES <div class="subtitle">Services Collect</div></a></li>
+                            }
+
+                            @if (Data.IsInRoleOrAuthenticated("case-studies"))
+                            {
+                                <li><a href="/en/case-studies" title="CASE STUDIES">CASE STUDIES <div class="subtitle">Portfolios Collect</div></a></li>
+                            }
+                            <li><a href="/en/news" title="BLOG">BLOG <div class="subtitle">Recent Blog</div></a></li>
+                            <li><a href="/en/contact-us.html" title="SAY HELLO">SAY HELLO <div class="subtitle">Contact Us</div></a></li>
+                        </ul>
+                    </div>
+                    <!-- end menu -->
+                    <blockquote>Let's create useful website for you ?</blockquote>
+                </div>
+                <!-- end inner -->
+            </div>
+            <!-- end navigation-menu -->
+
+            <header class="header-desktop-fluid cd-main-header animate-search">
+                <nav class="navbar">
+                    @*<div class="left" style="text-align: center;opacity:0">
+                            <a href="/en/recent-work" class="text-quote-bold-white recent-work" title="W">
+
+                            </a>
+                        </div>*@
+                    <!-- end left -->
+                    <div class="logo">
+                        <a href="@(Data.SubDomain == "*" ? "/" : ((Request.IsSecureConnection == true ? "https":"http") +  "://" + Data.Domain))" title="@DisplayHelper.StoreName">
+
+                            <svg width="200px" height="50px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-5 15 250 25" version="1.1" style="margin-top: -5px;">
+                                <title>Logo</title>
+                                <desc>Created with love.</desc>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-315.000000, -38.000000)">
+                                        <g transform="translate(315.000000, 38.000000)">
+                                            <text id="Symbols" font-family="Quattrocento Sans,sans-serif" font-size="26" font-weight="500" fill="#000"><tspan x="75" y="24">Select &amp; go</tspan><tspan x="189.14" y="24.5001221" font-weight="normal" fill="#000" font-size="48">.</tspan><tspan x="75.16" y="46.5001221" font-family="" font-size="12" fill="#000" font-weight="normal"> @((Data.SubDomain == "www" || Data.SubDomain == "*") ? "Creative web" : Data.SubDomain).</tspan></text>
+                                            @*<g id="Favicon">
+                                                    <g id="Group-3" transform="translate(7.000000, 7.000000)"><circle id="icon-oval-lg" class="icon-oval-lg" stroke="#FFFFFF" stroke-width="10" cx="20" cy="20" r="22"></circle><rect transform="translate(-8.000000, 15.000000)" class="icon-oval-sm-2" cx="20" cy="20" fill="#2c3442" r="2" height="10" width="25"></rect><circle id="icon-oval-sm" class="icon-oval-sm" fill="#FFFFFF" cx="20" cy="20" r="7" style=" "></circle></g>
+                                                </g>*@
+                                            <g id="Favicon">
+                                                <circle fill="#000" cx="20" cy="19.9917" r="4" />
+                                                <path fill="#000" d="M20,0.0073c-11.0469,0-20,8.9551-20,20c0,5.5762,2.2891,10.6094,5.9688,14.2344L20,48.2729l5.6602-5.6602L12.0938,28.9526C9.6035,26.7534,8,23.5737,8,19.9917c0-6.6289,5.375-12.002,12-12.002s12,5.373,12,12.002c0,4.7734-2.8125,8.8633-6.8516,10.7969l6.168,6.168l2.7148-2.7148C37.7109,30.6167,40,25.5835,40,20.0073C40,8.9624,31.0469,0.0073,20,0.0073z" />
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            @*<span title="Select & go">Select & go.</span>*@
+                        </a>
+                    </div>
+                    <!-- end logo -->
+                    <div class="right">
+
+                        <div class="card-drop language">
+                            <a class='toggle' href="#">
+                                <svg style="width: 24px; height: 24px; fill: #c90000;"><use xlink:href="/as-images/shared/icons.svg#utouch-icon-world-map"></use></svg>
+                                <span class='label-active'>@DataCurrentHelper.UniqueSeoCode.ToUpper()</span>
+                            </a>
+                            <ul>
+                                <li class='@(@DataCurrentHelper.UniqueSeoCode == "en" ? "active":"")'>
+                                    <a data-label="EN" href="/select-language/en-us" title="English"><img src="/as-images/shared/flag-en.svg" height="16" /> English</a>
+                                </li>
+                                <li class="@(@DataCurrentHelper.UniqueSeoCode == "vi" ? "active":"")">
+                                    <a data-label="VI" href="/select-language/vi-vn" title="Vietnameses"><img src="/as-images/shared/flag-vi.svg" height="16" /> Vietnamese</a>
+                                </li>
+                            </ul>
+                        </div>
+                        @if (ViewBag.SubMenuOnly != true)
+                        {
+                            <div class="hamburger-menu">
+                                <ul class="icons main-menu menu">
+                                    @{
+                                        <li class="nav-item dropdown has-toggle submenu mega_menu">
+                                            <a href="@(!Data.IsInRole("web-themes-templates") ? "http://templates.selectgo.vn":"/web-themes-templates")" class="usefull-link nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" style="fill: #c90000;"><path fill="none" d="M0,0h24v24H0V0z"></path><g><path d="M3,11h8V3H3V11z"></path><path d="M13,3v8h8V3H13z"></path><path d="M3,21h8v-8H3V21z"></path><polygon points="18,13 16,13 16,16 13,16 13,18 16,18 16,21 18,21 18,18 21,18 21,16 18,16 "></polygon></g></svg> Web Themes & Templates
+                                            </a>
+                                            @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "web-themes-templates", take = 1, pathView = "Widgets/Layout/BrowersCategoriesAll", area = "" })
+
+                                        </li>
+                                    }
+                                    <li class="nav-item dropdown has-toggle submenu">
+                                        <a href="@(!Data.IsInRole("plugins-snippets") ? "http://plugins.selectgo.vn":"/plugins-snippets")" class="usefull-link nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg class="octicon octicon-code" style="margin: 0px 3px 0px 30px;" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill="#c90000" fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+                                            Plugins & Snippets
+                                        </a>
+                                        <ul class="dropdown-menu dropdown_menu_two">
+                                            <li class="nav-item">
+                                                <a href="/plugins-resources/plugins?filterby=sa-14-51&type=all&sortorder=modified_desc" class="nav-link">
+                                                    <svg id="71e244fc7e33a022fe1765be255aa8f6" viewBox="0 0 30 30">
+                                                        <g id="icn-js">
+                                                            <path id="bg" fill-rule="evenodd" clip-rule="evenodd" d="M0 3.75C0 1.67893 1.67893 0 3.75 0H26.25C28.3211 0 30 1.67893 30 3.75V26.25C30 28.3211 28.3211 30 26.25 30H3.75C1.67893 30 0 28.3211 0 26.25V3.75Z" fill="#F7DF1E"></path>
+                                                            <path id="Shape" fill-rule="evenodd" clip-rule="evenodd" d="M15.2085 11.5048C13.802 11.5048 13.0066 10.7815 12.3953 9.79749L10.0779 11.1249C10.915 12.7557 12.6262 14 15.2747 14C17.9832 14 20 12.6133 20 10.0819C20 7.73401 18.6321 6.6897 16.209 5.66528L15.4961 5.36414C14.2727 4.8418 13.7427 4.50024 13.7427 3.65686C13.7427 2.97437 14.2722 2.45203 15.1074 2.45203C15.9263 2.45203 16.4539 2.79248 16.9426 3.65686L19.1633 2.2511C18.2241 0.622192 16.9204 0 15.1074 0C12.5605 0 10.9309 1.60522 10.9309 3.71387C10.9309 6.00293 12.2981 7.08569 14.356 7.95007L15.0688 8.25159C16.3694 8.8125 17.145 9.15393 17.145 10.118C17.145 10.9226 16.3901 11.5048 15.2085 11.5048ZM4.15674 11.4872C3.17676 11.4872 2.76929 10.8247 2.32129 10.0411L0 11.4266C0.672363 12.8298 1.99463 13.9948 4.27808 13.9948C6.80518 13.9948 8.53638 12.6698 8.53638 9.75854V0.160522H5.68457V9.72058C5.68457 11.1259 5.09351 11.4872 4.15674 11.4872Z" transform="translate(7 12)" fill="black"></path>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="menu-text">
+                                                        <h5>Javascript</h5>
+                                                        <p>Launch Simple Websites</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/plugins-snippets/snippets/asp-net-core" class="nav-link">
+
+                                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                                                        <defs>
+                                                            <style>
+                                                                .cls-1 {
+                                                                    fill: #5c2d91;
+                                                                }
+
+                                                                .cls-2, .cls-3 {
+                                                                    fill: #fff;
+                                                                }
+
+                                                                .cls-2 {
+                                                                    opacity: 0.1;
+                                                                }
+
+                                                                .cls-4 {
+                                                                    fill: #f2f2f2;
+                                                                }
+                                                            </style>
+                                                        </defs>
+                                                        <title>logo_NETcore</title>
+                                                        <circle class="cls-1" cx="32" cy="32" r="32" />
+                                                        <path class="cls-2" d="M9.82,9A32,32,0,1,0,55,54.18Z" />
+                                                        <path class="cls-3" d="M7.4,37.25a1.35,1.35,0,0,1-1-.42,1.38,1.38,0,0,1-.41-1,1.4,1.4,0,0,1,.41-1,1.34,1.34,0,0,1,1-.43,1.37,1.37,0,0,1,1,.43,1.39,1.39,0,0,1,.42,1,1.37,1.37,0,0,1-.42,1A1.38,1.38,0,0,1,7.4,37.25Z" />
+                                                        <path class="cls-3" d="M27.27,37H24.65L15.28,22.46a6,6,0,0,1-.58-1.14h-.08a18.72,18.72,0,0,1,.1,2.5V37H12.59V18.77h2.77l9.12,14.28q.57.89.74,1.22h.05a19.28,19.28,0,0,1-.13-2.68V18.77h2.13Z" />
+                                                        <path class="cls-3" d="M41.69,37H32V18.77h9.24V20.7H34.18v6.06h6.58v1.92H34.18V35h7.52Z" />
+                                                        <path class="cls-3" d="M56,20.7H50.7V37H48.57V20.7H43.33V18.77H56Z" />
+                                                        <path class="cls-4" d="M26.12,49.4a4.93,4.93,0,0,1-2.32.49,3.74,3.74,0,0,1-2.87-1.15,4.26,4.26,0,0,1-1.08-3,4.46,4.46,0,0,1,1.21-3.26,4.12,4.12,0,0,1,3.08-1.24,4.93,4.93,0,0,1,2,.35v1a4,4,0,0,0-2-.5,3.06,3.06,0,0,0-2.35,1,3.64,3.64,0,0,0-.9,2.58,3.47,3.47,0,0,0,.84,2.45,2.86,2.86,0,0,0,2.21.91,4.14,4.14,0,0,0,2.19-.56Z" />
+                                                        <path class="cls-4" d="M30.21,49.89A2.78,2.78,0,0,1,28.08,49a3.11,3.11,0,0,1-.79-2.23,3.24,3.24,0,0,1,.83-2.36,3,3,0,0,1,2.23-.85,2.69,2.69,0,0,1,2.09.83,3.28,3.28,0,0,1,.75,2.29,3.22,3.22,0,0,1-.81,2.3A2.84,2.84,0,0,1,30.21,49.89Zm.07-5.47a1.83,1.83,0,0,0-1.46.63,2.59,2.59,0,0,0-.54,1.74,2.45,2.45,0,0,0,.54,1.68,1.85,1.85,0,0,0,1.46.62,1.76,1.76,0,0,0,1.43-.6,2.62,2.62,0,0,0,.5-1.72,2.66,2.66,0,0,0-.5-1.73A1.75,1.75,0,0,0,30.28,44.42Z" />
+                                                        <path class="cls-4" d="M37.86,44.72a1.18,1.18,0,0,0-.73-.19,1.23,1.23,0,0,0-1,.58,2.68,2.68,0,0,0-.41,1.58v3.06h-1v-6h1V45h0a2.1,2.1,0,0,1,.63-1,1.43,1.43,0,0,1,.94-.35,1.57,1.57,0,0,1,.57.08Z" />
+                                                        <path class="cls-4" d="M43.72,47H39.49A2.24,2.24,0,0,0,40,48.54a1.86,1.86,0,0,0,1.42.54,3,3,0,0,0,1.86-.67v.9a3.48,3.48,0,0,1-2.09.57,2.54,2.54,0,0,1-2-.82,3.35,3.35,0,0,1-.73-2.3,3.28,3.28,0,0,1,.79-2.28,2.55,2.55,0,0,1,2-.88,2.26,2.26,0,0,1,1.82.76,3.18,3.18,0,0,1,.64,2.12Zm-1-.81a2,2,0,0,0-.4-1.29,1.37,1.37,0,0,0-1.1-.46,1.55,1.55,0,0,0-1.15.49,2.21,2.21,0,0,0-.59,1.27Z" />
+                                                    </svg>
+                                                    <div class="menu-text">
+                                                        <h5>ASP.NET Core</h5>
+                                                        <p>Is a free and open-source</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/plugins-resources/plugins?filterby=sa-14-51&type=all&sortorder=modified_desc" class="nav-link">
+                                                    <svg viewBox="0 0 30 30">
+                                                        <g>
+                                                            <path id="bg" fill-rule="evenodd" clip-rule="evenodd" d="M0 3C0 1.34315 1.34315 0 3 0H27C28.6569 0 30 1.34315 30 3V27C30 28.6569 28.6569 30 27 30H3C1.34315 30 0 28.6569 0 27V3Z" fill="#5B4282"></path>
+                                                            <path id="Shape" fill-rule="evenodd" clip-rule="evenodd" d="M0.001125 0H7.87913C9.99825 0 11.712 0.487875 12.6683 1.32037C13.6084 2.13713 14.0884 3.22012 14.0884 4.49325C14.0884 5.56012 13.9815 6.21262 13.3901 6.97612C12.9956 7.48387 12.4605 7.96313 11.7022 8.25863C12.8557 8.57025 13.539 9.23625 14.0835 9.996C14.6265 10.7539 14.8357 11.5507 14.8357 12.6994C14.8357 13.6354 14.6198 14.4308 14.2343 15.1763C13.8469 15.924 12.6637 17.7934 8.57025 17.7934L0 17.8102C0.00075 17.8106 0.00075 0 0.001125 0ZM4.67407 6.88014H6.7902C7.9422 6.88014 8.5167 6.75001 8.8197 6.45039C9.12457 6.15114 9.4212 5.77014 9.4212 4.90126C9.4212 4.07814 9.05407 3.75451 8.70457 3.49576C8.36482 3.24339 7.67557 3.11139 6.82432 3.11139H4.67557L4.67407 6.88014ZM4.67407 14.6599H7.18507C8.3352 14.6599 9.02032 14.43 9.40095 14.1206C9.81307 13.7902 10.1712 13.3871 10.1712 12.2411C10.1712 11.229 9.75045 10.827 9.35632 10.5146C8.98507 10.2188 8.30895 10.0312 7.17382 10.0312H4.67407V14.6599Z" transform="translate(7.67407 6.02136)" fill="white"></path>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="menu-text">
+                                                        <h5>Bootraps</h5>
+                                                        <p>Tutorials &amp; Courses</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item" style="text-decoration: line-through;">
+                                                <a href="/en/contact-us.html" class="nav-link">
+                                                    <svg viewBox="0 0 30 30">
+                                                        <g>
+                                                            <g id="admin_panels">
+                                                                <g id="Page-1">
+                                                                    <g id="admin_panels_2">
+                                                                        <g id="Group">
+                                                                            <path id="Shape" fill-rule="evenodd" clip-rule="evenodd" d="M0 3C0 1.34315 1.34315 0 3 0H27C28.6569 0 30 1.34315 30 3V27C30 28.6569 28.6569 30 27 30H3C1.34315 30 0 28.6569 0 27V3Z" fill="#1D88E5"></path>
+                                                                            <path id="Shape_2" fill-rule="evenodd" clip-rule="evenodd" d="M19.3388 7.64316L17.7904 8.5441C17.8771 9.01773 17.9338 9.50103 17.9338 10.0003C17.9338 10.4986 17.8771 10.9823 17.7904 11.4556L19.3388 12.3568C19.9711 12.7248 20.1877 13.5408 19.8224 14.1781L18.5001 16.4879C18.1348 17.1252 17.3265 17.3435 16.6938 16.9762L15.1298 16.0653C14.3995 16.6926 13.5679 17.2052 12.6449 17.5348V18.6664C12.6449 19.4027 12.0532 20 11.3226 20H8.6776C7.94762 20 7.35496 19.4027 7.35496 18.6664V17.5345C6.43131 17.2049 5.60099 16.6922 4.87034 16.0649L3.30636 16.9759C2.67371 17.3438 1.86506 17.1249 1.49973 16.4876L0.177419 14.1777C-0.187908 13.5401 0.0290884 12.7248 0.661744 12.3565L2.21005 11.4552C2.12305 10.9819 2.06605 10.4983 2.06605 10C2.06605 9.5007 2.12305 9.0174 2.21005 8.54376L0.661744 7.64282C0.0290884 7.27452 -0.187908 6.4589 0.177419 5.82128L1.49973 3.51177C1.86506 2.87381 2.67338 2.65616 3.30636 3.02347L4.87067 3.93407C5.60099 3.30645 6.43198 2.79415 7.35496 2.4645V1.33324C7.35496 0.59696 7.94662 0 8.6776 0H11.3226C12.0525 0 12.6449 0.596627 12.6449 1.33324V2.46517C13.5685 2.79481 14.3995 3.30711 15.1298 3.93474L16.6938 3.02413C17.3261 2.65616 18.1348 2.87448 18.5001 3.51243L19.8224 5.82195C20.1877 6.45957 19.9714 7.27452 19.3388 7.64316ZM18.3475 5.91062L17.6865 4.75603C17.5035 4.43738 17.0991 4.32806 16.7835 4.51238L14.9455 5.58131C14.0132 4.52071 12.7536 3.76043 11.3232 3.46745V2.00055C11.3232 1.63257 11.0269 1.33392 10.6623 1.33392H9.33961C8.97429 1.33392 8.67863 1.63257 8.67863 2.00055V3.46745C7.24765 3.76043 5.98801 4.52071 5.05569 5.58131L3.21839 4.51238C2.90239 4.32806 2.4984 4.43738 2.3154 4.75603L1.65441 5.91062C1.47175 6.2296 1.58008 6.63757 1.89674 6.82122L3.74104 7.89515C3.52105 8.55811 3.38938 9.26239 3.38938 9.99968C3.38938 10.737 3.52105 11.4409 3.74104 12.1039L1.89674 13.1778C1.58075 13.3621 1.47242 13.7694 1.65441 14.0881L2.3154 15.243C2.4984 15.562 2.90239 15.671 3.21839 15.487L5.05569 14.4174C5.98801 15.478 7.24765 16.2383 8.67863 16.5319V17.9988C8.67863 18.3668 8.97529 18.6648 9.33961 18.6648H10.6623C11.0276 18.6648 11.3232 18.3661 11.3232 17.9988V16.5322C12.7536 16.2386 14.0132 15.4783 14.9455 14.4177L16.7835 15.4873C17.0988 15.6713 17.5035 15.5623 17.6865 15.2433L18.3475 14.0884C18.5295 13.7698 18.4221 13.3618 18.1051 13.1781L16.2605 12.1042C16.4805 11.4412 16.6118 10.737 16.6118 10C16.6118 9.26173 16.4805 8.55844 16.2605 7.89515L18.1051 6.82122C18.4221 6.63757 18.5295 6.22993 18.3475 5.91062ZM10.0003 13.3331C8.17398 13.3331 6.69434 11.8405 6.69434 10.0006C6.69434 8.15944 8.17398 6.66687 10.0003 6.66687C11.8266 6.66687 13.3062 8.15944 13.3062 10.0006C13.3062 11.8405 11.8259 13.3331 10.0003 13.3331ZM10.0003 8.00012C8.90532 8.00012 8.01733 8.89573 8.01733 10.0007C8.01733 11.1049 8.90532 11.9999 10.0003 11.9999C11.0959 11.9999 11.9839 11.1042 11.9839 10.0007C11.9839 8.8954 11.0959 8.00012 10.0003 8.00012Z" transform="translate(5 5)" fill="white"></path>
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="menu-text">
+                                                        <h5>Tools</h5>
+                                                        <p>Hire a Freelancer</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item dropdown submenu more">
+                                        <a href="#" class="usefull-link nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <svg width="20px" height="4px" viewBox="0 0 20 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+                                                <g id="Symbols" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
+                                                    <g id="Header" transform="translate(-1138.000000, -32.000000)" fill="currentColor">
+                                                        <path d="M1140,36 C1138.89543,36 1138,35.1045695 1138,34 C1138,32.8954305 1138.89543,32 1140,32 C1141.10457,32 1142,32.8954305 1142,34 C1142,35.1045695 1141.10457,36 1140,36 Z M1148,36 C1146.89543,36 1146,35.1045695 1146,34 C1146,32.8954305 1146.89543,32 1148,32 C1149.10457,32 1150,32.8954305 1150,34 C1150,35.1045695 1149.10457,36 1148,36 Z M1156,36 C1154.89543,36 1154,35.1045695 1154,34 C1154,32.8954305 1154.89543,32 1156,32 C1157.10457,32 1158,32.8954305 1158,34 C1158,35.1045695 1157.10457,36 1156,36 Z" id="dots"></path>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+
+                                        <ul class="dropdown-menu" style="width: 111px;">
+                                            <li class="nav-item"><a href="/en/frequently-asked-questions" title="Frequently Asked Questions" class="nav-link"><svg style="width:16px" viewBox="0 0 20 20" id="question"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 1a9 9 0 100 18 9 9 0 000-18zM0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10zm10-4.25c-1.155 0-2.09.937-2.09 2.09a.5.5 0 01-1 0 3.091 3.091 0 113.59 3.052v2.13a.5.5 0 11-1 0v-2.59a.5.5 0 01.5-.5 2.09 2.09 0 100-4.182zm.068 9.432a.068.068 0 11-.136 0 .068.068 0 11.136 0zM10 14.25a.932.932 0 100 1.864.932.932 0 000-1.864z"></path></svg> FAQ</a></li>
+                                            @if (User.IsInRole("Item_Post"))
+                                            {
+                                                <li class="nav-item">
+                                                    <a href="/member/post" title="Post to" class="nav-link">
+                                                        <svg height="16" class="octicon octicon-git-pull-request UnderlineNav-octicon d-none d-sm-inline" classes="UnderlineNav-octicon" display="none inline" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z"></path></svg> Contribute
+                                                    </a>
+                                                </li>
+                                            }
+                                            @if (User.IsInRole("Assets_Get"))
+                                            {
+                                                <li class="nav-item">
+                                                    <a href="/system/assets" title="Assets to public" class="nav-link">
+                                                        <svg style="width:16px" id="ea7b47887a56dc1a7c2413d87b551fad" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 1C0 0.447716 0.447715 0 1 0H16.1429C16.6951 0 17.1429 0.447715 17.1429 1V2.85714H0V1ZM16.1429 3.85718H1L0.999998 16.1429H16.1429V3.85718ZM0 2.85718V16.1429C0 16.6952 0.447713 17.1429 0.999998 17.1429H16.1429C16.6951 17.1429 17.1429 16.6952 17.1429 16.1429V2.85718H0ZM2.85718 19.0001V18.5715H17.7756C18.3279 18.5715 18.7756 18.1238 18.7756 17.5715V5.71436H19C19.5523 5.71436 20 6.16207 20 6.71436V19.0001C20 19.5524 19.5523 20.0001 19 20.0001H3.85718C3.30489 20.0001 2.85718 19.5524 2.85718 19.0001ZM4.99997 6.78578C4.99997 7.37752 4.52028 7.85721 3.92855 7.85721C3.33681 7.85721 2.85712 7.37752 2.85712 6.78578C2.85712 6.19405 3.33681 5.71436 3.92855 5.71436C4.52028 5.71436 4.99997 6.19405 4.99997 6.78578ZM5.71429 7.14282H14.2857V6.64282H5.71429V7.14282ZM4.99997 9.64296C4.99997 10.2347 4.52028 10.7144 3.92855 10.7144C3.33681 10.7144 2.85712 10.2347 2.85712 9.64296C2.85712 9.05123 3.33681 8.57153 3.92855 8.57153C4.52028 8.57153 4.99997 9.05123 4.99997 9.64296ZM5.71429 10H14.2857V9.5H5.71429V10ZM14.2857 12.8572H5.71429V12.3572H14.2857V12.8572ZM3.92855 13.5713C4.52028 13.5713 4.99997 13.0916 4.99997 12.4999C4.99997 11.9082 4.52028 11.4285 3.92855 11.4285C3.33681 11.4285 2.85712 11.9082 2.85712 12.4999C2.85712 13.0916 3.33681 13.5713 3.92855 13.5713Z" fill="#243238"></path>
+                                                        </svg> Assets
+                                                    </a>
+                                                </li>
+                                            }
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <a href="#search" class="no-follow cd-search-trigger cd-text-replace">Search</a>
+
+                                <div class="hamburger" id="hamburger-menu"> <span></span> <span></span> <span></span> </div>
+                            </div>
+                        }
+
+                       
+                        <!-- end hamburger-menu -->
+                        @if (Request.IsAuthenticated)
+                        {
+                            <div class="control-block">
+                                <div class="author-page author vcard inline-items more">
+                                    <div class="author-thumb">
+                                        <img alt="author" src="@UserManager.User.Avatar" class="avatar">
+                                        <span class="icon-status online"></span>
+                                        <div class="more-dropdown more-with-triangle">
+                                            <div class="ps ps--theme_default ps--active-y">
+                                                <div class="ui-block-title ui-block-title-small">
+                                                    <h6 class="title">Your Account</h6>
+                                                </div>
+
+                                                <ul class="account-settings">
+                                                    <li>
+                                                        <a href="@Url.Action("Profile", "Account", new {segment = "profile"})">
+
+                                                            <svg class="olymp-menu-icon"><use xlink:href="/as-images/shared/icons.svg#olymp-menu-icon"></use></svg>
+
+                                                            <span>Profile Settings</span>
+                                                        </a>
+                                                    </li>
+                                                    @if (User.IsInRole("Item_Post"))
+                                                    {
+                                                        <li>
+                                                            <a href="/member/post">
+                                                                <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="FAV PAGE"><use xlink:href="/as-images/shared/icons.svg#olymp-star-icon"></use></svg>
+                                                                <span>Submit Items</span>
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                    <li>
+                                                        <a href="@Url.Action("Logoff", "Account")">
+                                                            <svg class="olymp-logout-icon"><use xlink:href="/as-images/shared/icons.svg#olymp-logout-icon"></use></svg>
+
+                                                            <span>Sign Out</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="ui-block-title ui-block-title-small">
+                                                    <h6 class="title">Usefull Link</h6>
+                                                </div>
+
+                                                <ul>
+                                                    <li>
+                                                        <a href="/en/frequently-asked-questions">
+                                                            <span>FAQs</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#">
+                                                            <span>Terms & Conditions</span>
+                                                        </a>
+                                                    </li>
+
+
+                                                </ul>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <a href="#" class="author-name fn">
+                                        <div class="author-title">
+                                            @UserManager.User.FriendlyName <svg class="olymp-dropdown-arrow-icon"><use xlink:href="/as-images/shared/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                        </div>
+                                        <span class="author-subtitle">@UserManager.User.MainAddress.FullName</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="control-block">
+                                <div class="author-page author vcard inline-items more">
+                                    <div class="author-thumb">
+                                        <img alt="author" src="/as-images/shared/user-default-avatar.png" class="avatar">
+                                        <span class="icon-status disconected"></span>
+                                        <div class="more-dropdown more-with-triangle">
+                                            <div class="ps ps--theme_default ps--active-y">
+                                                <div class="ui-block-title ui-block-title-small">
+                                                    <h6 class="title">Your Account</h6>
+                                                </div>
+
+                                                <ul class="account-settings">
+
+                                                    <li>
+                                                        <a class="sign-in" href="@Url.Action("Login", "Account")">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                                                            <span>Sign in</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("Register", "Account")">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                                            <span>Create new account</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("ForgotPass", "Account")">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12" y2="17"></line></svg>
+
+                                                            <span>Forgot pass?</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+
+
+                                                <div class="ui-block-title ui-block-title-small">
+                                                    <h6 class="title">Usefull Link</h6>
+                                                </div>
+
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">
+                                                            <span>FAQs</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#">
+                                                            <span>Terms & Conditions</span>
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <a href="#" class="author-name fn">
+                                        <div class="author-title">
+                                            Login <svg class="olymp-dropdown-arrow-icon"><use xlink:href="/as-images/shared/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+                                        </div>
+                                        <span class="author-subtitle">Or Create New Account</span>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        <!-- end right -->
+
+                    </div>
+
+                </nav>
+
+            </header>
+
+            <header class="header-mobile-fluid d-sm-none">
+                <div class="menu-head">
+                    <div class="layer">
+                        <div class="col">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <div class="row for-pic">
+                                    <div class="profile-pic">
+                                        <img src="@UserManager.User.Avatar" alt="@UserManager.User.MainAddress.FullName" />
+                                    </div>
+                                </div>
+                                <div class="row for-name">
+                                    <h3 title="User Name"><a href="@Url.Action("Profile", "Account", new {segment = "profile"})" title="@UserManager.User.MainAddress.FullName">@UserManager.User.FriendlyName</a> </h3>
+                                    <span class="tagline"> @UserManager.User.MainAddress.FullName</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row for-pic">
+                                    <div class="profile-pic">
+                                        <div class="ava" style="position: absolute;transform: rotateZ(64deg);margin-left: -4px;">
+                                            <svg width="91" height="91" viewBox="0 0 91 91" style="fill: #0000002e;width: 72px;height: 72px;">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M45.5 1.4c-17.14 0-32 9.95-39.25 24.5L5 25.28C12.47 10.28 27.8 0 45.5 0S78.53 10.29 86 25.28l-1.25.62C77.5 11.35 62.65 1.4 45.5 1.4zM6.25 65.1c7.25 14.55 22.1 24.5 39.25 24.5 17.14 0 32-9.95 39.25-24.5l1.25.62C78.53 80.72 63.2 91 45.5 91S12.47 80.71 5 65.72l1.25-.62z"></path>
+                                            </svg>
+                                        </div>
+                                        <img src="/as-images/shared/user-default-avatar.png" alt="Sign in to change" />
+                                    </div>
+                                </div>
+                                <div class="row for-name" style=" max-width: 128px;   margin-left: -42px;">
+                                    <h3 title="Sign in">
+                                        @if (!Request.IsAuthenticated)
+                                        {
+                                            Html.RenderPartial("~/Views/Default/Shared/Component/_LoginPartial.cshtml");
+                                        }
+
+                                    </h3>
+                                    <span class="tagline"> <a href="@Url.Action("Register", "Account")" title="Create new account">Or Create New Account</a></span>
+                                </div>
+                            }
+
+                        </div> <!--//col-->
+                    </div>
+                </div> <!--//menu-head-->
+                <div class="_header_top">
+                    <div class="nav_wrap">
+                        <ul class="_menu top-menu">
+                            @Html.Action("Menu", "Widgets", new { identifier = "top-menu", pathView = "Menu/Sub", area = "" })
+                        </ul>
+                        <div class="_language">
+                            <div class="_select" id="js_select">
+                                <a href="javascript:void(0)">
+                                    <p class="_multiSel" id="multiSel"><span>@DataCurrentHelper.UniqueSeoCode</span><i class="fa fa-caret-down" aria-hidden="true"></i></p>
+                                </a>
+                            </div>
+                            <div class="_mutliSelect" id="_mutliSelect">
+                                @{ Html.RenderPartial("~/Views/Default/Shared/Component/_Language.cshtml"); }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="_header_bottom">
+                    <div class="nav_wrap">
+
+                        <div class="_item">
+                            <ul class="_menu" id="js_menu">
+                                @Html.Action("Menu", "Widgets", new { identifier = "primary-menu", area = "" })
+                            </ul>
+                            <div class="_search">
+                                <i class="fa fa-search js_search" aria-hidden="true"></i>
+                                <div class="_form_search js_form_search">
+                                    @Html.Action("Box", "Search", new { viewPath = "search/boxmobile", area = "" })
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="search" class="cd-main-search d-xs-none">
+                @Html.Action("Box", "Search", new { area = "", viewPath = "search/box", scope = "*" })
+
+                <div class="cd-search-suggestions">
+                    <div class="news">
+
+                    </div>
+                    <div class="quick-links">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#0">Find a store</a></li>
+                            <li><a href="#0">Accessories</a></li>
+                            <li><a href="#0">Warranty info</a></li>
+                            <li><a href="#0">Support</a></li>
+                            <li><a href="#0">Contact us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="#0" class="close cd-text-replace">Close Form</a>
+            </div>
+
+            @if (ViewBag.SelfHeader != true)
+            {
+                <!-- end navbar -->
+                <section class="header page-header">
+                    @RenderSection("pageCover", false)
+                    <aside class="left-side">
+                        <ul>
+                            <li><a href="#">PHONE</a></li>
+                            <li><a href="#">ZALO</a></li>
+                            <li><a href="#">MESSAGES</a></li>
+                        </ul>
+                    </aside>
+                    <!-- end left-side -->
+                    <div class="scroll-down"><small>SCROLL DOWN</small><span></span></div>
+                    <!-- end scroll-down -->
+                    <div class="sound ">
+                        <span> SOUND </span>
+                        <div class="equalizer not-started">
+                            <div class="holder"> <span style="height: 11.1165px;"></span> <span style="height: 6.10777px;"></span> <span style="height: 13.5087px;"></span> <span style="height: 19.8197px;"></span><span style="height: 9.46765px;"></span><span style="height: 17.5439px;"></span> </div>
+                            <!-- end holder -->
+                        </div>
+                        <!-- end equalizer -->
+                    </div>
+                    <!-- end sound -->
+                    @RenderSection("banners", false)
+                </section>
+                <!-- end header -->
+            }
+
+        <main>
+            @RenderSection("submenu", false)
+            @RenderBody()
+        </main>
+            <div class="custom-cursor"></div>
+
+            @{
+                var style = Data.IsInRole("quick-links") ? "" : "vertically";
+            }
+
+            <!-- start footer-->
+            <footer id="footer" class="footer border-0">
+                <div class="container clearfix">
+                    <!-- Footer Widgets
+                    ============================================= -->
+                    <div class="footer-widgets-wrap pb-3 border-bottom clearfix">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-3 col-6">
+                                <div class="widget clearfix">
+
+                                    <h4 class="ls0 mb-3 nott">Features</h4>
+
+                                    <ul class="list-unstyled iconlist ml-0">
+                                        <li><a href="#">Help Center</a></li>
+                                        <li><a href="#">Paid with Moblie</a></li>
+                                        <li><a href="#">Status</a></li>
+                                        <li><a href="#">Changelog</a></li>
+                                        <li><a href="#">Contact Support</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 col-6">
+                                <div class="widget clearfix">
+
+                                    <h4 class="ls0 mb-3 nott">Trending</h4>
+
+                                    <ul class="list-unstyled iconlist ml-0">
+                                        <li><a href="#">Shop</a></li>
+                                        <li><a href="#">Portfolio</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">Events</a></li>
+                                        <li><a href="#">Forums</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-12">
+                                <div class="widget clearfix">
+
+                                    <h4 class="ls0 mb-3 nott">Get to Know us</h4>
+
+                                    <ul class="list-unstyled iconlist ml-0">
+                                        <li><a href="#">Corporate</a></li>
+                                        <li><a href="#">Agency</a></li>
+                                        <li><a href="#">eCommerce</a></li>
+                                        <li><a href="#">Personal</a></li>
+                                        <li><a href="#">OnePage</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-8">
+                                <div class="widget clearfix">
+
+                                    <h4 class="ls0 mb-3 nott">Subscribe Now</h4>
+                                    <div class="widget subscribe-widget mt-2 clearfix">
+                                        <p class="mb-4"><strong>Subscribe</strong> to Our Newsletter to get Important News, Amazing Offers &amp; Inside Scoops: </p>
+                                        <div class="widget-subscribe-form-result"></div>
+                                        <form id="widget-subscribe-form" action="/widgets/news-letter-subscription/" method="post" class="mt-1 mb-0 d-flex" novalidate="novalidate">
+                                            <input type="email" id="widget-subscribe-form-email" required name="email" class="form-control sm-form-control required email" placeholder="Enter your Email Address">
+
+                                            <button class="button nott font-weight-normal ml-1 my-0" type="submit">Subscribe</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div><!-- .footer-widgets-wrap end -->
+
+                </div>
+
+
+                <!-- Copyrights
+                ============================================= -->
+                <div id="copyrights" class="bg-transparent">
+
+                    <div class="container clearfix">
+
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-md-6">
+                                Copyrights © 2020 All Rights Reserved by Selectgo Tearm.<br>
+                                <div class="copyright-links">
+                                    <a href="#">Terms of Use</a> / <a href="#">Privacy Policy</a>
+                                    @if (ViewBag.Time != null)
+                                    {
+                                        <span>/</span><a href="#">Last cached: @ViewBag.Time </a>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 d-md-flex flex-md-column align-items-md-end mt-4 mt-md-0">
+                                <div class="copyrights-menu copyright-links clearfix">
+                                    <a href="/en/information.html">About</a>/<a href="#">Features</a>/<a href="/en/frequently-asked-questions">FAQs</a>/<a href="#" class="bright"><span id="UserOnline">0</span> user(s) active</a> / <a href="/system/assets?take=25">Assets</a> / <a class="gsf-link letter-subscribe no-follow" data-style="morskli" style="cursor: pointer;">Subscribe <strong>Now</strong></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div><!-- #copyrights end -->
+
+            </footer>
+            <!-- end footer -->
+
+        </section>
+
+        <div class="_coating_mobile d-sm-none"></div>
+        <div class="_hotline d-sm-none">
+            <a href="javascript:void(0)" class="_navigator js_pull">
+                <span class="__pull"></span>
+                <span class="__pull" style="    width: 50%;"></span>
+                <span class="__pull"></span>
+                @*<p class="open_menu open_close">More</p><p class="close_menu open_close not_active">Close</p>*@
+            </a>
+            <a href="tel:0946848246" class="_call">
+                <img src="/as-images/shared/call.png" alt="call:0946848246">
+                @*<div class="__hotline">
+                        <p>@LanguageHelper.Translate("Hotline_Text")</p>
+                        <p>0946 848 246</p>
+                    </div>*@
+            </a>
+            <a href="/en/contact-us.html" class="_support">
+                <img src="/as-images/shared/support.png" alt="support:contact-us">
+                @*<div class="__hotline">
+                        <p>@LanguageHelper.Translate("Support_Text")</p>
+                        <p>1900 0000</p>
+                    </div>*@
+            </a>
+        </div>
+
+        <section id="easyCookie" class="ec-fixed ec-black ec-icon ec-double-btn" data-expiresdays="30">
+            <div>
+                <div class="ec-infos">
+                    @*We use cookies to ensure that we give you the best experience. If you continue using this website, we'll assume that you are happy about that.*@
+                    <p><strong>We value your privacy</strong></p><p>Select go (we) uses cookies and similar technology to collect information that enables us to continuously improve your experience of our website. To give your consent for the use of this technology, please click “Allow cookies”. Your preferences can be updated at any time via the <a class="tc-open-privacy-center" style="color: #fff;text-decoration:underline;" href="#" onclick="return false">"Cookie Preferences"</a>&nbsp;.</p>
+                </div>
+                <div class="ec-btns">
+                    <a href="#" class="ec-accept">Allow cookies</a>
+                    <a href="/en/privacy-policy.html" class="ec-empty"><i class="fa fa-question-circle-o"></i> See more</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="customizer">
+            <a href="#modal-recent-work" data-type="page-transition" data-tooltip="Recent work" data-placement="left" data-toggle="modal" class="btn-sm btn-icon-only rounded-circle">
+                <svg width="11" height="11" viewBox="0 0 11 11" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"><path d="M5.5 0v11M0 5.5h11" fill="none" stroke="#fff"></path></svg>
+            </a>
+        </div>
+    </main>
+
+
+    <div class="modal fade fixed-right" id="modal-recent-work" tabindex=-1 role=dialog aria-hidden=true>
+        <div class="modal-dialog modal-vertical" role=document>
+            <div class="modal-content">
+                <div class="modal-header py-3 align-items-center">
+                    <div class="modal-title">
+                        <h6 class=mb-0>You might like these</h6>
+                    </div><button type=button class=close data-dismiss=modal aria-label=Close><span aria-hidden=true>&times;</span></button>
+                </div>
+                <div class="content modal-body">
+                    <p class="text-sm mb-4">Looking for other designs? Check out the other themes we created. Easy to switch, play and develop new websites.</p><div class="card card-overlay hover-shadow-lg"><div class=h-100><img src=/as-images/sample/purpose-website-ui-kit.png class=card-img-top alt="Purpose Website UI Kit"></div><div class="card-img-overlay d-flex flex-column align-items-center p-0"><div class="overlay-actions w-100 card-footer mt-auto"><a href=https://themes.getbootstrap.com/product/purpose-website-ui-kit/ class="h6 mb-0 stretched-link" target=_blank>Purpose Website UI Kit</a></div></div></div><div class="card card-overlay hover-shadow-lg"><div class=h-100><img src=/as-images/sample/purpose-application-ui-kit.png class=card-img-top alt="Purpose Application UI Kit"></div><div class="card-img-overlay d-flex flex-column align-items-center p-0"><div class="overlay-actions w-100 card-footer mt-auto"><a href=https://themes.getbootstrap.com/product/purpose-application-ui-kit/ class="h6 mb-0 stretched-link" target=_blank>Purpose Application UI Kit</a></div></div></div><div class="card card-placeholder align-items-center flex-column justify-content-center border-dashed" style=height:250px><div class="col text-center"><div class=pt-5><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smile text-primary" style="width:50px;height:50px"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg> <span class="h5 d-block mt-3">What's next?</span></div><p class="text-sm px-4 mt-2 mb-0">We are already working on a new product, so stay tuned.</p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section type="text/html" id="notify-template">
+        @Html.Raw(DataCurrentHelper.NotifyText)
+    </section>
+
+    @{
+        if (DataConfigsHelper.Mode == "preview" || DataConfigsHelper.Mode == "debug")
+        {
+            <p class="run-mode">
+                Mode:: @DataConfigsHelper.Mode <a href="@(HttpContext.Current.Request.Url.AbsolutePath + "?mode=publish&token=000-000-000~0")"> exit</a>
+            </p>
+        }
+    }
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZHRHRW9G2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-KZHRHRW9G2');
+    </script>
+
+    @RenderSection("scriptsInited", false)
+    @Scripts.Render("~/bundles/js/core")
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.2.2.js")"></script>
+    <script src="@Url.Content("~/signalr/hubs")"></script>
+    <script>
+        $(function () {
+            //setup hubs
+            var counterHub = $.connection.counterHub;
+            $.connection.hub.start().done(function () {
+                //do something after hub connected
+            });
+            //function receive data from server. server call in on code behind
+            counterHub.client.UpdateCount = function (count) {
+                $('#UserOnline').text(count);
+            }
+        });
+        $(function () {
+            var proxy = $.connection.notificationHub;
+           
+            proxy.client.receiveNotification = function (message) {
+                if (message == "") $("#notify-template").empty().hide();
+                else {
+                    $("#notify-template").html("<mark class='notify' style='background: #17141dc9;'>" + message + "</mark>").show("slow");
+                    var options = {
+                        title: "Notificação",
+                        options: {
+                            body: message,
+                            icon: "/images/shared/1/logo.png",
+                            lang: 'pt-BR',
+                        }
+                    };
+                    $("#easyNotify").easyNotify(options);
+                }
+
+            };
+            $.connection.hub.start();
+        });
+    </script>
+      @if (!String.IsNullOrEmpty(DataCurrentHelper.LanguageCulture))
+      {
+        <script src="@("/Scripts/global-resources/" + DataCurrentHelper.LanguageCulture + ".js")"></script>
+      }
+     
+        @Scripts.Render("~/bundles/js/shared") @Scripts.Render("~/bundles/js/utils")
+
+        <link href='https://fonts.googleapis.com/css?family=Anaheim%7CQuattrocento+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+        <link id='dm-fonts-css' href='https://fonts.googleapis.com/css?family=Work+Sans:300,500,700' rel='stylesheet' type='text/css' media='all' />
+
+        @Styles.Render("~/bundles/css/shared2x") @Styles.Render("~/bundles/css/utils")
+        @RenderSection("styles", false)
+        @RenderSection("stylesInjected", false)
+        <script async>
+        AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+         AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+        AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+        AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+        AppConfigs.OriginalHtml = $("html");
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".site").show();
+        AppConfigs.OriginalHtml.css("overflow", "hidden");
+        AppConfigs.OriginalBody.find(".preloader-it").hide();
+        AppConfigs.OriginalBody.find(".preloader-it").fadeOut("fast", function () {
+            $(this).remove();
+            setTimeout(function () {
+                AppConfigs.OriginalBody.find(".site").css("opacity", "1");
+                AppConfigs.OriginalHtml.css("overflow", "inherit");
+
+            }, 1000);
+        });
+        </script>
+        @RenderSection("scriptsdefault", false)
+        @RenderSection("scripts", false)
+        @RenderSection("scriptsInjected", false)
+        @Html.PageScripts()
+        @{
+            var ga = DataConfigsHelper.Get("GoogleAnalyticCode");
+            if (ga != null)
+            {
+                @Html.Raw(ga)
+            }
+            var lv = DataConfigsHelper.Get("ShowLiveChat");
+            if (lv == "True")
+            {
+                @Html.Raw(DataConfigsHelper.Get("LiveChatCode"))
+            }
+        }
+        @if (DataConfigsHelper.Mode == "debug")
+        {
+            <link href="~/content/default/plugins/page-guide/css/pageguide.min.css" rel="stylesheet" />
+            <script src="~/content/default/plugins/page-guide/js/pageguide.min.js">
+            </script>
+            <script>
+                $(document).ready(function () { tl.pg.init(); });
+            </script>
+            @Html.Action("PageGuide", "System", new { area = "" })
+        }
+        <a id="page-action-holder" class="ajax-link" href="/" data-type="page-transition" data-tooltip="Back to Home" data-placement="left">
+            <div id="backtoworks"><i class="fa fa-home" aria-hidden="true"></i></div>
+        </a>
+        <!--Back to Top-->
+        <a href="#" class="as-back-to-top">
+            <span style="outline: none;"> @(DataCurrentHelper.UniqueSeoCode == "en" ? "Scroll to top" : "Lên đầu trang")</span><i class="fa fa-long-arrow-right"></i>
+        </a>
+        <div class="progress-page">
+
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+        </div>
+        @{
+            Html.RenderPartial("~/Views/Default/Shared/Component/_Orverride.cshtml");
+        }
+    </body>
+</html>

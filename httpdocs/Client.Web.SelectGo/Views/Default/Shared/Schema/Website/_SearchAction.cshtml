@@ -1,0 +1,17 @@
+﻿@using ASP.Web.Core.Helpers
+@using (Html.BeginScripts())
+{
+    var storeLink = AppConfigs.Get("StoreLink");
+    <script type="application/ld+json">
+    {
+        "@@context": "http://schema.org",
+        "@@type": "WebSite",
+        "url": "@storeLink",
+        "potentialAction": {
+            "@@type": "SearchAction",
+            "target": "@storeLink/search?key={key}",
+            "query-input": "required name=key"
+        }
+    }
+    </script>
+}

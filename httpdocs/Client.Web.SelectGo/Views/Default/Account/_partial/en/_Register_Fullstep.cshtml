@@ -1,0 +1,467 @@
+﻿@using System.Web.Mvc
+@using System.Web.Optimization
+@using CaptchaMvc.HtmlHelpers
+@using global::Web.Helpers
+@model RegisterModel
+
+<div class="luna-loader-container">
+    <div class="luna-loader"></div>
+</div>
+
+<div class='luna-signup-container luna-default' style="opacity: 0">
+    <div class="luna-signup-left-overlay"></div>
+    <div class='container'>
+        <div class="row">
+            <div class='luna-signup-left'>
+                <a href="/@DataCurrentHelper.UniqueSeoCode" title="Back to home">
+                    <img class='luna-signup-logo img-responsive' src='@DisplayHelper.Logo.Replace("logo.png","logo-vertically.svg")' alt="@DisplayHelper.StoreName" />
+                </a>
+                <div class="luna-navigation">
+                    <a class="toPrev prevStep"><i class="icon icon-arrow-up2"></i></a>
+                    <ul class="dots"></ul>
+                    <a class="toNext nextStep"><i class="icon icon-arrow-down2"></i></a>
+                </div>
+            </div>
+            <div class='luna-signup-right'>
+                <div class='button-container'>
+                    <div>
+                        <a href="javascript:void(0)" class="btn btn-rounded nextStep" tabindex="0">Next step →</a>
+                        <span style="font-size: 11px;">or press "Enter" to next</span>
+                    </div>
+                </div>
+                <div class='steps-count'>
+                    Step <span class="step-current">1</span>/<span class="step-count"></span>
+                </div>
+                <div class="container-fluid">
+
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "signupForm", autocomplete = "off" }))
+                    {
+                        @Html.ValidationSummary(true)
+                        @Html.AntiForgeryToken()
+
+                        <div class="luna-steps">
+                            <div class="step step-active" data-step-id='1'>
+                                <h2 class="step-title">
+                                    1.
+                                    @("Account login".ToUpper()) <span style="color: darkgray;font-size: 14px;">|</span> <a class="outside-link" data-backdrop="white" data-open_new_tab=true style="font-size: 13px; color: #c90000;" href="@Url.Action("Login", "Account")">Already a member? Sign In</a>
+                                </h2>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="UserName">Username?</label>
+                                            @Html.TextBoxFor(model => model.UserName, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.UserName)
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="PhoneNumber">Phone?</label>
+                                            @Html.TextBoxFor(model => model.PhoneNumber, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                        <div class="help-block">
+                                            Enter Phone including 10 or 11 numbers.
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="Email">Email?</label>
+                                            @Html.TextBoxFor(model => model.Email, null, new { placeholder = "", type = "Email", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.Email)
+                                        <div class="help-block">
+                                            E-mail will be used to activate your account!
+                                        </div>
+                                            <div class="help-block">Confirmed email : Confirmation Not Required</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="Password">Password?</label>
+
+                                            @Html.TextBoxFor(model => model.Password, null, new { placeholderx = "6+ characters", type = "Password", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.Password)
+                                        <div class="help-block">
+                                            Password must contain at least 6 characters.
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="ConfirmPassword">Repeat password</label>
+                                            @Html.TextBoxFor(model => model.ConfirmPassword, null, new { placeholder = "", type = "Password", @class = "formInput", autocomplete = "new-password", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step " data-step-id='2'>
+                                <h2 class="step-title"> 2. @("Your profile".ToUpper()) <span style="color: darkgray;font-size: 14px;">|</span> <a class="reject-link" style="font-size: 13px; color: #c90000;" data-backdrop="blurred" href="#">Skipped this step?</a></h2>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="FirstName">First name</label>
+                                            @Html.TextBoxFor(model => model.FirstName, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.FirstName)
+                                            <div class="help-block">We will use this to personalize your account experience</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="formLabel" for="LastName">Last name</label>
+                                            @Html.TextBoxFor(model => model.LastName, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(model => model.LastName)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="step-label">Choose your Gender?</div>
+                                            <label class="radio-inline"><input type="radio" value="Male" name="Gender" checked> Male</label>
+                                            <label class="radio-inline"><input type="radio" value="Female" name="Gender"> Female</label>
+                                            <label class="radio-inline"><input type="radio" value="Other" name="Gender"> Other</label>
+                                            <div class="help-block">No required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="step-label">Birthday</div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="">
+                                                        <select id="day" name="day" class="selectpicker_x form-control">
+                                                            <option selected value="01">-Day-</option>
+                                                            @for (int d = 1; d <= 31; d++)
+                                                            {
+                                                                <option value="@d" @(Model.Day == d ? "selected" : "")>@(d < 10 ? ("0" + d) : ("" + d))</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="">
+                                                        <select id="month" name="month" class="selectpicker_x form-control">
+                                                            <option value="01">-Month-</option>
+                                                            @for (int m = 1; m <= 12; m++)
+                                                            {
+                                                                <option value="@m" @(Model.Month == m ? "selected" : "")>@(m < 10 ? ("0" + m) : ("" + m))</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="">
+                                                        <select id="year" name="year" class="selectpicker_x form-control">
+                                                            <option value="0001">-Year-</option>
+                                                            @for (int y = 1929; y <= 2000; y++)
+                                                            {
+                                                                <option value="@y" @(Model.Year == y ? "selected" : "")>@(y)</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="help-block" style="margin-left: 15px;">No required</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div style="display: none">
+                                                <div class="step-label">Nationality</div>
+                                                <select id='countryId' name="countryId" class="selectpicker_x cascadingDropDown form-control"
+                                                        data-group="Register"
+                                                        data-target="StateProvinceId"
+                                                        data-id="countryId"
+                                                        data-url="/api/general/get-state-province-by"
+                                                        data-default-label="Select Country"
+                                                        data-replacement="container1">
+                                                    <option value="1" selected="">Viet Nam</option>
+                                                </select>
+                                            </div>
+                                            <div class="step-label">Province / City</div>
+                                            <select id='StateProvinceId' name="StateProvinceId" class="selectpicker_x cascadingDropDown form-control"
+                                                    data-group="Register"
+                                                    data-id="StateProvinceId"
+                                                    data-target="DistrictId"
+                                                    data-url="/api/general/get-district-by"
+                                                    data-replacement="container1"
+                                                    data-default-label="[- Province / City -]"
+                                                    disabled></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="step-label">
+                                                District
+                                            </div>
+
+                                            <select name="DistrictId"
+                                                    class="cascadingDropDown form-control"
+                                                    data-group="Register"
+                                                    data-id="DistrictId"
+                                                    data-url="/api/general/get-district-by"
+                                                    data-target="WardId"
+                                                    data-final
+                                                    data-replacement="container1"
+                                                    data-default-label="[- District -]"
+                                                    disabled></select>
+
+                                            <div class="help-block">
+                                                <div class="panel cascadingContainer hide"
+                                                     data-replacement-container="container1"
+                                                     data-default-content="Please select {{StateProvince}} First./"></div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="step-label">Primary Address (line 1)</div>
+                                    @Html.TextAreaFor(model => model.Address1, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.Address1)
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="step-label">Second Address (line 2)</div>
+                                    @Html.TextAreaFor(model => model.Address2, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.Address2)
+                                    <div class="help-block">No required</div>
+                                </div>
+
+                                <div class="payment-total help-block">
+                                    <b>Note:</b> <span> You can update this information at any time on your personal page when you log into your account.</span><br>
+                                    <p>
+                                        @*The questions asking for demographic data should be relevant to the survey goal and must point to the characteristics of the target population.*@
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="step" data-step-id='3'>
+                                <h2 class="step-title">3. @("Communications".ToUpper()) </h2>
+                                <div class="form-group">
+                                    <div class="step-label">Request Catalog?</div>
+                                    <label class="radio-inline"><input type="radio" value="Yes" name="requestcatalog" checked> Yes</label>
+                                    <label class="radio-inline"><input type="radio" value="No" name="requestcatalog"> No</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="step-label">Communication Prefer?</div>
+                                    <label class="radio-inline"><input type="radio" value="Email" name="communicationprefer" checked> E-mail</label>
+                                    <label class="radio-inline"><input type="radio" value="Phone" name="communicationprefer"> Phone</label>
+                                </div>
+
+                            </div>
+                            <div class="step step-confirm" data-step-id='4'>
+                                <h2 class="step-title" style="margin-top: -60px;position: relative;border-bottom: 1px solid #28a745;padding-bottom: 20px;">@("Check the information and complete".ToUpper())</h2>
+                                <div class="fadeTop">
+                                    <h3 class="step-sub-title">1. Account information</h3>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">First name</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text FirstName"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Last name</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text LastName"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Username</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text UserName"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Email</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text Email"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Password</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text">*******</div>
+                                </div>
+
+                                <div class="fadeTop">
+                                    <h3 class="step-sub-title">2. Your profile</h3>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Gender</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text Gender"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Birthday</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text">
+                                        <span class="day"></span>-
+                                        <span class="month"></span>-
+                                        <span class="year"></span>
+                                    </div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Phone </div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text PhoneNumber"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Address</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text">
+                                        <span class="Address1"></span>
+                                        <span class="Address2"></span>
+                                        <span class="DistrictId"></span>
+                                        <span class="StateProvinceId"></span>
+                                    </div>
+
+                                </div>
+                                <div class="fadeTop">
+                                    <h3 class="step-sub-title"> 3. Communications
+                                    </h3>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Request Catalog?</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text requestcatalog"></div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Communication prefer</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12 confirm-text communicationprefer"></div>
+                                </div>
+
+                                <br />
+                                <div class="fadeTop">
+                                    <h3 class="step-sub-title"> and. Authentication information
+                                    </h3>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Captcha code</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12">
+                                        <div class="captcha-region">
+                                            <img class="captcha-image" src="@Url.Action("Captcha", "Security", new {type = "math"})" title="captcha" />
+                                            <button class="btn btn-link captcha-reloader"> Other code</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Retype the code above</div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12">
+
+                                        <label class="formLabel" for="VerificationCode" style="display: none"> Captcha code (to make sure you are not a robot)
+                                        </label>
+                                        <input autocomplete="off" class="formInput ignore captcha-text" id="VerificationCode" name="VerificationCode" style="text-align: center;font-size: 14px;width: 150px;padding: 10px 0px;background: #f5f6fb;margin-bottom: 24px;" placeholder="Result = ?" spellcheck="false" type="text" value="">
+
+                                    </div>
+                                </div>
+                                <div class="row fadeTop">
+                                    <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">
+                                        Accept terms
+                                    </div>
+                                    <div class="col-md-9 col-sm-6 col-xs-12">
+
+                                        <label class="checkbox-inline agreement">
+                                            <input id="agreement" name="agreement" type="checkbox" />
+                                            Creating an account means you’re okay with our
+                                            <a target="_blank" href="/terms">Terms of Service</a>,
+                                            <a target="_blank" href="/privacy">Privacy Policy</a>, and our default
+                                            <a target="_blank" href="/notifications">Notification Settings</a>.
+                                        </label>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="fadeTop">
+                                    <div class="step-confirm-buttons">
+                                        <div>
+
+                                        </div>
+                                        <a href="javascript:void(0)" class="btn btn-rounded finishBtn">DONE, SUBMIT NOW</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginScripts())
+{
+    <script>
+        $(document).ready(function() {
+            $('input#Password').passwordstrength({
+                'minlength': 6,
+                'number': true,
+                'capital': true,
+                'special': true,
+                'labels': {
+                    
+                    'general': 'Password must have:',
+                    'minlength': 'Minimum length {{minlength}} characters',
+                    'number': 'At least one number',
+                    'capital': 'At least one capital letter',
+                    'special': 'At least one special character'
+                }
+            });
+            superplaceholder({
+                el: UserName,
+                sentences: ['Should short to remember'],
+                options: {
+                    loop: true
+                }
+            });
+            superplaceholder({
+                el: Email,
+                sentences: ['E-mail private || company is OK', 'Ex:kushagra@donavi.com', 'Ex:adam@google.com'],
+                options: {
+                    loop: true
+                }
+            });
+            $.jConfirm.defaults.theme = 'bootstrap-4';
+            $('.outside-link').jConfirm({
+                question: 'You are about to visit an external website, you are sure you want to leave this page?',
+                confirm_text: 'Yes,',
+                deny_text: ' No.',
+                follow_href: true,
+            });
+            $('.reject-link').jConfirm({
+                question: 'You will enter a name and go to the next step?',
+                confirm_text: 'Yes!',
+                deny_text: ' No.',
+
+            }).on('confirm', function(e){
+                swal({
+                          title: "Your name:",
+                          text: "After entering your name you will move on to the next step",
+                          type: "input",
+                          confirmButtonText: "Yes",
+                          showCancelButton: false,
+                          closeOnConfirm: true,
+                          inputPlaceholder: ""
+                        }, function (inputValue) {
+                          if (inputValue === false) return false;
+                          if (inputValue === "") {
+                            swal.showInputError("You must enter a first name./");
+                            return false
+                          }
+                          $("#FirstName").val(inputValue);
+                          $(".luna-navigation .nextStep").trigger("click");
+                        });
+
+                    //do something on confirm
+                });
+            $('form[name=signupForm]').formcache({ controls: ['select', 'textarea'] });
+
+        });
+    </script>
+}

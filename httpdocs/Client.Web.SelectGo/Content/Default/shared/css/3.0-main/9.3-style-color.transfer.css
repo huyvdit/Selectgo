@@ -1,0 +1,47 @@
+﻿body {
+    color: #2e4257;
+}
+.hamburger span {
+  
+    background: #fff;
+   
+}
+blockquote:before {
+    background-color: #9E9E9E;
+   
+}
+.btn-white {
+    border-color: #EAEDF2;
+}
+.transition-overlay {
+    background: #9E9E9E;
+}
+.preloader {
+    background: #9E9E9E;
+}
+.swiper-slider .swiper-pagination-bullets .swiper-pagination-bullet:after {
+    background: #2c3442;
+}
+.swiper-slider .swiper-slide .slide-inner .container h1 {
+    color: #2c3442;
+}
+.works .project-box .content-box .inner h3 span {
+    
+    color: #2c3442;
+   
+}
+
+.services-content-block small {
+   
+    color: #2c3442;
+}
+.footer .footer-quote h2 {
+    color: #c90000;
+    background: linear-gradient(135deg, #fff 32.5%, #c90000 45%, #c90000 60%, #c90000 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.footer .footer-bottom h5 {
+  
+    color: #2c3442;
+}

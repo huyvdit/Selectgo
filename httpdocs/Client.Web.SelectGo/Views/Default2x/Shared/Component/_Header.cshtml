@@ -1,0 +1,28 @@
+﻿@using global::Web.Helpers
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-3">
+            <a id="logo" href="@DisplayHelper.StoreLink" title="@DisplayHelper.StoreName">
+                <img class="logo-image" src="@DisplayHelper.Logo" alt="@DisplayHelper.StoreName" />
+            </a>
+        </div>
+        <div class="col-md-9">
+            <div class="header-right">
+                <nav class="menu">
+                    @Html.Action("Menu", "Widgets", new { identifier = "main-menu", area = "" })
+                </nav>
+                <div class="btn-wrap">
+                    <div class="top-search-btn-wrap">
+                        <div class="top-search-btn">
+                            <a href="javascript:void(0);">
+                                <i class="ion-search"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

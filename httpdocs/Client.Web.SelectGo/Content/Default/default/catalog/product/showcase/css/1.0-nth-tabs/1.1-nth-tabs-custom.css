@@ -1,0 +1,17 @@
+.nav-tabs > li > a {
+    font-size: 12px;
+    font-weight: 700;
+    color: #9E9E9E;
+    padding: 0px 36px;
+}
+.nth-tabs .tab-close:hover {
+    background-color: #000;
+    border-radius: 0px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 8px;
+}
+.nav-tabs > li {
+    width: auto;
+    min-width: 8.1em;
+}

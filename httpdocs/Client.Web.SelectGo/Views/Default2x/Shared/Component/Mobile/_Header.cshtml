@@ -1,0 +1,46 @@
+﻿@using global::Web.Helpers
+<div class="mg-left-right">
+    <div class="container d-flex">
+        <div class="nav d-md-flex">
+            <a href="#" data-activates="slide-out" class="button-collapse">
+                <div id="nav-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </a>
+        </div>
+
+        <div class="nav nav-lang ml-auto">
+            <div class="header-center">
+                <a id="logo-2" href="@DisplayHelper.StoreLink" title="@DisplayHelper.StoreName">
+                    <img src="@DisplayHelper.Logo"/>
+                    <b>dovina.com.vn</b>
+                </a>
+            </div>
+        </div>
+
+        <div class="nav">
+            <div class="hearder-icon home clearfix">
+              
+                <div class="header-block cart-block popup-over pull-right">
+                    @{ Html.RenderAction("CartSummary", "ShoppingCart");}
+                </div>
+
+                <div class="header-block search-block popup-over pull-right">
+                    <div  class="popup-title top-search-btn">
+                        <a href="#" title="Search">
+                            <i class="flaticon-search"></i>
+                        </a>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+

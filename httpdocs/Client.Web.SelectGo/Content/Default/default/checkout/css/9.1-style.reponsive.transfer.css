@@ -1,0 +1,29 @@
+﻿
+@media (max-width: 991px) {
+    .alertify .ajs-dialog {
+        
+        margin: 55% auto;
+      
+    }
+    .alertify-notifier.ajs-center.ajs-top .ajs-message.ajs-visible {
+        top: 0;
+        text-align: left;
+    }
+    .section-cta {
+        text-align: center;
+    }
+    .f30 {
+        width: 100%;
+    }
+
+    .f40 {
+        width: 100%;
+    }
+
+    .f50 {
+        width: 100%;
+    }
+    .f60 {
+        width: 100%;
+    }
+}

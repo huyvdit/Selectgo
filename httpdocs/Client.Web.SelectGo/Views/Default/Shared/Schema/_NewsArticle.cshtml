@@ -1,0 +1,36 @@
+﻿@using ASP.Web.Core.Helpers
+@using ASP.Web.Repositories.Entity
+@model ASP.Web.Model.Models.BlogPost
+@using (Html.BeginScripts())
+{
+    <script type="application/ld+json">
+    {
+        "@@context": "http://schema.org",
+        "@@type": "NewsArticle",
+        "mainEntityOfPage": {
+            "@@type": "WebPage",
+            "@@id": "@SlugHelper.BlogPost(Model.Id)"
+        },
+        "headline": "@Model.Title",
+        "image": [
+            "@Model.Avatar"
+        ],
+        "datePublished": "@Model.PublishedTime",
+        "dateModified": "@Model.LastModified",
+        "author": {
+            "@@type": "Person",
+            "name": "@Model.AuthorName"
+        },
+        "publisher": {
+            "@@type": "Organization",
+            "name": "@AppConfigs.Get("StoreName")",
+            "logo": {
+            "@@type": "ImageObject",
+            "url": "@AppConfigs.Get("StoreLink")@AppConfigs.Get("Logo")"
+        }
+        },
+        "description": "@Model.Excerpt"
+    }
+    </script>
+
+}

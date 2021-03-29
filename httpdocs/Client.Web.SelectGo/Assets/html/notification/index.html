@@ -1,0 +1,69 @@
+<html>
+<title>Firebase Messaging Demo</title>
+<style>
+    div {
+        margin-bottom: 15px;
+    }
+</style>
+<body>
+    <div id="token"></div>
+    <div id="msg"></div>
+    <div id="notis"></div>
+    <div id="err"></div>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js"></script>
+    <script>
+        MsgElem = document.getElementById("msg");
+        TokenElem = document.getElementById("token");
+        NotisElem = document.getElementById("notis");
+        ErrElem = document.getElementById("err");
+        // Initialize Firebase
+        // TODO: Replace with your project's customized code snippet
+  
+		  var firebaseConfig = {
+				apiKey: "AIzaSyBam42gf2cdDEDMZOON0ZFz-H9d5R7AXrs",
+			   
+				projectId: "selectgo-b70cb",
+				storageBucket: "selectgo-b70cb.appspot.com",
+				messagingSenderId: "367404033006",
+				appId: "1:367404033006:web:33a83b198f72e1f140e4ff",
+				measurementId: "G-QBEM6DC3MF"
+			  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+        const messaging = firebase.messaging();
+        messaging
+            .requestPermission()
+            .then(function () {
+                MsgElem.innerHTML = "Notification permission granted." 
+                console.log("Notification permission granted.");
+                
+                // get the token in the form of promise
+                return messaging.getToken()
+            })
+            .then(function(token) {
+                TokenElem.innerHTML = "token is : " + token
+            })
+            .catch(function (err) {
+                ErrElem.innerHTML =  ErrElem.innerHTML + "; " + err
+                console.log("Unable to get permission to notify.", err);
+            });
+
+        let enableForegroundNotification = true;
+        messaging.onMessage(function(payload) {
+            console.log("Message received. ", payload);
+            NotisElem.innerHTML = NotisElem.innerHTML + JSON.stringify(payload);
+			alert(payload.notification.title);
+            if(enableForegroundNotification) {
+                const {title, ...options} = (payload.notification);
+                navigator.serviceWorker.getRegistrations().then(registration => {
+                    registration[0].showNotification(title, options);
+                });
+            }
+        });
+    </script>
+
+    </body>
+
+</html>

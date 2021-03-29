@@ -1,0 +1,9 @@
+﻿@{
+    var arrs = ViewBag.paramArrs as List<KeyValuePair<string, string>> ?? new List<KeyValuePair<string, string>
+    >();
+    // Extract:
+    //var title = arrs.Any(kvp => kvp.Key == "banner-title") ? arrs.First(kvp => kvp.Key == "banner-title").Value : "__DEFAULT__";
+    var src  = arrs.Any(kvp => kvp.Key == "banner-img") ? arrs.First(kvp => kvp.Key == "banner-img").Value : "__DEFAULT__" ;
+    var size = arrs.Any(kvp => kvp.Key == "banner-size") ? arrs.First(kvp => kvp.Key == "banner-size").Value : "inherit";
+    }
+    <div class="masthead" style="background-image:url('@(src.Contains("default") ? "../../../assets/images/components/masthead.jpg" : src)');"></div>

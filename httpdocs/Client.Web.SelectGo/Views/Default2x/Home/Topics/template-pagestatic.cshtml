@@ -1,0 +1,25 @@
+﻿@using global::Web.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <section class="as-content">
+        @Html.Raw(Model.Body)
+    </section>
+
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+} 

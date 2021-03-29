@@ -1,0 +1,51 @@
+﻿@{
+    var segment = Request.QueryString["segment"] ?? "default";
+}
+@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@model Web.Core.Models.LoginModel
+
+    <div class="page page_login">
+        @using (Html.BeginForm("LoginDirect", "Account", FormMethod.Post, new { @class = "form form--auth" }))
+        {
+            <input type="hidden" name="returnUrl" value="@Request.QueryString["returnUrl"]" />
+            @Html.AntiForgeryToken()
+
+        <div class="form__container">
+            <div class="logo"><a href="/@DataCurrentHelper.UniqueSeoCode"><img class="logo__pic" src="@DisplayHelper.Logo.Replace("logo.png","logo-vertically.svg")" width="124"></a></div>
+            <div class="fieldset">
+                @Html.ValidationSummary(true)
+                <div class="field"><input class="input" type="text" name="username" autocomplete="on" placeholder="Identify | e-mail | phone" required value="@Model.UserName"></div>
+                <div class="field"><input class="input" type="password" name="password" autocomplete="on" value="@Model.Password" placeholder="Your password" required>  <span class="fa fa-eye-slash pwd-toggle"></span></div>
+
+            </div>
+            <button class="btn form__submit" type="submit">Sign in</button>
+            <div class="checkbox checkbox-ripple show-info-in" style="width: 100%;">
+                <label style="font-weight: normal;">
+                    <input type="checkbox" value="@Model.RememberMe" @(Model.RememberMe == true ? "checked":"")  name="rememberMe"> <span class="ripple"></span><span class="check"></span> @LanguageHelper.Translate("Stay signed in?_Text")
+                </label>
+            </div>
+            
+        </div>
+            <div class="text"> <a href="@Url.Action("ForgotPass","Account")">Forgot password?</a>.</div>
+            <div class="form__footer">Not a member? <a title="Đăng ký miễn phí" href="@Url.Action("Register","Account")">→ Sign up alway free!</a></div>
+
+        }
+    <div class="hidden" style="display:none">
+        <div class="row social-buttons">
+            <div class="col-xs-4 col-sm-4 col-md-12">
+                <a href="/authexternal/login/facebook?mode=1" class="btn btn-block btn-facebook">
+                    <i class="fa fa-facebook"></i> <span class="hidden-xs hidden-sm">Continue with facebook</span>
+                </a>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-12">
+                <a href="/authexternal/login/google?mode=1" class="btn btn-block btn-google">
+                    <i class="fa fa-google-plus"></i> <span class="hidden-xs hidden-sm">Continue with google+</span>
+                </a>
+            </div>
+        </div><!-- ./social-buttons -->
+    </div>
+        <div class="about">Template by ⚡ <a href="/@DataCurrentHelper.UniqueSeoCode">Nice, Very Nice</a></div>
+    </div>

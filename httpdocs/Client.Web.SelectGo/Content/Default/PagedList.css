@@ -1,0 +1,25 @@
+.paging {
+   float: right;
+  margin: 15px 0px 50px 0px;
+}
+ .paging ul.pagination{background:transparent;text-align:right;}
+ .paging ul.pagination li{margin:0;padding:0;float:left;    background: none;}
+   
+ .paging ul li ul.level-2{margin:0;}
+ .paging ul.pagination li a{     line-height: 24px;
+    width: 26px;
+    text-align: center;
+    padding: 0px;
+    margin-right: 4px;
+    border: none;     font-size: 14px;
+    background-color: rgba(0,0,0,.025);     border-radius: 0px;
+    color: #43454b;}
+  .paging ul.pagination li.active a {
+       background-color: #4CAF50;
+        color: white!important;
+    }
+ .paging ul.pagination li.list-page a.active, .paging ul li.list-page li:hover a{background-color:#E25831;border:1px solid #E25831;color:#fff !important;}
+ .paging ul.pagination li i.fa{font-weight:bold;color:#E25831;}
+ .list-news div.left img{ width: 242px;height: 136px;}
+
+

@@ -1,0 +1,34 @@
+﻿@using global::Web.Helpers
+@{
+    ViewBag.Title = LanguageHelper.Translate("Shopping cart_Text");
+
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/cart/css")
+    <link rel="stylesheet" href="@Url.ContentVersioned("/content/default/default/cart/css/1.1-thanhhm-custom.css")" />
+}
+<div class="wrapper">
+    @{
+        Html.RenderPartial("~/Views/Default/ShoppingCart/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Index.cshtml");
+    }
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/cart/js")
+    <script type="text/javascript">
+        $("#checkout-btn").on("click", function (e) {
+            e.preventDefault();
+            if (parseInt($("#spent-to-points").val()) > parseInt($("#spent-to-points").attr("max"))) {
+
+                $("#spent-to-points").addClass("invalid");
+                return false;
+            }
+            $("form input[name='goout']").val('checkout');
+            $(this).parents('form').submit();
+        });
+
+
+
+    </script>
+}
+

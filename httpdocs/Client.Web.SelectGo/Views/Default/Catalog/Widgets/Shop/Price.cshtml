@@ -1,0 +1,40 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@{
+    var p = ViewData["Product"] as Product;
+}
+
+@if (p.DisplayStockPrice == true)
+{
+    <ins class="price h4">@FormatHelper.FormatCurrency(p.OriginalPrice)</ins>
+}
+else
+{
+    if (p.IsPromotion)
+    {
+        <del class="price-old text-muted">@FormatHelper.FormatCurrency(p.Price)</del>
+        if (p.SpecialPriceByPercent > 0)
+        {
+            <ins class="price h4">@p.SpecialPriceByPercent %</ins>
+        }
+        else if (p.SpecialPrice > 0)
+        {
+            <ins class="price h4">@FormatHelper.FormatCurrency(p.SpecialPrice)</ins>
+        }
+    }
+    else
+    {
+        if (p.CallForPrice == true)
+        {
+            <ins class="price h4" style="font-size: 11px;color: red;text-transform: uppercase;">@LanguageHelper.Translate("Contact to price quote_Text")</ins>
+        }
+        else if (p.Price == 0)
+        {
+            <b class="price h4 free" >Free</b>
+        }
+        else
+        {
+            <ins class="price h4">@FormatHelper.FormatCurrency(p.Price)</ins>
+        }
+    }
+}

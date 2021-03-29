@@ -1,0 +1,233 @@
+/* loader-ellips
+------------------------- */
+
+.loader-ellips {
+  font-size: 20px;
+  position: relative;
+  width: 4em;
+  height: 1em;
+  margin: 10px auto;
+}
+
+.loader-ellips__dot {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.5em;
+  background: #555;
+  position: absolute;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+.loader-ellips__dot:nth-child(1),
+.loader-ellips__dot:nth-child(2) {
+  left: 0;
+}
+.loader-ellips__dot:nth-child(3) { left: 1.5em; }
+.loader-ellips__dot:nth-child(4) { left: 3em; }
+
+@keyframes reveal {
+  from { transform: scale(0.001); }
+  to { transform: scale(1); }
+}
+
+@keyframes slide {
+  to { transform: translateX(1.5em) }
+}
+
+.loader-ellips__dot:nth-child(1) {
+  animation-name: reveal;
+}
+
+.loader-ellips__dot:nth-child(2),
+.loader-ellips__dot:nth-child(3) {
+  animation-name: slide;
+}
+
+.loader-ellips__dot:nth-child(4) {
+  animation-name: reveal;
+  animation-direction: reverse;
+}
+
+/* loader-wheel
+------------------------- */
+
+.loader-wheel {
+  font-size: 64px; /* change size here */
+  position: relative;
+  height: 1em;
+  width: 1em;
+  padding-left: 0.45em;
+  overflow: hidden;
+  margin: 0 auto;
+  animation: loader-wheel-rotate 0.5s steps(12) infinite;
+}
+
+.loader-wheel i {
+  display: block;
+  position: absolute;
+  height: 0.3em;
+  width: 0.1em;
+  border-radius: 0.05em;
+  background: #ffa500; /* change color here */
+  opacity: 0.8;
+  transform: rotate(-30deg);
+  transform-origin: center 0.5em;
+}
+
+@keyframes loader-wheel-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* loading same fb */
+.timeline-wrapper {
+    float: left;
+    width: 100%;
+    background: #fff;
+    padding-top: 15px;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
+.timeline-item {
+    border: 1px solid;
+    border-color: transparent;
+    min-height: 141px !important;
+    margin-bottom: 25px;
+    float: left;
+    width: calc((100% - 40px) / 3);
+    margin: 0px 20px 15px 0px;
+}
+    .timeline-item:last-child {
+        margin-right: 0px;
+    }
+
+    @keyframes placeHolderShimmer {
+        0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+
+.animated-background {
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+    height: 96px;
+    position: relative;
+}
+
+@media only screen and (max-width: 480px){
+    .timeline-item {
+        width: calc((100% - 40px) / 2);
+    }
+    .timeline-item:last-child{
+        display:none;
+    }
+}
+.background-masker {
+    background: #fff;
+    position: absolute;
+}
+
+/* Every thing below this is just positioning */
+
+.background-masker.header-top,
+.background-masker.header-bottom,
+.background-masker.subheader-bottom {
+    top: 0;
+    left: 40px;
+    right: 0;
+    height: 10px;
+}
+
+.background-masker.header-left,
+.background-masker.subheader-left,
+.background-masker.header-right,
+.background-masker.subheader-right {
+    top: 10px;
+    left: 40px;
+    height: 8px;
+    width: 10px;
+}
+
+.background-masker.header-bottom {
+    top: 18px;
+    height: 6px;
+}
+
+.background-masker.subheader-left,
+.background-masker.subheader-right {
+    top: 24px;
+    height: 6px;
+}
+
+
+.background-masker.header-right,
+.background-masker.subheader-right {
+    width: auto;
+    left: 300px;
+    right: 0;
+}
+
+.background-masker.subheader-right {
+    left: 230px;
+}
+
+.background-masker.subheader-bottom {
+    top: 30px;
+    height: 10px;
+}
+
+.background-masker.content-top,
+.background-masker.content-second-line,
+.background-masker.content-third-line,
+.background-masker.content-second-end,
+.background-masker.content-third-end,
+.background-masker.content-first-end {
+    top: 40px;
+    left: 0;
+    right: 0;
+    height: 6px;
+}
+
+.background-masker.content-top {
+    height:20px;
+}
+
+.background-masker.content-first-end,
+.background-masker.content-second-end,
+.background-masker.content-third-end{
+    width: auto;
+    left: 380px;
+    right: 0;
+    top: 60px;
+    height: 8px;
+}
+
+.background-masker.content-second-line  {
+    top: 68px;
+}
+
+.background-masker.content-second-end {
+    left: 420px;
+    top: 74px;
+}
+
+.background-masker.content-third-line {
+    top: 82px;
+}
+
+.background-masker.content-third-end {
+    left: 300px;
+    top: 88px;
+}

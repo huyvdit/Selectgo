@@ -1,0 +1,1120 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model BlogPost
+@{
+    ViewBag.SelfHeader = true;
+    var type = Model.Types == BlogPostType.Document ? "faq" : "default";
+    var blogCategory = DataWhereHelper.ExtractPrimaryBlogCategory(Model.BlogPostCategoryMappings);
+}
+@section styles{
+    
+    @Styles.Render("~/bundles/content/default/blog/blog-post/" + @type + "/css", "~/bundles/content/default/blog/blog-list/css")
+}
+
+@if (type == "faq")
+{
+    <div class="wrapper">
+        <div class="uk-section section-sub-nav uk-padding-remove">
+            <div class="container">
+                <div class="uk-grid">
+                    <div class="uk-width-2-3@m">
+                        <ul class="uk-breadcrumb uk-visible@m">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/en/frequently-asked-questions">Frequently Asked Questions</a></li>
+                            <li><span>How to setup payment gateways</span></li>
+                        </ul>
+                    </div>
+                    <div class="uk-width-1-3@m">
+                        <div class="uk-margin">
+                            <form class="uk-search uk-search-default">
+                                <a href="" class="uk-search-icon-flip uk-search-icon uk-icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"><circle fill="none" stroke="#000" stroke-width="1.1" cx="9" cy="9" r="7"></circle><path fill="none" stroke="#000" stroke-width="1.1" d="M14,14 L18,18 L14,14 Z"></path></svg>
+                                </a>
+                                <input id="autocomplete" class="uk-search-input" type="search" autocomplete="off" placeholder="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-top"></div>
+            </div>
+        </div>
+
+        <div class="uk-section uk-section-small uk-padding-remove-bottom section-content">
+            <div class="container uk-position-relative">
+                <div class="uk-grid">
+                    <div class="uk-width-3-4@m">
+                        <article class="uk-article">
+                            <header>
+                                <h1 class="uk-article-title uk-margin-bottom">How to setup payment gateways</h1>
+                                <div class="author-box uk-card">
+                                    <div class="uk-card-header uk-padding-remove">
+                                        <div class="uk-grid-small uk-flex-middle  uk-position-relative uk-grid">
+                                            <div class="uk-width-auto">
+                                                <img class="uk-border-circle" width="40" height="40" src="/as-images/sample/joshua.jpg">
+
+
+                                            </div>
+                                            <div class="uk-width-expand">
+                                                <h5 class="uk-card-title">
+                                                    <a class="tooltip effect-1" href="#">
+                                                        Joshua Birdman
+                                                        <span class="tooltip-content-2x">
+                                                            <span class="tooltip-front"><img src="/as-images/sample/joshua.jpg" alt="user" /></span>
+                                                            <span class="tooltip-back">
+                                                                John Doe<br>
+                                                                jon@doe.com
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </h5>
+                                                <p class="uk-article-meta uk-margin-remove-top">Created: Sep 06, 2016 - Updated: Apr 26, 2017</p>
+                                            </div>
+                                            <a href="#" class="uk-button uk-button-outline-primary uk-button-small uk-visible@m">Follow</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </header>
+                            <div class="entry-content uk-margin-medium-top">
+                                <p class="uk-text-lead">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat occaecat cupidatat culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <h2 id="animation-repeat">Instalation</h2>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, <span class="tooltip effect-5">
+                                        <span class="tooltip-item">sodales,</span>
+                                        <span class="tooltip-content clearfix">
+                                            <span class="tooltip-text">
+                                                Curabitur vehicula cursus enim sed venenatis. Nam dapibus, velit sit amet posuere commodo. <a href="https://en.wikipedia.org/wiki/Turkish_people">Wikipedia</a>
+                                            </span>
+                                        </span>
+                                    </span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                                <h2 id="animation-delay">Quick Setup</h2>
+                                <p>
+                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillriatur. Excepteur sint occaecat cupidatat non proident,
+                                    sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                                <h4>Change your password</h4>
+                                <ol class="ol-pretty uk-list-large">
+                                    <li>Click your team name to open the Team Menu.</li>
+                                    <li>Select Profile & account. This will open your profile on the right side of your screen.</li>
+                                    <li>Under your name, click Account Settings. This will open your Account settings.</li>
+                                    <li>By Password, click expand.</li>
+                                    <li>Enter your Current Password, and then a New Password.</li>
+                                    <li>Click Save Password.</li>
+                                </ol>
+                                <h2 id="animation-fade">Advanced Options</h2>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <h2 id="animation-scale-up">Content Import</h2>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                                <div class="uk-alert-primary uk-alert">
+                                    <p>If you've followed the steps above, but have yet to receive a password reset email, please check all tabs, folders, and spam filters in your inbox.</p>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                            <div class="article-votes uk-text-center uk-margin-medium-top uk-padding uk-padding-remove-horizontal border-bottom border-top">
+                                <h3>Was this article helpful?</h3>
+                                <a href="#" class="vote uk-button uk-button-outline-primary"><span class="uk-margin-small-right" uk-icon="icon: check; ratio: 0.8"></span> <svg width="16" height="16" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="0.8"> <polyline fill="none" stroke="#000" stroke-width="1.1" points="4,10 8,15 17,4"></polyline></svg> Yes</a>
+                                <a href="#" class="vote uk-button uk-button-outline-primary uk-margin-small-left"><span class="uk-margin-small-right uk-inline" uk-icon="icon: close; ratio: 0.8"></span> <svg width="16" height="16" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="0.8"> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,16 L4,4"></path> <path fill="none" stroke="#000" stroke-width="1.06" d="M16,4 L4,16"></path></svg>No</a>
+                                <p class="vote-thanks uk-margin-remove" style="visibility: hidden;">Thanks so much for your feedback!</p>
+                                <p class="vote-question text-dark">Have more questions? <a href="#">Submit a request</a></p>
+                            </div>
+                            <div class="text-dark article-related uk-margin-medium-top uk-margin-medium-bottom uk-grid">
+                                <div class="">
+                                    <h2 class="h4 mb-0 mt-0">Recent Articles</h2>
+                                    <div class="col pl-30 pr-30 d-none d-sm-block">
+                                        <div class="dx-separator"></div>
+                                    </div>
+
+                                    <div class="articles">
+                                        <div class="row  vertical-gap">
+                                            <div class="hentry col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="How do I Start FTP?">How do I Start FTP?</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">File Transfer Protocol</a></p>
+                                            </div>
+                                            <div class="hentry half col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title">
+                                                    <a href="#" title="Increasing Email Quota">Increasing Email Quota</a>
+                                                </h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Email</a></p>
+                                            </div>
+                                            <div class="hentry third col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="Difference Between Desktop and Server">Difference Between Desktop and Server</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Server Tuning</a></p>
+                                            </div>
+
+
+                                            <div class="hentry col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="How do I Start FTP?">How do I Start FTP?</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">File Transfer Protocol</a></p>
+                                            </div>
+                                            <div class="hentry half col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title">
+                                                    <a href="#" title="Increasing Email Quota">Increasing Email Quota</a>
+                                                </h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Email</a></p>
+                                            </div>
+                                            <div class="hentry third col-12 col-md-4 col-lg-3 dx-feature-variable">
+                                                <h4 class="title"><a href="#" title="Difference Between Desktop and Server">Difference Between Desktop and Server</a></h4>
+                                                <p class="categories"><span>Categories</span><a href="#">Server Tuning</a></p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </article>
+                    </div>
+                    <div class="uk-width-1-4@m">
+                        <div uk-sticky="offset: 100" class="scrollspy uk-sticky uk-active uk-card uk-card-small uk-card-body uk-padding-remove-top uk-visible@m">
+                            <h3 class="uk-card-title">Table of Contents</h3>
+                            <ul class="uk-nav uk-nav-default" uk-scrollspy-nav="closest: li; scroll: true; offset: 30">
+                                <li><a href="#animation-repeat">Instalation</a></li>
+                                <li><a href="#animation-delay">Quick Setup</a></li>
+                                <li><a href="#animation-fade">Advanced Options</a></li>
+                                <li><a href="#animation-scale-up">Content Import</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+else
+{
+<div class="wrapper">
+    <!-- Banner starts -->
+    <section class="banner banner__default bg-grey-light-three">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="post-date perfect-square bg-primary-color" style="height: 160px;">
+                        May @type<span>23</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="post-title-wrapper">
+                        <div class="btn-group">
+                            <a href="#" class="cat-btn bg-color-blue-one">TECHNOLOGY</a>
+                        </div>
+                        <h2 class="m-b-xs-0 axil-title hover-line" id="header">
+                            VR Is the Use of Computer Technology to
+                            Create a Simulated Environment.
+                        </h2>
+                        <div class="post-metas banner-post-metas m-t-xs-10">
+                            <ul class="list-inline">
+                                <li>
+                                    <a href="#" class="post-author post-author-with-img">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" style="stroke:#a71930" ; xmlns="http://www.w3.org/2000/svg" ratio="1"> <circle fill="none" stroke-width="1.1" cx="7.7" cy="8.6" r="3.5"></circle> <path fill="none" stroke-width="1.1" d="M1,18.1 C1.7,14.6 4.4,12.1 7.6,12.1 C10.9,12.1 13.7,14.8 14.3,18.3"></path> <path fill="none" stroke-width="1.1" d="M11.4,4 C12.8,2.4 15.4,2.8 16.3,4.7 C17.2,6.6 15.7,8.9 13.6,8.9 C16.5,8.9 18.8,11.3 19.2,14.1"></path></svg>
+                                        <img src="/as-images/sample//01.png" alt="author">Ashley Graham
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <svg viewBox="0 0 32 32" style="height: 12px;fill: #009688;">
+                                            <title>stats-icon</title>
+                                            <path d="M23.273 10.182h-2.909v1.236l-3.873 12.589-0.765-5.1h-2.941l1.761 11.745v1.347h2.909v-1.236l4.313-14.015 1.505 5.271v1.252h2.909v-2.909l-2.909-8.932v-1.249zM14.416 10.182l-1.325-8.836v-1.345h-2.909v1.233l-5.818 17.673h-4.364v2.912h7.273v-1.455l3.873-12.371 0.49 2.189h2.78zM29.091 20.364v2.909h2.909v-2.909h-2.909zM14.545 13.091h-2.909v2.908h2.909v-2.908z"></path>
+                                        </svg> 5k Views
+                                    </a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-share-alt"></i>230 Shares</a></li>
+                            </ul>
+                        </div>
+                        <!-- End of .post-metas -->
+                    </div>
+                    <!-- End of .post-title-wrapper -->
+                </div>
+                <!-- End of .col-lg-8 -->
+            </div>
+        </div>
+        <!-- End of .container -->
+    </section>
+    <!-- End of .banner -->
+    <div class="container">
+        <div id="rvfs-controllers" class="fontsize-controllers group"></div>
+    </div>
+    
+    <!-- post-single-wrapper starts -->
+    <div class="post-single-wrapper p-t-xs-30">
+        <div class="site-middle container">
+            <div class="row">
+                <div id="primary" class="col-lg-9">
+                    <main class="site-main">
+                        <div id="readline" class="line"></div>
+
+                        <div id="readSpeed">
+                            <div>
+                                Words Per Min:
+                                <b>200</b>
+                                <div>
+                                    <button id="toggleGuides" class="active">Toggle Lines</button>
+                                </div>
+                            </div>
+                        </div>
+                        <article class="post-details">
+                            <div class="single-blog-wrapper">
+                                <div class="post-details__social-share">
+                                    @*<ul class="social-share social-share__with-bg social-share__vertical">
+                                            <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-linkedin-in"></i></a></li>
+                                        </ul>*@
+                                    <!-- End of .social-share__no-bg -->
+                                </div>
+                                <!-- End of .social-share -->
+
+                                @if (Model.Content!= null && !Model.Content.Contains("__SAMPLE__"))
+                                {
+                                    <div class="bold" style="font-weight: 700;">
+
+                                        <p>
+                                            Mother’s Day is this Sunday, folks! <br />
+                                            For those of us who want to say thank you to our moms, it’s not always easy to
+                                            put those big feelings in words. Which is where Dribbble comes in.
+                                        </p>
+                                    </div>
+
+                                    <p>
+                                        These eight shots crystallize the hard work moms put into keeping their kids
+                                        alive, happy, and healthy. They might give you the inspiration you need for
+                                        filling out that card—or stand alone for your mom’s interpretation.
+                                    </p>
+
+                                    <figure>
+                                        <img src="/as-images/sample/post-single-img-1.jpg" alt="img">
+                                        <figcaption>Drawn for an insurance company</figcaption>
+                                    </figure>
+
+                                    <p>
+                                        Moms are the ones who bandage our boo-boos when we’re little and continue to take
+                                        care of us as we get older—often sacrificing their own needs so they can help
+                                        with ours. Cruising on a bike to help heal our injuries is the most mom thing
+                                        one can do.
+                                    </p>
+
+                                    <blockquote>
+                                        <p>
+                                            If you’ve been waiting for an invitation, this calligraphy is it.
+                                            Commissioned
+                                            by
+                                            Facebook, this is a hand-lettered design for a poster. Quote is Facebook
+                                            Building 8
+                                            VP’s
+                                            Regina Dugan—and mine.
+                                        </p>
+                                    </blockquote>
+
+                                    <p>
+                                        Moms are the ones who bandage our boo-boos when we’re little and continue to take
+                                        care of us as we get older—often sacrificing their own needs so they can help
+                                        with ours. Cruising on a bike to help heal our injuries is the most mom thing
+                                        one can do.
+                                    </p>
+
+                                    <blockquote>
+                                        Don't watch the clock; do what it does. Keep Going.
+                                        <cite>Sam Levenson</cite>
+                                    </blockquote>
+
+                                    <p>
+                                        They’re the ones we rely on for playdates and emotional support, homework help
+                                        and
+                                        babysitting. Moms are the ultimate dependable support. Like, hopefully, the
+                                        button
+                                        on
+                                        your
+                                        jeans.
+                                    </p>
+                                    <div class="add-container m-b-xs-60">
+                                        <a href="#">
+                                            <img src="/as-images/sample/clientbanner.jpg" alt="add one"
+                                                 class="img-fluid">
+                                        </a>
+                                    </div>
+                                    <h3>Here Come The Moms In space</h3>
+
+                                    <ul class="row gallery text-center">
+                                        <li class="col-lg-6">
+                                            <figure>
+                                                <img src="/as-images/sample/post-single-gallery-6.jpg"
+                                                     alt="img">
+                                                <figcaption>Drawn for an insurance company</figcaption>
+                                            </figure>
+                                        </li>
+                                        <li class="col-lg-6">
+                                            <figure>
+                                                <img src="/as-images/sample/post-single-gallery-7.jpg"
+                                                     alt="img">
+                                                <figcaption>Drawn for an insurance company</figcaption>
+                                            </figure>
+                                        </li>
+                                    </ul>
+                                    <!-- End of .gallery -->
+
+                                    <p>
+                                        Moms are like…buttons? Moms are like glue. Moms are like pizza crusts. Moms are
+                                        the ones who make sure things happen—from birth to school lunch.
+                                    </p>
+                                    <p>
+                                        They’re the ones we rely on for playdates and emotional support, homework help
+                                        and babysitting. Moms are the ultimate dependable support. Like, hopefully, the
+                                        button on your jeans.
+                                    </p>
+                                    <p>
+                                        My hero when I was a kid was my mom. Same for everyone I knew. Moms are
+                                        untouchable. They’re elegant, smart, beautiful, kind…everything we want to be.
+                                        At 29 years old, my favorite compliment is being told that I look like my mom.
+                                        Seeing myself in her image, like this daughter up top, makes me so proud of how
+                                        far I’ve come, and so thankful for where I come from.
+                                    </p>
+                                    <h3>Want To See More Dribbble Shots?</h3>
+                                    <p>
+                                        Moms are like…buttons? Moms are like glue. Moms are like pizza crusts. Moms are
+                                        the ones who make sure things happen—from birth to school lunch.
+                                    </p>
+                                    <p>
+                                        They’re the ones we rely on for playdates and emotional support, homework help
+                                        and babysitting. Moms are the ultimate dependable support. Like, hopefully, the
+                                        button on your jeans.
+                                    </p>
+                                    <p>
+                                        My hero when I was a kid was my mom. Same for everyone I knew. Moms are
+                                        untouchable. They’re elegant, smart, beautiful, kind…everything we want to be.
+                                        At 29 years old, my favorite compliment is being told that I look like my mom.
+                                        Seeing myself in her image, like this daughter up top, makes me so proud of how
+                                        far I’ve come, and so thankful for where I come from.
+                                    </p>
+
+                                    <figure class="post-media">
+                                        <video class="plyr-post"
+                                               poster="assets/images/video-post/post-format-video-1.html"
+                                               id="video-player-1" playsinline controls>
+                                            <source src="assets/videos/post-format-video-1.mp4" type="video/mp4">
+                                        </video>
+                                        <figcaption>
+                                            Drawn for an insurance company
+                                        </figcaption>
+                                    </figure>
+
+
+                                    <p>Mother’s Day is this Sunday, folks!</p>
+                                    <p>
+                                        These eight shots crystallize the hard work moms put into keeping their kids
+                                        alive,
+                                        happy,
+                                        and
+                                        healthy.
+                                        They might give you the inspiration you need for filling out that card—or stand
+                                        alone
+                                        for
+                                        your mom’s
+                                        interpretation.
+                                    </p>
+
+                                    <ul class="masonry-grid gallery">
+                                        <li class="grid-item col-lg-4">
+                                            <figure>
+                                                <img src="/as-images/sample/gallery-1.png" alt=""
+                                                     class="img-fluid w-100">
+                                            </figure>
+                                        </li>
+                                        <li class="grid-item col-lg-4">
+                                            <figure>
+                                                <img src="/as-images/sample/gallery-2.png" alt=""
+                                                     class="img-fluid w-100">
+                                            </figure>
+                                        </li>
+                                        <li class="grid-item col-lg-4">
+                                            <figure>
+                                                <img src="/as-images/sample/gallery-3.png" alt=""
+                                                     class="img-fluid w-100">
+                                            </figure>
+                                        </li>
+                                        <li class="grid-item col-lg-4">
+                                            <figure>
+                                                <img src="/as-images/sample/gallery-4.png" alt=""
+                                                     class="img-fluid w-100">
+                                            </figure>
+                                        </li>
+                                    </ul>
+                                    <!-- End of .gallery -->
+
+                                    <p>
+                                        For those of us who want to say thank you to our moms, it’s not always easy to
+                                        put
+                                        those
+                                        big
+                                        feelings
+                                        in
+                                        words. Which is where Dribbble comes in.
+                                    </p>
+                                    <h3>Moms On The Move</h3>
+
+                                    <p>
+                                        Drawn for an insurance company, this animation of a mom with a first-aid kit and
+                                        a
+                                        flashing
+                                        red light exemplifies the mother’s job.
+                                    </p>
+                                    <p>
+                                        Moms are the ones who bandage our boo-boos when we’re little and continue to take
+                                        care of
+                                        us
+                                        as we get older—often sacrificing their own needs so they can help with ours.
+                                        Cruising
+                                        on a
+                                        bike to help heal our injuries is the most mom thing one can do.
+                                    </p>
+
+                                    <p>
+                                        Moms are the ones who bandage our boo-boos when we’re little and continue to take
+                                        care of
+                                        us
+                                        as we get older—often sacrificing their own needs so they can help with ours.
+                                        Cruising
+                                        on a
+                                        bike to help heal our injuries is the most mom thing one can do.
+                                    </p>
+
+                                    <blockquote>
+                                        <p>
+                                            If you’ve been waiting for an invitation, this calligraphy is it.
+                                            Commissioned
+                                            by
+                                            Facebook, this is a hand-lettered design for a poster. Quote is Facebook
+                                            Building 8
+                                            VP’s
+                                            Regina Dugan—and mine.
+                                        </p>
+                                    </blockquote>
+
+                                    <p>
+                                        Moms are like…buttons? Moms are like glue. Moms are like pizza crusts. Moms are
+                                        the
+                                        ones
+                                        who
+                                        make sure things happen—from birth to school lunch.
+                                    </p>
+
+                                    <figure class="post-media">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe width="560" height="315"
+                                                    src="http://www.youtube.com/embed/U3v5yMF1hTs?origin=http://axilthemes.com/"
+                                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                        <figcaption>
+                                            Drawn for an insurance company
+                                        </figcaption>
+                                    </figure>
+
+
+                                    <p>
+                                        They’re the ones we rely on for playdates and emotional support, homework help
+                                        and
+                                        babysitting. Moms are the ultimate dependable support. Like, hopefully, the
+                                        button
+                                        on
+                                        your
+                                        jeans.
+                                    </p>
+
+                                    <h3>Unordered List Style?</h3>
+                                    <ul class="unordered-list-two">
+                                        <li>
+                                            The refractor telescope uses a convex lens to focus the light on the
+                                            eyepiece.
+                                        </li>
+
+                                        <li>
+                                            The reflector telescope has a concave lens which means it bends in. It uses
+                                            mirrors
+                                            to
+                                            focus the image that you eventually see.
+                                        </li>
+
+                                        <li>
+                                            Collimation is a term for how well tuned the telescope is to give you a good
+                                            clear
+                                            image of what you are looking at. You want your telescope to have good
+                                            collimation
+                                            so
+                                            you are not getting a false image of the celestial body.
+                                        </li>
+
+                                        <li>
+                                            Aperture is a fancy word for how big the lens of your telescope is. But it’s
+                                            an
+                                            important word because the aperture of the lens is the key to how powerful
+                                            your
+                                            telescope is. Magnification has nothing to do with it, its all in the
+                                            aperture.
+                                        </li>
+
+                                        <li>
+                                            Focuser is the housing that keeps the eyepiece of the telescope, or what you
+                                            will
+                                            look
+                                            through, in place. The focuser has to be stable and in good repair for you
+                                            to
+                                            have
+                                            an
+                                            image you can rely on.
+                                        </li>
+                                        <li>
+                                            Mount and Wedge. Both of these terms refer to the tripod your telescope sits
+                                            on.
+                                            The
+                                            mount is the actual tripod and the wedge is the device that lets you attach
+                                            the
+                                            telescope to the mount.
+                                        </li>
+                                    </ul>
+
+                                    <p>
+                                        Moms are like…buttons? Moms are like glue. Moms are like pizza crusts. Moms are
+                                        the
+                                        ones
+                                        who
+                                        make sure things happen—from birth to school lunch.
+                                    </p>
+
+                                    <p>
+                                        They’re the ones we rely on for playdates and emotional support, homework help
+                                        and
+                                        babysitting. Moms are the ultimate dependable support. Like, hopefully, the
+                                        button
+                                        on
+                                        your
+                                        jeans.
+                                    </p>
+
+                                    <figure class="post-media">
+                                        <div class="embed-responsive embed-responsive-16by9" id="player">
+                                            <iframe src="https://player.vimeo.com/video/76979871?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
+                                                    allowfullscreen allow="autoplay"></iframe>
+                                        </div>
+                                        <figcaption>
+                                            Drawn for an insurance company
+                                        </figcaption>
+                                    </figure>
+
+
+                                    <p>
+                                        My hero when I was a kid was my mom. Same for everyone I knew. Moms are
+                                        untouchable.
+                                        They’re
+                                        elegant, smart, beautiful, kind…everything we want to be. At 29 years old, my
+                                        favorite
+                                        compliment is being told that I look like my mom. Seeing myself in her image,
+                                        like
+                                        this
+                                        daughter up top, makes me so proud of how far I’ve come, and so thankful for
+                                        where I
+                                        come
+                                        from.
+                                    </p>
+
+                                    <h3>Want To See More Dribbble Shots?</h3>
+
+                                    <p>
+                                        Moms are like…buttons? Moms are like glue. Moms are like pizza crusts. Moms are
+                                        the
+                                        ones
+                                        who
+                                        make sure things happen—from birth to school lunch.
+                                    </p>
+
+                                    <p>
+                                        They’re the ones we rely on for playdates and emotional support, homework help
+                                        and
+                                        babysitting. Moms are the ultimate dependable support. Like, hopefully, the
+                                        button
+                                        on
+                                        your
+                                        jeans.
+                                    </p>
+
+                                    <figure class="post-media">
+                                        <audio class="plyr-post">
+                                            <source src="assets/audios/audio.mp3" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </figure>
+
+                                    <h3>Want To See More Dribbble Shots?</h3>
+
+                                    <p>
+                                        My hero when I was a kid was my mom. Same for everyone I knew. Moms are
+                                        untouchable.
+                                        They’re
+                                        elegant, smart, beautiful, kind…everything we want to be. At 29 years old, my
+                                        favorite
+                                        compliment is being told that I look like my mom. Seeing myself in her image,
+                                        like
+                                        this
+                                        daughter up top, makes me so proud of how far I’ve come, and so thankful for
+                                        where I
+                                        come
+                                        from.
+                                    </p>
+
+                                    <blockquote class="blockquote blockquote__with-image m-t-xs-0 m-b-xs-30">
+                                        <figure>
+                                            <img src="/as-images/sample/post-single-gallery-1.jpg"
+                                                 alt="image">
+                                        </figure>
+                                        <p>
+                                            If you’ve been waiting for an invitation, this calligraphy is it.
+                                            Commissioned
+                                            by
+                                            Facebook, this is a hand-lettered design for a poster. Quote is Facebook
+                                            Building 8
+                                            VP’s
+                                            Regina Dugan—and mine.
+                                        </p>
+                                    </blockquote>
+                                    <!-- End of .blockquote -->
+                                }
+                                else
+                                {
+                                    @Html.Raw(Model.Content)
+                                }
+
+                            </div>
+                            <!-- End of .single-blog-wrapper -->
+                        </article>
+                        <!-- End of .post-details -->
+
+
+
+                        <hr class="m-t-xs-50 m-b-xs-60">
+
+                        <div class="about-author m-b-xs-60">
+                            <div class="media">
+                                <a href="#">
+                                    <img class="author-img" src="/as-images/sample//author-1.png"
+                                         alt="">
+                                </a>
+                                <div class="media-body">
+                                    <div class="media-body-title">
+                                        <h3><a href="#">Jeffrey Franklin</a></h3>
+                                        
+                                    </div>
+                                    <!-- End of .media-body-title -->
+
+                                    <div class="media-body-content">
+                                        <p>
+                                            At 29 years old, my favorite compliment is being told that I look
+                                            like my
+                                            mom.
+                                            Seeing myself in her image, like this daughter up top, makes me so
+                                            proud
+                                            of
+                                            how
+                                            far I’ve come, and so thankful for where I come from.
+                                        </p>
+                                        <ul class="social-share social-share__with-bg">
+                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-behance"></i></a></li>
+                                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                                        </ul>
+                                        <!-- End of .social-share__no-bg -->
+                                    </div>
+                                    <!-- End of .media-body-content -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of .about-author -->
+                        <div class="comments-area">
+                            @if (Model.AllowCusomerComments)
+                            {
+                                <div class="comment-box">
+                                    <h2>
+                                        <svg style="    height: 24px;" viewBox="0 0 40 32">
+                                            <title>chat---messages-icon</title>
+                                            <path d="M24.381 7.621h-21.333c-1.378 0-3.048 1.606-3.048 3.046v13.716c0 1.443 1.67 3.048 3.048 3.048v4.57l12.19-4.568v-3.051l-9.143 3.051v-3.051h-3.048v-13.714h21.333v16.763c1.378 0 3.048-1.605 3.048-3.048v-13.716c0-1.44-1.67-3.046-3.048-3.046zM18.286 27.432h3.048v-3.048h-3.048v3.048zM6.095 16.763h15.238v-3.046h-15.238v3.046zM6.095 21.336h9.143v-3.048h-9.143v3.048zM15.238 3.051h24.381c0-1.443-1.67-3.049-3.048-3.049h-21.333c-1.378 0-3.048 1.606-3.048 3.049v1.527h3.048v-1.527zM36.571 16.763l-4.571-0.002v3.051l-3.048-1.016v3.301l6.095 2.284v-4.568c0.779 0 1.524 0 1.524 0 1.378 0 3.048-1.606 3.048-3.049v-4.571h-3.048v4.571zM36.571 9.144h3.048v-3.048h-3.048v3.048z"></path>
+                                        </svg> Leave A Reply
+                                    </h2>
+                                    <p>
+                                        Your email address will not be published. Required fields are marked <span class="primary-color">*</span>
+                                    </p>
+                                </div>
+                                <!-- End of .comment-box -->
+                                <!-- start: box-comment -->
+                                <div id="comment"></div>
+                                <!-- end: box-comment -->
+                            }
+                        </div>
+
+                        <div class="relatedPosts">
+                            <h5 class="title">Related Posts</h5>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-12">
+                                    <div class="blogItem">
+                                        <article>
+                                            <a href="#"><img src="/as-images/sample/masonry-thumb-1.jpg" alt=""></a>
+                                            <div class="blogItemMeta">
+                                                <p class="postCategory"><a href="#">Design</a></p>
+                                                <p class="postDate">05 February</p>
+                                            </div>
+                                            <h3 class="postHeadline"><a href="#">Interoperable internal or "organic" sources.</a></h3>
+                                        </article>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-12">
+                                    <div class="blogItem">
+                                        <article>
+                                            <a href="#"><img src="/as-images/sample/masonry-thumb-2.jpg" alt=""></a>
+                                            <div class="blogItemMeta">
+                                                <p class="postCategory"><a href="#">Code</a></p>
+                                                <p class="postDate">10 February</p>
+                                            </div>
+                                            <h3 class="postHeadline"><a href="#">Seamlessly empower fully researched growth strategies</a></h3>
+                                        </article>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-12">
+                                    <div class="blogItem">
+                                        <article>
+                                            <a href="#"><img src="/as-images/sample/masonry-thumb-3.jpg" alt=""></a>
+                                            <div class="blogItemMeta">
+                                                <p class="postCategory"><a href="#">Development</a></p>
+                                                <p class="postDate">12 March</p>
+                                            </div>
+                                            <h3 class="postHeadline"><a href="#">Globally incubate standards compliant channels before scalable benefits</a></h3>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="post-navigation-wrapper row  m-b-xs-60">
+                            <div class="post-navigation col-lg-6" style="    background: url(/as-images/sample/post-nav-bg.jpg);">
+                                <div class="post-nav-content">
+                                    <a href="#" class="prev-post">
+                                        <span><svg class="arrow arrow-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35"><title>back-arrow</title><path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path></svg>  Previous post</span>
+                                    </a>
+                                    <h3><a href="#">Tips For Choosing The Perfect Gloss For Your Lips</a></h3>
+                                </div>
+                            </div>
+                            <div class="post-navigation text-right col-lg-6" style="    background: url(/as-images/sample/post-nav-bg.jpg);">
+                                <div class="post-nav-content">
+                                    <a href="#" class="next-post">
+                                        <span>Next post <svg class="arrow arrow-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 35.35"><title>back-arrow</title><path d="M0,16.88a3,3,0,0,0,.16.94,1.51,1.51,0,0,0,.63.78l15,15a2.14,2.14,0,0,0,3.52.08,2.14,2.14,0,0,0-.08-3.52L8.59,19.38H57.5a2.5,2.5,0,1,0,0-5H8.59L19.22,3.59A2.14,2.14,0,0,0,19.3.08a2.14,2.14,0,0,0-3.52.08l-15,15a1.51,1.51,0,0,0-.62.78A3,3,0,0,0,0,16.88Z"></path></svg></span>
+                                    </a>
+                                    <h3><a href="#">Top 10 Relaxing Position For Adult Womens</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of .post-navigation -->
+                    </main>
+                    <!-- End of main -->
+                </div>
+                <!--End of .col-auto  -->
+
+                <div id="secondary" class="col-lg-3 sidebar-right sticky-sidebar">
+                    <aside id="post-sidebar" class="post-sidebar">
+                        <div class="newsletter-widget weekly-newsletter bg-grey-light-three m-b-xs-40">
+                            <div class="newsletter-content">
+                                <div class="newsletter-icon">
+                                    <i class="feather icon-send"></i>
+                                </div>
+                                <div class="section-title">
+                                    <h3 class="axil-title">Subscribe To</h3>
+                                    <p class="mid m-t-xs-10 m-b-xs-20">
+                                        No spam, notifications only about new
+                                        products,
+                                        updates.
+                                    </p>
+                                </div>
+                                <!-- End of .section-title -->
+
+                                <div class="subscription-form-wrapper">
+                                    <form action="#" class="subscription-form">
+                                        <div class="form-group form-group-small m-b-xs-20">
+                                            <label for="subscription-email"></label>
+                                            <input type="text" name="subscription-email" id="subscription-email" placeholder="Your-email address">
+                                        </div>
+                                        <div class="m-b-xs-0">
+                                            <button class="btn btn-primary btn-small">SUBSCRIBE</button>
+                                        </div>
+                                    </form>
+                                    <!-- End of .subscription-form -->
+                                </div>
+                                <!-- End of .subscription-form-wrapper -->
+                            </div>
+                            <!-- End of .newsletter-content -->
+                        </div>
+
+                        <div class="widget-area  m-b-xs-50">
+
+                            <div class="tg-borderheading">
+                                <h3>Categories’s</h3>
+                            </div>
+                            <div class="widget widget_categories">
+                                <ul><li><a href="">Business <span class="post-count">(05)</span></a></li><li><a href="">Privacy <span class="post-count">(10)</span></a></li><li><a href="">Technology <span class="post-count">(15)</span></a></li><li><a href="">Tips <span class="post-count">(12)</span></a></li><li><a href="">Uncategorized <span class="post-count">(02)</span></a></li></ul>
+
+                                <!-- End of .tab-list-wrapper -->
+                            </div>
+                            <!-- End of .content -->
+                        </div>
+
+                        <div class="tg-borderheading">
+                            <h3>What’s New</h3>
+                        </div>
+                        <div class="tg-postmargin m-b-xs-50">
+                            <article class="tg-post">
+                                <figure class="tg-postimg">
+                                    <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                    <img src="/as-images/sample/img-20.jpg" alt="image description">
+                                    <a class="tg-btnview" href="#">view post</a>
+                                </figure>
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Lifestyle</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Top 10 Relaxing Position For Adult Womens</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="tg-post">
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Fashion</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Do It Yourself: A Bed for Your Sweet Kitty</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="tg-post">
+                                <div class="tg-postcontent">
+                                    <div class="tg-borderleft">
+                                        <ul class="tg-posttags">
+                                            <li><a href="javascript:void(0);">Fashion</a></li>
+                                        </ul>
+                                        <div class="tg-posttitle">
+                                            <h3><a href="javascript:void(0);">Do It Yourself: A Bed for Your Sweet Kitty</a></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <hr />
+                            <a href="#" style="padding: 30px 10px; float: left; width: 100%;">See all articles <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" ratio="1"> <circle cx="3" cy="10" r="2"></circle> <circle cx="10" cy="10" r="2"></circle> <circle cx="17" cy="10" r="2"></circle></svg></a>
+
+                            @*<article class="tg-post">
+                                    <figure class="tg-postimg">
+                                        <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                        <img src="/as-images/sample/img-23.jpg" alt="image description">
+                                        <a class="tg-btnview" href="#">view post</a>
+                                    </figure>
+                                    <div class="tg-postcontent">
+                                        <div class="tg-borderleft">
+                                            <ul class="tg-posttags">
+                                                <li><a href="javascript:void(0);">Gif</a></li>
+                                                <li><a href="javascript:void(0);">Sports</a></li>
+                                            </ul>
+                                            <div class="tg-posttitle">
+                                                <h3><a href="javascript:void(0);">YRB Concept Motobike</a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="tg-post">
+                                    <div class="tg-postcontent">
+                                        <div class="tg-borderleft">
+                                            <ul class="tg-posttags">
+                                                <li><a href="javascript:void(0);">Fashion</a></li>
+                                            </ul>
+                                            <div class="tg-posttitle">
+                                                <h3><a href="javascript:void(0);">Do It Yourself: A Bed for Your Sweet Kitty</a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="tg-post">
+                                    <figure class="tg-postimg">
+                                        <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                        <img src="/as-images/sample/img-24.jpg" alt="image description">
+                                        <a class="tg-btnview" href="#">view post</a>
+                                    </figure>
+                                    <div class="tg-postcontent">
+                                        <div class="tg-borderleft">
+                                            <ul class="tg-posttags">
+                                                <li><a href="javascript:void(0);">Gadgets</a></li>
+                                            </ul>
+                                            <div class="tg-posttitle">
+                                                <h3><a href="javascript:void(0);">Prax Drax Introducing Giant Network System in 2017</a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="tg-post">
+                                    <figure class="tg-postimg">
+                                        <span class="tg-postfeatured"><i class="fa fa-bolt"></i></span>
+                                        <img src="/as-images/sample/img-25.jpg" alt="image description">
+                                        <a class="tg-btnview" href="#">view post</a>
+                                    </figure>
+                                    <div class="tg-postcontent">
+                                        <div class="tg-borderleft">
+                                            <ul class="tg-posttags">
+                                                <li><a href="javascript:void(0);">Audio</a></li>
+                                            </ul>
+                                            <div class="tg-posttitle">
+                                                <h3><a href="javascript:void(0);">Come My Lady, You’re My Butterfly Sugar Baby</a></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>*@
+                        </div>
+
+
+
+
+                        <div id="popular-posts" class="widget-area  m-b-xs-50">
+
+                            <div class="tg-borderheading">
+                                <h3>Popular's Posts</h3>
+                            </div>
+                            <div class="widget widget widget_posts_thumb">
+                                <article class="item">
+                                    <a class="thumb" href="/blog-details/"><span class="fullimage cover" style="background-image: url(/as-images/sample/blog-details-1.jpg);" role="img"></span></a><div class="info"><time>March 15, 2020</time><h4 class="title usmall"><a href="/blog-details/">The Best Marketing top use Management Tools</a></h4></div><div class="clear"></div>
+                                </article>
+
+                                <article class="item"><a href="/blog-details" class="thumb"><span class="fullimage cover" style="background-image: url(/as-images/sample/blog-details-2.jpg);" role="img"></span></a><div class="info"><time>March 16, 2020</time><h4 class="title usmall"><a href="/blog-details/">Top 21 Must-Read Blogs For Creative Agencies</a></h4></div><div class="clear"></div></article>
+
+                                <article class="item"><a href="/blog-details" class="thumb"><span class="fullimage cover" style="background-image: url(/as-images/sample/blog-details-3.jpg);" role="img"></span></a><div class="info"><time>March 17, 2020</time><h4 class="title usmall"><a href="/blog-details/">Protect your workplace from cyber attacks</a></h4></div><div class="clear"></div></article>
+                                <!-- End of .tab-list-wrapper -->
+                            </div>
+                            <!-- End of .content -->
+                        </div>
+
+                        <!-- End of  .newsletter-widget -->
+                        <!-- End of .category-widget -->
+                        <!-- End of .sidebar-social-share -->
+                        <!-- End of .sidebar-post-widget -->
+
+                        <div class="tag-widget m-b-xs-30">
+
+                            <div class="tg-borderheading">
+                                <h3>Popular’s Tags</h3>
+                            </div>
+                            <div class="axil-content">
+                                <ul id="tagcloud">
+                                    <li data-weight="50"><a href="#">HTML5</a></li>
+                                    <li data-weight="32"><a href="#">CSS3</a></li>
+                                    <li data-weight="38"><a href="#">ASP.NET</a></li>
+                                    <li data-weight="60"><a href="#">.NET</a></li>
+                                    <li data-weight="38"><a href="#">C#</a></li>
+                                    <li data-weight="27"><a href="#">VB.NET</a></li>
+                                    <li data-weight="30"><a href="#">SQL 2008</a> </li>
+                                    <li data-weight="37"><a href="#">html</a></li>
+                                    <li data-weight="60"><a href="#">jQuery</a></li>
+                                    <li data-weight="38"><a href="#">C#</a></li>
+                                </ul>
+                                <!-- End of .tab-list-wrapper -->
+                            </div>
+                            <!-- End of .content -->
+                        </div>
+                        <!-- End of .tag-widget -->
+
+
+
+
+
+                    </aside>
+                    <!-- End of .post-sidebar -->
+                </div>
+                <!-- End of .col-lg-4 -->
+            </div>
+            <!-- End of .row -->
+        </div>
+        <!-- End of .container -->
+    </div>
+    <!-- End of .post-single-wrapper -->
+</div>
+}
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/blog/blog-post/" + @type + "/js")
+    <script>
+        $(".time-ago").timeago();
+         var currentLink = $($(".main-menu a[href='@SlugHelper.BlogCategory(grouped: "news")']"));
+        if (currentLink != null) {
+            currentLink.parent().addClass('active');
+            currentLink.parent().parent().addClass('active');
+        }
+    </script>
+    <script src="~/Scripts/knockout-latest.js"></script>
+    <script>
+    /* embed comment */
+        HvComment = {
+            BlogPostId: '@Model.Id',
+            Take: 10, Skip: 0,
+            DatasCollection: [],
+            Language: {
+                Comment: '@LanguageHelper.Translate("Comments_Text")',
+                SendComment: "Gửi bình luận",
+                Reply: "Trả lời",
+                Like: "Thích",
+                DisLike: "Không thích",
+                Abuse: "Báo vi phạm",
+                Abused: "Đã báo vi phạm",
+                Send: '@LanguageHelper.Translate("Send_Text")',
+                Cancel: "Hủy",
+                ViewMore: "Xem thêm",
+                ValidComment: "Nội dung bình luận không được phép trống!",
+                ProfileTitle: "Thông tin của bạn",
+                FullNameRequired: "Tên đăng nhập yêu cầu!",
+                EmailRequired: "Địa chỉ mail yêu cầu!",
+                EmailIsValid: "Địa chỉ email không hợp lệ!",
+                NotifySuccessfully: "Cảm ơn bạn đã gửi bình luận, bình luận của bạn sẽ được phê duyệt trong thời gian sớm nhất!",
+                FullNamePlaceholder: "Họ tên (Hiển thị trên trang)",
+                EmailPlaceholder: "Email (Không hiển thị trên trang)",
+                Submit: "Hoàn tất",
+                Earse: "Xóa"
+            }
+        };
+        if (AppConfigs.isAuthenticated === "True") {
+            HvComment.Credits = {
+                FullName: '@User.Identity.Name', Email: '@Session["Email"]'
+            };
+        }
+        HvComment.Start = function () {
+            HVGetFiles.Htm("/gadgets/comment/index.htm", function (innerHtml) {
+                $("#comment").html(innerHtml);
+
+            } );
+        };
+        HvComment.Start();
+    </script>
+}
+@{ Html.RenderPartial("~/Views/Default/Shared/Schema/_NewsArticle.cshtml"); }

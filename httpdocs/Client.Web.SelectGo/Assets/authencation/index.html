@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Phone Authentication</title>
+
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+  
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+<script src="common.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBam42gf2cdDEDMZOON0ZFz-H9d5R7AXrs",
+    authDomain: "selectgo-b70cb.firebaseapp.com",
+    databaseURL: "https://selectgo-b70cb.firebaseio.com",
+    projectId: "selectgo-b70cb",
+    storageBucket: "selectgo-b70cb.appspot.com",
+    messagingSenderId: "367404033006",
+    appId: "1:367404033006:web:33a83b198f72e1f140e4ff",
+    measurementId: "G-QBEM6DC3MF"
+  };
+    // Google OAuth Client ID, needed to support One-tap sign-up.
+// Set to null if One-tap sign-up is not supported.
+var CLIENT_ID = '367404033006-7fbjeimvj1en3onctagooqqmkhbvt4np.apps.googleusercontent.com';
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+</script>
+  
+  <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+    <style>
+        .hidden-live {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        
+        <div id="loading">Loading...</div>
+        <div id="loaded" class="hidden">
+            <div id="main">
+                <div id="user-signed-in" class="hidden">
+                    <div id="user-info">
+                        <div id="photo-container">
+                            <img id="photo">
+                        </div>
+                        <div id="name"></div>
+                        <div id="email"></div>
+                        <div id="phone"></div>
+                        <div id="is-new-user"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <p style="text-align: center;background: #9e9e9e24;padding: 6px;">
+                        <button id="sign-out">Sign Out</button>
+                        <button id="delete-account">Delete account</button>
+                    </p>
+                </div>
+                <div id="user-signed-out" class="hidden">
+                    <h4 class="hidden-live">You are signed out.</h4>
+                    <fieldset class="hidden-live">
+                        <legend>Configuration</legend>
+                        reCAPTCHA mode for Phone Auth:
+                        <label for="recaptcha-normal">
+                            <input type="radio" id="recaptcha-normal" name="recaptcha" value="normal">
+                            Normal
+                        </label>
+                        <label for="recaptcha-invisible">
+                            <input type="radio" id="recaptcha-invisible" name="recaptcha" value="invisible">
+                            Invisible
+                        </label><br>
+                        Email signInMethod:
+                        <label for="email-signInMethod-password">
+                            <input type="radio" id="email-signInMethod-password" name="emailSignInMethod"
+                                   value="password">
+                            Password
+                        </label>
+                        <label for="email-signInMethod-emailLink">
+                            <input type="radio" id="email-signInMethod-emailLink" name="emailSignInMethod"
+                                   value="emailLink">
+                            Email Link
+                        </label>
+                    </fieldset>
+                   
+                    <div id="firebaseui-spa">
+                        <div id="firebaseui-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

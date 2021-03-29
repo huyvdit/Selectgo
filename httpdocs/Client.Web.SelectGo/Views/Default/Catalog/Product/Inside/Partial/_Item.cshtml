@@ -1,0 +1,252 @@
+﻿@model ProductInsideView
+@{
+    if (Model.pager.EndPage > 1)
+    {
+        <div class="pager" style=" text-align: center; margin-top: 10px; background: var(--grey-light-three); padding: 6px;">
+            <input type="hidden" id="page-size" value="@ViewBag.PageSize" />
+
+            <ul id="pager-link" class="pagination">
+                <!--If Current page is not the First Page, we will show Button/Link to go First or on Previous page-->
+                @if (Model.pager.CurrentPage == 1)
+                {
+                    <li>
+                        <a style="color: gray;text-decoration: line-through;" disabled href="#">‹‹</a>
+                    </li>
+                    <li>
+                        <a style="color: gray;text-decoration: line-through;" disabled href="#">←</a>
+                    </li>
+                }
+                else if (Model.pager.CurrentPage > 1)
+                {
+                    <li>
+                        <a data-page="1" href="#">‹‹</a>
+                    </li>
+                    <li>
+                        <a data-page="@(Model.pager.CurrentPage - 1)" href="#">←</a>
+                    </li>
+                }
+                @if (Model.pager.CurrentPage == 1)
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = 1; page <= (Model.pager.CurrentPage + 1); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                else if (Model.pager.CurrentPage == Model.pager.TotalPages)
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = (Model.pager.CurrentPage - 1); page <= (Model.pager.CurrentPage); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = (Model.pager.CurrentPage - 1); page <= (Model.pager.CurrentPage + 1); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                <!--If Current Page is not the Last Page then show Next and Last Button/link on Paging-->
+                @if (Model.pager.CurrentPage < Model.pager.TotalPages)
+                {
+                    <li>
+                        <a data-page="@(Model.pager.CurrentPage + 1)" href="#"> →</a>
+                    </li>
+                    <li>
+                        <a data-page="@(Model.pager.TotalPages)" href="#"> ››</a>
+                    </li>
+                }
+            </ul>
+
+            <span class="page-label"><i class="fa ti-files"></i> Showing @((Model.pager.CurrentPage)) of @Model.pager.TotalItems entries</span>
+        </div>
+
+    }
+}
+<table class="rtable tablesaw tablesaw-swipe"  data-tablesaw-mode="swipe" data-tablesaw-minimap="">
+    <thead>
+       
+        <tr style="border-bottom: 1px solid #80808036">
+
+            <th class="text-center bold" scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="persist">No.</th>
+            <th class="title" scope="col" style="min-width: 120px;" data-tablesaw-sortable-col data-tablesaw-priority="persist">Link</th>
+            <th scope="col" data-tablesaw-sortable-col><abbr title="Create by">Create by</abbr></th>
+            <th scope="col" data-tablesaw-sortable-col><abbr title="Create time">Create time</abbr></th>
+            <th scope="col" data-tablesaw-sortable-col><abbr title="Updated by">Updated by</abbr></th>
+            <th scope="col" data-tablesaw-sortable-col><abbr title="Updated time">Updated time</abbr></th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <!--Binding the data in the List-->
+        @for (int i = 0; i < Model.List.Count; i++)
+        {
+        <tr>
+            <td class="text-center bold">
+                @(Model.List[i].Id)
+            </td>
+            <td class="title"><a href="#" title="Read more">@Model.List[i].Title</a></td>
+            <td><svg viewBox="0 0 24 24" width="16" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg> @(Model.List[i].Owner.FullName == null ? "Administator" : Model.List[i].Owner.FullName)</td>
+            <td>@FormatHelper.FormatDate(Model.List[i].CreatedTime.Value, "dd MMM, yyyy HH:mm")</td>
+            <td><svg viewBox="0 0 24 24" width="16" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg> @(Model.List[i].Owner.FullName == null ? "Administator" : Model.List[i].Owner.FullName)</td>
+            <td><i class="fa fa-history"></i> @FormatHelper.FormatDate(Model.List[i].LastModified.Value, "dd MMM, yyyy HH:mm")</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<hr />
+
+
+
+@for (int i = 0; i < Model.List.Count; i++)
+{
+
+<div class="document-editor as-content type-of-@Model.List[i].ProductInside.Identifier.ToLower()" style="min-height:200px">
+
+    @if (Model.List[i].Content == "{{Content is unavailable}}")
+    {
+        <figure>
+            <img alt="Content is unavailable" style="width:100%" src="/as-images/product/unavailable.jpg" />
+        </figure>
+    }
+    else if (Model.List[i].Content == "{{Content is comming soon}}")
+    {
+        <figure>
+            <img alt="Content is unavailable" style="width:100%" src="/as-images/product/unavailable.jpg" />
+            <figcaption>Thời gian xuất bản : <time class="time-ago" datetime="@Model.List[i].PublishedTime.Value"> </time></figcaption>
+        </figure>
+    }
+    else
+    {
+        if (Model.List[i].ProductInside.Identifier == "IMG")
+        {
+            foreach (var img in Model.List[i].ContentImages)
+            {
+                <a href="@(img.AdsType == 3 ? img.AdsCode : "javascript:;")" title="@img.Alt" target="@(img.AdsType == 3 ? "_blank" : "_self")">
+                    <figure>
+                        <img src="@img.Src" alt="@img.Alt" data-server-2="@img.Src2nd" data-server-3="@img.Src3rd" data-server-4="@img.Src4th" data-server-5="@img.Src5th" />
+                        <figcaption>@img.Alt</figcaption>
+                    </figure>
+                </a>
+                if (img.AdsType == 1)
+                {
+                    @Html.Raw(DataWhereHelper.ProductMetaAttribute(img.AdsCode))
+                }
+                else if (img.AdsType == 2)
+                {
+                    @Html.Raw((img.AdsCode))
+                }
+
+            }
+        }
+        else
+        {
+            @Html.Raw(Model.List[i].Content)
+        }
+
+    }
+
+</div>
+
+}
+
+@{
+    if (Model.pager.EndPage > 1)
+    {
+        <div class="pager" style=" text-align: center; background: #eee; padding: 6px;display:none">
+            <ul id="pager-link" class="pagination bottom">
+                <!--If Current page is not the First Page, we will show Button/Link to go First or on Previous page-->
+                @if (Model.pager.CurrentPage == 1)
+                {
+                    <li>
+                        <a style="color: gray;text-decoration: line-through;" disabled href="#">‹‹</a>
+                    </li>
+                    <li>
+                        <a style="color: gray;text-decoration: line-through;" disabled href="#">←</a>
+                    </li>
+                }
+                else if (Model.pager.CurrentPage > 1)
+                {
+                    <li>
+                        <a data-page="1" href="#">‹‹</a>
+                    </li>
+                    <li>
+                        <a data-page="@(Model.pager.CurrentPage - 1)" href="#">←</a>
+                    </li>
+                }
+                <!--Paging from StartPage to the end Page-->
+                @if (Model.pager.CurrentPage == 1 || Model.pager.CurrentPage == 2)
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = 1; page <= (Model.pager.CurrentPage + 2); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                else if (Model.pager.CurrentPage == Model.pager.TotalPages - 1)
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = (Model.pager.CurrentPage - 2); page <= (Model.pager.CurrentPage + 1); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                else if (Model.pager.CurrentPage == Model.pager.TotalPages - 2)
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = (Model.pager.CurrentPage - 2); page <= (Model.pager.CurrentPage + 2); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                else if (Model.pager.CurrentPage == Model.pager.TotalPages)
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = (Model.pager.CurrentPage - 2); page <= (Model.pager.CurrentPage); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+
+                else
+                {
+                    <!--Paging from StartPage to the end Page-->
+                    for (var page = (Model.pager.CurrentPage - 2); page <= (Model.pager.CurrentPage + 2); page++)
+                    {
+                        <li style="display:block" class="@(page == Model.pager.CurrentPage ? " active" : "" )">
+                            <a data-page="@page" href="#">@page</a>
+                        </li>
+                    }
+                }
+                <!--If Current Page is not the Last Page then show Next and Last Button/link on Paging-->
+                @if (Model.pager.CurrentPage < Model.pager.TotalPages)
+                {
+                    <li>
+                        <a data-page="@(Model.pager.CurrentPage + 1)" href="#"> →</a>
+                    </li>
+                    <li>
+                        <a data-page="@(Model.pager.TotalPages)" href="#"> ››</a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+    }
+}

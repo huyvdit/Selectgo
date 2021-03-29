@@ -1,0 +1,127 @@
+﻿
+@model Product
+@{
+    ViewBag.SelfHeader = true;
+    var category = DataWhereHelper.ExtractPrimaryCategory(Model.ProductCategoryMappings);
+    var chapter = ViewBag.currentChapter as ProductInsideMapping;
+    var tagsText = LanguageHelper.Translate("Link_Text");
+    var chapterPage = ViewBag.currentChapterPage;
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/catalog/product/inside/css")
+}
+    <div class="wrapper">
+        <!-- Banner starts -->
+        <input id="page-slug" type="hidden" value="@ViewBag.productSlug" />
+        <div class="container">
+            <div class="top">
+                @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(category.Id), Title = category.Name }, new BreadcrumbModel { Link = SlugHelper.Product(Model.Id), Title = Model.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+                <!-- End of .breadcrumb -->
+              
+            </div>
+
+            <div class="protect-main-content padd-only-xs" style="display:none">
+                <div class="row">
+
+                    <div class="col-md-12 ">
+                        <div class="page-calculate fullheight">
+                            <div class="page-calculate-content prague-protected-wrapper">
+                                <div class="prague-protected-content">
+                                    <h1 class="txt-primary"><a href="@SlugHelper.Product(Model.Id)">@Model.Name</a> <span>- @(tagsText + "-") <span id="current-chapter"> @chapter.ChapterId </span> </span></h1><i>[Cập nhật: <time class="time-ago" datetime="@chapter.LastModified"> </time> ]</i>
+                                    <div class="protected-subtitle">
+                                        PROTECTED RESOURCE
+                                    </div>
+
+                                    <h2 class="protected-title">
+                                        Looks like author protect this resource.
+                                    </h2>
+                                    <p>(The password is: enter)</p>
+
+                                </div>
+                                <br />
+                                <form class="prague-protected-form protect-page">
+                                    <input name="post_password" id="password-input" type="password" placeholder="Enter password here"><br />
+                                    <button type="submit" class="protected-btn a-btn-2 creative"><span class="a-btn-line"></span>SUBMIT</button><br />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="full-width primary-main-content" >
+
+                <div class="reading">
+                    <div class="row" style="display:none">
+                        <div>
+                            <input type="text" id="page-select" placeholder="What are you looking for..." value="" />
+                            <input type="button" class="btn btn-success" style="display:none;width: 100%;text-align: center;background: gray;border: none;color: #fff;" id="pager-action" value="Go to..." />
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        @Html.Action("ProductInsideSingle", "ProductPlus", new { id = Model.Id, pageNumber = chapterPage, pathView = "_single", area = "" })
+                    </div>
+                    <div id="Reviews" class="tabcontent">
+
+                        @if (Model.AllowCustomerReviews == true)
+                        {
+                            <datalist id="TitleSuggest">
+                                <option selected value="Segment:: @(tagsText + "-" + chapterPage)" />
+                            </datalist>
+                            <div>
+                                @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_AddPartial.cshtml"); }
+                            </div>
+                        }
+                        else
+                        {
+                            <p style="border-bottom: 1px dotted rgb(188, 188, 188); padding-bottom: 10px; text-align: center;">@LanguageHelper.Translate("Disabled_Review_Text")</p>
+                        }
+                        <div>
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/ProductReview/_ListPartial.cshtml"); }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- End of .banner -->
+        <!-- End of .post-single-wrapper -->
+        <!-- End of .related-post -->
+    </div>
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/content/default/catalog/product/inside/js")
+    <script>
+        $(document).ready(function() {
+
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "plugins-resources")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+
+            Product.init();
+            $(".protected-btn").addClass("anima");
+             
+            $('.protect-page').on('submit', function(e){
+                e.preventDefault();
+                if($('#password-input').val() == "enter") {
+                    $('.protect-main-content').fadeOut(1000);
+                    $('.primary-main-content').fadeIn(2000);
+                        
+                } else if ($('#password-input').val() == "") {
+                    $('.prague-protected-content p').html('<p>(Please, add the password)</p>');
+                }
+                else {
+                    $('.prague-protected-content p').html('<p>(You entered the wrong password)</p>');
+                }
+     
+            });
+        });
+    </script>
+}

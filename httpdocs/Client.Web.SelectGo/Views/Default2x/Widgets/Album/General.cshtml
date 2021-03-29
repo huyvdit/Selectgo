@@ -1,0 +1,291 @@
+﻿@using ASP.Web.Core.Helpers
+@using ASP.Web.Model.Models
+@model Album
+
+<section class="data-block @Model.Identifier">
+    @if (Model.Id > 0)
+    {
+        string[] size = Model.PictureSize.Split('x');
+        int width = Int16.Parse(size[0]);
+        int heigth = Int16.Parse(size[1]);
+        string widthPx = width + "px";
+        string heightPx = heigth + "px";
+
+        if (Model.AlbumPictureMappings != null)
+        {
+
+            if (Model.AlbumDisplay.Identifier == "carousel-slider")
+            {
+                <div id="carousel-slider-@(Model.Identifier + "-" + ViewBag.Instance)" class="owl-carousel">
+                    <!-- Indicators -->
+                    @foreach (AlbumPictureMapping i in Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder))
+                    {
+                            <div class="item-slider">
+                                <img src="@ImageHelper.GetResize(i.Picture.Url, width, heigth)" alt="@i.Picture.Title">
+                                <!-- start: item caption  -->
+                                <div class="item-caption">
+                                    <div class="container">
+                                        <!-- start: LeftToRight  -->
+                                        @Html.Raw(i.Caption)
+                                        <!-- end: LeftToRight  -->
+                                    </div>
+                                </div>
+                                <!-- end: item caption  -->
+                            </div>
+                    }
+                </div>
+            }
+            else if (Model.AlbumDisplay.Identifier == "sequence-slider")
+            { 
+            
+                  <div id="sequence" class="sequence-slider-@(Model.Identifier + "-" + ViewBag.Instance)">
+                       <div class="sequence-prev"><i class="fa fa-angle-left"></i></div>
+                       <div class="sequence-next"><i class="fa fa-angle-right"></i></div>
+                      <ul class="sequence-canvas">
+                           @foreach (AlbumPictureMapping i in Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder))
+                           {
+                                <li class="animate-in" style="background: url('@ImageHelper.GetResize(i.Picture.Url, width, heigth)') no-repeat">
+                                      <!-- start: FLAT-CAPTION  -->
+                                       @Html.Raw(i.Caption)
+                                      <!-- end: FLAT-CAPTION  -->
+                                  </li>
+                           }
+                      </ul>
+                </div>
+             <!-- end: HOME-SLIDER  -->
+
+            }
+            else if (Model.AlbumDisplay.Identifier == "swiper-slide")
+            { 
+            
+                <div  class="swiper-container swiper-container-mainslide swiper-slide-@(Model.Identifier + "-" + ViewBag.Instance)">
+                    <div class="swiper-wrapper">
+                        @foreach (AlbumPictureMapping i in Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder))
+                        {
+                            <div class="swiper-slide"><a href="@i.Link"><img src="@ImageHelper.GetResize(i.Picture.Url, width, heigth)" alt=""/></a></div>
+                        }
+                    </div>
+                          <div class="swiper-button-next"></div>
+                          <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination swiper-pagination-1"></div>
+                 </div>
+                <div class="hidden-bg-slider"></div>
+            }
+            else if (Model.AlbumDisplay.Identifier == "flex-slider")
+            {
+                <div class="flexslider flex-slider-@(Model.Identifier + "-" + ViewBag.Instance)" data-plugin-options='{"directionNav":true}'>
+                    <ul class="slides">
+                        @foreach (AlbumPictureMapping i in Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder))
+                        {
+                                <li><img src="@ImageHelper.GetResize(i.Picture.Url, width, heigth)" /></li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            else if (Model.AlbumDisplay.Identifier == "revolution-slider")
+            {
+                <ul class="revolution-slider-@(Model.Identifier + "-" + ViewBag.Instance)">
+                    @foreach (AlbumPictureMapping i in Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder))
+                    {
+                        @Html.Raw(i.Caption.Replace("self.Avatar", i.Picture.Url).Replace("self.Alt", i.Picture.Title).Replace("self.Link", i.Link))
+                    }
+                </ul>
+            }
+            else if (Model.AlbumDisplay.Identifier == "revolution-slider-html")
+            {
+                <ul>
+                    @foreach (AlbumPictureMapping i in Model.AlbumPictureMappings.OrderBy(e => e.DisplayOrder))
+                    {
+                        @Html.Raw(i.Caption.Replace("self.Avatar", i.Picture.Url).Replace("self.Alt", i.Picture.Title).Replace("self.Link", i.Link))
+                    }
+                </ul>
+            }
+            
+        }
+        
+        using (Html.BeginScripts())
+        {
+            if (Model.AlbumDisplay.Identifier == "carousel-slider")
+            {
+               <script>
+                   $("<link/>", {
+                       rel: "stylesheet",
+                       type: "text/css",
+                       href: "/Content/plugins/owlcarousel/css/owl.carousel.css"
+                   }).appendTo("head");
+               </script>
+            }
+            else if (Model.AlbumDisplay.Identifier == "sequence-slider")
+            {
+                <script>
+                    
+                    $("<link/>", {
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href: "/Content/plugins/sequence-slider/css/sequence-looptheme.css"
+                    }).appendTo("head");
+                    $("<link/>", {
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href: "/Content/plugins/sequence-slider/css/style.css"
+                    }).appendTo("head");
+
+                </script>
+            }
+            else if (Model.AlbumDisplay.Identifier == "swiper-slide")
+            {
+                <script>
+                    $("<link/>", {
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href: "/Content/plugins/swiper-slider/css/swiper.min.css"
+                    }).appendTo("head");
+
+                </script>
+            }
+            else if (Model.AlbumDisplay.Identifier == "flex-slider")
+            {
+                <script>
+                    $("<link/>", {
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href: "/Content/plugins/flex-slider/flexslider.css"
+                    }).appendTo("head");
+
+                </script>
+            }
+            else if (Model.AlbumDisplay.Identifier == "revolution-slider")
+            {
+                <script>
+                    $("<link/>", {
+                        rel: "stylesheet",
+                        type: "text/css",
+                        href: "/Content/plugins/revolution-slider/css/settings.min.css"
+                    }).appendTo("head");
+
+                </script>
+            }
+            
+            <script>
+
+                window.instance = '@(Model.Identifier + "-" + ViewBag.Instance)';
+                window[instance] = {};
+                @{
+                    var decode = @Html.Raw(ViewBag.Configure) ?? "{}";
+                }
+                var configDecode = '@decode';
+
+                window[instance].customConfig = configDecode;
+                window[instance].customConfig.SizeW = '@width';
+                window[instance].customConfig.SizeWr = '@(heigth * 2)';
+
+                window[instance].AppliedTo = '@(Model.AlbumDisplay.Identifier + "-" + Model.Identifier + "-" + ViewBag.Instance)';
+
+            </script>
+
+                  if (Model.AlbumDisplay.Identifier == "carousel-slider"){
+                    <script>
+                        HvHelpers.loadJs('content/plugins/owlcarousel/js/owl.carousel.js', window.lightSliderObj, function () {
+                            // MAIN SLIDER
+                            $("#" + window[instance].AppliedTo).owlCarousel(window[instance].customConfig);
+                            
+                        });
+                    </script>
+                   }
+                  else if (Model.AlbumDisplay.Identifier == "sequence-slider") {
+                    <script>
+                        HvHelpers.loadJs('content/plugins/sequence-slider/js/jquery.sequence.js', window.sequenceObj, function () {
+                            // Sequence Slider
+                            $("." + window[instance].AppliedTo).sequence({nextButton:!0,prevButton:!0,pagination:!1,animateStartingFrameIn:!0,autoPlay:!1,autoPlayDelay:2e3,preloader:!0,preloadTheseFrames:[1],navigationSkip:!1});
+ 
+                        });
+                    </script>
+                   }
+                   else if (Model.AlbumDisplay.Identifier == "swiper-slide"){
+                        <script>
+                            HvHelpers.loadJs('content/plugins/swiper-slider/js/swiper.min.js', window.swiperObj, function () {
+                                // swiper Slider
+                                var swiper = new Swiper("." + window[instance].AppliedTo, window[instance].customConfig);
+                               delete swiper;
+                            });
+                        </script>
+                   }
+                  else if (Model.AlbumDisplay.Identifier == "flex-slider")
+                  {
+                        <script>
+                            HvHelpers.loadJs('content/plugins/flex-slider/jquery.flexslider.js', window.flexObj, function () {
+                                // function to initiate FlexSlider
+                                var runFlexSlider = function(options) {
+                                    $(".flexslider").each(function() {
+                                        var slider = $(this);
+                                        var defaults = window[instance].customConfig;
+                                        var config = $.extend({}, defaults, options, slider.data("plugin-options"));
+                                        if( typeof config.sync !== 'undefined') {
+                                            var carousel = {
+                                                animation: "slide",
+                                                controlNav: false,
+                                                animationLoop: false,
+                                                slideshow: false,
+                                                prevText: "",
+                                                nextText: "",
+                                                asNavFor: slider
+                                            };
+                                            var configCarousel = $.extend({}, carousel, $(config.sync).data("plugin-options"));
+                                            $(config.sync).flexslider(configCarousel);
+                                        }
+                                        // Initialize Slider
+                                        slider.flexslider(config);
+                                    });
+                                };
+                                runFlexSlider();
+                            });
+                        </script>
+                   }
+                  else if (Model.AlbumDisplay.Identifier == "revolution-slider")
+                  {
+                        <script>
+                            HvHelpers.loadJs('content/plugins/revolution-slider/js/jquery.revolution.min.js', window.revolutionObj, function () {
+                                // function to initiate Revolution Slider
+                                var runRevolution = function () {
+                                    var api;
+                                    api = jQuery('.' + window[instance].AppliedTo).parent().revolution(window[instance].customConfig || {
+                                        delay: 9000,
+                                        startheight: 450,
+                                        startwidth:1120,
+                                        hideThumbs: 10,
+                                        thumbWidth: 100, // Thumb With and Height and Amount (only if navigation Tyope set to thumb !)
+                                        thumbHeight: 50,
+                                        thumbAmount: 5,
+                                        videoJsPath:"assets/plugins/revolution_slider/rs-plugin/videojs",
+                                        navigationType: "bullet", // bullet, thumb, none
+                                        navigationArrows: "solo", // nexttobullets, solo (old name verticalcentered), none
+                                        navigationStyle: "round", // round,square,navbar,round-old,square-old,navbar-old, or any from the list in the docu (choose between 50+ different item), custom
+                                        navigationHAlign: "center", // Vertical Align top,center,bottom
+                                        navigationVAlign: "bottom", // Horizontal Align left,center,right
+                                        navigationHOffset: 0,
+                                        navigationVOffset: 20,
+                                        soloArrowLeftHalign: "left",
+                                        soloArrowLeftValign: "center",
+                                        soloArrowLeftHOffset: 20,
+                                        soloArrowLeftVOffset: 0,
+                                        soloArrowRightHalign: "right",
+                                        soloArrowRightValign: "center",
+                                        soloArrowRightHOffset: 20,
+                                        soloArrowRightVOffset: 0,
+                                        touchenabled: "on", // Enable Swipe Function : on/off
+                                        onHoverStop: "on", // Stop Banner Timet at Hover on Slide on/off
+                                        stopAtSlide: -1,
+                                        stopAfterLoops: -1,
+                                        shadow: 0, //0 = no Shadow, 1,2,3 = 3 Different Art of Shadows  (No Shadow in Fullwidth Version !)
+                                        fullWidth: "on", // Turns On or Off the Fullwidth Image Centering in FullWidth Modus
+                                        forceFullWidth: "on"
+                                    });
+                                };
+                                runRevolution();
+                            });
+                        </script>
+                   }
+        }
+    }
+</section>

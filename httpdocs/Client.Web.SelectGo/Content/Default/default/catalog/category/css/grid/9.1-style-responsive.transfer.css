@@ -1,0 +1,10 @@
+
+@media (max-width: 767px) {
+    .content-wrapper {
+        padding: 0px 30px;
+    }
+    .crumina-module-slider {
+        margin-bottom: 50px;
+    }
+}
+

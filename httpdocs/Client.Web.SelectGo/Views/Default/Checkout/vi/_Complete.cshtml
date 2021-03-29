@@ -1,0 +1,220 @@
+﻿@{
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+    var step = int.Parse(Request["step"] ?? "9");
+    ViewBag.Title = LanguageHelper.Translate("Checkout Completed_Text");
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Core.Models.Ecommerce.View.CheckOutViewModel
+@section styles{
+    @Styles.Render("~/bundles/content/default/checkout/css")
+}
+
+<div class="wrapper" style="opacity: 0">
+    <header class="primary">
+        <nav class="navbar navbar-expand-lg navbar-primary">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="/"><img src="@DisplayHelper.Logo" /> Checkout's secured</a>
+                </div>
+
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav navbar-right">
+                        <li class="nav-item"><a href="@SlugHelper.Category(grouped:"our-product")"><i class="flaticon-arrows"></i> Quay lại cửa hàng</a></li>
+                        <li class="nav-item active"><a href="#">|</a></li>
+                        <li class="nav-item"><a href="#"><i class="ionicons ion-ios-lightbulb-outline"></i> Hướng dẫn thanh toán</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+
+        <div class="navbar navbar-secondary">
+            <div class="steps">
+                <div class="steps-inner">
+
+                    <div class="step-item @(step == 2 ? " active" : "" ) @(step>
+                        2 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-android-people"></i></div>
+                        <div class="step-label"> Thông tin</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item @(step == 3 ? " active" : "" ) @(step>
+                        3 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-cube"></i></div>
+                        <div class="step-label"> Vận chuyển</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item @(step == 4 ? " active" : "" ) @(step>
+                        4 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-cash"></i></div>
+                        <div class="step-label"> Thanh toán</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item active">
+                        <div class="step-count"><i class="ionicons ion-ios-paperplane"></i></div>
+                        <div class="step-label"> Gửi mail</div>
+                    </div> <!-- /.step-item -->
+
+                </div>
+            </div> <!-- /.step -->
+        </div>
+    </header> <!-- /.primary -->
+
+    <section class="section">
+        <div class="container">
+            <div class="section-inner">
+                <div class="section-body center">
+                    <div class="thankyou">
+                        <div class="thankyou-icon">
+                            <img src="~/assets/images/checkout/mail-icon.png">
+                        </div> <!-- /.thankyou-icon -->
+                        <div class="section-title">
+                            Cảm ơn bạn đã mua hàng
+                        </div>
+                        <p class="section-p">Chúng tôi đã gửi cho bạn một email để xác nhận đơn hàng</p>
+                        <div class="line sm"></div>
+                        <div class="thankyou-inner text-left">
+                            <div class="thankyou-description">
+                                <p>
+                                    <span class="text-bold">Chào @Model.Order.Customer.FriendlyName</span>, <br>
+                                    Cảm ơn đã  mua tại cửa hàng chúng tôi.
+                                </p>
+                                <p>Đơn hàng của bạn đã được đặt trên hệ thống của chúng tôi, chúng tôi sẽ xử lý đơn hàng của bạn với tổng tiền: <span class="numeric" style="color: #026f56;font-weight: 700;">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</span> và sử dụng <b>@Model.Order.UsePoints</b> điểm quy đổi. @Html.Raw(Model.Order.AwardPoints > 0 ? "Sau khi hoàn tất đơn bạn sẽ nhận lại được <b>"+ Model.Order.AwardPoints+"</b> điểm vào tài khoản":"") <br/> Hãy giữ liên lạc để giao hàng sớm. bạn có thể xem lại đơn hàng bất cứ lúc nào bằng cách vào trang tài khoản mục đơn hàng!</p>
+                                <p>
+                                    <b>Ghi chú:</b>
+                                    @if (Model.Order.OrderNotes.Any())
+                                    {
+                                        foreach (var item in Model.Order.OrderNotes)
+                                        {
+                                            <div>@item.Note</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div>Không./</div>
+                                    }
+
+                                </p>
+                            </div> <!-- /.thankyou-description -->
+                            <div class="section-subtitle">Thanh toán</div>
+                            <div class="row thankyou-steps">
+                                <div class="payment-method-form" style="display:block;    padding: 0px 30px;">
+                                    Hình thức: <b> @Model.Order.PaymentMethod.Name</b>
+                                    <div class="payment-method-form-inner">
+                                        @Html.Raw(Model.Order.PaymentMethod.Instructions)
+                                    </div> <!-- /.payment-method-form-inner -->
+                                </div>
+                            </div> <!-- /.row -->
+                            <div class="section-subtitle">Thông tin mặt hàng</div>
+                            <div class="items">
+                                @foreach (var item in Model.Order.OrderItems)
+                                {
+                                    <div class="item">
+                                        <div class="item-inner">
+                                            <figure>
+                                                <a href="#">
+                                                    <img src="@item.Product.Avatar" alt="@item.Product.Name">
+                                                </a>
+                                            </figure>
+                                            <div class="item-details">
+                                                <div class="item-title"><a href="@SlugHelper.Product(item.ProductId)">@item.Product.Name</a></div>
+                                                <div class="item-description">Mã sản phẩm: @item.Product.Sku</div>
+                                                <div class="item-price">Giá: @FormatHelper.FormatCurrency(item.Price)</div>
+                                                <div class="item-variants">
+                                                    <ul>
+                                                        <li><div class="variant-label">Size</div><div class="variant-value">L</div></li>
+                                                        <li><div class="variant-label">Color</div><div class="variant-value"><div class="circle-color" style="background-color: #1abc9c;"></div></div></li>
+                                                    </ul>
+                                                </div> <!-- /.item-variants -->
+                                            </div> <!-- /.item-details -->
+                                            <div class="item-price">
+
+                                                <div class="quantity">
+                                                    <div class="control count">x<span>@item.Quantity</span></div>
+                                                </div> <!-- /.quantity -->
+                                                <div class="value">@FormatHelper.FormatCurrency(item.Price * item.Quantity)</div>
+                                            </div> <!-- /.item-price -->
+                                        </div> <!-- /.item-inner -->
+                                    </div>
+                                }
+                                <!-- /.item -->
+                            </div> <!-- /.items -->
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="section-subtitle">Chuyển hàng tới</div>
+                                    <div class="shipping-to">
+                                        <div class="shipping-inner">
+                                            <div class="name">@Model.Order.Customer.MainAddress.FullName</div>
+                                            <div class="address">
+                                                @Model.Order.Customer.MainAddress.Address1 @Html.Raw(Model.Order.Customer.MainAddress.Address2 == null ? "" : "<span style='color: dimgray;font-size: 89%;'>(" + Model.Order.Customer.MainAddress.Address2 + ")</span>") ,
+                                                @if (@Model.Order.Customer.MainAddress.District != null)
+                                                {
+                                                    <span>
+                                                        @Model.Order.Customer.MainAddress.District.Name,
+                                                        @Model.Order.Customer.MainAddress.StateProvince.Name
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div class="contact">Số điện thoại <span>@Model.Order.Customer.MainAddress.PhoneNumber</span> </div>
+                                            <div class="etd"><span>Dự kiến</span> @Model.Order.ShippingMethod.Description</div>
+                                        </div> <!-- /.shopping-inner -->
+                                    </div> <!-- /.shipping-to -->
+                                </div> <!-- /.col-md-6 -->
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="section-subtitle">Tổng tiền</div>
+                                    <div class="total-info">
+
+                                        <div class="total-item">
+                                            <div class="total-name">Phí vận chuyển</div>
+                                            <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item" data-calculate-min="true">
+                                            <div class="total-name">Tiền quy đổi từ điểm</div>
+                                            <div class="total-value" id="total-discount">@FormatHelper.FormatCurrency(Model.Order.UsePoints * 1000)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item">
+
+                                            <div class="total-name">Thành tiền <span style="font-size: 10px;color: dimgray;">(Đã bao gồm phí vận chuyển & tiền quy đổi)</span></div>
+                                            <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</div>
+                                        </div> <!-- /.total-item -->
+                                    </div> <!-- /.total-info -->
+                                </div> <!-- /.col-md-6 -->
+                            </div> <!-- /.row -->
+                            <div class="thankyou-cta">
+                                <a href="@SlugHelper.Category(grouped:"our-product")" class="btn btn-primary btn-outline"><i class="ion-android-arrow-back"></i> Quay lại cửa hàng</a>
+                            </div> <!-- /.thankyou-cta -->
+                        </div> <!-- /.thankyou-inner -->
+                    </div> <!-- /.thankyou -->
+                </div>  <!-- /.section-body -->
+            </div> <!-- /.section-inner -->
+
+        </div>
+    </section> <!-- /.section -->
+
+    <footer class="primary">
+        <div class="container">
+            <div class="copyright">
+                @Html.Action("Caller", "StaticBlock", new { identifier = "footer-copyright", area = "", noWrapper = true })
+                <div class="payment-methods">
+
+                </div>
+            </div> <!-- /.copyright -->
+        </div> <!-- /.container -->
+    </footer> <!-- /.footer-primary -->
+</div> <!-- /.wrapper -->
+@section scripts{
+    <script>
+
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+    </script>
+}

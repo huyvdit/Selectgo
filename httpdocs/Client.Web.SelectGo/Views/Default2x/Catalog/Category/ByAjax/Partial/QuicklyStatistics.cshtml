@@ -1,0 +1,5 @@
+﻿@using global::Web.Helpers
+<a>
+    <i class="fa fa-area-chart"></i>
+    @LanguageHelper.Translate("Showing_Text") <ins id="found-item"> @(ViewBag.refinedStyledCategory == 0 ? 0 : 1) - @FormatHelper.StandardNumber(ViewBag.refinedStyledCategory)</ins> @LanguageHelper.Translate("of_Text") <b id="total-item"> @FormatHelper.StandardNumber(ViewBag.refinedStyledCategory) </b>   @LanguageHelper.Translate("results_Text")
+</a>

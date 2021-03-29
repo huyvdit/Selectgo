@@ -1,0 +1,36 @@
+﻿@model MenuCategory
+@if (Model.Id > 0)
+{
+   
+foreach (var mlcm in Model.MenuLinkCategoryMappings.Where(e => e.ParentId == null && e.IsActive).OrderBy(e => e.DisplayOrder))
+{
+<p @(mlcm.MenuLinkCategoryChildren.Count == 0 ? "class=" + @mlcm.StylesheetClasses + "" : "class=" + mlcm.StylesheetClasses)>
+    @if (mlcm.StylesheetClasses == "only-icon")
+    {
+        <a title="@mlcm.UrlRewrite.Title" href="#" target="@mlcm.Target"> @Html.Raw(mlcm.Icon)</a>
+    }
+    else
+    {
+        var mlcmHref = "";
+        if (string.IsNullOrEmpty(mlcm.HashTag))
+        {
+            mlcmHref = mlcm.UrlRewrite.Slug == "/" ? (SessionManager.GetUniqueSeoCode + "/") : (SessionManager.GetUniqueSeoCode + "/" + mlcm.UrlRewrite.Slug);
+        }
+        else { mlcmHref = mlcm.HashTag; }
+
+        if (mlcm.MenuLinkCategoryChildren.Count > 0)
+        {
+            <a title="@mlcm.UrlRewrite.Title" class="dropdown-toggle" data-hover="dropdown" href="@mlcmHref" target="@mlcm.Target"> @Html.Raw(mlcm.Icon)   @(mlcm.Alias ?? mlcm.UrlRewrite.Title)</a>
+        }
+        else
+        {
+            <a title="@mlcm.UrlRewrite.Title" href="@mlcmHref" target="@mlcm.Target"> @Html.Raw(mlcm.Icon)   @(mlcm.Alias ?? mlcm.UrlRewrite.Title) </a>
+        }
+    }
+    @if (mlcm.MenuLinkCategoryChildren.Count > 0)
+    {
+                   
+    }
+</p>
+}
+}

@@ -1,0 +1,104 @@
+﻿@{
+    var tagsText = LanguageHelper.Translate("Tags_Text");
+    ViewBag.Title = tagsText + ": " + ViewBag.blogTagName;
+    ViewBag.blogCategoryId = -1;
+}
+@using global::Web.Helpers
+@using PagedList.Mvc
+@using Web.Model.Models
+@model PagedList.IPagedList<ASP.Web.Model.Models.BlogPostTagMapping>
+    @section styles{
+        @Styles.Render("~/bundles/content/default/page/css", "~/bundles/content/default/search/css", "~/bundles/content/default/blog/blog-tag/css","~/bundles/content/default/pagelist/css")
+    }
+    @section banners{
+    @{
+            var picture = DataWhereHelper.PictureBySlug("/blog-tag/");
+            var paramArrs = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-size","inherit"),
+                new KeyValuePair<string, string>("banner-img", picture.Url ),
+            };
+       }
+       @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+    }
+    <div id="main">
+        <div class="section section-bg-by-define pt-11 pb-17">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2 class="page-title text-center">@string.Format("{0}: {1}",tagsText, ViewBag.blogTagName)</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section border-bottom pt-2 pb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="breadcrumbs">
+                            @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = "#", Title = tagsText }, new BreadcrumbModel { Link = "#", Title = ViewBag.blogTagName } }, homeIncluded = true, headingIncluded = false, area = "" })
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section pt-7 pb-7">
+            <div class="container page-content-left">
+                <div>
+                    <div class="result-search">
+                        <p>@LanguageHelper.Translate("Has_Text") <b>@Model.TotalItemCount</b> @LanguageHelper.Translate("items to tagged in this_Text")!</p>
+                    </div>
+                    <div>
+                        <div class="masonry-grid-post">
+                            @foreach (BlogPostTagMapping item in Model)
+                            {
+                                <div class="col-md-4 masonry-item">
+                                    <div class="blog-grid-item">
+                                        <div class="post-thumbnail">
+                                            <a href="@SlugHelper.BlogPost(item.BlogPostId)">
+                                                <img src="@ImageHelper.GetResize(item.BlogPost.Avatar, 292, 176)" alt="@item.BlogPost.Title" />
+                                            </a>
+                                        </div>
+                                        <div class="post-content">
+                                            <div class="entry-meta">
+                                                <span class="posted-on">
+                                                    <i class="ion-calendar"></i>
+                                                    <span> <time class="time-ago" datetime="@item.BlogPost.PublishedTime"></time></span>
+                                                </span>
+                                                <span class="comment">
+                                                    <i class="ion-chatbubble-working"></i> @item.BlogPost.BlogComments.Count
+                                                </span>
+                                            </div>
+                                            <a href="@SlugHelper.BlogPost(item.BlogPostId)">
+                                                <h1 class="entry-title">@item.BlogPost.Title</h1>
+                                            </a>
+                                            <div class="entry-content">
+                                                @Html.Raw(item.BlogPost.Excerpt)
+                                            </div>
+                                            <div class="entry-more">
+                                                <a href="@SlugHelper.BlogPost(item.BlogPostId)">@LanguageHelper.Translate("Read_more_Text")</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+        <script src="~/Scripts/jquery.timeago.js"></script>
+        <script>
+        $(".time-ago").timeago();
+       var currentLink = $($(".main-menu a[href='@SlugHelper.BlogCategory(grouped: "news")']"));
+        if (currentLink != null) {
+            currentLink.parent().addClass("active");
+            currentLink.parent().parent().addClass("active");
+            currentLink.parent().parent().parent().addClass("active");
+        }
+        </script>
+    }

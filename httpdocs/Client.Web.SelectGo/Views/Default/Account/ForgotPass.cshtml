@@ -1,0 +1,102 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@model PassModel
+@{
+    ViewBag.Title = LanguageHelper.Translate("Forgot pass_Text");
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+    var segment = Request.QueryString["segment"] ?? "default";
+}
+@Styles.Render("~/bundles/content/default/account/base/css", "~/bundles/content/default/account/credits/css")
+
+    <div class="body">
+        <div class="veen">
+
+            <div class="change-pass-btn splits">
+                @if (Request.IsAuthenticated)
+                {
+                    <p>Already an account?</p>
+                    <button>Change pass</button>
+                }
+                else
+                {
+                    <p>Already an account?</p>
+                    <button>Change pass</button>
+                }
+
+            </div>
+            <div class="forget-pass-btn splits">
+                <p>Don't have an remember pass?</p>
+                <button >Forgot's pass</button>
+            </div>
+            <div class="wrapper">
+                <div class="logo" style="background: #607D8B;"><a href="/@DataCurrentHelper.UniqueSeoCode"><img class="logo__pic" src="@DisplayHelper.Logo.Replace("logo.png","logo-vertically.svg")" width="124"></a></div>
+
+
+                @using (Html.BeginForm("ChangePass", "Account", FormMethod.Post, new { @id = "change-pass", @tabindex = "500" }))
+                {
+                    @Html.ValidationSummary(true)
+
+                    <input type="hidden" name="VerificationCode" value="__" />
+
+                    <div class="passwd">
+                        @Html.PasswordFor(model => model.OldPassword, new { placeholder = "**************" })
+                        @Html.ValidationMessageFor(model => model.OldPassword)
+                        <label>Old Password</label>
+                    </div>
+                    <div class="passwd">
+                        @Html.PasswordFor(model => model.NewPassword, new { placeholder = "*****************" })
+                        @Html.ValidationMessageFor(model => model.NewPassword)
+                        <label>New Password</label>
+                    </div>
+                    <div class="passwd">
+                        @Html.PasswordFor(model => model.ConfirmPassword, new { placeholder = "*****************" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                        <label>Confirm Password</label>
+                    </div>
+                    if (Request.IsAuthenticated)
+                    {
+                        <div class="submit">
+                            <button class="dark" type="submit">Change Now</button>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="submit">
+                            <button class="dark" disabled type="submit">Not ready (required login)</button>
+                        </div>
+                    }
+
+                }
+
+                @using (Html.BeginForm("ForgotPass", "Account", FormMethod.Post, new { @id = "forgot-pass", @tabindex = "502" }))
+                {
+                    @Html.ValidationSummary(true)
+
+
+                    <input type="hidden" name="VerificationCode" value="__" />
+                    <div class="mail">
+                        @Html.TextBoxFor(model => model.Email, new { placeholder = "youremail@gmail.com" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                        <label>Enter e-mail</label>
+                    </div>
+                    <div class="submit">
+                        <button class="dark" type="submit">Sent mail</button>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/content/default/account/credits/js")
+    <script>
+        $(document).ready(function () {
+            $(".forget-pass-btn button").trigger("click");
+        });
+    </script>
+}

@@ -1,0 +1,9 @@
+﻿@using global::Web.Helpers
+@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @name = "search-blog", @class= "filter__search form-search" }))
+{
+    <input type="text" class="search-field" data-scope="@ViewBag.scope" name="key"  required value="@ViewBag.keyword" placeholder="@LanguageHelper.Translate("Search Article_Text")">
+    <input type="submit" value="Search" />
+    <input type="hidden" value="@ViewBag.scope" name="scope"/>
+}
+
+

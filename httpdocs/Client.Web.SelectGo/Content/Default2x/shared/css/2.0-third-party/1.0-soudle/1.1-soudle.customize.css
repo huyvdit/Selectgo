@@ -1,0 +1,11 @@
+﻿.soudle .soudle-wrapper .soudle-inner .soudle-box .soudle-form .soudle-form-group .soudle-button {
+    background-color: #026f56;
+    border-radius: 0px;
+}
+.soudle.soudle-liskrus .soudle-wrapper .soudle-inner .soudle-box.soudle-box-bg {
+   
+    display: none;
+}
+.soudle .soudle-wrapper .soudle-inner .soudle-box .soudle-form .soudle-form-group .soudle-input{
+    text-transform:inherit;
+}

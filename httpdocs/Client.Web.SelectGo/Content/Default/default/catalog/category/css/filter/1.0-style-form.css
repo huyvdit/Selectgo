@@ -1,0 +1,342 @@
+﻿.m-b-xs-10 {
+    margin-bottom: 1rem !important;
+}
+.m-b-xs-40 {
+    margin-bottom: 4rem !important;
+}
+
+.rounded-pill {
+    border-radius: 10rem !important;
+}
+select.rounded-pill {
+    padding: 5px 35px 5px 15px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADAAQMAAABoEv5EAAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAAC1JREFUeF7t06ENAAAIBDH2XxoGwPMhae3pq0cAeskE4QY+zwThBj7PBOEngAHvfT3fge9bewAAAABJRU5ErkJggg==) 96% / 10% no-repeat #f8f9fa;
+}
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.45rem;
+    font-size: 0.575rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.3125rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* line 6, node_modules/bootstrap/scss/_badge.scss */
+    .badge {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge:hover, a.badge:focus {
+    text-decoration: none;
+}
+
+/* line 25, node_modules/bootstrap/scss/_badge.scss */
+.badge:empty {
+    display: none;
+}
+
+/* line 31, node_modules/bootstrap/scss/_badge.scss */
+.btn .badge {
+    position: relative;
+    top: -1px;
+}
+
+/* line 40, node_modules/bootstrap/scss/_badge.scss */
+.badge-pill {
+    padding-right: 0.45rem;
+    padding-left: 0.45rem;
+    border-radius: 10rem;
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-primary {
+    color: #fff;
+    background-color: #319795;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-primary:hover, a.badge-primary:focus {
+    color: #fff;
+    background-color: #25706f;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-primary:focus, a.badge-primary.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(49, 151, 149, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(49, 151, 149, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-secondary {
+    color: #fff;
+    background-color: #506690;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-secondary:hover, a.badge-secondary:focus {
+    color: #fff;
+    background-color: #3e4f6f;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-secondary:focus, a.badge-secondary.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(80, 102, 144, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(80, 102, 144, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-success {
+    color: #fff;
+    background-color: #40c185;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-success:hover, a.badge-success:focus {
+    color: #fff;
+    background-color: #329c6b;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-success:focus, a.badge-success.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(64, 193, 133, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(64, 193, 133, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-info {
+    color: #fff;
+    background-color: #3bb4c1;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-info:hover, a.badge-info:focus {
+    color: #fff;
+    background-color: #2f909a;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-info:focus, a.badge-info.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(59, 180, 193, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(59, 180, 193, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-warning {
+    color: #2C3038;
+    background-color: #ffc107;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-warning:hover, a.badge-warning:focus {
+    color: #2C3038;
+    background-color: #d39e00;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-warning:focus, a.badge-warning.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-danger {
+    color: #fff;
+    background-color: #ff487e;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-danger:hover, a.badge-danger:focus {
+    color: #fff;
+    background-color: #ff155a;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-danger:focus, a.badge-danger.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 72, 126, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(255, 72, 126, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-light {
+    color: #2C3038;
+    background-color: #f7fafc;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-light:hover, a.badge-light:focus {
+    color: #2C3038;
+    background-color: #d2e3ee;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-light:focus, a.badge-light.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(247, 250, 252, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(247, 250, 252, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-dark {
+    color: #fff;
+    background-color: #17141d;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-dark:hover, a.badge-dark:focus {
+    color: #fff;
+    background-color: black;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-dark:focus, a.badge-dark.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(23, 20, 29, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(23, 20, 29, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-blue-1 {
+    color: #fff;
+    background-color: #4C51BF;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-blue-1:hover, a.badge-blue-1:focus {
+    color: #fff;
+    background-color: #393d9f;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-blue-1:focus, a.badge-blue-1.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(76, 81, 191, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(76, 81, 191, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-blue-2 {
+    color: #fff;
+    background-color: #002555;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-blue-2:hover, a.badge-blue-2:focus {
+    color: #fff;
+    background-color: #000f22;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-blue-2:focus, a.badge-blue-2.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 37, 85, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(0, 37, 85, 0.5);
+}
+
+/* line 51, node_modules/bootstrap/scss/_badge.scss */
+.badge-soft-green {
+    color: #2C3038;
+    background-color: #f0fcfa;
+}
+
+/* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+a.badge-soft-green:hover, a.badge-soft-green:focus {
+    color: #2C3038;
+    background-color: #c6f4ec;
+}
+
+/* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
+a.badge-soft-green:focus, a.badge-soft-green.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(240, 252, 250, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(240, 252, 250, 0.5);
+}
+
+
+.btn {
+    display: inline-block;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 2px solid transparent;
+    padding: 0.125rem 1.5rem;
+    line-height: 1.5;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.btn-white {
+    border-color: #EAEDF2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* line 7, node_modules/bootstrap/scss/_buttons.scss */
+    .btn {
+        -webkit-transition: none;
+        transition: none;
+    }
+}
+
+/* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
+.btn:hover {
+    color: #2e4257;
+    text-decoration: none;
+}
+
+/* line 27, node_modules/bootstrap/scss/_buttons.scss */
+.btn:focus, .btn.focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(49, 151, 149, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(49, 151, 149, 0.25);
+}
+
+/* line 34, node_modules/bootstrap/scss/_buttons.scss */
+.btn.disabled, .btn:disabled {
+    opacity: 0.3;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/* line 40, node_modules/bootstrap/scss/_buttons.scss */
+.btn:not(:disabled):not(.disabled):active, .btn:not(:disabled):not(.disabled).active {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+    /* line 44, node_modules/bootstrap/scss/_buttons.scss */
+    .btn:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus {
+        -webkit-box-shadow: 0 0 0 0.2rem rgba(49, 151, 149, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(49, 151, 149, 0.25);
+    }
+
+/* line 51, node_modules/bootstrap/scss/_buttons.scss */
+a.btn.disabled,
+fieldset:disabled a.btn {
+    pointer-events: none;
+}

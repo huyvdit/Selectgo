@@ -1,0 +1,50 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ProductCategoryMapping>
+    @{
+        var listProducts = Model.Where(e => e.Product.IsActive).ToList();
+    }
+    <div class="product-list-wrap project-box__item-block">
+                                   @if (Model.Count > 0)
+                                   {
+                                       foreach (var innerItem in listProducts)
+                                       {
+                                           var url = @SlugHelper.Product(innerItem.ProductId);
+                                           <a href="@SlugHelper.Product(innerItem.ProductId)" class="product-item project-box__item-block--item">
+                                               <span class="photo-bg" style="background-image:url('@ImageHelper.GetResize(innerItem.Product.Avatar)')"></span>
+                                               <div class="text">
+                                                   <h3>@innerItem.Product.Name</h3>
+                                                   @foreach (var itemTag in innerItem.Product.ProductProductTagMappings.Take(2))
+                                                   {
+                                                     
+                                                       <p>@itemTag.ProductTag.Name</p>
+                                                   }
+                                               </div>
+                                           </a>
+                                       }
+                                   }
+                                   else
+                                   {
+
+                                       <div class="not-found">
+                                           <div class="med card-section">
+                                               <p style="padding-top: .33em">
+                                                   No data was found <em></em> under conditions.
+                                               </p>
+                                               <p style="margin-top: 1em">Proposal:</p>
+                                               <ul style="margin-left: 1.3em; margin-bottom: 2em">
+                                                   <li>Please make sure all words are spelled correctly.</li>
+                                                   <li>Try other keywords.</li>
+                                                   <li>Try more general keywords.</li>
+                                               </ul>
+                                           </div>
+                                       </div>
+                                   }
+                                   
+                               </div>
+
+    @if (Model.HasNextPage)
+    {
+        <section class="paging">
+            @Html.PagedListPager(Model, page => Url.Action("Page", "Home", new { sortOrder = ViewBag.sortOrder, view = Request.QueryString["view"], page }), PagedListRenderOptions.Minimal)
+        </section>
+    }

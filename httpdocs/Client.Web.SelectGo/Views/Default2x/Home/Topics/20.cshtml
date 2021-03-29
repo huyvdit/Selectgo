@@ -1,0 +1,33 @@
+﻿@model ASP.Web.Model.Models.Page
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <section class="as-content">
+        @section banners{
+            @{
+                var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+                var paramArrs = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("banner-title", picture.Title),
+                    new KeyValuePair<string, string>("banner-img", picture.Url )
+                };
+            }
+            @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+        }
+        <div class="location"><div class="location__cards"><div class="row m-0"><div class="col-lg-5 col-md-6 offset-lg-1 d-flex flex-column p-lg-0"><div class="location__text"><div class="title--default color-dark title--line-left title--line-dark">VIETNAM EMERGING<br>COASTAL CITY<div class="progress-bar-section js-progres-bar"></div></div><p class="media__text text-justify">Le Méridien Resort & Spa is located minutes away from Da Nang International airport, two world class golf courses designed by Colin Montgomerie and The Dunes Courses designed by Greg Norman, the ancient town of Hoi An, My Son Sanctuary – and offers breathtaking views of the Marble Mountains, East Sea, and Cham Islands.</p></div></div><div class="col-lg-5 col-md-6 p-lg-0"><div class="location__photo"><iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/Ul9G4bVlLss"></iframe><div class="location__figure js-youtube" style="background-image: url(../../../assets/images/page/location/youtube.jpg)"><img alt="" src="../../../assets/images/components/play.png"></div></div></div></div></div><div class="location__map">@{ Html.RenderPartial("~/Views/Default/Home/Topics/20-svg.cshtml"); }<div class="location__flag danang" data-map="#js-danang" data-transform="bottom_left"></div><div class="location__flag nonnuoc" data-map="#js-nonnuoc" data-transform="center_right"></div><div class="location__flag marble" data-map="#js-marble" data-transform="center_left"></div><div class="location__flag brc" data-map="#js-brc" data-transform="center_left"></div><div class="location__flag montgo" data-map="#js-montgo" data-transform="center_left"></div><div class="location__flag hoian" data-map="#js-hoian" data-transform="top_center"></div><div class="location__flag cuadai" data-map="#js-cuadai" data-transform="center_right"></div><div class="location__flag cham" data-map="#js-cham" data-transform="top_center"></div><a href="https://www.google.com/maps/d/viewer?mid=1uBzxdL0ccknxlSOywo3uFGWHYN0&gl=us&ie=UTF8&oe=UTF8&msa=0&ll=28.595162132925587%2C77.21152800000004&z=13" class="location__map-link logo" target="_blank"></a><a href="https://www.google.com/maps/d/viewer?mid=1uBzxdL0ccknxlSOywo3uFGWHYN0&gl=us&ie=UTF8&oe=UTF8&msa=0&ll=28.595162132925587%2C77.21152800000004&z=13" class="location__map-link icon" target="_blank"><img src="../../../assets/images/page/location/icon-map.png" alt=""></a></div><div class="location__footer"><img alt="" class="location__img" src="../../../assets/images/page/location/location-2.jpg"></div></div><div class="js-img-general"></div><div class="js-list-image" style="display:none;"><div id="js-danang"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/location.jpg"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/location.jpg"> </a></div><div id="js-nonnuoc"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/4.png"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/4.png"> </a></div><div id="js-marble"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/5.png"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/5.png"> </a></div><div id="js-cham"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/6.png"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/6.png"> </a></div><div id="js-brc"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/4.png"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/4.png"> </a></div><div id="js-montgo"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/5.png"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/5.png"> </a></div><div id="js-hoian"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/location.jpg"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/location.jpg"> </a></div><div id="js-cuadai"><a class="figureMap js-figure-map" data-fancybox="" href="../../../assets/images/page/location/7.png"><img alt="" class="figureMap__img" src="../../../assets/images/page/location/7.png"> </a></div></div>
+    </section>
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

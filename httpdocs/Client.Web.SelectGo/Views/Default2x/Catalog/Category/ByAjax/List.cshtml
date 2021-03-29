@@ -1,0 +1,182 @@
+﻿﻿@using global::Web.Helpers
+@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using global::Web.Helpers
+@using PagedList.Mvc
+@model PagedList.IPagedList<Web.Model.Models.ProductCategoryMapping>
+
+
+    @if (Request.QueryString["view"] == "list")
+    {
+                               <div class="product-list product ">
+                                   <input id="found-item-total" type="hidden" value="@FormatHelper.StandardNumber(Model.TotalItemCount)" />
+
+                                   @if (Model.Count > 0)
+                                   {
+                                       foreach (var innerItem in Model)
+                                       {
+                                           var url = @SlugHelper.Product(innerItem.ProductId);
+
+                                           <div class="item product-item" data-id="@innerItem.ProductId">
+                                               <div class="row">
+                                                   <div class="col-md-3 col-sm-12">
+                                                       <div class="product-thumb">
+                                                           <div class="product-container item-img">
+                                                               <div class="product-image-container">
+                                                                   <a class="product-img-link" href="@url" title="@innerItem.Product.Name">
+                                                                       <img class="w-100" src="@ImageHelper.GetResize(innerItem.Product.Avatar,300,300)" alt="@innerItem.Product.Name">
+                                                                   </a>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+
+                                                       <div class="product-label">
+                                                           @if (innerItem.Product.IsHighlight)
+                                                           {
+                                                               <span class="product-flash">@LanguageHelper.Translate("Hot_Text")</span>
+                                                           }
+                                                           @if (innerItem.Product.IsPromotion)
+                                                           {
+                                                               <span class="product-flash sale">@LanguageHelper.Translate("Sale_Text")</span>
+                                                           }
+                                                       </div>
+                                                   </div>
+
+                                                   <div class="col-md-9 col-sm-12">
+                                                       <div class="content-right">
+                                                           <h2>
+                                                               <a href="@url">@innerItem.Product.Name</a>
+                                                           </h2>
+                                                           <div class="price font-600 color-default">
+                                                               @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                                           </div>
+                                                           
+                                                           <div class="des">
+                                                               @Html.Raw(innerItem.Product.ShortDescription)
+                                                           </div>
+
+                                                           <div class="product-actions button  d-flex align-items-center">
+                                                               <a href="#" class="btn add-to-cart@((innerItem.Product.DisableBuyButton != 1 || innerItem.Product.Price == 0) ? "-disabled":"")"> <img src="https://image.flaticon.com/icons/svg/118/118089.svg" alt="Shopping Cart" class="replaced-svg"> Add To Cart</a>
+                                                               <i class="fa fa-heart add-to-wishlist@(innerItem.Product.DisableWishlistButton == true ? "-disabled":"")" aria-hidden="true"></i>
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+                                       }
+
+                                   }
+                                   else
+                                   {
+
+                                       <div class="not-found">
+                                           <div class="med card-section">
+                                               <p style="padding-top: .33em">
+                                                   No data was found <em></em> under conditions.
+                                               </p>
+                                               <p style="margin-top: 1em">Proposal:</p>
+                                               <ul style="margin-left: 1.3em; margin-bottom: 2em">
+                                                   <li>Please make sure all words are spelled correctly.</li>
+                                                   <li>Try other keywords.</li>
+                                                   <li>Try more general keywords.</li>
+                                               </ul>
+                                           </div>
+                                       </div>
+                                   }
+                               </div>
+    }
+    else
+    {
+        <div class="product-grid product row ">
+            <input id="found-item-total" type="hidden" value="@FormatHelper.StandardNumber(Model.TotalItemCount)" />
+
+            @if (Model.Count > 0)
+            {
+                foreach (var innerItem in Model)
+                {
+                    var url = @SlugHelper.Product(innerItem.ProductId);
+
+                    <div class="item col-xl-4 col-lg-4 col-md-4 product-item col-sm-12" data-id="@innerItem.ProductId">
+                        <div class="item item-hover-view-cart">
+                            <div class="product-thumb">
+                                <div class="product-container item-img">
+                                    <div class="product-image-container">
+                                        <a class="product-img-link" href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Title">
+                                            <img class="img-fluid" src="@ImageHelper.GetResize(innerItem.Product.Avatar,300,300)" alt="@innerItem.Product.Title">
+                                            @foreach (var ppm in innerItem.Product.ProductPictureMappings.Where(e => e.PictureId != innerItem.Product.PictureId).Take(1))
+                                            {
+                                                <img class="img-fluid img-hover" src="@ImageHelper.GetResize(ppm.Picture.Url, 300, 300)" alt="@ppm.Picture.Title">
+                                            }
+
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-cart-icon d-flex justify-content-around">
+                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Action.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                </div>
+                            </div>
+
+                            <div class="product-label">
+                                @if (innerItem.Product.IsHighlight)
+                                {
+                                    <span class="product-flash">@LanguageHelper.Translate("Hot_Text")</span>
+                                }
+                                @if (innerItem.Product.IsPromotion)
+                                {
+                                    <span class="product-flash sale">@LanguageHelper.Translate("Sale_Text")</span>
+                                }
+                            </div>
+
+                            <div class="product-info text-center">
+                                <h4 class="product-name">
+                                    <a href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Name" class="title">@innerItem.Product.Name</a>
+                                </h4>
+                                <div class="price">
+                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+
+            }
+            else
+            {
+
+                <div class="not-found">
+                    <div class="med card-section">
+                        <p style="padding-top: .33em">
+                            No data was found <em></em> under conditions.
+                        </p>
+                        <p style="margin-top: 1em">Proposal:</p>
+                        <ul style="margin-left: 1.3em; margin-bottom: 2em">
+                            <li>Please make sure all words are spelled correctly.</li>
+                            <li>Try other keywords.</li>
+                            <li>Try more general keywords.</li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+
+    }
+
+    @if (Model.PageCount > 0)
+    {
+        <div class="pagination-wrap">
+            @Html.PagedListPager(Model, page => Url.Action("ListProductsByCategoryId", "CategoryPlus", new { id = ViewBag.idCurrent, sortorder = ViewBag.sortOrderCurrent, type = ViewBag.typeCurrent, page, pageSize = 9 }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i> Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" }, new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "list-products-by-category",
+                    LoadingElementId = "list-products-by-category-loader",
+                    OnComplete = "PagedOnComplete_List"
+                }))
+
+        </div>
+    }
+

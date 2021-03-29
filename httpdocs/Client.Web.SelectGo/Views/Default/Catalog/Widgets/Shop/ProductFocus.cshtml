@@ -1,0 +1,36 @@
+﻿@model List<Product>
+    @{
+        var idx = 0;
+    }
+    @foreach (var item in Model.OrderByDescending(e => e.DisplayOrder).Take(3))
+    {
+          idx++;
+        <div class="square-flip">
+            <div class='square' data-image="https://images.unsplash.com/photo-1477313372947-d68a7d410e9f?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb">
+                <div class="square-container">
+                    <div class="align-center"><img src="@ImageHelper.GetResize(item.Picture.Url)" alt="@(item.Picture.Title)" class="boxshadow"></div>
+                    @foreach (var itemCategory in item.ProductCategoryMappings.Where(e => !e.Category.CategoryChildren.Any()).Take(1))
+                    {
+                        <h2 class="textshadow">@itemCategory.Category.Name.ToUpper()</h2>
+                    }
+
+                <h3 class="textshadow">The #@idx @item.Name</h3>
+                </div>
+                <div class="flip-overlay"></div>
+            </div>
+            <div class='square2' data-image="https://images.unsplash.com/photo-1477313372947-d68a7d410e9f?dpr=1&auto=format&crop=entropy&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb">
+                <div class="square-container2">
+                    <div class="align-center"></div>
+                    <h2>@item.ShortDescription</h2>
+                    <a href="@SlugHelper.Product(item.Id)" target="_blank" class="btn btn-primary">Discover</a>
+                </div>
+                <div class="flip-overlay"></div>
+            </div>
+        </div>
+
+      
+
+
+    }
+
+

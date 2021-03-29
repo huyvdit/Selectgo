@@ -1,0 +1,69 @@
+﻿@using ASP.Web.Core.Helpers
+@model PagedList.IPagedList<ASP.Web.Model.Models.ProductCategoryMapping>
+    @using (Html.BeginScripts())
+    {
+        var storeLink = AppConfigs.Get("StoreLink");
+        if (Model.Count == 1)
+        {
+            <script type="application/ld+json">
+                {
+                "@@context":"http://schema.org",
+                "@@type":"ItemList",
+                "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":1,
+                "url":"@storeLink@SlugHelper.Product(Model[0].ProductId)"
+                }
+                ]
+                }
+            </script>
+        }
+        else if (Model.Count == 2)
+        {
+            <script type="application/ld+json">
+                {
+                "@@context":"http://schema.org",
+                "@@type":"ItemList",
+                "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":1,
+                "url":"@storeLink@SlugHelper.Product(Model[0].ProductId)"
+                },
+                {
+                "@@type":"ListItem",
+                "position":2,
+                "url":"@storeLink@SlugHelper.Product(Model[1].ProductId)"
+                }
+                ]
+                }
+            </script>
+        }
+        else if (Model.Count >= 3)
+        {
+            <script type="application/ld+json">
+                {
+                "@@context":"http://schema.org",
+                "@@type":"ItemList",
+                "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":1,
+                "url":"@storeLink@SlugHelper.Product(Model[0].ProductId)"
+                },
+                {
+                "@@type":"ListItem",
+                "position":2,
+                "url":"@storeLink@SlugHelper.Product(Model[1].ProductId)"
+                },
+                {
+                "@@type":"ListItem",
+                "position":3,
+                "url":"@storeLink@SlugHelper.Product(Model[2].ProductId)"
+                }
+                ]
+                }
+            </script>
+        }
+    }

@@ -1,0 +1,100 @@
+﻿@model ASP.Web.Model.Models.Page
+@{
+   Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@Styles.Render("~/bundles/content/default/page/css")
+@{
+    var stylesInlineInsert = DataWhereHelper.ExtractStylesPage(Model.StylesInsert);
+    if (stylesInlineInsert != "")
+    {
+        @Html.Raw(stylesInlineInsert);
+    }
+}
+
+    <section class="as-content">
+
+        <div id="notfound-opt-1">
+            <div class="notfound">
+                <div class="notfound-404"></div>
+                <h1>404</h1>
+                <h2>Oops! Page Not Be Found</h2>
+                <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
+                <a href="#">Back to homepage</a>
+            </div>
+        </div>
+
+        <div id="notfound">
+            <div class="notfound-bg"></div>
+            <div class="notfound">
+                <div class="notfound-404">
+                    <h1>4<span class="sad404">0</span>4</h1>
+                </div>
+                <h2>we are sorry</h2>
+                <p style="color: #fff;">The page you are looking for might have been removed had its name changed or is temporarily unavailable. <a style="    font-weight: 200;text-decoration: none;border-bottom: 1px dashed #fff; border-radius: 2px;text-transform: uppercase;font-size: 13px; float: left;width: 100%;" href='@SlugHelper.Page(grouped:"home")' title="Back to Home">Return to homepage</a></p>
+
+                <div class="notfound-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-error pt-12 pb-12">
+            <div class="full-container">
+                <!-- 404 CONTENT
+            ================================================== -->
+                <div class="position-relative">
+
+                    <div class="container-fluid d-flex flex-column">
+                        <div class="row align-items-center justify-content-center py-5 min-vh-100 column-reverse">
+
+                            <div class="col-11 col-md-8 col-lg-5 text-center text-lg-left ">
+
+                                <div class="pl-0 pl-lg-5">
+
+                                    <h2 class="display-2 font-weight-bold mb-1" style="color: red;">OOPS</h2>
+                                    <h3 class="h4 mb-2">PAGE NOT FOUND</h3>
+                                    <p class="mb-5 w-100 w-lg-85 w-xl-70 mx-auto mx-lg-0">
+                                        We ran into an issue, but don’t worry, we’ll take care of it for sure.
+                                    </p>
+                                    <a href='@SlugHelper.Page(grouped:"home")' class="btn btn-primary mr-0 mr-sm-2 mx-auto d-sm-inline-block mb-sm-0"><img class="feather display-10 text-white" src="../../../as-images/shared/arrow-left.svg" alt="..."> Back to Home </a>
+                                    <a href='@SlugHelper.Page(grouped:"contact-us")' class="btn btn-contact btn-outline" style="background: gainsboro;">Contact Us <img class="feather display-10 text-dark" src="../../../as-images/shared/arrow-right.svg" alt="..."></a>
+
+                                </div>
+                            </div>
+
+                            <div class="col-11 col-md-8 col-lg-6 text-center mb-7 mb-lg-0">
+                                <img src="../../../as-images/shared/404.png" alt="404">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+@section scripts{
+    @{
+        var scriptsFileInsert = DataWhereHelper.ExtractScriptsPage(Model.Id);
+        if (scriptsFileInsert != "")
+        {
+            @Html.Raw(scriptsFileInsert);
+        }
+    }
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @{
+        var scriptsInlineInsert = DataWhereHelper.ExtractScriptsPage(Model.ScriptsInsert);
+        if (scriptsInlineInsert != "")
+        {
+            @Html.Raw(scriptsInlineInsert);
+        }
+    }
+}
+
+

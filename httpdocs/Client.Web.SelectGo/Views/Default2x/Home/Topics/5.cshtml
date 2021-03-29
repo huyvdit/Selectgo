@@ -1,0 +1,19 @@
+﻿@using ASP.Web.Core.Helpers
+@model ASP.Web.Model.Models.Page
+@{
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style > " + Model.StylesInsert + "</style>"))
+}
+<section class="as-content">
+    <img alt="Site is {{Maintenance}}" class="img-responsive" src="http://cdn2x.asiteplus.com/media/organik/avatar/page/784x/2019/06/04/organik-1559625601166.png" style="user-select: none; cursor: zoom-in; height: 100%;">
+</section>
+@section scripts{
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

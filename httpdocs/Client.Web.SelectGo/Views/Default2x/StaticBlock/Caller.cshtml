@@ -1,0 +1,18 @@
+﻿@if (ViewBag.NoWrapper == true)
+{
+    try
+    {
+        @Html.Action("CallerReturnData", "BaseStaticBlock", new { identifier = ViewBag.identifier, area = "" })
+    }
+    catch
+    {
+
+    }
+
+}
+else
+{
+    <span class="data-block" id="@ViewBag.identifier">
+        @Html.Action("CallerReturnData", "BaseStaticBlock", new { identifier = ViewBag.identifier, area = "" })
+    </span>
+}

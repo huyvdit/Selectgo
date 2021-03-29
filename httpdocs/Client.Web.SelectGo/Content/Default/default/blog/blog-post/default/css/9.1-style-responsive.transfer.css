@@ -1,0 +1,22 @@
+﻿
+@media only screen and (max-width: 576px) {
+    .post-author-with-img img{
+        display:none;
+    }
+    .post-author-with-img svg {
+        display: inline-block;
+    }
+    .wrapper {
+        margin-top: 36px;
+    }
+    .wrapper .container {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+    .post-details blockquote, .blockquote {
+        padding: 15px;
+    }
+    .post-details ul, .post-details ol {
+        padding-left: 0rem;
+    }
+}

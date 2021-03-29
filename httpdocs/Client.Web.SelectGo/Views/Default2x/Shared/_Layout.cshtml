@@ -1,0 +1,250 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode">
+<head>
+    <title>..:: @DataCurrentHelper.Title(ViewBag.Title ?? ViewData["og:title"]) ::..</title>
+    @{
+        var gt = DataConfigsHelper.Get("GoogleWebmasterToolCode");
+        if (gt != null)
+        {
+            @Html.Raw(gt)
+        }
+        var url = HttpContext.Current.Request.Url;
+        GlobalVariables.OrderActive = false;
+    }
+    <link rel="icon" type="image/png" sizes="32x32" href="@DisplayHelper.Favicon">
+    <link rel="manifest" href="~/assets/faviconsite.webmanifest">
+
+    <link rel='shortlink' href='@DataConfigsHelper.LinksFrontEnd' />
+    <link rel="canonical" href="@(DataConfigsHelper.LinksFrontEnd + "/" + DataCurrentHelper.UniqueSeoCode + url.AbsolutePath)" />
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_MetaHead.cshtml");
+    }
+    @Styles.Render("~/bundles/css/core")
+  
+</head>
+<body class="alt-bg">
+    <!-- Page Loader -->
+    <div class="preloader-wrapper preloader-it">
+
+        <div class="preloader" style="text-align:center;line-height:1.71429;">
+            <img src="@Url.ContentCdn("~/images/shared/all/loading-insight.gif")" width="128" />
+            <p class="sm-text-center" style="margin-top:-15px;font-family: sans-serif;">
+                @LanguageHelper.Translate("Loading to Insight_Text")...
+            </p>
+            <em style="font-family: sans-serif;top:0px!important; opacity:0; margin-top:0px!important; line-height: 1.71429!important;font-size: 9px!important;background: #dee2e6;padding: 8px 24px;border-radius: 0px 0px 5px 5px;color: #4caf50;font-style: normal;">Loading depends on your connection speed!</em>
+
+        </div>
+    </div>
+
+  
+
+    <!-- main start -->
+    <section class="site all" style="display:none; opacity: 0;">
+        <!-- BEGIN OF site header Menu -->
+        <header class="header-top">
+            <div class="logo-wrapper">
+                <h2 class="logo">
+                    <img src="/as-images/homepage/logo.png" alt="Logo" />
+                    <span class="title">Selectgo.</span>
+                </h2>
+            </div>
+            <a class="menu-icon clearfix">
+                <div class="bars">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+                <!--			<div class="txt">Menu</div>-->
+            </a>
+            <!-- Begin of Site primary navigation -->
+            <nav class="site-nav" id="site-nav">
+                <ul class="menu clearfix qmenu">
+                @*<li class="active" data-menuanchor="home">
+                    <a href="#home">Home</a>
+                </li>
+                <li data-menuanchor="about-us">
+                    <a href="#about-us">About</a>
+                </li>*@
+                    <li>
+                        <a href="http://selectgo.vn">Recent project</a>
+                    </li>
+                    <li data-menuanchor="register">
+                        <a href="#register">Subscribed</a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon lnr lnr-envelope"></i>
+                    </li>
+                    <li data-menuanchor="write-message">
+                        <a href="#write-message">Write to us</a>
+                    </li>
+                    <!-- Add other  similar menu here : -->
+                    
+
+                </ul>
+            </nav>
+            <!-- End of Site primary navigation -->
+        </header>
+        <!-- END OF site header Menu-->
+        <!-- BEGIN OF sidebar page navigation -->
+        <nav class="page-nav">
+            <ul id="qmenu" class="qmenu">
+                <li data-menuanchor="home">
+                    <a href="#home">
+                        <i class="icon lnr lnr-home"></i>
+                        <span class="title">Home</span>
+                    </a>
+                </li>
+                <li data-menuanchor="about-us">
+                    <a href="#about-us">
+                        <i class="icon lnr lnr-flag"></i>
+                        <span class="title">About Us</span>
+                    </a>
+                </li>
+                <li data-menuanchor="contact">
+                    <a href="#contact">
+                        <i class="icon lnr lnr-phone"></i>
+                        <span class="title">Contact</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- END OF sidebar page navigation -->
+        <!-- BEGIN OF site cover -->
+        <div class="page-cover">
+            <!-- Cover Background -->
+            @*<div class="cover-bg pos-abs full-size bg-img" data-image-src="#"></div>*@
+
+            <!-- BEGIN OF Slideshow Background -->
+            <!--<div class="cover-bg pos-abs full-size slide-show">
+            <i class='img' data-src='.//as-images/homepage/bg-slide1.jpg'></i>
+            <i class='img' data-src='.//as-images/homepage/bg-slide2.jpg'></i>
+            <i class='img' data-src='.//as-images/homepage/bg-slide3.jpg'></i>
+            <i class='img' data-src='.//as-images/homepage/bg-slide4.jpg'></i>
+        </div>-->
+            <!-- END OF Slideshow Background -->
+            <!--BEGIN OF Static video bg  - uncomment below to use Video as Background-->
+            <!--<div id="container" class="video-container show-for-medium-up">
+            <video autoplay="autoplay" loop="loop" autobuffer="autobuffer" muted="muted"
+                   width="640" height="360">
+                <source src="vid/flower_loop.mp4" type="video/mp4">
+            </video>
+        </div>-->
+            <!--END OF Static video bg-->
+            <!--BEGIN OF Youtube video bg  - uncomment/comment below to use/or not Youtube Video as Background-->
+            <!--<div class='youtube-container video-container show-for-medium-up'>
+            <iframe frameborder="0"
+            src="https://youtube.com/embed/wqeuYB7KMhY?autoplay=1&controls=0&showinfo=0&autohide=1">
+            </iframe>
+        </div>-->
+            <!--END OF Youtube video bg-->
+            <!-- Solid color as background -->
+            <!--            <div class="cover-bg pos-abs full-size bg-color" data-bgcolor="#00B4C2"></div>-->
+            <!-- Particles as background -->
+            @*<div  id="particles-js" class="cover-bg pos-abs full-size bg-color" data-bgcolor="rgba(37, 38, 42, 0.81)"></div>*@
+            <!-- Solid color as filter -->
+            <div class="cover-bg-mask pos-abs full-size bg-color" data-bgcolor="#9E9E9E"></div>
+            <!-- <div class="cover-bg-mask pos-abs full-size bg-color" data-bgcolor="rgba(45, 46, 51, 0.8)"></div> -->
+
+        </div>
+        <!--END OF site Cover -->
+        <!-- main start -->
+        <main class="page-main page-home fullpg" id="mainpage">
+            @RenderSection("banners", false)
+            @RenderBody()
+        </main>
+
+        <!-- BEGIN OF site main content content here -->
+        
+
+        <!-- END OF site main content content here -->
+        <!-- BEGIN OF site footer -->
+        <footer class="site-footer">
+            <div class="note">
+                <p>&copy; Copyright <a href="http://selectgo.vn"><span class="marked">
+    Select go
+    <svg class="arrow-path-svg" viewBox="0 0 100 40" width="20" height="40" xmlns="http://www.w3.org/2000/svg">
+        <path fill="none" stroke="currentColor" stroke-width="2.5" d="M0,20 h100"></path>
+        <path fill="none" stroke="currentColor" stroke-width="2.5" d="M85,5 L100,20 m-15,15 L100,20"></path>
+    </svg>
+</span></a> 2019-2020</p>
+            </div>
+        </footer>
+        <!-- END OF site footer -->
+
+
+
+    </section>
+
+    <section type="text/html" id="notify-template">
+        @Html.Raw(DataCurrentHelper.NotifyText)
+    </section>
+
+    @{
+        if (DataConfigsHelper.Mode == "preview" || DataConfigsHelper.Mode == "debug")
+        {
+            <p class="run-mode">
+                Mode:: @DataConfigsHelper.Mode <a href="@(HttpContext.Current.Request.Url.AbsolutePath + "?mode=publish&token=000-000-000~0")"> exit</a>
+            </p>
+        }
+    }
+
+    @RenderSection("scriptsInited", false)
+    @Scripts.Render("~/bundles/js/core")
+
+    <script src="@("/Scripts/global-resources/" + DataCurrentHelper.LanguageCulture + ".js")">
+    </script>
+    @Scripts.Render("~/bundles/js/shared") @Scripts.Render("~/bundles/js/utils")
+
+    @Styles.Render("~/bundles/css/sharedraw", "~/bundles/css/shared") @Styles.Render("~/bundles/css/utils")
+    @RenderSection("styles", false)
+    @RenderSection("stylesInjected", false)
+    <script async=async>
+        AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".site").show();
+        AppConfigs.OriginalBody.find(".preloader-it").fadeOut("slow", function () {
+        $(this).remove();
+        setTimeout(function () {
+        AppConfigs.OriginalBody.find(".site").css("opacity", "1");
+        }, 10);
+        });
+    </script>
+    @RenderSection("scriptsdefault", false)
+    @RenderSection("scripts", false)
+    @RenderSection("scriptsInjected", false)
+    @Html.PageScripts()
+    @{
+        var ga = DataConfigsHelper.Get("GoogleAnalyticCode");
+        if (ga != null)
+        {
+            @Html.Raw(ga)
+        }
+        var lv = DataConfigsHelper.Get("ShowLiveChat");
+        if (lv == "True")
+        {
+            @Html.Raw(DataConfigsHelper.Get("LiveChatCode"))
+        }
+    }
+    @if (DataConfigsHelper.Mode == "debug")
+    {
+        <link href="~/content/default/plugins/page-guide/css/pageguide.min.css" rel="stylesheet" />
+        <script src="~/content/default/plugins/page-guide/js/pageguide.min.js">
+        </script>
+        <script>
+            $(document).ready(function () { tl.pg.init(); });
+        </script>
+        @Html.Action("PageGuide", "System", new { area = "" })
+    }
+    <!--Back to Top-->
+    <a href="#" class="as-back-to-top">
+        <span style="outline: none;"> @(DataCurrentHelper.UniqueSeoCode == "en" ? "Scroll to top" : "Lên đầu trang")</span><i class="fa fa-long-arrow-right"></i>
+    </a>
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_Orverride.cshtml");
+    }
+</body>
+</html>

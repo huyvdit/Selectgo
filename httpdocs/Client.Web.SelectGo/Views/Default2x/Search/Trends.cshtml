@@ -1,0 +1,14 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model List<SearchTerm>
+<div class="row search-tag">
+    <span class="col-lg-2" style="width: auto; color: #4d2d1f"><i class="fa fa-line-chart" aria-hidden="true"></i> @LanguageHelper.Translate("Label_Trends_Text"): </span>
+    <ul class="col-lg-10">
+        @foreach (SearchTerm item in Model)
+        {
+            <li>
+                @Html.ActionLink(item.Keyword, "Index", "Search", new {@key = item.Keyword}, null) @(item == Model.Last() ? "" : ",")
+            </li>
+        }
+    </ul>
+</div>

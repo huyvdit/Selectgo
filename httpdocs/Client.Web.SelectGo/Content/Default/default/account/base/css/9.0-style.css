@@ -1,0 +1,11 @@
+﻿.validation-summary-errors ul {
+        background: blanchedalmond !important;
+    }
+
+        .validation-summary-errors ul li {
+            list-style: none;
+        }
+.field-validation-error {
+    font-size: 11px;
+    color: red;
+}

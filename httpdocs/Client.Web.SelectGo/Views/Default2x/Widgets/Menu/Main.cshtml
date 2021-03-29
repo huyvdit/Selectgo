@@ -1,0 +1,45 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model MenuCategory
+
+@if (Model.Id > 0)
+{
+    var u = DataCurrentHelper.UniqueSeoCode == "vi" ? "" : ("/" + DataCurrentHelper.UniqueSeoCode);
+    if (!string.IsNullOrEmpty(Model.StyleContent))
+    {
+        <style>
+            @Model.StyleContent
+        </style>
+    }
+
+    foreach (var level1st in Model.MenuLinkCategoryMappings.Where(e => e.ParentId == null && e.IsActive).OrderBy(e => e.DisplayOrder))
+    {
+        var level1stHref = "";
+        <li class="@((level1st.MenuLinkCategoryChildren.Count == 0 ? "navbar-menu__item":"navbar-menu__item has-children") + " " + (level1st.StylesheetClasses))">
+            @if (level1st.StylesheetClasses == "only-icon")
+            {
+                <a class="navbar-menu__links" title="@level1st.UrlRewrite.Title" href="#" target="@level1st.Target" > @Html.Raw(level1st.Icon)</a>
+            }
+
+            else
+            {
+
+                if (string.IsNullOrEmpty(level1st.HashTag))
+                {
+                    level1stHref = level1st.UrlRewrite.Slug == "/" ? (u + "/") : (u + "/" + level1st.UrlRewrite.Slug);
+                }
+                else { level1stHref = level1st.HashTag; }
+
+                if (level1st.MenuLinkCategoryChildren.Count > 0)
+                {
+                    <a class="navbar-menu__links" title="@level1st.UrlRewrite.Title" href="@level1stHref" target="@level1st.Target"> @Html.Raw(level1st.Icon)   @(level1st.Alias ?? level1st.UrlRewrite.Title)</a>
+                }
+                else
+                {
+                    <a class="navbar-menu__links" title="@level1st.UrlRewrite.Title" href="@level1stHref" target="@level1st.Target"> @Html.Raw(level1st.Icon)   @(level1st.Alias ?? level1st.UrlRewrite.Title) </a>
+                }
+            }
+        </li>
+    }
+}
+

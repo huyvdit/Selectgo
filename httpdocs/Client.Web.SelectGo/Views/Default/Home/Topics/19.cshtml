@@ -1,0 +1,33 @@
+﻿@model ASP.Web.Model.Models.Page
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <section class="as-content">
+        @section banners{
+            @{
+                var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+                var paramArrs = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("banner-title", picture.Title),
+                    new KeyValuePair<string, string>("banner-img", picture.Url )
+                };
+            }
+            @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+        }
+        <div class="amenities"><div class="amenities__cards"><div class="row m-0"><div class="col-lg-5 col-md-6 offset-lg-1 d-flex flex-column justify-content-center p-lg-0"><div class="amenities__text"><div class="title--default color-dark title--line-left title--line-dark">AMENITY 1<div class="progress-bar-section js-progres-bar"><span>-</span></div></div><p class="media__text text-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div></div><div class="col-md-6 p-lg-0 d-flex align-items-center"><div class="amenities__photo"><img alt="" class="w-100" src="http://lemeridiendanangresortspa.com/media/uploads-1/images/amenities/Amenitiespage-image02.jpg"></div></div></div></div><div class="amenities__cards"><div class="row m-0"><div class="col-lg-5 col-md-6 offset-lg-1 d-flex flex-column justify-content-center p-lg-0"><div class="amenities__text"><div class="title--default color-dark title--line-left title--line-dark">AMENITY 2<div class="progress-bar-section js-progres-bar"><span>-</span></div></div><p class="media__text text-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div></div><div class="col-md-6 p-lg-0 d-flex align-items-center"><div class="amenities__photo"><img alt="" class="w-100" src="http://lemeridiendanangresortspa.com/media/uploads-1/images/amenities/Amenitiespage-image03.jpg"></div></div></div></div><div class="amenities__cards"><div class="row m-0"><div class="col-lg-5 col-md-6 offset-lg-1 d-flex flex-column justify-content-center p-lg-0"><div class="amenities__text"><div class="title--default color-dark title--line-left title--line-dark">AMENITY 3<div class="progress-bar-section js-progres-bar"><span>-</span></div></div><p class="media__text text-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div></div><div class="col-md-6 p-lg-0 d-flex align-items-center"><div class="amenities__photo"><img alt="" class="w-100" src="http://lemeridiendanangresortspa.com/media/uploads-1/images/amenities/Amenitiespage-image04.jpg"></div></div></div></div></div>
+    </section>
+@section scripts{
+    @{
+        var src = AppUtils.GetContentCustomJs(Model.Id.ToString());
+        if (src != "")
+        {
+            <script type="text/javascript">@Html.Raw(src)</script>
+        }
+    }
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

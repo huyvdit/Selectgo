@@ -1,0 +1,49 @@
+﻿@{
+    Html.EnableClientValidation();
+    ViewBag.Title = "Create an Account";
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@using System.Web.Mvc
+@using System.Web.Optimization
+@using CaptchaMvc.HtmlHelpers
+@using global::Web.Helpers
+@model RegisterModel
+@section styles{
+
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700" rel="stylesheet">
+
+    @Styles.Render("~/bundles/content/default/account/base/css", "~/bundles/content/default/account/register/css")
+    <style>
+        #passwordstrength-wrap {
+        top: auto;
+        margin-top: -30px;
+    }
+    </style>
+
+}
+
+@{
+    Html.RenderPartial("~/Views/Default/Account/_Partial/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Register.cshtml");
+
+} <!-- ./container -->
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/account/base/js","~/bundles/content/default/account/register/js")
+
+
+    <script>
+        $(function () {
+            $("body").addClass("1-column  bg-full-screen-image");
+        });
+    </script>
+    <script>
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+
+
+    </script>
+}

@@ -1,0 +1,16 @@
+﻿.zangdar__wizard .zangdar__step {
+    opacity: 0;
+    visibility: hidden;
+}
+
+    .zangdar__wizard .zangdar__step.zangdar__step__active {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        z-index: 2;
+    }
+
+.input-validation-error {
+    color: red;
+    border-color: red;
+}

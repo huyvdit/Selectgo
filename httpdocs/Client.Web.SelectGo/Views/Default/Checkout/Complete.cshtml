@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Default/Shared/_LayoutNull.cshtml";
+    ViewBag.Title = LanguageHelper.Translate("Checkout Completed_Text");
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Core.Models.Ecommerce.View.CheckOutViewModel
+@section styles{
+    @Styles.Render("~/bundles/content/default/checkout/css")
+    <link href="~/Content/Default/default/checkout-completed/css/1.0-bootstrap.override.css" rel="stylesheet" />
+    <link href="~/Content/Default/default/checkout-completed/css/9.0-style.transfer.css" rel="stylesheet" />
+}
+@{
+    Html.RenderPartial("~/Views/Default/CheckOut/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Complete.cshtml");
+}
+@section scripts{
+    <script>
+
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+
+        $(function () {
+            $("[data-toggle=popover]").popover({
+                html: true,
+                placement: 'bottom',
+                //trigger: 'hover',
+                content: function () {
+                    var content = $(this).attr("data-popover-content");
+                    return $(content).children(".popover-body").html();
+                },
+                title: function () {
+                    var title = $(this).attr("data-popover-content");
+                    return $(title).children(".popover-heading").html();
+                }
+            });
+        });
+    </script>
+}

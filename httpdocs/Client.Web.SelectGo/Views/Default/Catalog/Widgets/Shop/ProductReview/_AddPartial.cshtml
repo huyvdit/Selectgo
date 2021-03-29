@@ -1,0 +1,243 @@
+﻿@{ Html.EnableClientValidation(); }
+
+@Html.Action("HistogramProductReview", "Catalog", new { id = Model.Id, area = "" })
+
+<div id="add-product-review" class="add-product-review">
+    @Html.Action("AddProductReview", "Catalog", new { id = Model.Id, area = "" })
+</div>
+@using (Html.BeginScripts())
+{
+    <script>
+        HvHelpers.loadJs("/Scripts/jquery.validate.js", $.validator, function () {
+            HvHelpers.loadJs("/Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function () {
+                HvHelpers.loadJs("/Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+            });
+        }, 'asyn');
+    </script>
+
+    <script>
+        PagedOnComplete_Add = function () {
+            var popupEvent = function () {
+
+                if ($("#ReviewText").val() != "") {
+                    //弹出层中的事件
+                $("#Message").val($("#ReviewText").val());
+
+
+                $("input#full_name, input#e_mail").floatingLabel();
+                $("input#full_name, input#e_mail").bind("change", function () {
+                    $(this).css("border", "1px solid gray");
+                });
+
+                $('button#send_review').click(function (e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    var fullName = $("#full_name").val();
+                    var email = $("#e_mail").val();
+
+                    if (fullName == "" || email == "") {
+                        if (fullName == "") $("#full_name").css("border", "1px solid red");
+                        else $("#full_name").css("border", "1px solid green");
+                        if (email == "") $("#e_mail").css("border", "1px solid red");
+                        else $("#e_mail").css("border", "1px solid green");
+                    }
+                    else {
+                        $('#cancel_review').trigger("click");
+                        $("input[name=FullName]").val(fullName);
+                        $("input[name=Email]").val(email);
+                        $("#add-product-review form").submit();
+                    }
+                    //
+
+                    return false;
+                });
+                }
+                else {
+                   window.showNotify("error", "Please enter your review!");
+                }
+                
+
+            }
+
+            $('#ReviewSubmit').hunterPopup({
+                width: '292px',
+                height: '100%',
+                placement: 'right',
+
+                title: "Complete  review",
+                content: $('#table_Content_Review'),
+                event: popupEvent,
+                renderedFn: function () {
+
+                    $("#Hunter-pop-up").css("left", $("#ReviewSubmit").offset().left - 179 + 'px');
+                }
+            });
+
+
+            if ($("#Title").val() == "") $("#Title").val($("#TitleSuggest option:selected").val());
+
+            $('input[name=Rating]').rating({
+                starCaptions: function (val) {
+                    var level = "";
+                    if (val == 0) return "Chưa đánh giá";
+                    if (val < 1) level = "Poor"; // "Kém";
+                    else if (val < 3) level = "Average"; // "Bình thường";
+                    else if (val < 5) level = "Very Good";// "Tốt";
+                    else level = "Exccellent";// "Tuyệt vời";
+                    return val + " - " + level;
+                },
+                starCaptionClasses: function (val) {
+                    if (val < 3)
+                        return 'label label-primary';
+                    else if (val < 6)
+                        return 'label label-warning';
+                    else if (val < 9)
+                        return 'label label-important';
+                    else
+                        return 'label label-success';
+                },
+                hoverOnClear: false
+            });
+            $("#Title").bind("change", function () {
+                if ($(this).val() != "") {
+                    $("#ReviewSubmit").addClass("ready");
+                }
+                else $("#ReviewSubmit").removeClass("ready");
+            });
+            window.emojioneVersion = "2.1.1"; // 2.2.7 // 3.1.2
+            var el = $("#ReviewText").emojioneArea({
+                placeholder: "Type something here",
+                buttonTitle: "Use the TAB key to insert emoji faster",
+                searchPlaceholder: "Tìm emoji...",
+                useInternalCDN: true,
+                useSprite: true,
+                shortnames: true,
+                pickerPosition: "bottom",
+                filtersPosition: "bottom",
+                tonesStyle: "checkbox",
+                autoHideFilters: true,
+                autocomplete: true,
+                shortcuts: false,
+                imageType: "png", // Default image type used by internal CDN
+                hidePickerOnBlur: true,
+                filters: {
+                    tones: {
+                        title: "Đa dạng",
+                        emoji: "open_hands raised_hands palms_up_together clap pray thumbsup thumbsdown punch fist left_facing_fist right_facing_fist " +
+                            "fingers_crossed v metal love_you_gesture ok_hand point_left point_right point_up_2 point_down point_up raised_hand " +
+                            "raised_back_of_hand hand_splayed vulcan wave call_me muscle middle_finger writing_hand selfie nail_care ear " +
+                            "nose baby boy girl man woman blond-haired_woman blond-haired_man older_man older_woman " +
+                            "man_with_chinese_cap woman_wearing_turban man_wearing_turban woman_police_officer " +
+                            "man_police_officer woman_construction_worker man_construction_worker " +
+                            "woman_guard man_guard woman_detective man_detective woman_health_worker man_health_worker " +
+                            "woman_farmer man_farmer woman_cook man_cook woman_student man_student woman_singer man_singer woman_teacher " +
+                            "man_teacher woman_factory_worker man_factory_worker woman_technologist man_technologist woman_office_worker " +
+                            "man_office_worker woman_mechanic man_mechanic woman_scientist man_scientist woman_artist man_artist " +
+                            "woman_firefighter man_firefighter woman_pilot man_pilot woman_astronaut man_astronaut woman_judge " +
+                            "man_judge mrs_claus santa princess prince bride_with_veil man_in_tuxedo angel pregnant_woman " +
+                            "breast_feeding woman_bowing man_bowing man_tipping_hand woman_tipping_hand " +
+                            "man_gesturing_no woman_gesturing_no man_gesturing_ok woman_gesturing_ok " +
+                            "man_raising_hand woman_raising_hand woman_facepalming man_facepalming " +
+                            "woman_shrugging man_shrugging man_pouting woman_pouting " +
+                            "man_frowning woman_frowning man_getting_haircut woman_getting_haircut " +
+                            "man_getting_face_massage woman_getting_face_massage man_in_business_suit_levitating dancer man_dancing " +
+                            "woman_walking man_walking woman_running man_running adult child older_adult " +
+                            "bearded_person woman_with_headscarf woman_mage man_mage " +
+                            "woman_fairy man_fairy woman_vampire man_vampire mermaid merman woman_elf man_elf " +
+                            "snowboarder woman_lifting_weights man_lifting_weights woman_cartwheeling " +
+                            "man_cartwheeling woman_bouncing_ball man_bouncing_ball " +
+                            "woman_playing_handball man_playing_handball woman_golfing man_golfing " +
+                            "woman_surfing man_surfing woman_swimming man_swimming woman_playing_water_polo " +
+                            "man_playing_water_polo woman_rowing_boat man_rowing_boat " +
+                            "horse_racing woman_biking man_biking woman_mountain_biking " +
+                            "man_mountain_biking woman_juggling man_juggling " +
+                            "woman_in_steamy_room man_in_steamy_room woman_climbing " +
+                            "man_climbing woman_in_lotus_position man_in_lotus_position bath person_in_bed"
+                    },
+                    recent: {
+                        icon: "clock3",
+                        title: "Gần đây", emoji: ""
+                    },
+                    smileys_people: {
+                        icon: "yum",
+                        title: "Mặt cười & con người",
+                        emoji: "grinning smiley smile grin laughing sweat_smile joy rofl relaxed blush innocent slight_smile upside_down " +
+                            "wink relieved crazy_face star_struck heart_eyes kissing_heart kissing kissing_smiling_eyes kissing_closed_eyes yum " +
+                            "stuck_out_tongue_winking_eye stuck_out_tongue_closed_eyes stuck_out_tongue money_mouth hugging nerd sunglasses " +
+                            "cowboy smirk unamused disappointed pensive worried face_with_raised_eyebrow face_with_monocle confused slight_frown " +
+                            "frowning2 persevere confounded tired_face weary triumph angry rage face_with_symbols_over_mouth " +
+                            "no_mouth neutral_face expressionless hushed frowning anguished open_mouth astonished dizzy_face exploding_head flushed scream " +
+                            "fearful cold_sweat cry disappointed_relieved drooling_face sob sweat sleepy sleeping rolling_eyes thinking " +
+                            "shushing_face face_with_hand_over_mouth lying_face grimacing zipper_mouth face_vomiting nauseated_face sneezing_face mask thermometer_face " +
+                            "head_bandage smiling_imp imp japanese_ogre japanese_goblin poop ghost skull skull_crossbones alien space_invader " +
+                            "robot jack_o_lantern clown smiley_cat smile_cat joy_cat heart_eyes_cat smirk_cat kissing_cat scream_cat crying_cat_face " +
+                            "pouting_cat open_hands raised_hands palms_up_together clap pray handshake thumbsup thumbsdown punch fist left_facing_fist " +
+                            "right_facing_fist fingers_crossed v metal love_you_gesture ok_hand point_left point_right point_up_2 point_down point_up " +
+                            "raised_hand raised_back_of_hand hand_splayed vulcan wave call_me muscle middle_finger writing_hand selfie " // list of the emojis, see source code
+                    },
+                    animals_nature: {
+                        icon: "pig",
+                        title: "Động vật & Thiên nhiên",
+                        emoji: "dog cat mouse hamster rabbit fox bear panda_face koala tiger lion_face cow pig pig_nose frog monkey_face see_no_evil " +
+                            "hear_no_evil speak_no_evil monkey chicken penguin bird baby_chick hatching_chick hatched_chick duck eagle owl bat wolf boar " // list of the emojis, see source code
+                    },
+                    food_drink: {
+                        icon: "beers",
+                        title: "Đồ ăn & thức uống",
+                        emoji: "green_apple apple pear tangerine lemon banana watermelon grapes strawberry melon cherries peach pineapple kiwi " +
+                            "avocado tomato eggplant cucumber carrot corn hot_pepper potato sweet_potato chestnut peanuts honey_pot croissant "
+                    },
+                    travel_places: false,
+                    activity: false,
+                    objects: false, // disable objects filter
+                    symbols: {
+                        icon: "heartpulse",
+                        title: "Biểu tượng",
+                        emoji: "heart orange_heart yellow_heart green_heart blue_heart purple_heart black_heart broken_heart heart_exclamation two_hearts " +
+                            "revolving_hearts heartbeat heartpulse sparkling_heart cupid gift_heart heart_decoration peace cross star_and_crescent "
+                    },
+                    flags: {
+                        icon: "flag_vn",
+                        title: "Cờ quốc gia",
+                        emoji: "flag_af flag_ax flag_al flag_dz flag_as " +
+                            "flag_ad flag_ao flag_ai flag_aq flag_ag flag_ar flag_am flag_aw flag_au flag_at flag_az flag_bs flag_bh flag_bd flag_bb " +
+                            "flag_by flag_be flag_bz flag_bj flag_bm flag_bt flag_bo flag_ba flag_bw flag_br flag_io flag_vg flag_bn flag_bg flag_bf " +
+                            "flag_bi flag_kh flag_cm flag_ca flag_ic flag_cv flag_bq flag_ky flag_cf flag_td flag_cl flag_cn flag_cx flag_cc flag_co " +
+                            "flag_km flag_cg flag_cd flag_ck flag_cr flag_ci flag_hr flag_cu flag_cw flag_cy flag_cz flag_dk flag_dj flag_dm flag_do " +
+                            "flag_ec flag_eg flag_sv flag_gq flag_er flag_ee flag_et flag_eu flag_fk flag_fo flag_fj flag_fi flag_fr flag_gf flag_pf " +
+                            "flag_tf flag_ga flag_gm flag_ge flag_de flag_gh flag_gi flag_gr flag_gl flag_gd flag_gp flag_gu flag_gt flag_gg flag_gn " +
+                            "flag_gw flag_gy flag_ht flag_hn flag_hk flag_hu flag_is flag_in flag_id flag_ir flag_iq flag_ie flag_im flag_il flag_it " +
+                            "flag_jm flag_jp crossed_flags flag_je flag_jo flag_kz flag_ke flag_ki flag_xk flag_kw flag_kg flag_la flag_lv flag_lb " +
+                            "flag_ls flag_lr flag_ly flag_li flag_lt flag_lu flag_mo flag_mk flag_mg flag_mw flag_my flag_mv flag_ml flag_mt flag_mh " +
+                            "flag_mq flag_mr flag_mu flag_yt flag_mx flag_fm flag_md flag_mc flag_mn flag_me flag_ms flag_ma flag_mz flag_mm flag_na " +
+                            "flag_nr flag_np flag_nl flag_nc flag_nz flag_ni flag_ne flag_ng flag_nu flag_nf flag_kp flag_mp flag_no flag_om flag_pk " +
+                            "flag_pw flag_ps flag_pa flag_pg flag_py flag_pe flag_ph flag_pn flag_pl flag_pt flag_pr flag_qa flag_re flag_ro flag_ru " +
+                            "flag_rw flag_ws flag_sm flag_st flag_sa flag_sn flag_rs flag_sc flag_sl flag_sg flag_sx flag_sk flag_si flag_gs flag_sb " +
+                            "flag_so flag_za flag_kr flag_ss flag_es flag_lk flag_bl flag_sh flag_kn flag_lc flag_pm flag_vc flag_sd flag_sr flag_sz " +
+                            "flag_se flag_ch flag_sy flag_tw flag_tj flag_tz flag_th flag_tl flag_tg flag_tk flag_to flag_tt flag_tn flag_tr flag_tm " +
+                            "flag_tc flag_tv flag_vi flag_ug flag_ua flag_ae flag_gb flag_us flag_uy flag_uz flag_vu flag_va flag_ve flag_vn flag_wf " +
+                            "flag_eh flag_ye flag_zm flag_zw flag_ac flag_ta flag_bv flag_hm flag_sj flag_um flag_ea flag_cp flag_dg flag_mf " +
+                            "united_nations england scotland wales"
+                    }
+                }
+            });
+            el[0].emojioneArea.off("focus blur");
+
+            $(":submit").closest("form").submit(function () {
+                $(':submit').attr('disabled', 'disabled');
+            });
+
+            if ($(".submit-review-successful").length > 0) {
+                window.showNotify("success", $(".submit-review-successful").html());
+                setTimeout(function () {
+                    $(".submit-review-successful").remove();
+                }, 200);
+            }
+            $(".add-product-review").removeClass("hidden");
+        };
+        $(document).ready(function () { PagedOnComplete_Add(); });
+
+    </script>
+}

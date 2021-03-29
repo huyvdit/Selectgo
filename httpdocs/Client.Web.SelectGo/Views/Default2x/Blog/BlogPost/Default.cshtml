@@ -1,0 +1,75 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model BlogPost
+@{
+    var blogCategory = DataWhereHelper.ExtractPrimaryBlogCategory(Model.BlogPostCategoryMappings);
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/blog/blog-post/css", "~/bundles/content/default/blog/blog-list/css")
+}
+@section banners{
+    @{
+        var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path);
+        var paramArrs = new List<KeyValuePair<string, string>>()
+    {
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-img", picture.Url )
+            };
+    }
+    @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+}
+    <div class="page-wrapper content-our-blog">
+        <div class="container" style="">
+            <div style="padding-top:38px;">
+                <h1>@Model.Title</h1>
+                <div class="project-box__title-right--text">
+                    <section class="news-details">
+                        <div>
+                            <div class="news-details-content">
+                                <div class="news-details-description">
+                                    <div class="news-details-descriptionItem">
+                                        <i class="fa fa-folder-o" aria-hidden="true"></i> @blogCategory.Name
+                                    </div>
+                                    <div class="news-details-descriptionItem">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i> <time class="time-ago" datetime="@Model.PublishedTime"></time>
+                                    </div>
+                                    <div class="news-details-descriptionItem">
+                                        <a href="javascript:" class="share-button facebook-share" data-url="@SlugHelper.BlogPost(Model.Id, isShortLink: true)" data-pic="@Model.Avatar" data-name="@Model.Title" data-description="@Model.Excerpt"><i class="fa fa-share-alt" aria-hidden="true"></i> @LanguageHelper.Translate("Share the post_Text")</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+                <div class="project-box__description-right--text">
+                    <section class="news-details">
+                        <div>
+                            <div class="news-details-content">
+                                <div class="the-content">
+                                    <h4>@Model.Excerpt</h4>
+                                    <p>
+                                        @Html.Raw(Model.Content)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/blog/blog-post/js")
+    <script>
+        $(".time-ago").timeago();
+        var currentLink = $($(".main-menu a[href='/en/media']"));
+        if(currentLink != null) {
+            currentLink.parent().addClass('active');
+            currentLink.parent().parent().addClass('active');
+        }
+    </script>
+}
+@{ Html.RenderPartial("~/Views/Default/Shared/Schema/_NewsArticle.cshtml"); }

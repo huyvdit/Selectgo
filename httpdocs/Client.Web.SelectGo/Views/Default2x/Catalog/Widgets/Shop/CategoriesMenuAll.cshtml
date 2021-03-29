@@ -1,0 +1,23 @@
+﻿@model List<Category>
+    @{
+        var category = new Category();
+        var categoryChildrenTab = new List<Category>();
+    }
+    @foreach (var item in Model)
+    {
+        category = item;
+        categoryChildrenTab = category.CategoryChildren.OrderByDescending(e=>e.DisplayOrder).ToList();
+        break;
+    }
+    <ul class="project-box__title-right--menu">
+        <li class="menu-item">
+            <a title="All" href="@SlugHelper.Category(category.Id)">@LanguageHelper.Translate("All_Text")</a>
+        </li>
+        @foreach (var item in categoryChildrenTab)
+        {
+           
+            <li class="menu-item">
+                <a title="@item.Name" href="@SlugHelper.Category(item.Id)">@item.Name</a>
+            </li>    
+        }
+    </ul>
